@@ -1,0 +1,45 @@
+body {
+  background-color: var(--surface-100);
+  color: var(--content-300);
+  font-family: var(--font-paragraph);
+  font-size: 18px;
+  line-height: calc(1em + 0.5rem);
+  -webkit-font-smoothing: antialiased;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--secondary-200);
+  border-radius: var(--radius-md);
+}
+
+
+
+h1 {
+  font-family: var(--font-title);
+  font-size: 2rem;
+}
+
+h2 {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+}
+
+h4 {
+  font-family: var(--font-title);
+  font-size: 1rem;
+}
+
+h5 {
+  font-family: var(--font-title);
+  font-size: 0.875rem;
+}
+
+h6 {
+  font-family: var(--font-title);
+  font-size: 0.75rem;
+}

@@ -1,0 +1,136 @@
+/*
+ * Tema: Paisajes
+ * Descripción: Tema por defecto
+ * Modo de color: light
+ */
+
+:root {
+  --surface-100: oklch(97% 0.011 259);
+  --surface-200: oklch(93% 0.016 262);
+  --surface-300: oklch(85% 0.021 264);
+  --surface-400: oklch(82% 0.029 266);
+  --surface-500: oklch(70% 0.029 266);
+
+  --content-100: oklch(62% 0.053 255);
+  --content-200: oklch(42% 0.053 255);
+  --content-300: oklch(38% 0.053 255);
+  --content-400: oklch(28% 0.053 255);
+  --content-500: oklch(18% 0.053 255);
+
+  --border-100: oklch(82% 0.031 222);
+  --border-200: oklch(64% 0.029 266);
+  --border-300: oklch(42% 0.027 268);
+
+  --primary-100: oklch(90% 0.12 125);
+  --primary-200: oklch(85% 0.17 125);
+  --primary-300: oklch(70% 0.30 120);
+  --primary-400: oklch(45% 0.17 115);
+  --primary-500: oklch(30% 0.12 115);
+  --primary-content: oklch(15% 0.016 262);
+
+
+  --secondary-100: oklch(80% 0.08 320);
+  --secondary-200: oklch(65% 0.12 320);
+  --secondary-300: oklch(50% 0.22 320);
+  --secondary-400: oklch(35% 0.12 320);
+  --secondary-500: oklch(25% 0.08 320);
+  --secondary-content: oklch(15% 0.016 262);
+
+  --info-100: oklch(80% 0.2 240 / 0.3);
+  --info-200: oklch(60% 0.2 240);
+  --info-content: oklch(30% 0.2 240);
+
+  --success-100: oklch(80% 0.2 150 / 0.3);
+  --success-200: oklch(60% 0.2 150);
+  --success-content: oklch(30% 0.2 150);
+
+  --warning-100: oklch(80% 0.2 105 / 0.3);
+  --warning-200: oklch(60% 0.2 105);
+  --warning-content: oklch(30% 0.2 105);
+
+  --error-100: oklch(80% 0.2 28 / 0.3);
+  --error-200: oklch(60% 0.2 28);
+  --error-content: oklch(30% 0.2 28);
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+
+  --shadow-sm: 0 0 0.5rem 0px oklch(0% 0 0 / 0.1);
+  --shadow-md: 0 0 1rem 0px oklch(0% 0 0 / 0.2);
+  --shadow-lg: 0 0 1.5rem 0px oklch(0% 0 0 / 0.3);
+  --shadow-xl: 0 0 2rem 0px oklch(0% 0 0 / 0.4);
+
+  --font-paragraph: "Outfit regular", sans-serif;
+  --font-ui: "Outfit bold", sans-serif;
+  --font-title: "Gabarito bold", sans-serif;
+}
+
+/*
+ * Tema: Barrancos
+ * Descripción: Tema por defecto
+ * Modo de color: dark
+ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-100: oklch(30% 0.0378 258);
+    --surface-200: oklch(25% 0.0378 258);
+    --surface-300: oklch(20% 0.0378 258);
+    --surface-400: oklch(15% 0.0378 258);
+    --surface-500: oklch(10% 0.0378 258);
+
+    --content-100: oklch(98% 0.053 255);
+    --content-200: oklch(88% 0.053 255);
+    --content-300: oklch(78% 0.053 255);
+    --content-400: oklch(68% 0.053 255);
+    --content-500: oklch(58% 0.053 255);
+
+    --border-100: oklch(42% 0.031 260);
+    --border-200: oklch(34% 0.029 266);
+    --border-300: oklch(22% 0.027 268);
+
+    --primary-100: oklch(100% 0.12 219);
+    --primary-200: oklch(90% 0.12 219);
+    --primary-300: oklch(83% 0.12 219);
+    --primary-400: oklch(70% 0.12 219);
+    --primary-500: oklch(50% 0.12 219);
+    --primary-content: oklch(15% 0.016 262);
+
+
+    --secondary-100: oklch(80% 0.06 35);
+    --secondary-200: oklch(65% 0.06 35);
+    --secondary-300: oklch(50% 0.06 35);
+    --secondary-400: oklch(35% 0.06 35);
+    --secondary-500: oklch(20% 0.06 35);
+    --secondary-content: oklch(15% 0.016 262);
+
+
+    --info-100: oklch(80% 0.2 240 / 0.3);
+    --info-200: oklch(60% 0.2 240);
+    --info-content: oklch(30% 0.2 240);
+
+    --success-100: oklch(80% 0.2 150 / 0.3);
+    --success-200: oklch(60% 0.2 150);
+    --success-content: oklch(30% 0.2 150);
+
+    --warning-100: oklch(80% 0.2 105 / 0.3);
+    --warning-200: oklch(60% 0.2 105);
+    --warning-content: oklch(30% 0.2 105);
+
+    --error-100: oklch(80% 0.2 28 / 0.3);
+    --error-200: oklch(60% 0.2 28);
+    --error-content: oklch(30% 0.2 28);
+
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 1rem;
+    --radius-xl: 1.5rem;
+
+    --shadow-sm: 0 0 0.5rem 0px oklch(0% 0 0 / 0.1);
+    --shadow-md: 0 0 1rem 0px oklch(0% 0 0 / 0.2);
+    --shadow-lg: 0 0 1.5rem 0px oklch(0% 0 0 / 0.3);
+    --shadow-xl: 0 0 2rem 0px oklch(0% 0 0 / 0.4);
+  }
+}
