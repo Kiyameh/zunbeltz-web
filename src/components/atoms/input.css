@@ -1,0 +1,7 @@
+input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-200);
+  background-color: var(--surface-100);
+}
