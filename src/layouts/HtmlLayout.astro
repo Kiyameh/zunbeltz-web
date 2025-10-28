@@ -3,6 +3,7 @@ import "@/styles/reset.css";
 import "@/styles/fonts.css";
 import "@/styles/theme.css";
 import "@/styles/global.css";
+import ThemeLoader from "@/components/atoms/ThemeLoader.astro";
 
 interface Props {
   pageTitle: string;
@@ -25,9 +26,7 @@ const {
 } = Astro.props;
 ---
 
-<!-- TODO: incluir theme-color, incluir etiquetas OpenGraph y twitter, incluir manifest y robots, incluir favicon -->
-
-<!doctype html>
+<!-- TODO: incluir etiquetas OpenGraph y twitter, incluir manifest y robots, incluir favicon --><!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -42,6 +41,8 @@ const {
     <title>{pageTitle}</title>
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <ThemeLoader />
   </head>
   <body>
     <slot />
