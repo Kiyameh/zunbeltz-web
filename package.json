@@ -11,14 +11,17 @@
     "lint": "eslint src/**/*.{js,astro}"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.0",
     "@astrojs/react": "^4.4.0",
+    "@clerk/astro": "^2.14.1",
+    "@clerk/localizations": "^3.26.3",
     "astro": "^5.15.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@types/react-dom": "^19.2.2",
     "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
     "@typescript-eslint/parser": "^8.46.2",
     "eslint": "^9.38.0",
     "eslint-plugin-astro": "^1.4.0",
