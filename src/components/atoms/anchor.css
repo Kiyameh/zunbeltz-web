@@ -1,13 +1,13 @@
-a {
+.anchor {
   position: relative;
   color: var(--secondary-300);
 }
 
-a:hover:before {
+.anchor:hover:before {
   transform: scaleX(1);
 }
 
-a:before {
+.anchor:before {
   content: '';
   position: absolute;
   display: block;
@@ -21,6 +21,6 @@ a:before {
   transition: transform 0.3s ease;
 }
 
-a.active::before {
+.anchor.active::before {
   transform: scaleX(1);
 }
