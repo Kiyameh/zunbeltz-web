@@ -1,0 +1,78 @@
+---
+import logo from "@/assets/logo.svg";
+import ThemeSwitcher from "@/components/molecules/ThemeSwitcher.astro";
+import { SidebarNav } from "@/components/organism/SidebarNav/SidebarNav";
+import { navigation } from "@/config/navigation";
+import { MainSearchBar } from "@/components/organism/MainSearchBar/MainSearchBar";
+import AccountControls from "@/components/organism/AccountControls/AccountControls.astro";
+const currentPath = Astro.url.pathname;
+---
+
+<div class="container">
+  <aside>
+    <header>
+      <img src={logo.src} alt="Zunbeltz logo" />
+      <h1>Zunbeltz</h1>
+    </header>
+    <SidebarNav navigation={navigation} currentPath={currentPath} client:load />
+  </aside>
+  <main>
+    <header>
+      <div class="search">
+        <MainSearchBar />
+      </div>
+      <div class="controls">
+        <ThemeSwitcher />
+        <AccountControls />
+      </div>
+    </header>
+    <slot />
+  </main>
+</div>
+
+<style>
+  .container {
+    display: flex;
+    min-height: 100svh;
+  }
+  aside {
+    width: fit-content;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  aside header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  aside header h1 {
+    font-family: var(--font-brand);
+    color: var(--content-500);
+  }
+  aside header img {
+    width: 60px;
+    height: 60px;
+  }
+
+  main {
+    flex: 1;
+  }
+  main header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 4rem;
+    gap: 2rem;
+  }
+  main header .controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  main header .search {
+    flex: 1;
+  }
+</style>
