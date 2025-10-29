@@ -1,0 +1,76 @@
+.navGroupTrigger {
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  color: var(--content-300);
+  background-color: transparent;
+  border-radius: 99px;
+  border-right: 5px solid transparent;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.navGroupTrigger:hover {
+  background-color: var(--surface-300);
+}
+
+/* Estado abierto (controlado por .isOpen en el div padre) */
+.isOpen .navGroupTrigger {
+  background-color: var(--surface-300);
+}
+
+.navIcon {
+  color: var(--content-200);
+  flex-shrink: 0;
+}
+
+.navName {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navTag {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--content-200);
+  background-color: var(--surface-200);
+  padding: 0 0.5rem;
+  border-radius: 99px;
+  flex-shrink: 0;
+}
+
+.navChevron {
+  margin-left: auto;
+  color: var(--content-200);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.isOpen .navChevron {
+  transform: rotate(180deg);
+}
+
+.navGroupChildren {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.25rem;
+  /* Propiedades para la transición */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.5s ease-out, opacity 0.5s ease-out;
+}
+
+.isOpen .navGroupChildren {
+  max-height: 300px;
+  opacity: 1;
+}
