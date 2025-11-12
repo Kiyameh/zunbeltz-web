@@ -6,15 +6,15 @@ import node from "@astrojs/node";
 import clerk from "@clerk/astro";
 import { esES } from "@clerk/localizations";
 import tailwindcss from "@tailwindcss/vite";
+import svgr from "vite-plugin-svgr";
+
+import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    react(),
-    clerk({
-      localization: esES,
-    }),
-  ],
+  integrations: [react(), clerk({
+    localization: esES,
+  }), icon()],
 
   adapter: node({
     mode: "standalone",
@@ -23,6 +23,6 @@ export default defineConfig({
   output: "server",
 
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), svgr()],
   },
 });
