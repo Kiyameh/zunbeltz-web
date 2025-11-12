@@ -2,17 +2,24 @@
 
 ## Framework
 
-Astro
+- Astro
 
 ## UI
 
-Shadcn
-TailwindCSS
+- Shadcn
+- TailwindCSS
 
 ## Auth
 
-Clerk
+- Clerk
 
 ## Collections
 
-Mdx integration
+- Mdx integration
+
+## Development
+
+- Prettier
+- ESLint
+- Git
+- GitHub

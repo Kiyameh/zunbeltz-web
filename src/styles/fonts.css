@@ -1,0 +1,31 @@
+@font-face {
+  font-family: "Outfit regular";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Outfit bold";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Gabarito regular";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Gabarito-VariableFont_wght.ttf");
+}
+
+@font-face {
+  font-family: "Gabarito bold";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url("../fonts/Gabarito-VariableFont_wght.ttf");
+}

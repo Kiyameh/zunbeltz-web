@@ -1,0 +1,45 @@
+---
+import "@/styles/global.css";
+import "@/styles/fonts.css";
+
+import ThemeLoader from "@/components/theme/ThemeLoader.astro";
+
+interface Props {
+  pageTitle: string;
+  pageDescription?: string;
+  pageTags?: string[];
+}
+const {
+  pageTitle = "Zunbeltz | Espeleología en Navarra",
+  pageDescription = "Tu portal sobre espeleología en Navarra",
+  pageTags = [
+    "espeleología",
+    "barranquismo",
+    "escalada",
+    "naturaleza",
+    "navarra",
+    "cuevas",
+    "blog",
+  ],
+} = Astro.props;
+
+/* TODO: incluir etiquetas OpenGraph y twitter, incluir manifest y robots, incluir favicon */
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="title" content={pageTitle} />
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content="Andoni Abarzuza @kiyameh" />
+    <meta name="tags" content={pageTags?.join(", ") ?? ""} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{pageTitle}</title>
+    <ThemeLoader />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
