@@ -1,11 +1,20 @@
 ---
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import { Navigation } from "@/components/navigation/Navigation";
 ---
 
 <HtmlLayout pageTitle="Hola mundo">
-  <main class="w-full h-screen bg-surface-100 text-content-100 font-paragraph">
-    <h1 class="text-4xl">Hola mundo</h1>
-    <ThemeSwitcher />
+  <header class="flex items-center justify-between px-6 py-2 bg-surface-100">
+    <div class="text-primary-300">Zunbeltz</div>
+    <Navigation client:load />
+    <div class="flex items-center gap-4">
+      <ThemeSwitcher />
+      <div>UserControls</div>
+    </div>
+  </header>
+  <main>
+    <h1>Hola mundo</h1>
   </main>
+  <footer></footer>
 </HtmlLayout>
