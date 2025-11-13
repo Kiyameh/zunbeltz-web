@@ -1,40 +1,96 @@
-# Guía de Agentes
+# Guía para Agentes IA
+
+## Reglas Generales
+
+- **PREGUNTA antes de crear nuevas carpetas o archivos**
+- **SOLO ejecuta lo que se te pide explícitamente**
+- Si contemplas tareas adicionales (testing, componentes de ejemplo, etc.), **pregunta antes**
+- **NO ejecutes tests** a menos que se te ordene hacerlo
+
+## Componentes React
+
+### Estructura
+
+- Usa **CSS Modules** para estilos: `import s from './Component.module.css'`
+- Estructura de carpeta por componente:
+
+```text
+src/components/nombre/
+  ├── Nombre.tsx
+  ├── Nombre.module.css
+  └── Nombre.test.tsx (si hay tests)
+```
+
+### Ejemplo
+
+```tsx
+import s from "./Button.module.css";
+
+export const Button = ({ children }) => {
+  return <button className={s.Button}>{children}</button>;
+};
+```
+
+## Testing
+
+### Flujo de trabajo
+
+1. **Crear primero tests vacíos** para verificación
+2. Esperar confirmación del usuario
+3. Implementar los tests
+
+### Estructura de tests
+
+- Agrupar tests en **categorías** con `describe`:
+
+```tsx
+describe("ComponentName", () => {
+  describe("Rendering", () => {
+    it("should render...", () => {});
+  });
+
+  describe("Functionality", () => {
+    describe("Hovering", () => {
+      it("should...", async () => {});
+    });
+
+    describe("Routing", () => {
+      it("should...", () => {});
+    });
+  });
+
+  describe("Accessibility", () => {
+    it("should...", () => {});
+  });
+});
+```
+
+### Configuración de tests
+
+- **ResizeObserver** debe estar mockeado en `test.config.ts`
+- Usa `waitFor` para contenido asíncrono de Radix UI
+- Para dropdowns de Radix UI: usa `click` en lugar de `hover`
 
 ## Uso de Iconos
 
-Se usan iconos de [Tabler Icons](https://tabler-icons.io/).
-Para gestionar los iconos en el proyecto, utilizamos dos métodos optimizados:
+Iconos de [Tabler Icons](https://tabler-icons.io/) en `src/icons/`.
 
-### En Componentes Astro (Archivos .astro)
-
-Utiliza la integración astro-icon.
-
-Coloca tus archivos SVG en src/icons/.
-
-Impórtalo y úsalo con el nombre del archivo (sin la extensión):
+### En Astro (.astro)
 
 ```astro
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
 ---
 
-<Icon name="nombre-del-icono" class="w-6 h-6 text-primary" />
+<Icon name="nombre-del-icono" class="w-6 h-6" />
 ```
 
-(Esto se renderiza como SVG estático sin JS).
+### En React (.tsx)
 
-### En Componentes React (Archivos .jsx/.tsx)
+```tsx
+import MiIcono from "@/icons/nombre-del-icono.svg?react";
 
-Utiliza el plugin de Vite vite-plugin-svgr para convertir el SVG a un componente React en tiempo de compilación.
-
-Importa tu SVG directamente desde la carpeta icons/ como un componente:
-
-```jsx
-import MiIcono from '../../icons/nombre-del-icono.svg';
-
-const MyComponent = () => (
-  <MiIcono className="w-4 h-4 text-white" />
-);
+const Component = () => <MiIcono className="w-4 h-4" />;
 ```
 
-(Esto asegura que solo se incluya el SVG necesario en la "Island" de React).
+**Nota**: Usa el sufijo `?react` para importar SVG como componente React.
