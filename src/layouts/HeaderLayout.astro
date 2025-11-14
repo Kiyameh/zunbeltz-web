@@ -3,6 +3,7 @@ import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
 import { Navigation } from "@/components/navigation/Navigation";
 import { NavigationMobile } from "@/components/navigation/NavigationMobile";
 import AccountControls from "@/components/authentication/AccountControls.astro";
+import { MainSearchBar } from "@/components/search/MainSearchBar";
 ---
 
 <header class="flex items-center justify-between px-6 py-2 bg-surface-100">
@@ -16,10 +17,10 @@ import AccountControls from "@/components/authentication/AccountControls.astro";
 
   {/* Desktop Controls - Solo visible en desktop */}
   <div class="hidden md:flex items-center gap-4">
+    <MainSearchBar />
     <ThemeSwitcher />
     <AccountControls />
   </div>
-
   {/* Mobile - Solo visible en móvil */}
   <div class="md:hidden">
     {/* Burger Menu Button */}
@@ -42,6 +43,7 @@ import AccountControls from "@/components/authentication/AccountControls.astro";
 
         {/* Tools Slot - Parte inferior del panel */}
         <div class="tools-slot">
+          <MainSearchBar />
           <div class="flex flex-row items-center justify-center gap-4">
             <ThemeSwitcher />
             <AccountControls />
