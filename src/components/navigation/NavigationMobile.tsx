@@ -1,31 +1,48 @@
-import s from "./Navigation.module.css";
+import s from "./NavigationMobile.module.css";
 import { NavigationMenu } from "radix-ui";
 import Caret from "@/icons/caret-down.svg?react";
 import Navarra from "./assets/navarra.png";
 import BgBlue from "./assets/grid-bg-blue.svg";
 import BgGreen from "./assets/grid-bg-green.svg";
 
-export const Navigation = () => {
+export const NavigationMobile = () => {
+  const handleLinkClick = () => {
+    // Llamar a la función global expuesta por HeaderLayout
+    if (typeof window !== "undefined" && (window as any).closeMobileMenu) {
+      (window as any).closeMobileMenu();
+    }
+  };
+
   return (
-    <NavigationMenu.Root className={s.Root}>
+    <NavigationMenu.Root className={s.MenuContainer} orientation="vertical">
       <NavigationMenu.List className={s.MenuList}>
         {/* La falla */}
-        <NavigationMenu.Item>
-          <NavigationMenu.Link className={s.Link} href="/">
+        <NavigationMenu.Item className={s.MenuItem}>
+          <NavigationMenu.Link
+            className={s.MenuLink}
+            href="/"
+            onClick={handleLinkClick}
+          >
             La falla
           </NavigationMenu.Link>
         </NavigationMenu.Item>
 
         {/* Navarra */}
-        <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={s.Trigger}>
-            Navarra <Caret className={s.CaretDown} aria-hidden />
+        <NavigationMenu.Item className={s.MenuItem}>
+          <NavigationMenu.Trigger className={s.MenuTrigger}>
+            Navarra
+            <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
+
           <NavigationMenu.Content className={s.Content}>
-            <ul className={s.Grid1x3}>
-              <li className={s.Span3}>
+            <ul className={s.SubmenuList}>
+              <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/navarra" className={s.Navarra}>
+                  <a
+                    href="/navarra"
+                    className={s.NavarraCallout}
+                    onClick={handleLinkClick}
+                  >
                     <p>Navarra</p>
                     <img
                       src={Navarra.src}
@@ -37,7 +54,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/navarra/cuevas" className={s.GridLink}>
+                  <a
+                    href="/navarra/cuevas"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Cuevas</p>
                     <p className={s.desc}>
                       Zonas kársticas de Navarra y sus cavidades
@@ -45,10 +66,13 @@ export const Navigation = () => {
                   </a>
                 </NavigationMenu.Link>
               </li>
-
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/navarra/montañas" className={s.GridLink}>
+                  <a
+                    href="/navarra/montañas"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Montañas</p>
                     <p className={s.desc}>
                       Las montañas y paisajes de la provincia
@@ -58,7 +82,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/navarra/rios" className={s.GridLink}>
+                  <a
+                    href="/navarra/rios"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Ríos</p>
                     <p className={s.desc}>
                       Ríos, foces y cauces del territorio
@@ -71,15 +99,21 @@ export const Navigation = () => {
         </NavigationMenu.Item>
 
         {/* Exploración */}
-        <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={s.Trigger}>
-            Exploración <Caret className={s.CaretDown} aria-hidden />
+        <NavigationMenu.Item className={s.MenuItem}>
+          <NavigationMenu.Trigger className={s.MenuTrigger}>
+            Exploración
+            <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
+
           <NavigationMenu.Content className={s.Content}>
-            <ul className={s.Grid2x2}>
+            <ul className={s.SubmenuList}>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/exploracion/novedades" className={s.GridLink}>
+                  <a
+                    href="/exploracion/novedades"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Ultimas exploraciones</p>
                     <p className={s.desc}>
                       Novedades en la exploración espeleológica Navarra
@@ -92,7 +126,8 @@ export const Navigation = () => {
                   <a
                     href="https://subterra.app"
                     target="_blank"
-                    className={s.GridLink}
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
                   >
                     <p className={s.title}>Subterra.app</p>
                     <p className={s.desc}>
@@ -103,7 +138,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/exploracion/topografia" className={s.GridLink}>
+                  <a
+                    href="/exploracion/topografia"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Topografía</p>
                     <p className={s.desc}>
                       Método, herramientas y software de topografía de cavidades
@@ -113,7 +152,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/exploracion/fichas" className={s.GridLink}>
+                  <a
+                    href="/exploracion/fichas"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Generador de fichas</p>
                     <p className={s.desc}>
                       Herramienta para generar fichas técnicas de instalación
@@ -126,23 +169,34 @@ export const Navigation = () => {
         </NavigationMenu.Item>
 
         {/* Escuela */}
-        <NavigationMenu.Item>
-          <NavigationMenu.Trigger className={s.Trigger}>
-            Escuela <Caret className={s.CaretDown} aria-hidden />
+        <NavigationMenu.Item className={s.MenuItem}>
+          <NavigationMenu.Trigger className={s.MenuTrigger}>
+            Escuela
+            <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
-          <NavigationMenu.Content className={s.Content}>
-            <NavigationMenu.Link asChild>
-              <a href="/aprende" className={s.Learn}>
-                <p>Escuela Zunbeltz</p>
-                <img src={BgBlue.src} aria-hidden className={s.BgBlue} />
-                <img src={BgGreen.src} aria-hidden className={s.BgGreen} />
-              </a>
-            </NavigationMenu.Link>
 
-            <ul className={s.Grid2x2}>
+          <NavigationMenu.Content className={s.Content}>
+            <ul className={s.SubmenuList}>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/aprende/recorrido" className={s.GridLink}>
+                  <a
+                    href="/aprende"
+                    className={s.LearnCallout}
+                    onClick={handleLinkClick}
+                  >
+                    <p>Escuela Zunbeltz</p>
+                    <img src={BgBlue.src} aria-hidden className={s.BgBlue} />
+                    <img src={BgGreen.src} aria-hidden className={s.BgGreen} />
+                  </a>
+                </NavigationMenu.Link>
+              </li>
+              <li>
+                <NavigationMenu.Link asChild>
+                  <a
+                    href="/aprende/recorrido"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Recorrido de aprendizaje</p>
                     <p className={s.desc}>
                       El camino del buen amante de la aventura
@@ -152,7 +206,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/aprende/online" className={s.GridLink}>
+                  <a
+                    href="/aprende/online"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Aprende online</p>
                     <p className={s.desc}>
                       Mejora tu conocimiento con cursos online en todas las
@@ -163,7 +221,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/aprende/cursos" className={s.GridLink}>
+                  <a
+                    href="/aprende/cursos"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Cursos presenciales</p>
                     <p className={s.desc}>
                       Pon en práctica tus deportes favoritos en Navarra
@@ -173,7 +235,11 @@ export const Navigation = () => {
               </li>
               <li>
                 <NavigationMenu.Link asChild>
-                  <a href="/aprende/biblioteca" className={s.GridLink}>
+                  <a
+                    href="/aprende/biblioteca"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
                     <p className={s.title}>Biblioteca técnica</p>
                     <p className={s.desc}>
                       Libros, revistas y documentos técnicos
@@ -186,21 +252,16 @@ export const Navigation = () => {
         </NavigationMenu.Item>
 
         {/* Tienda */}
-        <NavigationMenu.Item>
-          <NavigationMenu.Link className={s.Link} href="/tienda">
+        <NavigationMenu.Item className={s.MenuItem}>
+          <NavigationMenu.Link
+            className={s.MenuLink}
+            href="/tienda"
+            onClick={handleLinkClick}
+          >
             Tienda
           </NavigationMenu.Link>
         </NavigationMenu.Item>
-
-        {/* Flecha decorativa */}
-        <NavigationMenu.Indicator className={s.Indicator}>
-          <div className={s.Arrow} />
-        </NavigationMenu.Indicator>
       </NavigationMenu.List>
-      {/* Viewport sobre el que se muestra el content */}
-      <div className={s.ViewportPosition}>
-        <NavigationMenu.Viewport className={s.Viewport} />
-      </div>
     </NavigationMenu.Root>
   );
 };

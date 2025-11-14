@@ -1,0 +1,181 @@
+---
+import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
+import { Navigation } from "@/components/navigation/Navigation";
+import { NavigationMobile } from "@/components/navigation/NavigationMobile";
+---
+
+<header class="flex items-center justify-between px-6 py-2 bg-surface-100">
+  {/* Logo - Siempre visible */}
+  <div class="text-primary-300 font-title text-xl">Zunbeltz</div>
+
+  {/* Desktop Navigation - Solo visible en desktop */}
+  <div class="hidden md:block">
+    <Navigation client:load />
+  </div>
+
+  {/* Desktop Controls - Solo visible en desktop */}
+  <div class="hidden md:flex items-center gap-4">
+    <ThemeSwitcher />
+    <div>UserControls</div>
+  </div>
+
+  {/* Mobile - Solo visible en móvil */}
+  <div class="md:hidden">
+    {/* Burger Menu Button */}
+    <button
+      id="mobile-menu-toggle"
+      class="burger-button"
+      aria-label="Toggle menu"
+      aria-expanded="false"
+    >
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+      <span class="burger-line"></span>
+    </button>
+
+    {/* Full Screen Menu Overlay */}
+    <div id="mobile-menu-overlay" class="menu-overlay">
+      <div class="menu-container">
+        {/* Navigation */}
+        <NavigationMobile client:load />
+
+        {/* Tools Slot - Parte inferior del panel */}
+        <div class="tools-slot">
+          <div class="flex flex-row items-center justify-center gap-4">
+            <ThemeSwitcher />
+            <div>UserControls</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const toggleButton = document.getElementById("mobile-menu-toggle");
+  const menuOverlay = document.getElementById("mobile-menu-overlay");
+
+  const closeMenu = () => {
+    menuOverlay?.classList.remove("menu-overlay-open");
+    toggleButton?.classList.remove("burger-open");
+    toggleButton?.setAttribute("aria-expanded", "false");
+  };
+
+  const openMenu = () => {
+    menuOverlay?.classList.add("menu-overlay-open");
+    toggleButton?.classList.add("burger-open");
+    toggleButton?.setAttribute("aria-expanded", "true");
+  };
+
+  const toggleMenu = () => {
+    if (menuOverlay?.classList.contains("menu-overlay-open")) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  };
+
+  toggleButton?.addEventListener("click", toggleMenu);
+
+  // Cerrar menú al hacer clic en cualquier enlace
+  menuOverlay?.addEventListener("click", (e) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === "A" || target.closest("a")) {
+      closeMenu();
+    }
+  });
+
+  // Exponer closeMenu globalmente para que NavigationMobile pueda usarlo
+  (window as any).closeMobileMenu = closeMenu;
+</script>
+
+<style>
+  /* Burger Button */
+  .burger-button {
+    all: unset;
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+
+    background-color: var(--color-surface-200);
+    border-radius: 8px;
+    box-shadow: var(--shadow-md);
+
+    transition: background-color 0.3s ease;
+  }
+
+  .burger-button:hover {
+    background-color: var(--color-surface-100);
+  }
+
+  .burger-line {
+    width: 24px;
+    height: 2px;
+    background-color: var(--color-content-200);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  /* Burger Animation */
+  .burger-open .burger-line:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+
+  .burger-open .burger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .burger-open .burger-line:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+
+  /* Full Screen Menu Overlay */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+
+    background-color: var(--color-surface-300);
+
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+
+    z-index: 1000;
+    overflow-y: auto;
+  }
+
+  .menu-overlay-open {
+    transform: translateX(0);
+  }
+
+  /* Menu Container */
+  .menu-container {
+    width: 100%;
+    min-height: 100%;
+    padding: 80px 20px 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Tools Slot */
+  .tools-slot {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--color-surface-100);
+  }
+</style>
