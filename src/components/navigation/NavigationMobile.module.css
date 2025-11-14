@@ -68,17 +68,17 @@
   &:hover {
     background-color: var(--color-surface-100);
   }
+}
 
-  .CaretDown {
-    width: 18px;
-    height: 18px;
-    transition: transform 0.3s ease;
-  }
+.CaretDown {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
 
-  /* Radix UI adds data-state to Trigger */
-  &[data-state="open"] .CaretDown {
-    transform: rotate(-180deg);
-  }
+/* Radix UI adds data-state to Trigger */
+.MenuTrigger[data-state="open"] .CaretDown {
+  transform: rotate(-180deg);
 }
 
 /* Content */
