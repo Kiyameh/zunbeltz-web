@@ -2,7 +2,7 @@
 // El script se ejecutará en el cliente por defecto
 ---
 
-<button type="button" id="theme-toggle" aria-label="Toggle theme">
+<button type="button" class="theme-toggle" aria-label="Toggle theme">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -29,22 +29,27 @@
   >
 </button>
 <script>
-  const toggleButton = document.getElementById("theme-toggle");
-
+  // Función para aplicar el tema
   const applyTheme = (newTheme: "light" | "dark") => {
     document.documentElement.setAttribute("data-theme", newTheme);
     localStorage.setItem("theme", newTheme);
   };
 
-  toggleButton?.addEventListener("click", () => {
+  // Función para toggle del tema
+  const toggleTheme = () => {
     const currentTheme = document.documentElement.getAttribute("data-theme");
     const newTheme = currentTheme === "dark" ? "light" : "dark";
     applyTheme(newTheme);
+  };
+
+  // Añadir event listener a TODOS los botones con clase theme-toggle
+  document.querySelectorAll(".theme-toggle").forEach((button) => {
+    button.addEventListener("click", toggleTheme);
   });
 </script>
 
 <style>
-  #theme-toggle {
+  .theme-toggle {
     position: relative;
     display: flex;
     align-items: center;
@@ -75,11 +80,11 @@
     transform: rotate(180deg);
   }
 
-  :global([data-theme="dark"]) #theme-toggle .sun {
+  :global([data-theme="dark"]) .theme-toggle .sun {
     transform: rotate(180deg);
   }
 
-  :global([data-theme="dark"]) #theme-toggle .moon {
+  :global([data-theme="dark"]) .theme-toggle .moon {
     transform: rotate(360deg);
   }
 </style>
