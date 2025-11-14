@@ -2,6 +2,7 @@
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
 import { Navigation } from "@/components/navigation/Navigation";
 import { NavigationMobile } from "@/components/navigation/NavigationMobile";
+import AccountControls from "@/components/authentication/AccountControls.astro";
 ---
 
 <header class="flex items-center justify-between px-6 py-2 bg-surface-100">
@@ -16,7 +17,7 @@ import { NavigationMobile } from "@/components/navigation/NavigationMobile";
   {/* Desktop Controls - Solo visible en desktop */}
   <div class="hidden md:flex items-center gap-4">
     <ThemeSwitcher />
-    <div>UserControls</div>
+    <AccountControls />
   </div>
 
   {/* Mobile - Solo visible en móvil */}
@@ -43,7 +44,7 @@ import { NavigationMobile } from "@/components/navigation/NavigationMobile";
         <div class="tools-slot">
           <div class="flex flex-row items-center justify-center gap-4">
             <ThemeSwitcher />
-            <div>UserControls</div>
+            <AccountControls />
           </div>
         </div>
       </div>
