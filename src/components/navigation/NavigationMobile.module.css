@@ -45,6 +45,43 @@
   }
 }
 
+/* Search Button */
+
+.SearchButton {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 16px 20px;
+
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--color-content-200);
+
+  background-color: var(--color-primary-300);
+  border: none;
+  border-radius: 8px;
+
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-primary-400);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-300);
+    outline-offset: 2px;
+  }
+}
+
+.SearchButton .SearchIcon {
+  width: 20px;
+  height: 20px;
+}
+
 /* Menu Trigger (for dropdowns) */
 
 .MenuTrigger {

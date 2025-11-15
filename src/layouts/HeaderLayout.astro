@@ -2,8 +2,8 @@
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
 import { Navigation } from "@/components/navigation/Navigation";
 import { NavigationMobile } from "@/components/navigation/NavigationMobile";
+import { SearchPanelMobile } from "@/components/search/SearchPanelMobile";
 import AccountControls from "@/components/authentication/AccountControls.astro";
-import { MainSearchBar } from "@/components/search/MainSearchBar";
 ---
 
 <header class="flex items-center justify-between px-6 py-2 bg-surface-100">
@@ -11,13 +11,12 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
   <div class="text-primary-300 font-title text-xl">Zunbeltz</div>
 
   {/* Desktop Navigation - Solo visible en desktop */}
-  <div class="hidden md:block">
+  <div class="hidden md:block flex-1">
     <Navigation client:load />
   </div>
 
   {/* Desktop Controls - Solo visible en desktop */}
   <div class="hidden md:flex items-center gap-4">
-    <MainSearchBar />
     <ThemeSwitcher />
     <AccountControls />
   </div>
@@ -43,7 +42,24 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
 
         {/* Tools Slot - Parte inferior del panel */}
         <div class="tools-slot">
-          <MainSearchBar />
+          <button
+            id="mobile-search-button"
+            class="search-button"
+            aria-label="Abrir búsqueda"
+          >
+            <svg
+              class="search-icon"
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <span>Buscar</span>
+          </button>
           <div class="flex flex-row items-center justify-center gap-4">
             <ThemeSwitcher />
             <AccountControls />
@@ -51,12 +67,16 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
         </div>
       </div>
     </div>
+
+    {/* Search Panel */}
+    <SearchPanelMobile client:load />
   </div>
 </header>
 
 <script>
   const toggleButton = document.getElementById("mobile-menu-toggle");
   const menuOverlay = document.getElementById("mobile-menu-overlay");
+  const searchButton = document.getElementById("mobile-search-button");
 
   const closeMenu = () => {
     menuOverlay?.classList.remove("menu-overlay-open");
@@ -90,6 +110,13 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
 
   // Exponer closeMenu globalmente para que NavigationMobile pueda usarlo
   (window as any).closeMobileMenu = closeMenu;
+
+  // Manejar click en botón de búsqueda
+  searchButton?.addEventListener("click", () => {
+    closeMenu();
+    // Disparar evento personalizado para abrir el panel de búsqueda
+    window.dispatchEvent(new CustomEvent("open-mobile-search"));
+  });
 </script>
 
 <style>
@@ -104,7 +131,7 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
 
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 4px;
     padding: 8px;
 
     background-color: var(--color-surface-200);
@@ -119,8 +146,8 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
   }
 
   .burger-line {
-    width: 24px;
-    height: 2px;
+    width: 18px;
+    height: 3px;
     background-color: var(--color-content-200);
     border-radius: 2px;
     transition: all 0.3s ease;
@@ -128,7 +155,7 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
 
   /* Burger Animation */
   .burger-open .burger-line:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
+    transform: translateY(7px) rotate(45deg);
   }
 
   .burger-open .burger-line:nth-child(2) {
@@ -136,7 +163,7 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
   }
 
   .burger-open .burger-line:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
+    transform: translateY(-7px) rotate(-45deg);
   }
 
   /* Full Screen Menu Overlay */
@@ -180,5 +207,41 @@ import { MainSearchBar } from "@/components/search/MainSearchBar";
     padding-top: 24px;
     margin-top: 24px;
     border-top: 1px solid var(--color-surface-100);
+  }
+
+  /* Search Button */
+  .search-button {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.5rem;
+
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--color-content-300);
+
+    background-color: var(--color-surface-200);
+    border: none;
+    border-radius: 8px;
+
+    transition: background-color 0.2s ease;
+  }
+
+  .search-button:hover {
+    background-color: var(--color-primary-400);
+  }
+
+  .search-button:focus-visible {
+    outline: 2px solid var(--color-primary-300);
+    outline-offset: 2px;
+  }
+
+  .search-icon {
+    width: 20px;
+    height: 20px;
   }
 </style>

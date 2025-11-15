@@ -1,5 +1,4 @@
 /* Layout */
-
 .Root {
   position: relative;
   display: flex;
@@ -16,6 +15,88 @@
   padding: 4px;
   border-radius: 8px;
   box-shadow: var(--shadow-md);
+  text-wrap: nowrap;
+}
+
+/* Menu Items */
+
+.MenuItem {
+  width: 100%;
+}
+
+/* Search */
+
+.SearchBar {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding-inline: 0.5rem;
+
+  border-radius: 6px;
+  border: 1px solid var(--color-border-100);
+
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+
+  &:hover {
+    background-color: var(--color-surface-100);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-primary-300);
+    outline-offset: 2px;
+  }
+}
+
+.SearchIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.SearchKey {
+  color: var(--color-content-100);
+  font-size: 0.9rem;
+  line-height: 0.9rem;
+}
+
+.SearchContent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+
+  border-radius: 8px;
+  padding: 12px;
+  background-color: var(--color-surface-200);
+}
+
+.SearchContentInner {
+  width: 100%;
+  max-width: 500px;
+  margin-inline: auto;
+}
+
+.SearchInput {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--color-border-100);
+  background-color: var(--color-surface-100);
+  color: var(--color-content-200);
+
+  font-size: 0.9rem;
+  line-height: 1.2;
+
+  outline: none;
+
+  &:focus-visible {
+    border-color: var(--color-primary-300);
+    box-shadow: 0 0 0 1px var(--color-primary-300);
+  }
 }
 
 /* Viewport */
@@ -124,6 +205,8 @@
   padding: 8px 12px;
   user-select: none;
   line-height: 1;
+  text-wrap: nowrap;
+
 
   &:hover {
     background-color: var(--color-surface-100);
@@ -136,7 +219,7 @@
     top: 1px;
     transition: transform 250ms ease;
 
-    [data-state="open"] > & {
+    [data-state="open"]>& {
       transform: rotate(-180deg);
     }
   }
@@ -223,12 +306,14 @@
   text-decoration: none;
   outline: none;
   user-select: none;
+
   img {
     position: absolute;
     opacity: 0.2;
     transform: rotate(-20deg);
     z-index: 0;
   }
+
   p {
     z-index: 1;
   }
@@ -281,10 +366,12 @@
     color: var(--color-white);
   }
 }
+
 [data-theme="dark"] {
   .BgBlue {
     display: block;
   }
+
   .BgGreen {
     display: none;
   }
@@ -317,6 +404,7 @@
   .title {
     color: var(--color-primary-300);
   }
+
   .desc {
     font-size: 0.8rem;
   }
