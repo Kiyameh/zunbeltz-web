@@ -42,9 +42,17 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <ThemeLoader />
   </head>
-  <body
-    class="w-full min-h-screen bg-surface-100 text-content-300 font-paragraph"
-  >
+  <body>
     <slot />
   </body>
 </html>
+
+<style>
+  body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--color-surface-100);
+    color: var(--color-content-300);
+    font-family: var(--font-paragraph);
+  }
+</style>

@@ -5,7 +5,6 @@ import react from "@astrojs/react";
 import node from "@astrojs/node";
 import clerk from "@clerk/astro";
 import { esES } from "@clerk/localizations";
-import tailwindcss from "@tailwindcss/vite";
 import svgr from "vite-plugin-svgr";
 
 import icon from "astro-icon";
@@ -23,6 +22,6 @@ export default defineConfig({
   output: "server",
 
   vite: {
-    plugins: [tailwindcss(), svgr()],
+    plugins: [svgr()],
   },
 });

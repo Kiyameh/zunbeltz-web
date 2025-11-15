@@ -7,23 +7,18 @@ import AccountControls from "@/components/authentication/AccountControls.astro";
 import Search from "@/icons/search.svg";
 ---
 
-<header class="flex items-center justify-between px-6 py-2 bg-surface-100">
-  {/* Logo - Siempre visible */}
-  <div class="font-title text-xl">Zunbeltz</div>
+<header>
+  <div class="logo">Zunbeltz</div>
 
-  {/* Desktop Navigation - Solo visible en desktop */}
-  <div class="hidden md:block flex-1">
+  <div class="desktop-nav">
     <Navigation client:load />
   </div>
 
-  {/* Desktop Controls - Solo visible en desktop */}
-  <div class="hidden md:flex items-center gap-4">
+  <div class="desktop-controls">
     <AccountControls />
     <ThemeSwitcher />
   </div>
-  {/* Mobile - Solo visible en móvil */}
-  <div class="md:hidden">
-    {/* Burger Menu Button */}
+  <div class="mobile-container">
     <button
       id="mobile-menu-toggle"
       class="burger-button"
@@ -35,10 +30,8 @@ import Search from "@/icons/search.svg";
       <span class="burger-line"></span>
     </button>
 
-    {/* Full Screen Menu Overlay */}
     <div id="mobile-menu-overlay" class="menu-overlay">
       <div class="menu-container">
-        {/* Navigation */}
         <NavigationMobile client:load />
 
         {/* Tools Slot - Parte inferior del panel */}
@@ -51,7 +44,7 @@ import Search from "@/icons/search.svg";
             <Search />
             <span>Buscar</span>
           </button>
-          <div class="flex flex-row items-center justify-center gap-4">
+          <div class="mobile-controls">
             <AccountControls />
             <ThemeSwitcher />
           </div>
@@ -111,6 +104,65 @@ import Search from "@/icons/search.svg";
 </script>
 
 <style>
+  /* Header */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--color-surface-100);
+  }
+
+  .logo {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+  }
+
+  /* Desktop Navigation */
+  .desktop-nav {
+    display: none;
+    flex: 1;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-nav {
+      display: block;
+    }
+  }
+
+  /* Desktop Controls */
+  .desktop-controls {
+    display: none;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-controls {
+      display: flex;
+    }
+  }
+
+  /* Mobile Container */
+  .mobile-container {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-container {
+      display: none;
+    }
+  }
+
+  /* Mobile Controls */
+  .mobile-controls {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
   /* Burger Button */
   .burger-button {
     all: unset;

@@ -171,6 +171,7 @@
   user-select: none;
   line-height: 1;
   text-wrap: nowrap;
+  background-color: var(--color-surface-200);
 
 
   &:hover {
@@ -180,6 +181,7 @@
   .CaretDown {
     width: 15px;
     height: 15px;
+    flex-shrink: 0;
     position: relative;
     top: 1px;
     transition: transform 250ms ease;
@@ -259,7 +261,7 @@
   position: relative;
   overflow: hidden;
 
-  background: linear-gradient(225deg, transparent, var(--color-red-700));
+  background: linear-gradient(225deg, transparent, rgb(150, 0, 0));
   border-radius: 6px;
   padding: 24px;
 

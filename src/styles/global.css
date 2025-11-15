@@ -1,9 +1,6 @@
-@import "tailwindcss";
-
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
-
-
-@theme {
+/* CSS Variables */
+:root {
+  /* Colors - Light Theme */
   --color-surface-100: oklch(97% 0.011 259);
   --color-surface-200: oklch(93% 0.016 262);
   --color-surface-300: oklch(85% 0.021 264);
@@ -32,11 +29,34 @@
   --color-secondary-400: oklch(35% 0.12 320);
   --color-secondary-500: oklch(25% 0.08 320);
 
-
+  /* Typography */
   --font-paragraph: "Outfit regular", sans-serif;
   --font-title: "Gabarito bold", sans-serif;
-}
 
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  /* 2px */
+  --radius-md: 0.375rem;
+  /* 6px */
+  --radius-lg: 0.5rem;
+  /* 8px */
+  --radius-xl: 0.75rem;
+  /* 12px */
+  --radius-2xl: 1rem;
+  /* 16px */
+  --radius-3xl: 1.5rem;
+  /* 24px */
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --shadow-none: 0 0 #0000;
+}
 
 [data-theme="dark"] {
   --color-surface-100: oklch(30% 0.0378 258);
@@ -66,4 +86,109 @@
   --color-secondary-300: oklch(50% 0.06 35);
   --color-secondary-400: oklch(35% 0.06 35);
   --color-secondary-500: oklch(20% 0.06 35);
+}
+
+/* Box model */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: currentColor;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+/* Typography */
+html {
+  line-height: calc(1em + 0.5rem);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Multimedia */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Paragraphs */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+
+/* List styles */
+ol,
+ul {
+  list-style: none;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* Code */
+code,
+kbd,
+samp,
+pre {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+  font-size: 1em;
+}
+
+/* Forms */
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+/* z-index  */
+
+#root,
+#__next {
+  isolation: isolate;
 }
