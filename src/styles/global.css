@@ -3,7 +3,7 @@
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 
-@theme{
+@theme {
   --color-surface-100: oklch(97% 0.011 259);
   --color-surface-200: oklch(93% 0.016 262);
   --color-surface-300: oklch(85% 0.021 264);
@@ -31,8 +31,8 @@
   --color-secondary-300: oklch(50% 0.22 320);
   --color-secondary-400: oklch(35% 0.12 320);
   --color-secondary-500: oklch(25% 0.08 320);
-  
-  
+
+
   --font-paragraph: "Outfit regular", sans-serif;
   --font-title: "Gabarito bold", sans-serif;
 }

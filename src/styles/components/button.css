@@ -1,0 +1,54 @@
+.button {
+  cursor: pointer;
+  user-select: none;
+  padding: 0.2rem 0.8rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--color-content-300)
+}
+
+.icon-button {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  height: fit-content;
+  padding: 0.4rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+}
+
+.rounded {
+  border-radius: 99px;
+}
+
+.ghost {
+  background-color: transparent;
+}
+
+
+.ghost:hover {
+  background-color: var(--color-surface-200);
+  border-color: var(--color-border-100);
+}
+
+
+.primary {
+  background-color: var(--color-primary-100);
+  border-color: var(--color-border-100);
+}
+
+.primary:hover {
+  background-color: var(--color-primary-200);
+}
+
+.secondary {
+  background-color: var(--color-surface-100);
+  border-color: var(--color-border-100);
+}
+
+.secondary:hover {
+  background-color: var(--color-surface-200);
+}
