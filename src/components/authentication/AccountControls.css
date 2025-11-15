@@ -1,22 +1,4 @@
-.SignInButton {
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2px;
-  border-radius: 6px;
-  padding: 8px 12px;
-  user-select: none;
-  line-height: 1;
-  background-color: var(--color-surface-100);
-  border: 1px solid var(--color-border-100);
-}
-
-.SignInButton:hover {
-  background-color: var(--color-surface-200);
-}
-
+/* Clase de clerk para el botón de perfil */
 .cl-userButtonBox {
   color: var(--color-content-300);
   border-radius: 8px;
@@ -26,6 +8,7 @@
   background-color: var(--color-surface-200);
 }
 
+/* Clase de clerk para el avatar */
 .cl-userButtonAvatarBox {
   width: 36px;
   height: 36px;
