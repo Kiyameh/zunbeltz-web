@@ -1,0 +1,71 @@
+---
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import ComponentTabs from "@/components/showcase/ComponentTabs";
+
+// Define las variantes de cada componente
+const buttonVariants = [
+  { classes: "button ghost", label: "Button" },
+  { classes: "button primary", label: "Button" },
+  { classes: "button secondary", label: "Button" },
+  { classes: "button ghost rounded", label: "Button" },
+  { classes: "button primary rounded", label: "Button" },
+  { classes: "button secondary rounded", label: "Button" },
+];
+
+const iconButtonVariants = [
+  { classes: "icon-button ghost" },
+  { classes: "icon-button primary" },
+  { classes: "icon-button secondary" },
+  { classes: "icon-button ghost rounded" },
+  { classes: "icon-button primary rounded" },
+  { classes: "icon-button secondary rounded" },
+];
+
+const anchorVariants = [
+  { classes: "anchor", label: "Link", href: "#" },
+  { classes: "anchor active", label: "Active Link", href: "#" },
+  { classes: "anchor external", label: "External Link", href: "#" },
+];
+---
+
+<HtmlLayout pageTitle="Zunbeltz Components">
+  <main>
+    <div class="header">
+      <h1>Zunbeltz Components</h1>
+      <p class="subtitle">
+        Explore all the components of the Zunbeltz UI library.
+      </p>
+    </div>
+
+    <ComponentTabs
+      client:load
+      buttonVariants={buttonVariants}
+      iconButtonVariants={iconButtonVariants}
+      anchorVariants={anchorVariants}
+    />
+  </main>
+
+  <style>
+    main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .header {
+      margin-bottom: 3rem;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--color-content-300);
+    }
+
+    .subtitle {
+      font-size: 1.125rem;
+      color: var(--color-content-200);
+    }
+  </style>
+</HtmlLayout>

@@ -1,0 +1,36 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-border-100);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-surface-100);
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.item:hover {
+  border-color: var(--color-primary-300);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 2rem;
+  background-color: var(--color-surface-50);
+}
+
+.classes {
+  padding: 0.75rem 1rem;
+  background-color: var(--color-surface-100);
+  border-top: 1px solid var(--color-border-100);
+}
+
+.classes code {
+  font-size: 0.875rem;
+  color: var(--color-content-200);
+  font-family: 'Courier New', monospace;
+  word-break: break-word;
+}

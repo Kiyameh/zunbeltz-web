@@ -1,6 +1,7 @@
 .anchor {
+  cursor: pointer;
   position: relative;
-  color: var(--secondary-300);
+  color: var(--color-secondary-300);
 }
 
 .anchor:hover:before {
@@ -12,10 +13,10 @@
   position: absolute;
   display: block;
   width: 100%;
-  height: 2px;
+  height: 4px;
   bottom: 0;
   left: 0;
-  background-color: var(--secondary-300);
+  background-color: var(--color-secondary-300);
   transform: scaleX(0);
   transform-origin: top left;
   transition: transform 0.3s ease;
@@ -23,4 +24,8 @@
 
 .anchor.active::before {
   transform: scaleX(1);
+}
+
+.anchor.external::after {
+  content: '↗';
 }

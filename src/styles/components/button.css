@@ -20,35 +20,41 @@
   border-radius: var(--radius-md);
 }
 
-.rounded {
+.button.rounded,
+.icon-button.rounded {
   border-radius: 99px;
 }
 
-.ghost {
+.button.ghost,
+.icon-button.ghost {
   background-color: transparent;
 }
 
 
-.ghost:hover {
+.button.ghost:hover,
+.icon-button.ghost:hover {
   background-color: var(--color-surface-200);
   border-color: var(--color-border-100);
 }
 
-
-.primary {
+.button.primary,
+.icon-button.primary {
   background-color: var(--color-primary-100);
   border-color: var(--color-border-100);
 }
 
-.primary:hover {
+.button.primary:hover,
+.icon-button.primary:hover {
   background-color: var(--color-primary-200);
 }
 
-.secondary {
+.button.secondary,
+.icon-button.secondary {
   background-color: var(--color-surface-100);
   border-color: var(--color-border-100);
 }
 
-.secondary:hover {
+.button.secondary:hover,
+.icon-button.secondary:hover {
   background-color: var(--color-surface-200);
 }
