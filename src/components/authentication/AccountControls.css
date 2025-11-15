@@ -16,3 +16,17 @@
 .SignInButton:hover {
   background-color: var(--color-surface-200);
 }
+
+.cl-userButtonBox {
+  color: var(--color-content-300);
+  border-radius: 8px;
+}
+
+.cl-userButtonBox:hover {
+  background-color: var(--color-surface-200);
+}
+
+.cl-userButtonAvatarBox {
+  width: 36px;
+  height: 36px;
+}
