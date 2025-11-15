@@ -181,6 +181,7 @@ select {
   font: inherit;
   line-height: inherit;
   letter-spacing: inherit;
+  background-color: transparent;
   color: inherit;
   margin: 0;
   padding: 0;
