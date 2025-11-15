@@ -26,42 +26,7 @@
 
 /* Search */
 
-.SearchBar {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding-inline: 0.5rem;
 
-  border-radius: 6px;
-  border: 1px solid var(--color-border-100);
-
-  background-color: transparent;
-  cursor: pointer;
-  transition: background-color 150ms ease;
-
-  &:hover {
-    background-color: var(--color-surface-100);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-300);
-    outline-offset: 2px;
-  }
-}
-
-.SearchIcon {
-  width: 16px;
-  height: 16px;
-}
-
-.SearchKey {
-  color: var(--color-content-100);
-  font-size: 0.9rem;
-  line-height: 0.9rem;
-}
 
 .SearchContent {
   position: absolute;
@@ -403,6 +368,10 @@
 
   .title {
     color: var(--color-primary-300);
+  }
+
+  .external {
+    color: var(--color-secondary-300);
   }
 
   .desc {

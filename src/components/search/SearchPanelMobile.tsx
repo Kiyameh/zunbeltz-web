@@ -23,16 +23,17 @@ export const SearchPanelMobile = () => {
       <Dialog.Portal>
         <Dialog.Overlay className={s.Overlay} />
         <Dialog.Content className={s.Content}>
-          <Dialog.Title className={s.Title}>Buscar</Dialog.Title>
-          <Dialog.Description className={s.Description}>
-            Busca contenido en el sitio web
-          </Dialog.Description>
+          <div>
+            <Dialog.Title className="title-1">Buscar</Dialog.Title>
+            <Dialog.Description className="paragraph">
+              Busca contenido en el sitio web
+            </Dialog.Description>
+          </div>
 
-          <div className={s.SearchContainer}>
-            <Search className={s.SearchIcon} aria-hidden="true" />
+          <div className="input">
+            <Search className="icon" aria-hidden="true" />
             <input
               type="search"
-              className={s.SearchInput}
               placeholder="Buscar..."
               autoFocus
             />

@@ -99,7 +99,9 @@ export const Navigation = () => {
                       target="_blank"
                       className={s.GridLink}
                     >
-                      <p className={s.title}>Subterra.app</p>
+                      <p className={`${s.title} ${s.external}`}>
+                        Subterra.app↗
+                      </p>
                       <p className={s.desc}>
                         Base de datos espeleológica para grupos de exploración
                       </p>
@@ -200,12 +202,12 @@ export const Navigation = () => {
           {/* Búsqueda */}
           <NavigationMenu.Item className={s.MenuItem} value="search">
             <button
-              className={s.SearchBar}
+              className="button secondary"
               onClick={() => setSearchOpen(true)}
               aria-label="Abrir búsqueda"
             >
-              <Search aria-hidden="true" className={s.SearchIcon} />
-              <span className={s.SearchKey} >Buscar</span>
+              <Search aria-hidden="true" className="icon" />
+              <span>Buscar</span>
             </button>
           </NavigationMenu.Item>
 

@@ -1,4 +1,5 @@
 .anchor {
+  width: fit-content;
   cursor: pointer;
   position: relative;
   color: var(--color-secondary-300);
