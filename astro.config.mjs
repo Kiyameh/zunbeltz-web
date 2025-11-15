@@ -2,7 +2,7 @@
 import { defineConfig } from "astro/config";
 
 import react from "@astrojs/react";
-import node from "@astrojs/node";
+import vercel from "@astrojs/vercel";
 import clerk from "@clerk/astro";
 import { esES } from "@clerk/localizations";
 import svgr from "vite-plugin-svgr";
@@ -19,8 +19,10 @@ export default defineConfig({
     icon(),
   ],
 
-  adapter: node({
-    mode: "standalone",
+  adapter: vercel({
+    webAnalytics: {
+      enabled: true,
+    },
   }),
 
   output: "server",
