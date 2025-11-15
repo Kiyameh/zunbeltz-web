@@ -3,7 +3,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+  src: url("../../public/fonts/Outfit-VariableFont_wght.ttf");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   font-weight: 600;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Outfit-VariableFont_wght.ttf");
+  src: url("../../public/fonts/Outfit-VariableFont_wght.ttf");
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Gabarito-VariableFont_wght.ttf");
+  src: url("../../public/fonts/Gabarito-VariableFont_wght.ttf");
 }
 
 @font-face {
@@ -27,5 +27,5 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-  src: url("../fonts/Gabarito-VariableFont_wght.ttf");
+  src: url("../../public/fonts/Gabarito-VariableFont_wght.ttf");
 }

@@ -88,7 +88,7 @@ describe("Navigation", () => {
         await waitFor(() => {
           expect(screen.getByText("Ultimas exploraciones")).toBeInTheDocument();
         });
-        expect(screen.getByText("Subterra.app")).toBeInTheDocument();
+        expect(screen.getByText("Subterra.app↗")).toBeInTheDocument();
         expect(screen.getByText("Topografía")).toBeInTheDocument();
       });
 
@@ -394,7 +394,7 @@ describe("Navigation", () => {
         await waitFor(() => {
           expect(screen.getByText("Ultimas exploraciones")).toBeInTheDocument();
         });
-        expect(screen.getByText("Subterra.app")).toBeInTheDocument();
+        expect(screen.getByText("Subterra.app↗")).toBeInTheDocument();
         expect(screen.getByText("Topografía")).toBeInTheDocument();
         expect(screen.getByText("Generador de fichas")).toBeInTheDocument();
       });

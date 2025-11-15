@@ -129,7 +129,7 @@ export const NavigationMobile = () => {
                     className={s.SubmenuLink}
                     onClick={handleLinkClick}
                   >
-                    <p className={s.title}>Subterra.app</p>
+                    <p className={`${s.title} ${s.external}`}>Subterra.app↗</p>
                     <p className={s.desc}>
                       Base de datos espeleológica para grupos de exploración
                     </p>

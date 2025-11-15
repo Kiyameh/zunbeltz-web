@@ -87,7 +87,7 @@ describe("NavigationMobile", () => {
         await waitFor(() => {
           expect(screen.getByText("Ultimas exploraciones")).toBeInTheDocument();
         });
-        expect(screen.getByText("Subterra.app")).toBeInTheDocument();
+        expect(screen.getByText("Subterra.app↗")).toBeInTheDocument();
         expect(screen.getByText("Topografía")).toBeInTheDocument();
         expect(screen.getByText("Generador de fichas")).toBeInTheDocument();
       });
@@ -213,7 +213,7 @@ describe("NavigationMobile", () => {
         await user.click(exploracionTrigger);
 
         const subterraLink = await screen.findByRole("link", {
-          name: /Subterra.app/i,
+          name: /Subterra.app↗/i,
         });
         expect(subterraLink).toHaveAttribute("href", "https://subterra.app");
       });
@@ -326,7 +326,7 @@ describe("NavigationMobile", () => {
         await user.click(exploracionTrigger);
 
         const subterraLink = await screen.findByRole("link", {
-          name: /Subterra.app/i,
+          name: /Subterra.app↗/i,
         });
         expect(subterraLink).toHaveAttribute("target", "_blank");
       });
