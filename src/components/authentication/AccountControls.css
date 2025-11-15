@@ -1,0 +1,18 @@
+.SignInButton {
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  border-radius: 6px;
+  padding: 8px 12px;
+  user-select: none;
+  line-height: 1;
+  background-color: var(--color-surface-100);
+  border: 1px solid var(--color-border-100);
+}
+
+.SignInButton:hover {
+  background-color: var(--color-surface-200);
+}

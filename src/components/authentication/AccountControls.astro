@@ -5,11 +5,14 @@ import {
   UserButton,
   SignInButton,
 } from "@clerk/astro/components";
+import "./AccountControls.css";
 ---
 
 <nav>
   <SignedOut>
-    <SignInButton mode="modal" />
+    <SignInButton mode="modal" asChild>
+      <button class="SignInButton">Iniciar sesión</button>
+    </SignInButton>
   </SignedOut>
   <SignedIn>
     <UserButton />
