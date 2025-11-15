@@ -32,11 +32,7 @@ export const SearchPanelMobile = () => {
 
           <div className="input">
             <Search className="icon" aria-hidden="true" />
-            <input
-              type="search"
-              placeholder="Buscar..."
-              autoFocus
-            />
+            <input type="search" placeholder="Buscar..." autoFocus />
           </div>
 
           <div className={s.Results}>

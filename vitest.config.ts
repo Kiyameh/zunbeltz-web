@@ -1,13 +1,13 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import path from 'path';
-import tsconfigPaths from 'vite-tsconfig-paths';
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   test: {
-    environment: 'jsdom',
+    environment: "jsdom",
     globals: true,
-    setupFiles: './test.config.ts',
+    setupFiles: "./test.config.ts",
     css: {
       modules: {
         classNameStrategy: "non-scoped",
@@ -15,15 +15,15 @@ export default defineConfig({
     },
   },
   plugins: [
-    react(), 
+    react(),
     tsconfigPaths(),
     /* Mock para la importación de imagenes svg mediante vite-plugin-svgr */
     {
-      name: 'svg-mock',
+      name: "svg-mock",
       transform(code, id) {
-        if (id.endsWith('.svg?react')) {
+        if (id.endsWith(".svg?react")) {
           return {
-            code: 'export default () => null',
+            code: "export default () => null",
             map: null,
           };
         }
@@ -32,7 +32,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });

@@ -11,9 +11,13 @@ import icon from "astro-icon";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), clerk({
-    localization: esES,
-  }), icon()],
+  integrations: [
+    react(),
+    clerk({
+      localization: esES,
+    }),
+    icon(),
+  ],
 
   adapter: node({
     mode: "standalone",

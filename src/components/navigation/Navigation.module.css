@@ -26,8 +26,6 @@
 
 /* Search */
 
-
-
 .SearchContent {
   position: absolute;
   top: 0;
@@ -173,7 +171,6 @@
   text-wrap: nowrap;
   background-color: var(--color-surface-200);
 
-
   &:hover {
     background-color: var(--color-surface-100);
   }
@@ -186,7 +183,7 @@
     top: 1px;
     transition: transform 250ms ease;
 
-    [data-state="open"]>& {
+    [data-state="open"] > & {
       transform: rotate(-180deg);
     }
   }

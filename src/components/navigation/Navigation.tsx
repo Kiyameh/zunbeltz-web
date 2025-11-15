@@ -113,7 +113,8 @@ export const Navigation = () => {
                     <a href="/exploracion/topografia" className={s.GridLink}>
                       <p className={s.title}>Topografía</p>
                       <p className={s.desc}>
-                        Método, herramientas y software de topografía de cavidades
+                        Método, herramientas y software de topografía de
+                        cavidades
                       </p>
                     </a>
                   </NavigationMenu.Link>
@@ -210,7 +211,6 @@ export const Navigation = () => {
               <span>Buscar</span>
             </button>
           </NavigationMenu.Item>
-
 
           {/* Flecha decorativa */}
           <NavigationMenu.Indicator className={s.Indicator}>

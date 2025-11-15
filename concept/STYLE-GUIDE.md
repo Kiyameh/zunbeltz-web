@@ -23,18 +23,18 @@ Se utiliza una convención de nomenclatura **simplificada** inspirada en BEM, en
 El código CSS se organiza por funcionalidad para maximizar la reutilización y facilitar la búsqueda. Cada componente vive en su propio archivo.
 
 src/styles/
-├── global.css             /*Variables CSS, reset CSS y estilos base */
-├── fonts.css              /* Definición de @font-face para fuentes personalizadas */
-├── components.css         /* Importa todos los componentes */
+├── global.css /_Variables CSS, reset CSS y estilos base _/
+├── fonts.css /_ Definición de @font-face para fuentes personalizadas _/
+├── components.css /_ Importa todos los componentes _/
 │
 └── components/
-    ├── button.css         /* Define .button, .button.primary, .button.ghost, etc. */
-    ├── input.css          /* Define .input y sus estados */
-    ├── anchor.css         /* Define .anchor y variantes */
-    ├── text-items.css     /* Define .title-1, .title-2, .title-3, .paragraph */
-    └── glassmorphism.css  /* Define .glassmorph*/
+├── button.css /_ Define .button, .button.primary, .button.ghost, etc. _/
+├── input.css /_ Define .input y sus estados _/
+├── anchor.css /_ Define .anchor y variantes _/
+├── text-items.css /_ Define .title-1, .title-2, .title-3, .paragraph _/
+└── glassmorphism.css /_ Define .glassmorph_/
 
-Nota: Los componentes React usan CSS Modules (*.module.css) para estilos específicos del componente.
+Nota: Los componentes React usan CSS Modules (\*.module.css) para estilos específicos del componente.
 
 ## 2. Definición del Sistema de Variables CSS
 
@@ -71,17 +71,17 @@ Esta tabla especifica las variables de coloración para los componentes más com
 | **Contenedor** | `.card` / `.panel` | `--color-surface-200` | `--color-content-300` | `--color-border-200` | `--shadow-md` | Contenedores principales de contenido. |
 | **Estructura** | `header` / `nav` | `--color-surface-100` | `--color-content-300` | `--color-border-100` | `--shadow-md` | Elementos de la estructura persistente. |
 | **Botón** | `.button` (Defecto) | `--color-surface-200` | `--color-content-300` | `--color-border-100` | N/A | Botón base con fondo surface-200. |
-|  | `.button:hover` | `--color-surface-100` | `--color-content-300` | `--color-border-100` | N/A | El hover reduce la superficie un nivel. |
-|  | `.button.primary` | `--color-primary-300` | `white` | `--color-primary-300` | N/A | Botón de acción principal. |
-|  | `.button.secondary` | `--color-secondary-300` | `white` | `--color-secondary-300` | N/A | Botón de acción secundaria. |
-|  | `.button.ghost` | `transparent` | `--color-content-300` | `--color-border-100` | N/A | Botón de baja prioridad. |
+| | `.button:hover` | `--color-surface-100` | `--color-content-300` | `--color-border-100` | N/A | El hover reduce la superficie un nivel. |
+| | `.button.primary` | `--color-primary-300` | `white` | `--color-primary-300` | N/A | Botón de acción principal. |
+| | `.button.secondary` | `--color-secondary-300` | `white` | `--color-secondary-300` | N/A | Botón de acción secundaria. |
+| | `.button.ghost` | `transparent` | `--color-content-300` | `--color-border-100` | N/A | Botón de baja prioridad. |
 | **Icon Button** | `.icon-button` | `--color-surface-200` | `--color-content-300` | `--color-border-100` | N/A | Botón solo con icono. |
 | **Input** | `.input` (Defecto) | `--color-surface-200` | `--color-content-300` | `--color-border-200` | N/A | Input se separa del fondo con el borde. |
-|  | `.input:focus` | `--color-surface-200` | `--color-content-300` | **`--color-primary-300`** | N/A | El foco usa el color `primary`. |
+| | `.input:focus` | `--color-surface-200` | `--color-content-300` | **`--color-primary-300`** | N/A | El foco usa el color `primary`. |
 | **Anchor** | `.anchor` | N/A | `--color-primary-300` | N/A | N/A | Enlaces con color primary. |
-|  | `.anchor:hover` | N/A | `--color-primary-400` | N/A | N/A | Hover oscurece el color. |
+| | `.anchor:hover` | N/A | `--color-primary-400` | N/A | N/A | Hover oscurece el color. |
 | **Texto** | `.title-1` | N/A | `inherit` | N/A | N/A | Título grande (2rem, font-title). |
-|  | `.title-2` | N/A | `inherit` | N/A | N/A | Título mediano (1.5rem, font-title). |
-|  | `.title-3` | N/A | `inherit` | N/A | N/A | Título pequeño (1rem, font-title). |
-|  | `.paragraph` | N/A | `inherit` | N/A | N/A | Párrafo normal (1rem, font-paragraph). |
-|  | `.paragraph.big` | N/A | `inherit` | N/A | N/A | Párrafo grande (1.5rem, font-paragraph). |
+| | `.title-2` | N/A | `inherit` | N/A | N/A | Título mediano (1.5rem, font-title). |
+| | `.title-3` | N/A | `inherit` | N/A | N/A | Título pequeño (1rem, font-title). |
+| | `.paragraph` | N/A | `inherit` | N/A | N/A | Párrafo normal (1rem, font-paragraph). |
+| | `.paragraph.big` | N/A | `inherit` | N/A | N/A | Párrafo grande (1.5rem, font-paragraph). |

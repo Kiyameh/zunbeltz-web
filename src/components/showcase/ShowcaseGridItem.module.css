@@ -31,6 +31,6 @@
 .classes code {
   font-size: 0.875rem;
   color: var(--color-content-200);
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   word-break: break-word;
 }

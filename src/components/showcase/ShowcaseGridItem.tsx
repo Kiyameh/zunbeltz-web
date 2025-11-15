@@ -6,7 +6,10 @@ interface ShowcaseGridItemProps {
   children: ReactNode;
 }
 
-export default function ShowcaseGridItem({ classes, children }: ShowcaseGridItemProps) {
+export default function ShowcaseGridItem({
+  classes,
+  children,
+}: ShowcaseGridItemProps) {
   return (
     <div className={s.item}>
       <div className={s.preview}>{children}</div>

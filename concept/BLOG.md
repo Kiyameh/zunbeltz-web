@@ -146,27 +146,31 @@ src/
 ```typescript
 // src/content/config.ts
 const authors = defineCollection({
-  type: 'data',
-  schema: ({ image }) => z.object({
-    name: z.string(),
-    bio: z.string(),
-    avatar: image(),
-    email: z.string().email().optional(),
-    website: z.string().url().optional(),
-    social: z.object({
-      twitter: z.string().optional(),
-      github: z.string().optional(),
-      linkedin: z.string().optional(),
-    }).optional(),
-  }),
+  type: "data",
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      bio: z.string(),
+      avatar: image(),
+      email: z.string().email().optional(),
+      website: z.string().url().optional(),
+      social: z
+        .object({
+          twitter: z.string().optional(),
+          github: z.string().optional(),
+          linkedin: z.string().optional(),
+        })
+        .optional(),
+    }),
 });
 
 // Actualizar schema de posts
 const posts = defineCollection({
-  schema: ({ image }) => z.object({
-    // ... campos anteriores
-    author: z.string(), // Reference a authors collection
-  }),
+  schema: ({ image }) =>
+    z.object({
+      // ... campos anteriores
+      author: z.string(), // Reference a authors collection
+    }),
 });
 ```
 
@@ -174,10 +178,10 @@ const posts = defineCollection({
 
 ```typescript
 // src/components/blog/mdx/
-- Callout.tsx          // Cajas de información/advertencia
-- ImageGallery.tsx     // Galería de imágenes
-- VideoEmbed.tsx       // Embeds de video
-- Quote.tsx            // Citas destacadas
+-Callout.tsx - // Cajas de información/advertencia
+  ImageGallery.tsx - // Galería de imágenes
+  VideoEmbed.tsx - // Embeds de video
+  Quote.tsx; // Citas destacadas
 ```
 
 ### Decisiones de Diseño - Fase 3
@@ -219,7 +223,7 @@ const posts = defineCollection({
 
 ```typescript
 // astro.config.mjs - Integración de Pagefind
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
   // ... otras configuraciones
@@ -240,9 +244,9 @@ export default defineConfig({
 <article data-pagefind-body>
   <h1 data-pagefind-meta="title">{post.data.title}</h1>
   <div data-pagefind-meta="description">{post.data.description}</div>
-  <div data-pagefind-filter="category">{post.data.categories.join(', ')}</div>
+  <div data-pagefind-filter="category">{post.data.categories.join(", ")}</div>
   <div data-pagefind-filter="author">{post.data.author}</div>
-  
+
   <Content />
 </article>
 ```
@@ -255,7 +259,7 @@ import { useEffect, useRef } from 'react';
 
 export function SearchBar() {
   const searchRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     // Cargar Pagefind UI dinámicamente
     import('@pagefind/default-ui').then(({ PagefindUI }) => {
@@ -267,7 +271,7 @@ export function SearchBar() {
       });
     });
   }, []);
-  
+
   return <div ref={searchRef} />;
 }
 ```
@@ -321,7 +325,7 @@ export function SearchBar() {
 ---
 // src/components/blog/SocialMeta.astro
 const { post, url } = Astro.props;
-const ogImage = post.data.heroImage || '/default-og.png';
+const ogImage = post.data.heroImage || "/default-og.png";
 ---
 
 <meta property="og:title" content={post.data.title} />
@@ -329,7 +333,10 @@ const ogImage = post.data.heroImage || '/default-og.png';
 <meta property="og:image" content={ogImage} />
 <meta property="og:url" content={url} />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content={post.data.publishDate.toISOString()} />
+<meta
+  property="article:published_time"
+  content={post.data.publishDate.toISOString()}
+/>
 <meta property="article:author" content={post.data.author} />
 
 <meta name="twitter:card" content="summary_large_image" />
@@ -394,17 +401,17 @@ CREATE INDEX idx_subscribers_confirmed ON subscribers(confirmed);
 
 ```typescript
 // src/pages/blog/rss.xml.ts
-import rss from '@astrojs/rss';
-import { getCollection } from 'astro:content';
+import rss from "@astrojs/rss";
+import { getCollection } from "astro:content";
 
 export async function GET(context) {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
   return rss({
-    title: 'Zunbeltz Blog',
-    description: 'Blog sobre desarrollo web y tecnología',
+    title: "Zunbeltz Blog",
+    description: "Blog sobre desarrollo web y tecnología",
     site: context.site,
-    items: posts.map(post => ({
+    items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
       pubDate: post.data.publishDate,
@@ -412,7 +419,7 @@ export async function GET(context) {
       categories: post.data.categories,
       author: post.data.author,
     })),
-    customData: '<language>es-ES</language>',
+    customData: "<language>es-ES</language>",
   });
 }
 ```
@@ -484,7 +491,7 @@ CREATE TABLE comments (
   deleted BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  
+
   CONSTRAINT check_content_length CHECK (char_length(content) <= 5000)
 );
 
@@ -500,7 +507,7 @@ CREATE TABLE comment_reactions (
   user_id VARCHAR(255) NOT NULL,
   reaction_type VARCHAR(50) NOT NULL, -- 'like', 'love', etc.
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  
+
   UNIQUE(comment_id, user_id, reaction_type)
 );
 
@@ -530,14 +537,14 @@ export interface Comment {
 export function buildCommentTree(comments: Comment[]): Comment[] {
   const commentMap = new Map<string, Comment>();
   const rootComments: Comment[] = [];
-  
+
   // Primera pasada: crear mapa
-  comments.forEach(comment => {
+  comments.forEach((comment) => {
     commentMap.set(comment.id, { ...comment, replies: [] });
   });
-  
+
   // Segunda pasada: construir árbol
-  comments.forEach(comment => {
+  comments.forEach((comment) => {
     const node = commentMap.get(comment.id)!;
     if (comment.parentId) {
       const parent = commentMap.get(comment.parentId);
@@ -548,7 +555,7 @@ export function buildCommentTree(comments: Comment[]): Comment[] {
       rootComments.push(node);
     }
   });
-  
+
   return rootComments;
 }
 ```
@@ -658,11 +665,11 @@ interface CommentSectionProps {
 
 ```typescript
 // Opción 1: Drizzle ORM (Recomendado)
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { drizzle } from "drizzle-orm/postgres-js";
+import postgres from "postgres";
 
 // Opción 2: Prisma
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 ```
 
 ### Seguridad
@@ -706,15 +713,15 @@ import { PrismaClient } from '@prisma/client';
 
 ## Estimación de Tiempo por Fase
 
-| Fase | Funcionalidades | Tiempo Estimado | Complejidad |
-|------|----------------|-----------------|-------------|
-| **Fase 1** | Content Collections + Visualización | 1-2 semanas | Baja |
-| **Fase 2** | Categorías Avanzadas | 1 semana | Media |
-| **Fase 3** | Autores + MDX | 1-2 semanas | Media |
-| **Fase 4** | Sistema de Búsqueda | 1 semana | Media |
-| **Fase 5** | Compartir en RRSS | 3-5 días | Baja |
-| **Fase 6** | Suscripción + RSS | 1-2 semanas | Media-Alta |
-| **Fase 7** | Sistema de Comentarios | 2-3 semanas | Alta |
+| Fase       | Funcionalidades                     | Tiempo Estimado | Complejidad |
+| ---------- | ----------------------------------- | --------------- | ----------- |
+| **Fase 1** | Content Collections + Visualización | 1-2 semanas     | Baja        |
+| **Fase 2** | Categorías Avanzadas                | 1 semana        | Media       |
+| **Fase 3** | Autores + MDX                       | 1-2 semanas     | Media       |
+| **Fase 4** | Sistema de Búsqueda                 | 1 semana        | Media       |
+| **Fase 5** | Compartir en RRSS                   | 3-5 días        | Baja        |
+| **Fase 6** | Suscripción + RSS                   | 1-2 semanas     | Media-Alta  |
+| **Fase 7** | Sistema de Comentarios              | 2-3 semanas     | Alta        |
 
 **Total estimado**: 8-12 semanas (2-3 meses)
 

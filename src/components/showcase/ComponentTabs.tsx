@@ -49,7 +49,8 @@ export default function ComponentTabs({
         <ShowcaseGrid title="Button Variants">
           {buttonVariants.map((variant, index) => (
             <ShowcaseGridItem key={index} classes={variant.classes}>
-              <button className={variant.classes}>{variant.label}
+              <button className={variant.classes}>
+                {variant.label}
 
                 <svg
                   className="icon"
