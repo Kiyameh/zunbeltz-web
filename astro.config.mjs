@@ -9,15 +9,13 @@ import svgr from "vite-plugin-svgr";
 
 import icon from "astro-icon";
 
+import mdx from "@astrojs/mdx";
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [
-    react(),
-    clerk({
-      localization: esES,
-    }),
-    icon(),
-  ],
+  integrations: [react(), clerk({
+    localization: esES,
+  }), icon(), mdx()],
 
   adapter: vercel({
     webAnalytics: {
@@ -25,7 +23,7 @@ export default defineConfig({
     },
   }),
 
-  output: "server",
+  output: "static",
 
   vite: {
     plugins: [svgr()],
