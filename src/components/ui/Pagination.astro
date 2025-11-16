@@ -1,0 +1,150 @@
+---
+interface Props {
+  currentPage: number;
+  totalPages: number;
+  baseUrl?: string;
+}
+
+const { currentPage, totalPages, baseUrl = "/" } = Astro.props;
+
+// Generar array de números de página a mostrar
+const getPageNumbers = () => {
+  const pages: (number | string)[] = [];
+  const maxVisible = 5; // Máximo de números de página visibles
+
+  if (totalPages <= maxVisible) {
+    // Si hay pocas páginas, mostrar todas
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(i);
+    }
+  } else {
+    // Siempre mostrar primera página
+    pages.push(1);
+
+    if (currentPage > 3) {
+      pages.push("...");
+    }
+
+    // Páginas alrededor de la actual
+    const start = Math.max(2, currentPage - 1);
+    const end = Math.min(totalPages - 1, currentPage + 1);
+
+    for (let i = start; i <= end; i++) {
+      pages.push(i);
+    }
+
+    if (currentPage < totalPages - 2) {
+      pages.push("...");
+    }
+
+    // Siempre mostrar última página
+    if (totalPages > 1) {
+      pages.push(totalPages);
+    }
+  }
+
+  return pages;
+};
+
+const pageNumbers = getPageNumbers();
+
+const buildUrl = (page: number) => {
+  if (page === 1) {
+    return baseUrl;
+  }
+  return `${baseUrl}?page=${page}`;
+};
+---
+
+<nav class="pagination" aria-label="Paginación">
+  <div class="pagination-container">
+    <!-- Botón anterior -->
+    {
+      currentPage > 1 ? (
+        <a
+          href={buildUrl(currentPage - 1)}
+          class="button secondary"
+          aria-label="Página anterior"
+        >
+          ← Anterior
+        </a>
+      ) : (
+        <span class="button secondary disabled" aria-disabled="true">
+          ← Anterior
+        </span>
+      )
+    }
+
+    <!-- Números de página -->
+    <div class="pagination-numbers">
+      {
+        pageNumbers.map((page) =>
+          typeof page === "number" ? (
+            <a
+              href={buildUrl(page)}
+              class:list={[
+                "icon-button",
+                "secondary",
+                { active: page === currentPage },
+              ]}
+              aria-label={`Página ${page}`}
+              aria-current={page === currentPage ? "page" : undefined}
+            >
+              <span>{page}</span>
+            </a>
+          ) : (
+            <span class="icon-button secondary">{page}</span>
+          ),
+        )
+      }
+    </div>
+
+    <!-- Botón siguiente -->
+    {
+      currentPage < totalPages ? (
+        <a
+          href={buildUrl(currentPage + 1)}
+          class="button secondary"
+          aria-label="Página siguiente"
+        >
+          Siguiente →
+        </a>
+      ) : (
+        <span class="button secondary disabled" aria-disabled="true">
+          Siguiente →
+        </span>
+      )
+    }
+  </div>
+</nav>
+
+<style>
+  .pagination {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+  }
+
+  .pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .pagination-container {
+      gap: 0.5rem;
+    }
+
+    .pagination-button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    .pagination-number {
+      min-width: 2rem;
+      height: 2rem;
+      font-size: 0.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import { getCategoriesWithCountArray } from "@/lib/blog/categories";
+
+const categories = await getCategoriesWithCountArray();
+---
+
+<aside>
+  <header>
+    <h3 class="title-3">Categorías</h3>
+  </header>
+  <ul class="list">
+    {
+      categories.map((category) => (
+        <li>
+          <span class="count">({category.count})</span>
+          <a class="anchor" href={`/categoria/${category.name}`}>
+            {category.name}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</aside>
+
+<style>
+  .list {
+    margin-top: 1rem;
+    margin-left: 0.5rem;
+    line-height: 0.8rem;
+    max-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: right;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    color: var(--color-content-200);
+  }
+</style>

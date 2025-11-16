@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+const posts = (await getCollection("posts")).sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+---
+
+<aside>
+  <header>
+    <h3 class="title-3">Artículos recientes</h3>
+  </header>
+  <ul class="list">
+    {
+      posts.map((entry) => (
+        <li>
+          <a class="anchor" href={`/blog/${entry.id}`}>
+            {entry.data.title}
+          </a>
+          <p class="date">{entry.data.publishDate.toLocaleDateString()}</p>
+        </li>
+      ))
+    }
+  </ul>
+</aside>
+
+<style>
+  .list {
+    margin-left: 0.5rem;
+    max-width: 320px;
+  }
+  .date {
+    font-size: 0.8rem;
+    margin-left: 0.5rem;
+    color: var(--color-content-200);
+  }
+</style>

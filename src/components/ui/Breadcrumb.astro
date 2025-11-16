@@ -1,0 +1,90 @@
+---
+// Obtener la URL actual
+const currentPath = Astro.url.pathname;
+
+// Dividir la ruta en segmentos
+const segments = currentPath.split("/").filter((segment) => segment !== "");
+
+// Generar breadcrumbs
+const breadcrumbs = segments.map((segment, index) => {
+  // Construir la ruta acumulada hasta este segmento
+  const path = "/" + segments.slice(0, index + 1).join("/");
+
+  // Formatear el nombre del segmento (capitalizar y reemplazar guiones)
+  const label = segment
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+
+  return {
+    label,
+    path,
+    isLast: index === segments.length - 1,
+  };
+});
+
+// Agregar "Inicio" al principio
+const allBreadcrumbs = [
+  { label: "Inicio", path: "/", isLast: false },
+  ...breadcrumbs,
+];
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    {
+      allBreadcrumbs.map((crumb, index) => (
+        <li class="breadcrumb-item">
+          {crumb.isLast ? (
+            <span class="breadcrumb-current" aria-current="page">
+              {crumb.label}
+            </span>
+          ) : (
+            <>
+              <a href={crumb.path} class="anchor">
+                {crumb.label}
+              </a>
+              {index < allBreadcrumbs.length - 1 && (
+                <span class="breadcrumb-separator" aria-hidden="true">
+                  /
+                </span>
+              )}
+            </>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<style>
+  .breadcrumb {
+    font-size: 1.1rem;
+  }
+
+  .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .breadcrumb-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-content-100);
+    user-select: none;
+  }
+
+  .breadcrumb-current {
+    color: var(--color-content-300);
+    font-weight: 500;
+  }
+</style>

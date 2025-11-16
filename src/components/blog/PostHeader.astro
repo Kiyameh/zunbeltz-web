@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+
+// Formatear fecha
+const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+---
+
+<header class="post-header">
+  <h1 class="title-1">{post.data.title}</h1>
+  <p class="paragraph">{post.data.description}</p>
+  <div class="post-meta">
+    <time datetime={post.data.publishDate.toISOString()}>
+      {formattedDate}
+    </time>
+    <div class="post-categories">
+      {
+        post.data.categories.map((category) => (
+          <span class="chip secondary">{category}</span>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<style>
+  .post-header {
+    border-bottom: 1px solid var(--color-border-200);
+    padding-bottom: 1rem;
+  }
+
+  .post-header .title-1 {
+    margin-bottom: 1rem;
+  }
+
+  .post-header .paragraph {
+    margin-bottom: 1rem;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .post-meta time {
+    color: var(--color-content-100);
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+  }
+
+  .post-categories {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+</style>

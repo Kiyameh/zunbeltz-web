@@ -1,35 +1,108 @@
 ---
+import { getCollection } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import PostCard from "@/components/blog/PostCard.astro";
 import HeaderLayout from "@/layouts/HeaderLayout.astro";
-import FooterLayout from "@/layouts/FooterLayout.astro";
+import RecentPosts from "@/components/blog/RecentPosts.astro";
+import BlogCategories from "@/components/blog/BlogCategories.astro";
+import Pagination from "@/components/ui/Pagination.astro";
+
+// Configuración de paginación
+const POSTS_PER_PAGE = 8;
+
+// Obtener página actual desde query params
+const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
+
+// Obtener todos los posts no draft, ordenados por fecha
+const allPosts = await getCollection("posts", ({ data }) => {
+  return data.draft !== true;
+});
+
+// Ordenar por fecha de publicación (más reciente primero)
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
+);
+
+// Calcular paginación
+const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const posts = sortedPosts.slice(startIndex, endIndex);
+
+// Validar página actual
+if (currentPage < 1 || currentPage > totalPages) {
+  return Astro.redirect("/");
+}
 ---
 
 <HtmlLayout
-  pageTitle="Zunbeltz | Espeleología en Navarra"
-  pageDescription="Tu portal sobre espeleología, barranquismo y escalada en Navarra. Descubre cuevas, montañas, ríos y aprende con nosotros"
-  pageTags={[
-    "espeleología",
-    "barranquismo",
-    "escalada",
-    "naturaleza",
-    "navarra",
-    "cuevas",
-    "aventura",
-  ]}
+  pageTitle="Blog - Zunbeltz.org"
+  pageDescription="Artículos sobre espeleología y deportes de montaña"
 >
   <HeaderLayout />
+
   <main>
-    <h1>La Falla</h1>
+    <div class="blog-container">
+      <header class="blog-header">
+        <h1 class="title-1">La falla de Zunbeltz</h1>
+        <p class="paragraph big">
+          Crónicas desde el subsuelo y otras zonas sin cobertura
+        </p>
+      </header>
+
+      <div class="posts-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
+    </div>
   </main>
-  <FooterLayout />
+  <div class="blog-categories">
+    <BlogCategories />
+  </div>
+  <div class="recent-posts">
+    <RecentPosts />
+  </div>
 </HtmlLayout>
 
 <style>
-  main {
-    min-height: 100vh;
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3rem 1.5rem;
+  .blog-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 0.5rem 2rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .blog-categories {
+    position: fixed;
+    top: 4rem;
+    right: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+
+  .recent-posts {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+
+  @media (max-width: 1520px) {
+    .blog-categories,
+    .recent-posts {
+      display: none;
+    }
   }
 </style>
