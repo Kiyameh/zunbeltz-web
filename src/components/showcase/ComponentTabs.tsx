@@ -152,7 +152,9 @@ export default function ComponentTabs({
               <ShowcaseGridItem key={index} classes={variant.classes}>
                 <div className={variant.classes}>
                   <h3 className="title-3">{variant.label}</h3>
-                  <p className="paragraph">This is a card component with different styles.</p>
+                  <p className="paragraph">
+                    This is a card component with different styles.
+                  </p>
                 </div>
               </ShowcaseGridItem>
             ))}
@@ -165,9 +167,7 @@ export default function ComponentTabs({
           <ShowcaseGrid title="Text Variants">
             {textVariants.map((variant, index) => (
               <ShowcaseGridItem key={index} classes={variant.classes}>
-                <div className={variant.classes}>
-                  {variant.label}
-                </div>
+                <div className={variant.classes}>{variant.label}</div>
               </ShowcaseGridItem>
             ))}
           </ShowcaseGrid>
@@ -179,7 +179,10 @@ export default function ComponentTabs({
           <ShowcaseGrid title="Glassmorphism Variants">
             {glassmorphVariants.map((variant, index) => (
               <ShowcaseGridItem key={index} classes={variant.classes}>
-                <div className={variant.classes} style={{ padding: '2rem', minHeight: '100px' }}>
+                <div
+                  className={variant.classes}
+                  style={{ padding: "2rem", minHeight: "100px" }}
+                >
                   <p className="paragraph">{variant.label}</p>
                 </div>
               </ShowcaseGridItem>

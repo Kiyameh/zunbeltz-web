@@ -31,7 +31,10 @@ export const SearchUtility = () => {
                   Busca contenido en el sitio web
                 </Dialog.Description>
               </div>
-              <Dialog.Close className="icon-button secondary" aria-label="Cerrar">
+              <Dialog.Close
+                className="icon-button secondary"
+                aria-label="Cerrar"
+              >
                 <X aria-hidden="true" className="icon" />
               </Dialog.Close>
             </header>
@@ -46,8 +49,6 @@ export const SearchUtility = () => {
                 Los resultados aparecerán aquí
               </p>
             </div>
-
-
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

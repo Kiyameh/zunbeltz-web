@@ -17,7 +17,7 @@ export const NavigationMobile = () => {
     <NavigationMenu.Root orientation="vertical">
       <NavigationMenu.List className={s.List}>
         {/* La falla */}
-        <NavigationMenu.Item  >
+        <NavigationMenu.Item>
           <NavigationMenu.Link
             className={s.Link}
             href="/"
@@ -28,7 +28,7 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Navarra */}
-        <NavigationMenu.Item  >
+        <NavigationMenu.Item>
           <NavigationMenu.Trigger className={s.Trigger}>
             Navarra
             <Caret className={s.CaretDown} aria-hidden />
@@ -99,7 +99,7 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Exploración */}
-        <NavigationMenu.Item  >
+        <NavigationMenu.Item>
           <NavigationMenu.Trigger className={s.Trigger}>
             Exploración
             <Caret className={s.CaretDown} aria-hidden />
@@ -169,7 +169,7 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Escuela */}
-        <NavigationMenu.Item  >
+        <NavigationMenu.Item>
           <NavigationMenu.Trigger className={s.Trigger}>
             Escuela
             <Caret className={s.CaretDown} aria-hidden />
@@ -252,7 +252,7 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Tienda */}
-        <NavigationMenu.Item  >
+        <NavigationMenu.Item>
           <NavigationMenu.Link
             className={s.Link}
             href="/tienda"
