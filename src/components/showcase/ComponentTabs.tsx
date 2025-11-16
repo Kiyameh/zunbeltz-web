@@ -18,10 +18,28 @@ interface AnchorVariant {
   href: string;
 }
 
+interface CardVariant {
+  classes: string;
+  label: string;
+}
+
+interface TextVariant {
+  classes: string;
+  label: string;
+}
+
+interface GlassmorphVariant {
+  classes: string;
+  label: string;
+}
+
 interface ComponentTabsProps {
   buttonVariants: ButtonVariant[];
   iconButtonVariants: IconButtonVariant[];
   anchorVariants: AnchorVariant[];
+  cardVariants?: CardVariant[];
+  textVariants?: TextVariant[];
+  glassmorphVariants?: GlassmorphVariant[];
   defaultValue?: string;
 }
 
@@ -29,6 +47,9 @@ export default function ComponentTabs({
   buttonVariants,
   iconButtonVariants,
   anchorVariants,
+  cardVariants,
+  textVariants,
+  glassmorphVariants,
   defaultValue = "buttons",
 }: ComponentTabsProps) {
   return (
@@ -43,6 +64,21 @@ export default function ComponentTabs({
         <Tabs.Trigger value="anchors" className={s.trigger}>
           Anchors
         </Tabs.Trigger>
+        {cardVariants && (
+          <Tabs.Trigger value="cards" className={s.trigger}>
+            Cards
+          </Tabs.Trigger>
+        )}
+        {textVariants && (
+          <Tabs.Trigger value="text" className={s.trigger}>
+            Text
+          </Tabs.Trigger>
+        )}
+        {glassmorphVariants && (
+          <Tabs.Trigger value="glassmorphism" className={s.trigger}>
+            Glassmorphism
+          </Tabs.Trigger>
+        )}
       </Tabs.List>
 
       <Tabs.Content value="buttons" className={s.content}>
@@ -108,6 +144,49 @@ export default function ComponentTabs({
           ))}
         </ShowcaseGrid>
       </Tabs.Content>
+
+      {cardVariants && (
+        <Tabs.Content value="cards" className={s.content}>
+          <ShowcaseGrid title="Card Variants">
+            {cardVariants.map((variant, index) => (
+              <ShowcaseGridItem key={index} classes={variant.classes}>
+                <div className={variant.classes}>
+                  <h3 className="title-3">{variant.label}</h3>
+                  <p className="paragraph">This is a card component with different styles.</p>
+                </div>
+              </ShowcaseGridItem>
+            ))}
+          </ShowcaseGrid>
+        </Tabs.Content>
+      )}
+
+      {textVariants && (
+        <Tabs.Content value="text" className={s.content}>
+          <ShowcaseGrid title="Text Variants">
+            {textVariants.map((variant, index) => (
+              <ShowcaseGridItem key={index} classes={variant.classes}>
+                <div className={variant.classes}>
+                  {variant.label}
+                </div>
+              </ShowcaseGridItem>
+            ))}
+          </ShowcaseGrid>
+        </Tabs.Content>
+      )}
+
+      {glassmorphVariants && (
+        <Tabs.Content value="glassmorphism" className={s.content}>
+          <ShowcaseGrid title="Glassmorphism Variants">
+            {glassmorphVariants.map((variant, index) => (
+              <ShowcaseGridItem key={index} classes={variant.classes}>
+                <div className={variant.classes} style={{ padding: '2rem', minHeight: '100px' }}>
+                  <p className="paragraph">{variant.label}</p>
+                </div>
+              </ShowcaseGridItem>
+            ))}
+          </ShowcaseGrid>
+        </Tabs.Content>
+      )}
     </Tabs.Root>
   );
 }

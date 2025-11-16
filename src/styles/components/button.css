@@ -57,6 +57,7 @@
 
 .button.primary,
 .icon-button.primary {
+  color: oklch(28% 0.053 255);
   background-color: var(--color-primary-100);
   border-color: var(--color-border-100);
 }

@@ -26,6 +26,24 @@ const anchorVariants = [
   { classes: "anchor active", label: "Active Link", href: "#" },
   { classes: "anchor external", label: "External Link", href: "#" },
 ];
+
+const cardVariants = [
+  { classes: "card", label: "Basic Card" },
+  { classes: "card elevated", label: "Elevated Card" },
+  { classes: "card interactive", label: "Interactive Card" },
+];
+
+const textVariants = [
+  { classes: "title-1", label: "Title 1" },
+  { classes: "title-2", label: "Title 2" },
+  { classes: "title-3", label: "Title 3" },
+  { classes: "title-4", label: "Title 4" },
+  { classes: "paragraph", label: "Paragraph" },
+  { classes: "paragraph big", label: "Big Paragraph" },
+  { classes: "paragraph small", label: "Small Paragraph" },
+];
+
+const glassmorphVariants = [{ classes: "glassmorph", label: "Glassmorphism" }];
 ---
 
 <HtmlLayout pageTitle="Zunbeltz Components">
@@ -42,6 +60,9 @@ const anchorVariants = [
       buttonVariants={buttonVariants}
       iconButtonVariants={iconButtonVariants}
       anchorVariants={anchorVariants}
+      cardVariants={cardVariants}
+      textVariants={textVariants}
+      glassmorphVariants={glassmorphVariants}
     />
   </main>
 
