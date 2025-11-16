@@ -65,9 +65,15 @@ src/
 
 ---
 
-## FASE 1: MVP Básico - Content Collections y Visualización
+### Convenciones
+
+- Nombre de archivos de post solo slug en castellano
+
+## FASE 1: MVP Básico - Content Collections y Visualización ✅ COMPLETADA
 
 **Objetivo**: Blog funcional con posts en MDX, categorías básicas y navegación.
+
+**Estado**: ✅ **COMPLETADA** - Noviembre 2024
 
 ### Funcionalidades Fase 1
 
@@ -87,13 +93,26 @@ src/
 
 ### Entregables Fase 1
 
-- [ ] Configuración de Content Collection
-- [ ] Componente `PostCard.astro` para preview
-- [ ] Página de lista de posts con paginación
-- [ ] Página de post individual con MDX
-- [ ] Componente `PostHeader.astro` con imagen hero
-- [ ] Utilidad para extraer categorías únicas
-- [ ] Componente `CategoryTag.astro` básico
+- ✅ Configuración de Content Collection
+- ✅ Componente `PostCard.astro` para preview
+- ✅ Página de lista de posts con paginación
+- ✅ Página de post individual con MDX
+- ✅ Componente `PostHeader.astro` con imagen hero
+- ✅ Utilidad para extraer categorías únicas (`src/lib/blog/categories.ts`)
+- ✅ Componente `CategoryTag.astro` básico
+- ✅ Tests unitarios para componentes de blog
+- ✅ Componentes adicionales: `RecentPosts.astro`, `BlogCategories.astro`
+
+### Notas de Implementación
+
+- **Testing**: Se implementaron tests unitarios para todos los componentes usando Vitest, probando la lógica de negocio sin depender de AstroContainer
+- **Componentes implementados**:
+  - `PostCard.astro`: Tarjeta de preview con imagen, título, descripción, fecha y categorías
+  - `PostHeader.astro`: Cabecera de post con título, descripción, fecha y categorías
+  - `RecentPosts.astro`: Lista de posts recientes ordenados por fecha
+  - `BlogCategories.astro`: Lista de categorías con contador de posts
+  - `Breadcrumb.astro`: Navegación breadcrumb con formateo automático de segmentos
+- **Utilidades**: `src/lib/blog/categories.ts` con funciones para extraer y contar categorías
 
 ---
 
