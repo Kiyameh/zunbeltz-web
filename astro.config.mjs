@@ -13,9 +13,14 @@ import mdx from "@astrojs/mdx";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), clerk({
-    localization: esES,
-  }), icon(), mdx()],
+  integrations: [
+    react(),
+    clerk({
+      localization: esES,
+    }),
+    icon(),
+    mdx(),
+  ],
 
   adapter: vercel({
     webAnalytics: {

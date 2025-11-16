@@ -13,7 +13,7 @@
   color: var(--color-content-300);
 }
 
-.button>.icon {
+.button > .icon {
   width: 16px;
   height: 16px;
   flex-shrink: 0;
@@ -27,18 +27,17 @@
   align-items: center;
   justify-content: center;
 
-
   padding: 0.4rem;
   border: 1px solid transparent;
   border-radius: var(--radius-md);
 }
 
-.icon-button>.icon {
+.icon-button > .icon {
   width: 18px;
   height: 18px;
 }
 
-.icon-button>span {
+.icon-button > span {
   width: 18px;
   height: 18px;
   display: flex;
