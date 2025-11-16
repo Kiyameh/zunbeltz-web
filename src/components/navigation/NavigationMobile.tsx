@@ -14,12 +14,12 @@ export const NavigationMobile = () => {
   };
 
   return (
-    <NavigationMenu.Root className={s.MenuContainer} orientation="vertical">
-      <NavigationMenu.List className={s.MenuList}>
+    <NavigationMenu.Root orientation="vertical">
+      <NavigationMenu.List className={s.List}>
         {/* La falla */}
-        <NavigationMenu.Item className={s.MenuItem}>
+        <NavigationMenu.Item  >
           <NavigationMenu.Link
-            className={s.MenuLink}
+            className={s.Link}
             href="/"
             onClick={handleLinkClick}
           >
@@ -28,8 +28,8 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Navarra */}
-        <NavigationMenu.Item className={s.MenuItem}>
-          <NavigationMenu.Trigger className={s.MenuTrigger}>
+        <NavigationMenu.Item  >
+          <NavigationMenu.Trigger className={s.Trigger}>
             Navarra
             <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
@@ -99,8 +99,8 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Exploración */}
-        <NavigationMenu.Item className={s.MenuItem}>
-          <NavigationMenu.Trigger className={s.MenuTrigger}>
+        <NavigationMenu.Item  >
+          <NavigationMenu.Trigger className={s.Trigger}>
             Exploración
             <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
@@ -169,8 +169,8 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Escuela */}
-        <NavigationMenu.Item className={s.MenuItem}>
-          <NavigationMenu.Trigger className={s.MenuTrigger}>
+        <NavigationMenu.Item  >
+          <NavigationMenu.Trigger className={s.Trigger}>
             Escuela
             <Caret className={s.CaretDown} aria-hidden />
           </NavigationMenu.Trigger>
@@ -252,9 +252,9 @@ export const NavigationMobile = () => {
         </NavigationMenu.Item>
 
         {/* Tienda */}
-        <NavigationMenu.Item className={s.MenuItem}>
+        <NavigationMenu.Item  >
           <NavigationMenu.Link
-            className={s.MenuLink}
+            className={s.Link}
             href="/tienda"
             onClick={handleLinkClick}
           >

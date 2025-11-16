@@ -1,191 +1,62 @@
 /* Layout */
 .Root {
+  width: 100%;
   position: relative;
   display: flex;
+  align-items: center;
   justify-content: center;
-  width: 100%;
   z-index: 1;
 }
 
 .MenuList {
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 2px;
-  background-color: var(--color-surface-200);
+  gap: 4px;
+
   padding: 4px;
   border-radius: 8px;
-  box-shadow: var(--shadow-md);
-  text-wrap: nowrap;
-}
-
-/* Menu Items */
-
-.MenuItem {
-  width: 100%;
-}
-
-/* Search */
-
-.SearchContent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-
-  border-radius: 8px;
-  padding: 12px;
-  background-color: var(--color-surface-200);
-}
-
-.SearchContentInner {
-  width: 100%;
-  max-width: 500px;
-  margin-inline: auto;
-}
-
-.SearchInput {
-  width: 100%;
-  padding: 8px 12px;
-  border-radius: 6px;
   border: 1px solid var(--color-border-100);
-  background-color: var(--color-surface-100);
-  color: var(--color-content-200);
-
-  font-size: 0.9rem;
-  line-height: 1.2;
-
-  outline: none;
-
-  &:focus-visible {
-    border-color: var(--color-primary-300);
-    box-shadow: 0 0 0 1px var(--color-primary-300);
-  }
-}
-
-/* Viewport */
-
-.ViewportPosition {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  top: 100%;
-  left: 0;
-  perspective: 2000px;
-}
-
-.Viewport {
-  position: relative;
-  transform-origin: top center;
-  margin-top: 10px;
-  width: 100%;
-  height: var(--radix-navigation-menu-viewport-height);
-  overflow: hidden;
-
   background-color: var(--color-surface-200);
-  border-radius: 8px;
-  box-shadow: var(--shadow-lg);
-  transition:
-    width,
-    height,
-    300ms ease;
+  box-shadow: var(--shadow-md);
 
-  &[data-state="open"] {
-    animation: scaleIn 200ms ease;
-  }
-
-  &[data-state="closed"] {
-    animation: scaleOut 200ms ease;
-  }
-
-  @media only screen and (min-width: 600px) {
-    width: var(--radix-navigation-menu-viewport-width);
-  }
+  text-wrap: nowrap;
+  user-select: none;
 }
 
-/* Flecha decorativa */
+/* Link primario para menu y trigger */
 
-.Indicator {
+.Trigger,
+.Link {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  height: 10px;
-  top: 100%;
-  overflow: hidden;
-  z-index: 1;
-  transition:
-    width,
-    transform 250ms ease;
+  gap: 2px;
 
-  &[data-state="visible"] {
-    animation: fadeIn 200ms ease;
-  }
+  border-radius: 6px;
+  padding: 8px 12px;
+  line-height: 1;
 
-  &[data-state="hidden"] {
-    animation: fadeOut 200ms ease;
-  }
-
-  .Arrow {
-    position: relative;
-    top: 70%;
-    background-color: var(--color-surface-200);
-    box-shadow: var(--shadow-md);
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    border-top-left-radius: 2px;
+  &:hover {
+    background-color: var(--color-surface-100);
   }
 }
-
-/* Link primario para menu */
 
 .Link {
-  all: unset;
   cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2px;
-  border-radius: 6px;
-  padding: 8px 12px;
-  user-select: none;
-  line-height: 1;
-
-  &:hover {
-    background-color: var(--color-surface-100);
-  }
 }
 
-/* Trigger desplegable */
+.CaretDown {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  position: relative;
+  top: 1px;
 
-.Trigger {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2px;
-  border-radius: 6px;
-  padding: 8px 12px;
-  user-select: none;
-  line-height: 1;
-  text-wrap: nowrap;
-  background-color: var(--color-surface-200);
+  transition: transform 250ms ease;
 
-  &:hover {
-    background-color: var(--color-surface-100);
-  }
-
-  .CaretDown {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
-    position: relative;
-    top: 1px;
-    transition: transform 250ms ease;
-
-    [data-state="open"] > & {
-      transform: rotate(-180deg);
-    }
+  [data-state="open"]>& {
+    transform: rotate(-180deg);
   }
 }
 
@@ -197,12 +68,12 @@
   left: 0;
   width: 100%;
 
-  animation-duration: 250ms;
-  animation-timing-function: ease;
-
   border-radius: 8px;
   padding: 12px;
   background-color: var(--color-surface-200);
+
+  animation-duration: 250ms;
+  animation-timing-function: ease;
 
   &[data-motion="from-start"] {
     animation-name: enterFromLeft;
@@ -250,26 +121,16 @@
 
 /* Callout Navarra */
 .Navarra {
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   position: relative;
   overflow: hidden;
 
   background: linear-gradient(225deg, transparent, rgb(150, 0, 0));
   border-radius: 6px;
   padding: 24px;
-
-  font-size: 2.2rem;
-  font-family: var(--font-title);
-  color: var(--color-content-300);
-  text-align: right;
-
-  text-decoration: none;
-  outline: none;
-  user-select: none;
 
   img {
     position: absolute;
@@ -279,7 +140,12 @@
   }
 
   p {
+    font-size: 2rem;
+    font-family: var(--font-title);
+    text-align: right;
     z-index: 1;
+    color: rgb(238, 238, 238);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
   }
 }
 
@@ -288,23 +154,14 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 100%;
   height: 80px;
+
   margin-bottom: 12px;
   position: relative;
   overflow: hidden;
 
   border-radius: 6px;
   padding: 24px;
-
-  font-size: 1.8rem;
-  font-family: var(--font-title);
-  color: var(--color-content-300);
-  text-align: center;
-
-  text-decoration: none;
-  outline: none;
-  user-select: none;
 
   img {
     width: 100%;
@@ -317,18 +174,22 @@
     z-index: 0;
   }
 
-  .BgBlue {
-    display: none;
-  }
-
-  .BgGreen {
-    display: block;
-  }
-
   p {
+    font-size: 2rem;
+    font-family: var(--font-title);
+    text-align: center;
     z-index: 1;
-    color: var(--color-white);
+    color: rgb(238, 238, 238);
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
   }
+}
+
+.BgBlue {
+  display: none;
+}
+
+.BgGreen {
+  display: block;
 }
 
 [data-theme="dark"] {
@@ -344,14 +205,9 @@
 /* Link de caja de contenido */
 
 .GridLink {
-  width: 100%;
-  height: 100%;
-
-  text-decoration: none;
-  user-select: none;
-  outline: none;
   cursor: pointer;
 
+  height: 100%;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -375,6 +231,83 @@
 
   .desc {
     font-size: 0.8rem;
+  }
+}
+
+
+/* Viewport */
+
+.ViewportPosition {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  top: 100%;
+  left: 0;
+}
+
+.Viewport {
+  position: relative;
+  transform-origin: top center;
+  margin-top: 10px;
+  width: 100%;
+  height: var(--radix-navigation-menu-viewport-height);
+  overflow: hidden;
+
+  background-color: var(--color-surface-200);
+  border-radius: 8px;
+  border: 1px solid var(--color-border-100);
+
+  box-shadow: var(--shadow-lg);
+  transition:
+    width,
+    height,
+    300ms ease;
+
+  &[data-state="open"] {
+    animation: scaleIn 200ms ease;
+  }
+
+  &[data-state="closed"] {
+    animation: scaleOut 200ms ease;
+  }
+
+  @media only screen and (min-width: 600px) {
+    width: var(--radix-navigation-menu-viewport-width);
+  }
+}
+
+/* Flecha decorativa */
+
+.Indicator {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 10px;
+  top: 100%;
+  overflow: hidden;
+  z-index: 1;
+  transition:
+    width,
+    transform 250ms ease;
+
+  &[data-state="visible"] {
+    animation: fadeIn 200ms ease;
+  }
+
+  &[data-state="hidden"] {
+    animation: fadeOut 200ms ease;
+  }
+
+  .Arrow {
+    position: relative;
+    top: 70%;
+    background-color: var(--color-border-100);
+    box-shadow: var(--shadow-md);
+    width: 10px;
+    height: 10px;
+    transform: rotate(45deg);
+    border-top-left-radius: 2px;
   }
 }
 

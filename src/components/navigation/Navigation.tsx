@@ -15,14 +15,14 @@ export const Navigation = () => {
       <NavigationMenu.Root className={s.Root}>
         <NavigationMenu.List className={s.MenuList}>
           {/* La falla */}
-          <NavigationMenu.Item className={s.MenuItem} value="home">
+          <NavigationMenu.Item value="home">
             <NavigationMenu.Link className={s.Link} href="/">
               La falla
             </NavigationMenu.Link>
           </NavigationMenu.Item>
 
           {/* Navarra */}
-          <NavigationMenu.Item className={s.MenuItem} value="navarra">
+          <NavigationMenu.Item value="navarra">
             <NavigationMenu.Trigger className={s.Trigger}>
               Navarra <Caret className={s.CaretDown} aria-hidden />
             </NavigationMenu.Trigger>
@@ -76,7 +76,7 @@ export const Navigation = () => {
           </NavigationMenu.Item>
 
           {/* Exploración */}
-          <NavigationMenu.Item className={s.MenuItem} value="exploracion">
+          <NavigationMenu.Item value="exploracion">
             <NavigationMenu.Trigger className={s.Trigger}>
               Exploración <Caret className={s.CaretDown} aria-hidden />
             </NavigationMenu.Trigger>
@@ -134,7 +134,7 @@ export const Navigation = () => {
           </NavigationMenu.Item>
 
           {/* Escuela */}
-          <NavigationMenu.Item className={s.MenuItem} value="escuela">
+          <NavigationMenu.Item value="escuela">
             <NavigationMenu.Trigger className={s.Trigger}>
               Escuela <Caret className={s.CaretDown} aria-hidden />
             </NavigationMenu.Trigger>
@@ -194,14 +194,14 @@ export const Navigation = () => {
           </NavigationMenu.Item>
 
           {/* Tienda */}
-          <NavigationMenu.Item className={s.MenuItem} value="tienda">
+          <NavigationMenu.Item value="tienda">
             <NavigationMenu.Link className={s.Link} href="/tienda">
               Tienda
             </NavigationMenu.Link>
           </NavigationMenu.Item>
 
           {/* Búsqueda */}
-          <NavigationMenu.Item className={s.MenuItem} value="search">
+          <NavigationMenu.Item value="search">
             <button
               className="button secondary"
               onClick={() => setSearchOpen(true)}

@@ -16,7 +16,7 @@
 }
 
 .input:focus-within {
-  outline: 2px solid var(--color-primary-300);
+  outline: 2px solid var(--color-secondary-300);
 }
 
 .input input {

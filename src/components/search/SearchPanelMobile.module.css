@@ -26,10 +26,6 @@
   gap: 1rem;
 
   animation: slideInFromRight 300ms ease;
-
-  &:focus {
-    outline: none;
-  }
 }
 
 /* Results */
@@ -74,10 +70,6 @@
     background-color: var(--color-surface-300);
   }
 
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-300);
-    outline-offset: 2px;
-  }
 }
 
 /* Animations */
