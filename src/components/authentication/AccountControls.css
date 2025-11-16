@@ -1,4 +1,14 @@
-/* Clase de clerk para el botón de perfil */
+.account-container {
+
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+/* Clase de clerk para el botón de 
+perfil */
 .cl-userButtonBox {
   color: var(--color-content-300);
   border-radius: 8px;

@@ -1,285 +1,34 @@
 ---
-import ThemeSwitcher from "@/components/theme/ThemeSwitcher.astro";
-import { Navigation } from "@/components/navigation/Navigation";
-import { NavigationMobile } from "@/components/navigation/NavigationMobile";
-import { SearchPanelMobile } from "@/components/search/SearchPanelMobile";
-import AccountControls from "@/components/authentication/AccountControls.astro";
-import Search from "@/icons/search.svg";
+import DesktopHeader from "@/components/header/DesktopHeader.astro";
+import MobileHeader from "@/components/header/MobileHeader.astro";
 ---
 
-<header>
-  <div class="logo">Zunbeltz</div>
+<div class="desktop-header">
+  <DesktopHeader />
+</div>
 
-  <div class="desktop-nav">
-    <Navigation client:load />
-  </div>
-
-  <div class="desktop-controls">
-    <AccountControls />
-    <ThemeSwitcher />
-  </div>
-  <div class="mobile-container">
-    <button
-      id="mobile-menu-toggle"
-      class="burger-button"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-    >
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
-      <span class="burger-line"></span>
-    </button>
-
-    <div id="mobile-menu-overlay" class="menu-overlay">
-      <div class="menu-container">
-        <NavigationMobile client:load />
-
-        {/* Tools Slot - Parte inferior del panel */}
-        <div class="tools-slot">
-          <button
-            id="mobile-search-button"
-            class="button secondary"
-            aria-label="Abrir búsqueda"
-          >
-            <Search />
-            <span>Buscar</span>
-          </button>
-          <div class="mobile-controls">
-            <AccountControls />
-            <ThemeSwitcher />
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Search Panel */}
-    <SearchPanelMobile client:load />
-  </div>
-</header>
-
-<script>
-  const toggleButton = document.getElementById("mobile-menu-toggle");
-  const menuOverlay = document.getElementById("mobile-menu-overlay");
-  const searchButton = document.getElementById("mobile-search-button");
-
-  const closeMenu = () => {
-    menuOverlay?.classList.remove("menu-overlay-open");
-    toggleButton?.classList.remove("burger-open");
-    toggleButton?.setAttribute("aria-expanded", "false");
-  };
-
-  const openMenu = () => {
-    menuOverlay?.classList.add("menu-overlay-open");
-    toggleButton?.classList.add("burger-open");
-    toggleButton?.setAttribute("aria-expanded", "true");
-  };
-
-  const toggleMenu = () => {
-    if (menuOverlay?.classList.contains("menu-overlay-open")) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
-  };
-
-  toggleButton?.addEventListener("click", toggleMenu);
-
-  // Cerrar menú al hacer clic en cualquier enlace
-  menuOverlay?.addEventListener("click", (e) => {
-    const target = e.target as HTMLElement;
-    if (target.tagName === "A" || target.closest("a")) {
-      closeMenu();
-    }
-  });
-
-  // Exponer closeMenu globalmente para que NavigationMobile pueda usarlo
-  (window as any).closeMobileMenu = closeMenu;
-
-  // Manejar click en botón de búsqueda
-  searchButton?.addEventListener("click", () => {
-    closeMenu();
-    // Disparar evento personalizado para abrir el panel de búsqueda
-    window.dispatchEvent(new CustomEvent("open-mobile-search"));
-  });
-</script>
+<div class="mobile-header">
+  <MobileHeader />
+</div>
 
 <style>
-  /* Header */
-  header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 1.5rem;
-    background-color: var(--color-surface-100);
-  }
-
-  .logo {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-  }
-
-  /* Desktop Navigation */
-  .desktop-nav {
+  .desktop-header {
     display: none;
-    flex: 1;
   }
 
   @media (min-width: 768px) {
-    .desktop-nav {
+    .desktop-header {
       display: block;
     }
   }
 
-  /* Desktop Controls */
-  .desktop-controls {
-    display: none;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  @media (min-width: 768px) {
-    .desktop-controls {
-      display: flex;
-    }
-  }
-
-  /* Mobile Container */
-  .mobile-container {
+  .mobile-header {
     display: block;
   }
 
   @media (min-width: 768px) {
-    .mobile-container {
+    .mobile-header {
       display: none;
     }
-  }
-
-  /* Mobile Controls */
-  .mobile-controls {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-  }
-
-  /* Burger Button */
-  .burger-button {
-    all: unset;
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-    cursor: pointer;
-
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 8px;
-
-    background-color: var(--color-surface-200);
-    border-radius: 8px;
-    box-shadow: var(--shadow-md);
-
-    transition: background-color 0.3s ease;
-  }
-
-  .burger-button:hover {
-    background-color: var(--color-surface-100);
-  }
-
-  .burger-line {
-    width: 18px;
-    height: 3px;
-    background-color: var(--color-content-200);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-  }
-
-  /* Burger Animation */
-  .burger-open .burger-line:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-
-  .burger-open .burger-line:nth-child(2) {
-    opacity: 0;
-  }
-
-  .burger-open .burger-line:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  /* Full Screen Menu Overlay */
-  .menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    height: 100dvh;
-
-    background-color: var(--color-surface-300);
-
-    transform: translateX(-100%);
-    transition: transform 0.4s ease;
-
-    z-index: 1000;
-    overflow-y: auto;
-  }
-
-  .menu-overlay-open {
-    transform: translateX(0);
-  }
-
-  /* Menu Container */
-  .menu-container {
-    width: 100%;
-    min-height: 100%;
-    padding: 80px 20px 40px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  /* Tools Slot */
-  .tools-slot {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 24px;
-    margin-top: 24px;
-    border-top: 1px solid var(--color-surface-100);
-  }
-
-  /* Search Button */
-  .search-button {
-    cursor: pointer;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 0.5rem;
-
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: var(--color-content-300);
-
-    background-color: var(--color-surface-200);
-    border: none;
-    border-radius: 8px;
-
-    transition: background-color 0.2s ease;
-  }
-
-  .search-button:hover {
-    background-color: var(--color-primary-400);
-  }
-
-  .search-icon {
-    width: 20px;
-    height: 20px;
   }
 </style>

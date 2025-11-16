@@ -4,12 +4,9 @@ import Caret from "@/icons/caret-down.svg?react";
 import Navarra from "./assets/navarra.png";
 import BgBlue from "./assets/grid-bg-blue.svg";
 import BgGreen from "./assets/grid-bg-green.svg";
-import Search from "@/icons/search.svg?react";
-import { SearchPanel } from "@/components/search/SearchPanel";
-import { useState } from "react";
+import { SearchUtility } from "@/components/search/SearchUtility";
 
 export const Navigation = () => {
-  const [searchOpen, setSearchOpen] = useState(false);
   return (
     <>
       <NavigationMenu.Root className={s.Root}>
@@ -202,14 +199,7 @@ export const Navigation = () => {
 
           {/* Búsqueda */}
           <NavigationMenu.Item value="search">
-            <button
-              className="button secondary"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Abrir búsqueda"
-            >
-              <Search aria-hidden="true" className="icon" />
-              <span>Buscar</span>
-            </button>
+            <SearchUtility />
           </NavigationMenu.Item>
 
           {/* Flecha decorativa */}
@@ -222,9 +212,6 @@ export const Navigation = () => {
           <NavigationMenu.Viewport className={s.Viewport} />
         </div>
       </NavigationMenu.Root>
-
-      {/* Search Dialog */}
-      <SearchPanel open={searchOpen} onOpenChange={setSearchOpen} />
     </>
   );
 };
