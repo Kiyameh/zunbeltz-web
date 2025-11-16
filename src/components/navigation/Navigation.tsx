@@ -10,7 +10,7 @@ export const Navigation = () => {
   return (
     <>
       <NavigationMenu.Root className={s.Root}>
-        <NavigationMenu.List className={s.MenuList}>
+        <NavigationMenu.List className={`${s.MenuList} glassmorph`}>
           {/* La falla */}
           <NavigationMenu.Item value="home">
             <NavigationMenu.Link className={s.Link} href="/">
@@ -209,7 +209,7 @@ export const Navigation = () => {
         </NavigationMenu.List>
         {/* Viewport sobre el que se muestra el content */}
         <div className={s.ViewportPosition}>
-          <NavigationMenu.Viewport className={s.Viewport} />
+          <NavigationMenu.Viewport className={`${s.Viewport} glassmorph`} />
         </div>
       </NavigationMenu.Root>
     </>
