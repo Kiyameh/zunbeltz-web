@@ -55,3 +55,18 @@ export async function getCategoriesWithCountArray(): Promise<
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => a.name.localeCompare(b.name));
 }
+
+/**
+ * Obtiene todos los posts que pertenecen a una categoría específica
+ * @param category - Nombre de la categoría
+ * @returns Array de posts filtrados por categoría, ordenados por fecha (más reciente primero)
+ */
+export async function getPostsByCategory(category: string) {
+  const posts = await getCollection("posts", ({ data }) => {
+    return data.draft !== true && data.categories.includes(category);
+  });
+
+  return posts.sort(
+    (a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime(),
+  );
+}

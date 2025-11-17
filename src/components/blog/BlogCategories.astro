@@ -13,7 +13,7 @@ const categories = await getCategoriesWithCountArray();
       categories.map((category) => (
         <li>
           <span class="count">({category.count})</span>
-          <a class="anchor" href={`/categoria/${category.name}`}>
+          <a class="anchor" href={`/blog/categoria/${category.name}`}>
             {category.name}
           </a>
         </li>

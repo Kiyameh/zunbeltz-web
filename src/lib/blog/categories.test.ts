@@ -3,6 +3,7 @@ import {
   getAllCategories,
   getCategoriesWithCount,
   getCategoriesWithCountArray,
+  getPostsByCategory,
 } from "./categories";
 
 // Mock de getCollection
@@ -10,27 +11,35 @@ vi.mock("astro:content", () => ({
   getCollection: vi.fn(async (collection, filter) => {
     const allPosts = [
       {
+        slug: "post-1",
         data: {
           categories: ["espeleología", "técnicas"],
           draft: false,
+          publishDate: new Date("2024-01-15"),
         },
       },
       {
+        slug: "post-2",
         data: {
           categories: ["montaña", "espeleología"],
           draft: false,
+          publishDate: new Date("2024-02-20"),
         },
       },
       {
+        slug: "post-3",
         data: {
           categories: ["técnicas"],
           draft: false,
+          publishDate: new Date("2024-03-10"),
         },
       },
       {
+        slug: "post-4",
         data: {
           categories: ["draft-category"],
           draft: true,
+          publishDate: new Date("2024-04-01"),
         },
       },
     ];
@@ -129,6 +138,64 @@ describe("categories utilities", () => {
 
       const names = categories.map((c) => c.name);
       expect(names).toEqual(["espeleología", "montaña", "técnicas"]);
+    });
+  });
+
+  describe("getPostsByCategory", () => {
+    test("should return posts for a specific category", async () => {
+      const posts = await getPostsByCategory("espeleología");
+
+      expect(posts.length).toBe(2);
+      expect(posts[0].slug).toBeDefined();
+      expect(posts[0].data.categories).toContain("espeleología");
+    });
+
+    test("should exclude draft posts", async () => {
+      const posts = await getPostsByCategory("draft-category");
+
+      expect(posts.length).toBe(0);
+    });
+
+    test("should sort posts by date (most recent first)", async () => {
+      const posts = await getPostsByCategory("espeleología");
+
+      expect(posts.length).toBe(2);
+      // post-2 (2024-02-20) debe estar antes que post-1 (2024-01-15)
+      expect(posts[0].slug).toBe("post-2");
+      expect(posts[1].slug).toBe("post-1");
+    });
+
+    test("should return empty array for non-existent category", async () => {
+      const posts = await getPostsByCategory("categoria-inexistente");
+
+      expect(posts.length).toBe(0);
+      expect(Array.isArray(posts)).toBe(true);
+    });
+
+    test("should handle category with single post", async () => {
+      const posts = await getPostsByCategory("montaña");
+
+      expect(posts.length).toBe(1);
+      expect(posts[0].slug).toBe("post-2");
+      expect(posts[0].data.categories).toContain("montaña");
+    });
+
+    test("should handle posts with multiple categories correctly", async () => {
+      const postsEspeleologia = await getPostsByCategory("espeleología");
+      const postsTecnicas = await getPostsByCategory("técnicas");
+
+      // post-1 tiene ambas categorías
+      expect(postsEspeleologia.some((p) => p.slug === "post-1")).toBe(true);
+      expect(postsTecnicas.some((p) => p.slug === "post-1")).toBe(true);
+    });
+
+    test("should return posts sorted correctly for category with multiple posts", async () => {
+      const posts = await getPostsByCategory("técnicas");
+
+      expect(posts.length).toBe(2);
+      // post-3 (2024-03-10) debe estar antes que post-1 (2024-01-15)
+      expect(posts[0].slug).toBe("post-3");
+      expect(posts[1].slug).toBe("post-1");
     });
   });
 });
