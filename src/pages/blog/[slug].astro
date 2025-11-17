@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
@@ -8,6 +8,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import RecentPosts from "@/components/blog/RecentPosts.astro";
 import PostHeader from "@/components/blog/PostHeader.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
+import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -19,6 +20,7 @@ export const getStaticPaths = (async () => {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const author = await getEntry(post.data.author);
 ---
 
 <HtmlLayout pageTitle={post.data.title} pageDescription={post.data.description}>
@@ -40,6 +42,10 @@ const { Content } = await post.render();
 
     <div class="post-content">
       <Content />
+    </div>
+
+    <div class="post-author">
+      <AuthorProfile author={author} />
     </div>
   </article>
   <div class="blog-categories">
@@ -171,5 +177,11 @@ const { Content } = await post.render();
   .post-content :global(img) {
     border-radius: var(--radius-lg);
     margin: 2rem 0;
+  }
+
+  .post-author {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--color-border-200);
   }
 </style>

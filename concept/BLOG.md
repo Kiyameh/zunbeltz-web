@@ -161,16 +161,19 @@ src/
 
 ---
 
-## FASE 3: Perfiles de Autor y MDX
+## FASE 3: Perfiles de Autor y MDX ✅ COMPLETADA
 
 **Objetivo**: Sistema de autores y componentes React en contenido.
+
+**Estado**: ✅ **COMPLETADA** - Noviembre 2024
 
 ### Funcionalidades Fase 3
 
 - ✅ Content Collection `authors`
-- ✅ Relación post-autor
+- ✅ Relación post-autor mediante references
 - ✅ Perfil de autor en cada post
 - ✅ Página de autor con sus posts
+- ✅ Página índice de autores con estadísticas
 - ✅ Integración MDX con componentes React
 - ✅ Componentes personalizados para MDX
 
@@ -190,8 +193,8 @@ const authors = defineCollection({
       social: z
         .object({
           twitter: z.string().optional(),
-          github: z.string().optional(),
-          linkedin: z.string().optional(),
+          instagram: z.string().optional(),
+          facebook: z.string().optional(),
         })
         .optional(),
     }),
@@ -207,6 +210,32 @@ const posts = defineCollection({
 });
 ```
 
+### Notas de Implementación - Fase 3
+
+- **AuthorProfile Component**: Tarjeta moderna con diseño horizontal responsive
+  - Header con fondo diferenciado (`--color-surface-300`)
+  - Avatar circular de 80x80px
+  - Nombre centrado con tipografía del sistema
+  - Enlaces sociales con z-index elevado para interacción
+  - Bio en sección principal con flex-grow
+  - Efectos hover con elevación y transformación
+  - Full-card link accesible que cubre toda la tarjeta
+  
+- **Páginas implementadas**:
+  - `/blog/autor/` - Grid de autores con chips mostrando número de posts
+  - `/blog/autor/[authorId]` - Perfil completo con grid de posts del autor
+  
+- **Utilidades de autores**:
+  - Filtrado automático de posts en draft
+  - Ordenación por fecha de publicación (más recientes primero)
+  - Contadores eficientes usando Map para O(n) complexity
+  
+- **Testing**: 64 tests totales
+  - 26 tests para `AuthorProfile.test.ts` (validación de props, estructura CSS, integración)
+  - 38 tests para `authors.test.ts` (utilidades, filtrado, ordenación, integración)
+  
+- **Diseño responsive**: Grid adaptativo con breakpoints en 768px y 640px
+
 ### Componentes MDX Personalizados
 
 ```typescript
@@ -219,21 +248,31 @@ const posts = defineCollection({
 
 ### Decisiones de Diseño - Fase 3
 
-1. **Autores como colección**: Separados de posts para reutilización
-2. **Avatar obligatorio**: Cada autor debe tener imagen
-3. **Ruta de autor**: `/blog/author/[authorId]`
+1. **Autores como colección**: Separados de posts para reutilización mediante `reference()`
+2. **Avatar obligatorio**: Cada autor debe tener imagen optimizada con Astro Image
+3. **Ruta de autor**: `/blog/autor/[authorId]` (en español)
 4. **MDX Components**: Exportar desde `src/components/blog/mdx/index.ts`
-5. **Validación**: Reference checking entre posts y autores
+5. **Validación**: Reference checking automático entre posts y autores
+6. **Diseño de tarjeta**: Layout horizontal con header (avatar + nombre + redes) y bio
+7. **Semántica HTML**: Uso de `<article>`, `<header>`, `<main>` para estructura
+8. **Accesibilidad**: Full-card link con `aria-label` y `sr-only` para lectores de pantalla
+9. **Redes sociales**: Soporte para Instagram, Facebook, Twitter y website personal
+10. **Ordenación**: Autores ordenados por número de posts (descendente)
 
 ### Entregables Fase 3
 
-- [ ] Content Collection `authors`
-- [ ] Componente `AuthorProfile.astro`
-- [ ] Página `/blog/author/[authorId].astro`
-- [ ] Configuración MDX en `astro.config.mjs`
-- [ ] Componentes MDX personalizados (mínimo 5)
-- [ ] Utilidad `getAuthorPosts()`
-- [ ] Documentación de componentes MDX
+- ✅ Content Collection `authors` con schema completo
+- ✅ Componente `AuthorProfile.astro` con diseño de tarjeta moderna
+- ✅ Página `/blog/autor/[authorId].astro` con lista de posts del autor
+- ✅ Página `/blog/autor/index.astro` con grid de autores y estadísticas
+- ✅ Configuración MDX en `astro.config.mjs`
+- ✅ Componentes MDX personalizados (mínimo 5)
+- ✅ Utilidades en `src/lib/blog/authors.ts`:
+  - `getAuthorPosts()` - Posts de un autor específico
+  - `getAuthorsWithPosts()` - Autores que tienen posts publicados
+  - `getAuthorPostCounts()` - Contador de posts por autor
+- ✅ Tests unitarios completos (26 tests para AuthorProfile, 38 tests para utilidades)
+- ✅ Documentación de componentes MDX
 
 ---
 

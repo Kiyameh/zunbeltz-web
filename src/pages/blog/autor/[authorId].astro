@@ -1,0 +1,116 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import HeaderLayout from "@/layouts/HeaderLayout.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import PostCard from "@/components/blog/PostCard.astro";
+import AuthorProfile from "@/components/blog/AuthorProfile.astro";
+import FooterLayout from "@/layouts/FooterLayout.astro";
+import { getAuthorPosts } from "@/lib/blog/authors";
+
+export const getStaticPaths = (async () => {
+  const authors = await getCollection("authors");
+
+  return await Promise.all(
+    authors.map(async (author) => {
+      const posts = await getAuthorPosts(author.id);
+      return {
+        params: { authorId: author.id },
+        props: { author, posts },
+      };
+    }),
+  );
+}) satisfies GetStaticPaths;
+
+const { author, posts } = Astro.props;
+const pageTitle = `Autor: ${author.data.name}`;
+const pageDescription = author.data.bio;
+---
+
+<HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+  <HeaderLayout />
+  <main class="author-container">
+    <Breadcrumb class="author-breadcrumb" />
+
+    <AuthorProfile author={author} />
+
+    <section class="author-posts">
+      <h2 class="title-2">Posts de {author.data.name}</h2>
+      <p class="posts-count">
+        {posts.length}
+        {posts.length === 1 ? "post publicado" : "posts publicados"}
+      </p>
+
+      <div class="posts-grid">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+
+      {
+        posts.length === 0 && (
+          <div class="no-posts">
+            <p>Este autor aún no ha publicado ningún post.</p>
+          </div>
+        )
+      }
+    </section>
+  </main>
+  <FooterLayout />
+</HtmlLayout>
+
+<style>
+  .author-container {
+    min-height: 100svh;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 0.5rem 2rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .author-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .posts-count {
+    font-family: var(--font-paragraph);
+    font-size: 1rem;
+    color: var(--color-content-200);
+    margin-top: -0.5rem;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .no-posts {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--color-content-200);
+    font-family: var(--font-paragraph);
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 768px) {
+    .author-container {
+      padding: 2rem 1rem;
+      gap: 2rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .author-posts h2 {
+      font-size: 1.5rem;
+    }
+  }
+</style>

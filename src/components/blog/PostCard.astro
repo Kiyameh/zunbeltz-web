@@ -1,5 +1,6 @@
 ---
 import { Image } from "astro:assets";
+import { getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
 interface Props {
@@ -7,6 +8,9 @@ interface Props {
 }
 
 const { post } = Astro.props;
+
+// Obtener datos del autor
+const author = await getEntry(post.data.author);
 
 // Formatear fecha
 const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
@@ -45,6 +49,21 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
 
       <h2 class="post-card-title">{post.data.title}</h2>
       <p class="post-card-description">{post.data.description}</p>
+
+      {
+        author && (
+          <div class="post-card-author">
+            <Image
+              src={author.data.avatar}
+              alt={author.data.name}
+              width={32}
+              height={32}
+              quality={90}
+            />
+            <span class="author-name">{author.data.name}</span>
+          </div>
+        )
+      }
     </div>
   </a>
 </article>
@@ -124,6 +143,26 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
     font-size: 1rem;
     color: var(--color-content-300);
     line-height: 1.6;
+  }
+
+  .post-card-author {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-200);
+  }
+
+  .post-card-author img {
+    border-radius: var(--radius-full);
+    object-fit: cover;
+  }
+
+  .post-card-author .author-name {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-300);
   }
 
   @media (max-width: 640px) {
