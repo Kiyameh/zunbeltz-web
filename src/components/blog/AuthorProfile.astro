@@ -5,6 +5,7 @@ import Instagram from "@/icons/brand-instagram.svg";
 import Facebook from "@/icons/brand-facebook.svg";
 import X from "@/icons/brand-x.svg";
 import Website from "@/icons/world-www.svg";
+import MailPlus from "@/icons/mail-plus.svg";
 
 interface Props {
   author: CollectionEntry<"authors"> | null | undefined;
@@ -79,6 +80,17 @@ if (!author) return null;
               title="Website"
             >
               <Website />
+            </a>
+          )}
+          {author.data.email && (
+            <a
+              href={`mailto:${author.data.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Email"
+            >
+              <MailPlus />
             </a>
           )}
         </div>

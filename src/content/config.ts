@@ -12,9 +12,9 @@ const authors = defineCollection({
       website: z.string().url().optional(),
       social: z
         .object({
-          instagram: z.string().optional(),
-          facebook: z.string().optional(),
-          twitter: z.string().optional(),
+          instagram: z.string().url().optional(),
+          facebook: z.string().url().optional(),
+          twitter: z.string().url().optional(),
         })
         .optional(),
     }),

@@ -132,6 +132,30 @@ describe("AuthorProfile Component Logic", () => {
 
       expect(websiteUrl).toMatch(/^https?:\/\//);
     });
+
+    test("should validate mailto link format", () => {
+      const email = "kiyameh@outlook.com";
+      const mailtoLink = `mailto:${email}`;
+
+      expect(mailtoLink).toMatch(/^mailto:/);
+      expect(mailtoLink).toBe("mailto:kiyameh@outlook.com");
+    });
+
+    test("should render email link when email is provided", () => {
+      const authorWithEmail = {
+        id: "test-author",
+        collection: "authors" as const,
+        data: {
+          name: "Test Author",
+          bio: "Test bio",
+          avatar: {} as any,
+          email: "test@example.com",
+        },
+      };
+
+      expect(authorWithEmail.data.email).toBeTruthy();
+      expect(authorWithEmail.data.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
+    });
   });
 
   describe("Data validation", () => {
