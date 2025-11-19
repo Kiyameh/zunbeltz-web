@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist && robocopy dist/pagefind public/pagefind /E",
     "preview": "astro preview",
     "astro": "astro",
     "format": "prettier --write .",
@@ -37,6 +37,7 @@
     "eslint": "^9.39.1",
     "eslint-plugin-astro": "^1.5.0",
     "jsdom": "^27.2.0",
+    "pagefind": "^1.4.0",
     "prettier": "3.6.2",
     "prettier-plugin-astro": "0.14.1",
     "vite-plugin-svgr": "^4.5.0",
