@@ -74,8 +74,8 @@
   --color-content-500: oklch(74% 0.053 255);
 
   --color-border-100: oklch(42% 0.031 260);
-  --color-border-200: oklch(34% 0.029 266);
-  --color-border-300: oklch(22% 0.027 268);
+  --color-border-200: oklch(52% 0.029 266);
+  --color-border-300: oklch(62% 0.027 268);
 
   --color-primary-100: oklch(100% 0.12 219);
   --color-primary-200: oklch(90% 0.12 219);
@@ -199,4 +199,20 @@ select {
 /* Focus */
 :focus-visible {
   outline: 2px solid var(--color-secondary-300);
+}
+
+
+/* Pagefind search bar styling */
+
+:root {
+  --pagefind-ui-scale: 1;
+  --pagefind-ui-primary: var(--color-secondary-400);
+  --pagefind-ui-text: var(--color-content-300);
+  --pagefind-ui-background: var(--color-surface-100);
+  --pagefind-ui-border: var(--color-border-300);
+  --pagefind-ui-tag: var(--color-border-200);
+  --pagefind-ui-border-width: 2px;
+  --pagefind-ui-border-radius: 12px;
+  --pagefind-ui-image-border-radius: 6px;
+  --pagefind-ui-font: var(--font-paragraph);
 }

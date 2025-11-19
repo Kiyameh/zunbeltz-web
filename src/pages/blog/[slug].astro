@@ -25,39 +25,56 @@ const author = await getEntry(post.data.author);
 
 <HtmlLayout pageTitle={post.data.title} pageDescription={post.data.description}>
   <HeaderLayout />
-  <article class="post-container">
-    <Breadcrumb class="post-breadcrumb" />
 
-    <div class="post-hero-image">
-      <Image
-        src={post.data.heroImage}
-        alt={post.data.title}
-        width={1200}
-        height={400}
-        quality={80}
-      />
-    </div>
+  <!-- Main layout -->
+  <main class="main-container">
+    <Breadcrumb />
 
-    <PostHeader post={post} />
+    <!-- ! Indexado en pagefind -->
+    <article class="article" data-pagefind-body>
+      <!-- ! Metadatos para la indexación en pagefind -->
+      <div class="pagefind-metadata">
+        <span data-pagefind-filter="Tipo">Entrada de blog</span>
+        <span data-pagefind-filter="Autor">{author.data.name}</span>
+        <span data-pagefind-meta="title">{post.data.title}</span>
+        <span data-pagefind-meta="image">{post.data.heroImage.src}</span>
+        <span data-pagefind-meta="image_alt">{post.data.title}</span>
+      </div>
 
-    <div class="post-content">
-      <Content />
-    </div>
+      <div class="hero-image">
+        <Image
+          src={post.data.heroImage}
+          alt={post.data.title}
+          width={1200}
+          height={400}
+          quality={80}
+        />
+      </div>
 
-    <div class="post-author">
-      <AuthorProfile author={author} />
-    </div>
-  </article>
-  <div class="blog-categories">
+      <PostHeader post={post} data-pagefind-ignore />
+
+      <div class="post-content">
+        <Content />
+      </div>
+
+      <AuthorProfile author={author} data-pagefind-ignore />
+    </article>
+  </main>
+
+  <!-- Right layout-->
+  <div class="right-container">
     <BlogCategories />
   </div>
-  <div class="recent-posts">
+
+  <!-- Left layout -->
+  <div class="left-container">
     <RecentPosts />
   </div>
 </HtmlLayout>
 
 <style>
-  .post-container {
+  /* Layout */
+  .main-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 3rem 0.5rem 2rem 0.5rem;
@@ -66,26 +83,13 @@ const author = await getEntry(post.data.author);
     gap: 2rem;
   }
 
-  .post-hero-image {
-    width: 100%;
-    aspect-ratio: 16 / 5;
-    overflow: hidden;
-    background-color: var(--color-surface-300);
-    border-radius: var(--radius-3xl);
+  .article {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .post-hero-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .post-content {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.8;
-  }
-  .blog-categories {
+  .right-container {
     position: fixed;
     top: 4rem;
     right: 0;
@@ -94,7 +98,7 @@ const author = await getEntry(post.data.author);
     padding: 2rem;
   }
 
-  .recent-posts {
+  .left-container {
     position: fixed;
     top: 4rem;
     left: 0;
@@ -104,10 +108,41 @@ const author = await getEntry(post.data.author);
   }
 
   @media (max-width: 1520px) {
-    .blog-categories,
-    .recent-posts {
+    .right-container,
+    .left-container {
       display: none;
     }
+  }
+
+  /* Main content */
+  .pagefind-metadata {
+    display: none;
+  }
+
+  .hero-image {
+    width: 100%;
+    aspect-ratio: 16 / 5;
+    overflow: hidden;
+    background-color: var(--color-surface-300);
+    border-radius: var(--radius-3xl);
+    transition: scale 0.3s ease;
+  }
+  .hero-image:hover {
+    scale: 1.02;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .post-content {
+    font-family: var(--font-paragraph);
+    color: var(--color-content-300);
+    line-height: 1.8;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--color-border-100);
   }
 
   /* Estilos para el contenido MDX */
@@ -177,11 +212,5 @@ const author = await getEntry(post.data.author);
   .post-content :global(img) {
     border-radius: var(--radius-lg);
     margin: 2rem 0;
-  }
-
-  .post-author {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 2px solid var(--color-border-200);
   }
 </style>
