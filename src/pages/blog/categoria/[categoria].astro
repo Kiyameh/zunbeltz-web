@@ -4,7 +4,7 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
-import { getAllCategories, getPostsByCategory } from "@/lib/blog/categories";
+import { getAllCategories, getPostsByCategory } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export const getStaticPaths = (async () => {
@@ -17,7 +17,7 @@ export const getStaticPaths = (async () => {
         params: { categoria },
         props: { posts, categoria },
       };
-    }),
+    })
   );
 }) satisfies GetStaticPaths;
 

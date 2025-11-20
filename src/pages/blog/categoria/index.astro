@@ -1,7 +1,7 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
-import { getCategoriesWithCountArray } from "@/lib/blog/categories";
+import { getCategoriesWithCountArray } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 const categories = await getCategoriesWithCountArray();

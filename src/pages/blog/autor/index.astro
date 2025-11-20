@@ -2,7 +2,7 @@
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
-import { getAuthorsWithPosts, getAuthorPostCounts } from "@/lib/blog/authors";
+import { getAuthorsWithPosts, getAuthorPostCounts } from "@/utils/blog/authors";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 const authors = await getAuthorsWithPosts();

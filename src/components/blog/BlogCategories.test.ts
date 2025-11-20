@@ -2,8 +2,8 @@ import { expect, test, describe, vi } from "vitest";
 import BlogCategories from "./BlogCategories.astro";
 import { renderAstroComponent } from "@/test/astro-container";
 
-// Mock de la función de lib/blog/categories
-vi.mock("@/lib/blog/categories", () => ({
+// Mock de la función de utils/blog/categories
+vi.mock("@/utils/blog/categories", () => ({
   getCategoriesWithCountArray: vi.fn(() =>
     Promise.resolve([
       {

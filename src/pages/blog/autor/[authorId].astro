@@ -5,7 +5,7 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
-import { getAuthorPosts } from "@/lib/blog/authors";
+import { getAuthorPosts } from "@/utils/blog/authors";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export const getStaticPaths = (async () => {
@@ -18,7 +18,7 @@ export const getStaticPaths = (async () => {
         params: { authorId: author.id },
         props: { author, posts },
       };
-    }),
+    })
   );
 }) satisfies GetStaticPaths;
 

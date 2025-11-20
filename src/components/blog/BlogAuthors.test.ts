@@ -3,7 +3,7 @@ import BlogAuthors from "./BlogAuthors.astro";
 import { renderAstroComponent } from "@/test/astro-container";
 
 // Mock de las funciones de lib/blog/authors
-vi.mock("@/lib/blog/authors", () => ({
+vi.mock("@/utils/blog/authors", () => ({
   getAuthorsWithPosts: vi.fn(() =>
     Promise.resolve([
       {

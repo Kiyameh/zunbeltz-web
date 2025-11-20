@@ -98,7 +98,7 @@ src/
 - ✅ Página de lista de posts con paginación
 - ✅ Página de post individual con MDX
 - ✅ Componente `PostHeader.astro` con imagen hero
-- ✅ Utilidad para extraer categorías únicas (`src/lib/blog/categories.ts`)
+- ✅ Utilidad para extraer categorías únicas (`src/utils/blog/categories.ts`)
 - ✅ Componente `CategoryTag.astro` básico
 - ✅ Tests unitarios para componentes de blog
 - ✅ Componentes adicionales: `RecentPosts.astro`, `BlogCategories.astro`
@@ -112,7 +112,7 @@ src/
   - `RecentPosts.astro`: Lista de posts recientes ordenados por fecha
   - `BlogCategories.astro`: Lista de categorías con contador de posts
   - `Breadcrumb.astro`: Navegación breadcrumb con formateo automático de segmentos
-- **Utilidades**: `src/lib/blog/categories.ts` con funciones para extraer y contar categorías
+- **Utilidades**: `src/utils/blog/categories.ts` con funciones para extraer y contar categorías
 
 ---
 
@@ -263,7 +263,7 @@ const posts = defineCollection({
 - ✅ Página `/blog/autor/index.astro` con grid de autores y estadísticas
 - ✅ Configuración MDX en `astro.config.mjs`
 - ✅ Componentes MDX personalizados (mínimo 5)
-- ✅ Utilidades en `src/lib/blog/authors.ts`:
+- ✅ Utilidades en `src/utils/blog/authors.ts`:
   - `getAuthorPosts()` - Posts de un autor específico
   - `getAuthorsWithPosts()` - Autores que tienen posts publicados
   - `getAuthorPostCounts()` - Contador de posts por autor
@@ -373,8 +373,7 @@ export function SearchBar() {
 
 ### Funcionalidades Fase 5
 
-- ✅ Botones de compartir (Twitter, LinkedIn, Facebook, WhatsApp)
-- ✅ Copiar enlace al portapapeles
+- ✅ Botones de compartir (Twitter, Facebook, WhatsApp, Enlace directo)
 - ✅ Open Graph meta tags
 - ✅ Twitter Cards
 - ✅ Imagen social generada automáticamente
@@ -418,15 +417,15 @@ const ogImage = post.data.heroImage || "/default-og.png";
 1. **Posición**: Botones al final del post y en header
 2. **Estilo**: Usar iconos de Tabler Icons
 3. **Feedback**: Toast notification al copiar enlace
-4. **Analytics**: Tracking de compartidos (opcional)
-5. **OG Image**: Usar heroImage del post como fallback
+4. **Toast**: Usar toast de Radix-ui
+5. **Analytics**: Tracking de compartidos (opcional)
+6. **OG Image**: Usar heroImage del post como fallback
 
 ### Entregables Fase 5
 
 - [ ] Componente `ShareButtons.tsx`
 - [ ] Componente `SocialMeta.astro`
 - [ ] Utilidad `copyToClipboard()`
-- [ ] Toast notification component
 - [ ] Estilos para botones de compartir
 - [ ] Tests de generación de URLs
 
@@ -585,7 +584,7 @@ CREATE INDEX idx_reactions_comment_id ON comment_reactions(comment_id);
 ### Estructura de Comentarios Anidados
 
 ```typescript
-// src/lib/blog/comments.ts
+// src/utils/blog/comments.ts
 export interface Comment {
   id: string;
   postSlug: string;
