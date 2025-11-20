@@ -11,9 +11,9 @@ interface Props {
   author: CollectionEntry<"authors"> | null | undefined;
 }
 
-const { author = false } = Astro.props;
+const { author } = Astro.props;
 
-if (!author) return null;
+if (!author) return new Response(null, { status: 404 });
 ---
 
 <div class="wrapper">
@@ -29,6 +29,7 @@ if (!author) return null;
     <header class="header">
       <div class="avatar">
         <Image
+          class="avatar-image"
           src={author.data.avatar}
           alt={author.data.name}
           width={80}
@@ -36,10 +37,10 @@ if (!author) return null;
           quality={90}
         />
       </div>
-      <h3 class="name">{author.data.name}</h3>
+      <h3 class="author-name">{author.data.name}</h3>
       {
         author.data.social && (
-          <div class="socials">
+          <div class="social-links">
             {author.data.social.instagram && (
               <a
                 href={author.data.social.instagram}
@@ -99,7 +100,7 @@ if (!author) return null;
         )
       }
     </header>
-    <main class="content">
+    <main class="author-bio">
       <p>{author.data.bio}</p>
     </main>
   </article>
@@ -122,7 +123,9 @@ if (!author) return null;
     background-color: var(--color-surface-200);
     box-shadow: var(--shadow-md);
 
-    transition: all 0.2s ease;
+    transition:
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
     overflow: hidden;
   }
 
@@ -145,7 +148,7 @@ if (!author) return null;
     background-color: var(--color-surface-300);
   }
 
-  .content {
+  .author-bio {
     font-size: 1.1rem;
     padding: 1rem;
     width: 100%;
@@ -162,7 +165,7 @@ if (!author) return null;
       min-width: 200px;
     }
 
-    .content {
+    .author-bio {
       width: 75%;
     }
   }
@@ -179,30 +182,30 @@ if (!author) return null;
         min-width: 200px;
       }
 
-      .content {
+      .author-bio {
         width: 75%;
       }
     }
   }
 
-  .header .avatar {
+  .avatar {
     flex-shrink: 0;
   }
 
-  .header img {
+  .avatar-image {
     margin: auto;
     border-radius: var(--radius-full);
     object-fit: cover;
   }
 
-  .header h3 {
+  .author-name {
     font-family: var(--font-title);
     font-size: 1.125rem;
     text-wrap: wrap;
     text-align: center;
   }
 
-  .socials {
+  .social-links {
     display: flex;
     gap: 0.5rem;
     position: relative;

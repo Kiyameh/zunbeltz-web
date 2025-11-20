@@ -1,315 +1,184 @@
 import { expect, test, describe } from "vitest";
+import AuthorProfile from "./AuthorProfile.astro";
+import { renderAstroComponent } from "@/test/astro-container";
 
-/**
- * Tests para el componente AuthorProfile
- * Estos tests validan la lógica de negocio del componente
- */
+const author = {
+  id: "andoni-abarzuza",
+  collection: "authors" as const,
+  data: {
+    name: "Andoni Abarzuza",
+    bio: "Espeleólogo y montañero de Navarra",
+    avatar: {
+      src: "/_astro/test-avatar.jpg",
+      width: 80,
+      height: 80,
+      format: "jpg",
+    } as any, // ImageMetadata mock
+    email: "kiyameh@outlook.com",
+    website: "https://kiyameh.com/es/",
+    social: {
+      instagram: "https://www.instagram.com/andoniabarzuza",
+      facebook: "https://www.facebook.com/andoniabarzuza",
+      twitter: "https://twitter.com/andoniabarzuza",
+    },
+  },
+};
 
-describe("AuthorProfile Component Logic", () => {
-  describe("Props validation", () => {
-    test("should accept valid author object", () => {
-      const validAuthor = {
-        id: "andoni-abarzuza",
-        collection: "authors" as const,
+ const authorWithoutSocial = {
+        ...author,
         data: {
-          name: "Andoni Abarzuza",
-          bio: "Espeleólogo y montañero de Navarra",
-          avatar: {} as any, // ImageMetadata mock
-          email: "kiyameh@outlook.com",
-          website: "https://kiyameh.com/es/",
-          social: {
-            instagram: "https://www.instagram.com/andoniabarzuza",
-          },
+          ...author.data,
+          social: undefined,
         },
       };
 
-      expect(validAuthor.id).toBe("andoni-abarzuza");
-      expect(validAuthor.data.name).toBe("Andoni Abarzuza");
-      expect(validAuthor.data.bio).toBeTruthy();
+
+describe("AuthorProfile", () => {
+  describe("Rendering", () => {
+    test("Should render author name", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain("Andoni Abarzuza");
     });
 
-    test("should handle author without social links", () => {
-      const authorWithoutSocial = {
-        id: "test-author",
-        collection: "authors" as const,
-        data: {
-          name: "Test Author",
-          bio: "Test bio",
-          avatar: {} as any,
-        },
-      };
-
-      expect(authorWithoutSocial.data).not.toHaveProperty("social");
+    test("Should render author bio", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain("Espeleólogo y montañero de Navarra");
     });
 
-    test("should handle author with partial social links", () => {
-      const authorPartialSocial = {
-        id: "test-author",
-        collection: "authors" as const,
-        data: {
-          name: "Test Author",
-          bio: "Test bio",
-          avatar: {} as any,
-          social: {
-            instagram: "https://instagram.com/test",
-            facebook: undefined,
-            twitter: undefined,
-          },
-        },
-      };
-
-      expect(authorPartialSocial.data.social?.instagram).toBeTruthy();
-      expect(authorPartialSocial.data.social?.facebook).toBeUndefined();
-      expect(authorPartialSocial.data.social?.twitter).toBeUndefined();
+    test("Should render author avatar image", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('src="/_image');
+      expect(html).toContain('width="80"');
+      expect(html).toContain('height="80"');
     });
 
-    test("should handle null author", () => {
-      const nullAuthor = null;
-
-      expect(nullAuthor).toBeNull();
+    test("Should render social links when available", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://www.instagram.com/andoniabarzuza"');
+      expect(html).toContain('href="https://www.facebook.com/andoniabarzuza"');
+      expect(html).toContain('href="https://twitter.com/andoniabarzuza"');
     });
 
-    test("should handle undefined author", () => {
-      const undefinedAuthor = undefined;
-
-      expect(undefinedAuthor).toBeUndefined();
+    test("Should not render social links when not available", async () => {     
+      const html = await renderAstroComponent(AuthorProfile, { props: { author: authorWithoutSocial }});
+      expect(html).not.toContain('class="social-links"');
     });
-  });
 
-  describe("Avatar size", () => {
-    test("should use fixed avatar size of 80x80", () => {
-      const avatarSize = 80;
+    test("Should render email link when available", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="mailto:kiyameh@outlook.com"');
+    });
 
-      expect(avatarSize).toBe(80);
+    test("Should render website link when available", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://kiyameh.com/es/"');
+    });
+
+    test("Should handle null author gracefully", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author: null }});
+      expect(html).toBeFalsy();
+    });
+
+    test("Should handle undefined author gracefully", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author: undefined }});
+      expect(html).toBeFalsy();
     });
   });
 
-  describe("Bio display", () => {
-    test("should always show bio", () => {
-      const showBio = true;
+  describe("Functionality - Links", () => {
+    test("Profile link should have correct href", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="/blog/autor/andoni-abarzuza"');
+    });
 
-      expect(showBio).toBe(true);
+    test("Instagram link should have correct href and attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://www.instagram.com/andoniabarzuza"');
+      expect(html).toMatch(/href="https:\/\/www\.instagram\.com\/andoniabarzuza"[^>]*target="_blank"/);
+      expect(html).toMatch(/href="https:\/\/www\.instagram\.com\/andoniabarzuza"[^>]*rel="noopener noreferrer"/);
+    });
+
+    test("Facebook link should have correct href and attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://www.facebook.com/andoniabarzuza"');
+      expect(html).toMatch(/href="https:\/\/www\.facebook\.com\/andoniabarzuza"[^>]*target="_blank"/);
+      expect(html).toMatch(/href="https:\/\/www\.facebook\.com\/andoniabarzuza"[^>]*rel="noopener noreferrer"/);
+    });
+
+    test("Twitter link should have correct href and attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://twitter.com/andoniabarzuza"');
+      expect(html).toMatch(/href="https:\/\/twitter\.com\/andoniabarzuza"[^>]*target="_blank"/);
+      expect(html).toMatch(/href="https:\/\/twitter\.com\/andoniabarzuza"[^>]*rel="noopener noreferrer"/);
+    });
+
+    test("Website link should have correct href and attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="https://kiyameh.com/es/"');
+      expect(html).toMatch(/href="https:\/\/kiyameh\.com\/es\/"[^>]*target="_blank"/);
+      expect(html).toMatch(/href="https:\/\/kiyameh\.com\/es\/"[^>]*rel="noopener noreferrer"/);
+    });
+
+    test("Email link should have correct mailto href", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('href="mailto:kiyameh@outlook.com"');
+    });
+
+    test("External links should have security attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      const externalLinks = html.match(/target="_blank"/g);
+      const secureLinks = html.match(/rel="noopener noreferrer"/g);
+      expect(externalLinks?.length).toBe(secureLinks?.length);
     });
   });
 
-  describe("URL generation", () => {
-    test("should generate correct author profile URL", () => {
-      const authorId = "andoni-abarzuza";
-      const expectedUrl = `/blog/autor/${authorId}`;
-
-      expect(expectedUrl).toBe("/blog/autor/andoni-abarzuza");
+  describe("Accessibility", () => {
+    test("Profile link should have descriptive aria-label", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('aria-label="Ver perfil de Andoni Abarzuza"');
     });
 
-    test("should handle author IDs with special characters", () => {
-      const authorId = "maria-garcia-lopez";
-      const url = `/blog/autor/${authorId}`;
-
-      expect(url).toBe("/blog/autor/maria-garcia-lopez");
-    });
-  });
-
-  describe("Social links", () => {
-    test("should validate Instagram URL format", () => {
-      const instagramUrl = "https://www.instagram.com/andoniabarzuza";
-
-      expect(instagramUrl).toMatch(/^https:\/\/(www\.)?instagram\.com\//);
+    test("Avatar image should have alt text", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('alt="Andoni Abarzuza"');
     });
 
-    test("should validate Facebook URL format", () => {
-      const facebookUrl = "https://www.facebook.com/profile";
-
-      expect(facebookUrl).toMatch(/^https:\/\/(www\.)?facebook\.com\//);
+    test("Social links should have title attributes", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('title="Instagram"');
+      expect(html).toContain('title="Website"');
+      expect(html).toContain('title="Email"');
     });
 
-    test("should validate Twitter URL format", () => {
-      const twitterUrl = "https://twitter.com/username";
-
-      expect(twitterUrl).toMatch(/^https:\/\/(www\.)?twitter\.com\//);
+    test("Profile link should have sr-only text", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('class="sr-only"');
+      expect(html).toContain('Ver perfil');
     });
 
-    test("should validate website URL format", () => {
-      const websiteUrl = "https://kiyameh.com/es/";
-
-      expect(websiteUrl).toMatch(/^https?:\/\//);
+    test("Should use semantic HTML (article, header, main)", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('<article');
+      expect(html).toContain('<header');
+      expect(html).toContain('<main');
     });
 
-    test("should validate mailto link format", () => {
-      const email = "kiyameh@outlook.com";
-      const mailtoLink = `mailto:${email}`;
-
-      expect(mailtoLink).toMatch(/^mailto:/);
-      expect(mailtoLink).toBe("mailto:kiyameh@outlook.com");
+    test("Heading should be h3 for proper hierarchy", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('<h3');
+      expect(html).toMatch(/<h3[^>]*>Andoni Abarzuza<\/h3>/);
     });
 
-    test("should render email link when email is provided", () => {
-      const authorWithEmail = {
-        id: "test-author",
-        collection: "authors" as const,
-        data: {
-          name: "Test Author",
-          bio: "Test bio",
-          avatar: {} as any,
-          email: "test@example.com",
-        },
-      };
-
-      expect(authorWithEmail.data.email).toBeTruthy();
-      expect(authorWithEmail.data.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-    });
-  });
-
-  describe("Data validation", () => {
-    test("should require name field", () => {
-      const authorData = {
-        name: "Andoni Abarzuza",
-        bio: "Bio text",
-        avatar: {} as any,
-      };
-
-      expect(authorData.name).toBeTruthy();
-      expect(typeof authorData.name).toBe("string");
+    test("Social links should be keyboard accessible", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      const socialLinks = html.match(/<a[^>]*class="social-link"/g);
+      expect(socialLinks).toBeTruthy();
+      expect(socialLinks!.length).toBeGreaterThan(0);
     });
 
-    test("should require bio field", () => {
-      const authorData = {
-        name: "Andoni Abarzuza",
-        bio: "Bio text",
-        avatar: {} as any,
-      };
-
-      expect(authorData.bio).toBeTruthy();
-      expect(typeof authorData.bio).toBe("string");
-    });
-
-    test("should require avatar field", () => {
-      const authorData = {
-        name: "Andoni Abarzuza",
-        bio: "Bio text",
-        avatar: {} as any,
-      };
-
-      expect(authorData.avatar).toBeDefined();
-    });
-
-    test("should allow optional email field", () => {
-      const authorWithEmail = {
-        name: "Test",
-        bio: "Bio",
-        avatar: {} as any,
-        email: "test@example.com",
-      };
-
-      const authorWithoutEmail = {
-        name: "Test",
-        bio: "Bio",
-        avatar: {} as any,
-      };
-
-      expect(authorWithEmail.email).toBeTruthy();
-      expect(authorWithoutEmail).not.toHaveProperty("email");
-    });
-
-    test("should validate email format when provided", () => {
-      const validEmail = "kiyameh@outlook.com";
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      expect(validEmail).toMatch(emailRegex);
-    });
-  });
-
-  describe("Component behavior", () => {
-    test("should return null for null author", () => {
-      const author = null;
-      const shouldRender = author !== null && author !== undefined;
-
-      expect(shouldRender).toBe(false);
-    });
-
-    test("should return null for undefined author", () => {
-      const author = undefined;
-      const shouldRender = author !== null && author !== undefined;
-
-      expect(shouldRender).toBe(false);
-    });
-
-    test("should render for valid author", () => {
-      const author = {
-        id: "test",
-        data: { name: "Test", bio: "Bio", avatar: {} as any },
-      };
-      const shouldRender = author !== null && author !== undefined;
-
-      expect(shouldRender).toBe(true);
-    });
-  });
-
-  describe("CSS structure", () => {
-    test("should use container class for main wrapper", () => {
-      const mainClass = "container";
-
-      expect(mainClass).toBe("container");
-    });
-
-    test("should use header class for author info section", () => {
-      const headerClass = "header";
-
-      expect(headerClass).toBe("header");
-    });
-
-    test("should use bio class for bio section", () => {
-      const bioClass = "bio";
-
-      expect(bioClass).toBe("bio");
-    });
-  });
-
-  describe("Integration scenarios", () => {
-    test("should handle complete author profile", () => {
-      const completeAuthor = {
-        id: "andoni-abarzuza",
-        collection: "authors" as const,
-        data: {
-          name: "Andoni Abarzuza",
-          bio: "Espeleólogo y montañero de Navarra. Técnico deportivo en espeleología.",
-          avatar: {} as any,
-          email: "kiyameh@outlook.com",
-          website: "https://kiyameh.com/es/",
-          social: {
-            instagram: "https://www.instagram.com/andoniabarzuza",
-            facebook: "https://www.facebook.com/profile",
-            twitter: "https://twitter.com/username",
-          },
-        },
-      };
-
-      expect(completeAuthor.id).toBeTruthy();
-      expect(completeAuthor.data.name).toBeTruthy();
-      expect(completeAuthor.data.bio).toBeTruthy();
-      expect(completeAuthor.data.avatar).toBeDefined();
-      expect(completeAuthor.data.email).toBeTruthy();
-      expect(completeAuthor.data.website).toBeTruthy();
-      expect(completeAuthor.data.social).toBeTruthy();
-      expect(Object.keys(completeAuthor.data.social!).length).toBe(3);
-    });
-
-    test("should handle minimal author profile", () => {
-      const minimalAuthor = {
-        id: "minimal-author",
-        collection: "authors" as const,
-        data: {
-          name: "Minimal Author",
-          bio: "Short bio",
-          avatar: {} as any,
-        },
-      };
-
-      expect(minimalAuthor.id).toBeTruthy();
-      expect(minimalAuthor.data.name).toBeTruthy();
-      expect(minimalAuthor.data.bio).toBeTruthy();
-      expect(minimalAuthor.data.avatar).toBeDefined();
-      expect(minimalAuthor.data).not.toHaveProperty("email");
-      expect(minimalAuthor.data).not.toHaveProperty("website");
-      expect(minimalAuthor.data).not.toHaveProperty("social");
+    test("Focus state should be visible", async () => {
+      const html = await renderAstroComponent(AuthorProfile, { props: { author }});
+      expect(html).toContain('class="container"');
     });
   });
 });

@@ -1,78 +1,158 @@
-import { expect, test, describe } from "vitest";
+import { expect, test, describe, vi } from "vitest";
+import BlogCategories from "./BlogCategories.astro";
+import { renderAstroComponent } from "@/test/astro-container";
 
-// Extraer la lógica del componente BlogCategories para probarla de forma aislada
-const generateCategoryLink = (categoryName: string): string => {
-  return `/categoria/${categoryName}`;
-};
+// Mock de la función de lib/blog/categories
+vi.mock("@/lib/blog/categories", () => ({
+  getCategoriesWithCountArray: vi.fn(() => Promise.resolve([
+    {
+      name: "Montañismo",
+      count: 8,
+    },
+    {
+      name: "Espeleología",
+      count: 5,
+    },
+    {
+      name: "Fotografía",
+      count: 3,
+    },
+  ])),
+}));
 
-const formatCategoryCount = (count: number): string => {
-  return `(${count})`;
-};
+describe("BlogCategories", () => {
+  describe("Rendering", () => {
+    test("Should render widget title", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("Categorías");
+    });
 
-// Mock categories data
-const mockCategories = [
-  { name: "espeleología", count: 5 },
-  { name: "montaña", count: 3 },
-  { name: "técnicas", count: 2 },
-];
+    test("Should render all categories", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("Montañismo");
+      expect(html).toContain("Espeleología");
+      expect(html).toContain("Fotografía");
+    });
 
-describe("BlogCategories Logic", () => {
-  test("should generate correct category links", () => {
-    const link1 = generateCategoryLink(mockCategories[0].name);
-    const link2 = generateCategoryLink(mockCategories[1].name);
-    const link3 = generateCategoryLink(mockCategories[2].name);
+    test("Should render post counts for each category", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("(8)");
+      expect(html).toContain("(5)");
+      expect(html).toContain("(3)");
+    });
 
-    expect(link1).toBe("/categoria/espeleología");
-    expect(link2).toBe("/categoria/montaña");
-    expect(link3).toBe("/categoria/técnicas");
+    test("Should render categories list", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('class="categories-list"');
+    });
+
+    test("Should render category items", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      const categoryItems = html.match(/class="category-item"/g);
+      expect(categoryItems).toBeTruthy();
+      expect(categoryItems!.length).toBe(3);
+    });
+
+    test("Should render post count spans", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      const postCounts = html.match(/class="post-count"/g);
+      expect(postCounts).toBeTruthy();
+      expect(postCounts!.length).toBe(3);
+    });
   });
 
-  test("should format category count correctly", () => {
-    const count1 = formatCategoryCount(mockCategories[0].count);
-    const count2 = formatCategoryCount(mockCategories[1].count);
-    const count3 = formatCategoryCount(mockCategories[2].count);
+  describe("Functionality - Links", () => {
+    test("Title link should point to categories index", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('href="/blog/categoria"');
+    });
 
-    expect(count1).toBe("(5)");
-    expect(count2).toBe("(3)");
-    expect(count3).toBe("(2)");
+    test("Category links should have correct hrefs", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('href="/blog/categoria/Montañismo"');
+      expect(html).toContain('href="/blog/categoria/Espeleología"');
+      expect(html).toContain('href="/blog/categoria/Fotografía"');
+    });
+
+    test("Category links should have primary anchor class", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Montañismo"/);
+      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Espeleología"/);
+      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Fotografía"/);
+    });
+
+    test("Title link should have neutral anchor class", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/href="\/blog\/categoria"[^>]*class="anchor neutral"/);
+    });
   });
 
-  test("should handle categories with different counts", () => {
-    expect(formatCategoryCount(0)).toBe("(0)");
-    expect(formatCategoryCount(1)).toBe("(1)");
-    expect(formatCategoryCount(100)).toBe("(100)");
+  describe("Accessibility", () => {
+    test("Should use semantic HTML (aside, header, ul)", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("<aside");
+      expect(html).toContain("<header");
+      expect(html).toContain("<ul");
+    });
+
+    test("Should have proper heading hierarchy with h3", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("<h3");
+      expect(html).toMatch(/<h3[^>]*>.*Categorías.*<\/h3>/s);
+    });
+
+    test("Should use list structure for categories", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("<ul");
+      expect(html).toContain("<li");
+    });
+
+    test("Should have descriptive link text", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain("Montañismo");
+      expect(html).toContain("Espeleología");
+      expect(html).toContain("Fotografía");
+    });
+
+    test("Widget should have descriptive class name", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('class="categories-widget"');
+    });
+
+    test("Header should have descriptive class name", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('class="categories-header"');
+    });
+
+    test("Title should have descriptive class name", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toContain('class="categories-title');
+    });
   });
 
-  test("should have correct category data structure", () => {
-    expect(mockCategories).toHaveLength(3);
-    expect(mockCategories[0]).toHaveProperty("name");
-    expect(mockCategories[0]).toHaveProperty("count");
-  });
+  describe("Structure", () => {
+    test("List should be inside aside element", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/<aside[^>]*>.*<ul[^>]*class="categories-list".*<\/aside>/s);
+    });
 
-  test("should handle categories with special characters", () => {
-    const categoryWithAccent = "espeleología";
-    const link = generateCategoryLink(categoryWithAccent);
+    test("Header should be inside aside element", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/<aside[^>]*>.*<header[^>]*class="categories-header".*<\/aside>/s);
+    });
 
-    expect(link).toBe("/categoria/espeleología");
-  });
+    test("Each category item should contain name and count", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/Montañismo.*\(8\)/s);
+      expect(html).toMatch(/Espeleología.*\(5\)/s);
+      expect(html).toMatch(/Fotografía.*\(3\)/s);
+    });
 
-  test("should handle categories with spaces", () => {
-    const categoryWithSpace = "montaña alta";
-    const link = generateCategoryLink(categoryWithSpace);
-
-    expect(link).toBe("/categoria/montaña alta");
-  });
-
-  test("should preserve category order", () => {
-    expect(mockCategories[0].name).toBe("espeleología");
-    expect(mockCategories[1].name).toBe("montaña");
-    expect(mockCategories[2].name).toBe("técnicas");
-  });
-
-  test("should have valid count values", () => {
-    mockCategories.forEach((category) => {
-      expect(category.count).toBeGreaterThanOrEqual(0);
-      expect(typeof category.count).toBe("number");
+    test("Post count should be in span element", async () => {
+      const html = await renderAstroComponent(BlogCategories, {});
+      expect(html).toMatch(/<span[^>]*class="post-count"[^>]*>\(8\)<\/span>/);
+      expect(html).toMatch(/<span[^>]*class="post-count"[^>]*>\(5\)<\/span>/);
+      expect(html).toMatch(/<span[^>]*class="post-count"[^>]*>\(3\)<\/span>/);
     });
   });
 });

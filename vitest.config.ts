@@ -7,6 +7,9 @@ import { getViteConfig } from "astro/config";
 export default defineConfig(
   getViteConfig({
     test: {
+      environment: "node",
+
+      /* For React Components
       environment: "jsdom",
       globals: true,
       setupFiles: "./test.config.ts",
@@ -14,7 +17,8 @@ export default defineConfig(
         modules: {
           classNameStrategy: "non-scoped",
         },
-      },
+      }, 
+      */
     },
     plugins: [
       react(),

@@ -1,108 +1,178 @@
-import { expect, test, describe } from "vitest";
+import { expect, test, describe, vi } from "vitest";
+import PostCard from "./PostCard.astro";
+import { renderAstroComponent } from "@/test/astro-container";
 
-// Extraer la lógica del componente PostCard para probarla de forma aislada
-const formatPostDate = (date: Date): string => {
-  return date.toLocaleDateString("es-ES", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-};
+// Mock de getEntry
+vi.mock("astro:content", async () => {
+  const actual = await vi.importActual("astro:content");
+  return {
+    ...actual,
+    getEntry: vi.fn(() => Promise.resolve({
+      id: "andoni-abarzuza",
+      collection: "authors",
+      data: {
+        name: "Andoni Abarzuza",
+        bio: "Espeleólogo y montañero",
+        avatar: {
+          src: "/_astro/test-avatar.jpg",
+          width: 32,
+          height: 32,
+          format: "jpg",
+        },
+      },
+    })),
+  };
+});
 
-const generatePostLink = (slug: string): string => {
-  return `/blog/${slug}`;
-};
-
-// Mock post data
 const mockPost = {
-  id: "test-post/index.mdx",
+  id: "test-post",
   slug: "test-post",
-  body: "",
   collection: "posts" as const,
   data: {
     title: "Test Post Title",
     description: "This is a test post description",
-    publishDate: new Date("2024-11-16"),
+    publishDate: new Date("2024-01-15"),
     heroImage: {
-      src: "/_astro/hero.hash.jpg",
+      src: "/_astro/test-hero.jpg",
       width: 800,
       height: 250,
-      format: "jpg" as const,
+      format: "jpg",
+    } as any,
+    categories: ["Montañismo", "Fotografía"],
+    author: {
+      id: "andoni-abarzuza",
+      collection: "authors" as const,
     },
-    categories: ["test", "vitest"],
-    draft: false,
   },
 };
 
-describe("PostCard Logic", () => {
-  test("should format date correctly in Spanish", () => {
-    const formattedDate = formatPostDate(mockPost.data.publishDate);
+describe("PostCard", () => {
+  describe("Rendering", () => {
+    test("Should render post title", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("Test Post Title");
+    });
 
-    expect(formattedDate).toBe("16 de noviembre de 2024");
+    test("Should render post description", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("This is a test post description");
+    });
+
+    test("Should render formatted date", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("15 de enero de 2024");
+    });
+
+    test("Should render categories", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("Montañismo");
+      expect(html).toContain("Fotografía");
+    });
+
+    test("Should render author name", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("Andoni Abarzuza");
+    });
+
+    test("Should render hero image", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('class="post-card-hero-image"');
+    });
+
+    test("Should render author avatar", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('class="post-card-author-avatar"');
+    });
+
+    test("Should render all main sections", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('class="post-card-image"');
+      expect(html).toContain('class="post-card-content"');
+      expect(html).toContain('class="post-card-meta"');
+      expect(html).toContain('class="post-card-author"');
+    });
   });
 
-  test("should format different dates correctly", () => {
-    const date1 = new Date("2023-01-01");
-    const date2 = new Date("2024-12-25");
+  describe("Functionality - Links", () => {
+    test("Should have link to post", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('href="/blog/test-post"');
+    });
 
-    expect(formatPostDate(date1)).toBe("1 de enero de 2023");
-    expect(formatPostDate(date2)).toBe("25 de diciembre de 2024");
+    test("Should wrap entire card in link", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toMatch(/<article[^>]*>.*<a[^>]*href="\/blog\/test-post".*<\/a>.*<\/article>/s);
+    });
   });
 
-  test("should generate correct post link from slug", () => {
-    const link = generatePostLink(mockPost.slug);
+  describe("Accessibility", () => {
+    test("Should use semantic article element", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("<article");
+    });
 
-    expect(link).toBe("/blog/test-post");
+    test("Should use h2 for title", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("<h2");
+      expect(html).toMatch(/<h2[^>]*>Test Post Title<\/h2>/);
+    });
+
+    test("Should have time element with datetime", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain("<time");
+      expect(html).toContain('datetime="2024-01-15');
+    });
+
+    test("Hero image should have alt text", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('alt="Test Post Title"');
+    });
+
+    test("Author avatar should have alt text", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('alt="Andoni Abarzuza"');
+    });
+
+    test("Should have descriptive class names", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toContain('class="post-card"');
+      expect(html).toContain('class="post-card-title"');
+      expect(html).toContain('class="post-card-description"');
+      expect(html).toContain('class="post-card-author-name"');
+    });
   });
 
-  test("should generate correct link for different slugs", () => {
-    expect(generatePostLink("my-awesome-post")).toBe("/blog/my-awesome-post");
-    expect(generatePostLink("another-post")).toBe("/blog/another-post");
-  });
+  describe("Structure", () => {
+    test("Should have correct card structure", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toMatch(/<article[^>]*class="post-card"[^>]*>.*<\/article>/s);
+    });
 
-  test("should have correct post data structure", () => {
-    expect(mockPost.data.title).toBe("Test Post Title");
-    expect(mockPost.data.description).toBe("This is a test post description");
-    expect(mockPost.data.categories).toEqual(["test", "vitest"]);
-    expect(mockPost.data.draft).toBe(false);
-  });
+    test("Image should be before content", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      const imageIndex = html.indexOf('class="post-card-image"');
+      const contentIndex = html.indexOf('class="post-card-content"');
+      expect(imageIndex).toBeLessThan(contentIndex);
+    });
 
-  test("should have valid hero image data", () => {
-    expect(mockPost.data.heroImage.src).toBeTruthy();
-    expect(mockPost.data.heroImage.width).toBe(800);
-    expect(mockPost.data.heroImage.height).toBe(250);
-  });
+    test("Meta should be before title", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      const metaIndex = html.indexOf('class="post-card-meta"');
+      const titleIndex = html.indexOf('class="post-card-title"');
+      expect(metaIndex).toBeLessThan(titleIndex);
+    });
 
-  test("should have ISO date string for datetime attribute", () => {
-    const isoString = mockPost.data.publishDate.toISOString();
+    test("Author section should be last", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      const authorIndex = html.indexOf('class="post-card-author"');
+      const descriptionIndex = html.indexOf('class="post-card-description"');
+      expect(authorIndex).toBeGreaterThan(descriptionIndex);
+    });
 
-    expect(isoString).toContain("2024-11-16");
-    expect(isoString).toMatch(/^\d{4}-\d{2}-\d{2}T/);
-  });
-
-  test("should handle multiple categories", () => {
-    const postWithManyCategories = {
-      ...mockPost,
-      data: {
-        ...mockPost.data,
-        categories: ["javascript", "typescript", "testing", "vitest"],
-      },
-    };
-
-    expect(postWithManyCategories.data.categories).toHaveLength(4);
-    expect(postWithManyCategories.data.categories).toContain("javascript");
-    expect(postWithManyCategories.data.categories).toContain("vitest");
-  });
-
-  test("should handle empty categories array", () => {
-    const postWithNoCategories = {
-      ...mockPost,
-      data: {
-        ...mockPost.data,
-        categories: [],
-      },
-    };
-
-    expect(postWithNoCategories.data.categories).toHaveLength(0);
+    test("Categories should be in chip elements", async () => {
+      const html = await renderAstroComponent(PostCard, { props: { post: mockPost }});
+      expect(html).toMatch(/<span[^>]*class="chip secondary"[^>]*>Montañismo<\/span>/);
+      expect(html).toMatch(/<span[^>]*class="chip secondary"[^>]*>Fotografía<\/span>/);
+    });
   });
 });

@@ -10,43 +10,43 @@ const authorsWithCount = authors.map((author) => {
 });
 ---
 
-<aside>
-  <header>
-    <h3 class="title-3">
+<aside class="authors-widget">
+  <header class="authors-header">
+    <h3 class="authors-title title-3">
       <a href="/blog/autor" class="anchor neutral">Autores</a>
     </h3>
   </header>
+  <ul class="authors-list">
+    {
+      authorsWithCount.map((author) => (
+        <li class="author-item">
+          <a class="anchor primary" href={`/blog/autor/${author.id}`}>
+            {author.data.name}
+          </a>
+          <span class="post-count">({author.count})</span>
+        </li>
+      ))
+    }
+  </ul>
 </aside>
 
-<ul class="list">
-  {
-    authorsWithCount.map((author) => (
-      <li>
-        <a class="anchor primary" href={`/blog/autor/${author.id}`}>
-          {author.data.name}
-        </a>
-        <span class="count">({author.count})</span>
-      </li>
-    ))
-  }
-</ul>
-
 <style>
-  h3 {
+  .authors-title {
     color: var(--color-content-300);
   }
-  .list {
+
+  .authors-list {
     max-width: 320px;
     padding-left: 1rem;
   }
 
-  li {
+  .author-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  .count {
+  .post-count {
     font-size: 0.8rem;
     color: var(--color-content-200);
   }

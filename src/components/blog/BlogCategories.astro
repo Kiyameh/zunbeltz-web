@@ -4,21 +4,20 @@ import { getCategoriesWithCountArray } from "@/lib/blog/categories";
 const categories = await getCategoriesWithCountArray();
 ---
 
-<aside>
-  <header>
-    <h3 class="title-3">
+<aside class="categories-widget">
+  <header class="categories-header">
+    <h3 class="categories-title title-3">
       <a href="/blog/categoria" class="anchor neutral">Categorías</a>
     </h3>
   </header>
-
-  <ul class="list">
+  <ul class="categories-list">
     {
       categories.map((category) => (
-        <li>
+        <li class="category-item">
           <a class="anchor primary" href={`/blog/categoria/${category.name}`}>
             {category.name}
           </a>
-          <span class="count">({category.count})</span>
+          <span class="post-count">({category.count})</span>
         </li>
       ))
     }
@@ -26,21 +25,22 @@ const categories = await getCategoriesWithCountArray();
 </aside>
 
 <style>
-  h3 {
+  .categories-title {
     color: var(--color-content-300);
   }
-  .list {
+
+  .categories-list {
     max-width: 320px;
     padding-left: 1rem;
   }
 
-  li {
+  .category-item {
     display: flex;
     align-items: center;
     gap: 0.5rem;
   }
 
-  .count {
+  .post-count {
     font-size: 0.8rem;
     color: var(--color-content-200);
   }
