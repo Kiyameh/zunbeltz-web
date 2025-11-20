@@ -1,0 +1,26 @@
+---
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
+---
+
+<HtmlLayout
+  pageTitle="La falla de zunbeltz: Buscar"
+  pageDescription="Buscar en el blog de Zunbeltz"
+>
+  <BlogLayout>
+    <Breadcrumb />
+    <h1 class="title-1">¿Qué estás buscando?</h1>
+    <div id="search"></div>
+    <script>
+      window.addEventListener("DOMContentLoaded", (event) => {
+        // @ts-ignore
+        new PagefindUI({
+          element: "#search",
+          showSubResults: true,
+          autofocus: true,
+        });
+      });
+    </script>
+  </BlogLayout>
+</HtmlLayout>

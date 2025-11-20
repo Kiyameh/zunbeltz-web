@@ -16,104 +16,113 @@ const { author = false } = Astro.props;
 if (!author) return null;
 ---
 
-<article class="container">
-  <a
-    href={`/blog/autor/${author.id}`}
-    class="full-card-link"
-    aria-label={`Ver perfil de ${author.data.name}`}
-  >
-    <span class="sr-only">Ver perfil</span>
-  </a>
-  <header class="header">
-    <div class="avatar">
-      <Image
-        src={author.data.avatar}
-        alt={author.data.name}
-        width={80}
-        height={80}
-        quality={90}
-      />
-    </div>
-    <h3 class="name">{author.data.name}</h3>
-    {
-      author.data.social && (
-        <div class="socials">
-          {author.data.social.instagram && (
-            <a
-              href={author.data.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              title="Instagram"
-            >
-              <Instagram />
-            </a>
-          )}
-          {author.data.social.facebook && (
-            <a
-              href={author.data.social.facebook}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              title="Facebook"
-            >
-              <Facebook />
-            </a>
-          )}
-          {author.data.social.twitter && (
-            <a
-              href={author.data.social.twitter}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              title="Twitter"
-            >
-              <X />
-            </a>
-          )}
-          {author.data.website && (
-            <a
-              href={author.data.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              title="Website"
-            >
-              <Website />
-            </a>
-          )}
-          {author.data.email && (
-            <a
-              href={`mailto:${author.data.email}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="social-link"
-              title="Email"
-            >
-              <MailPlus />
-            </a>
-          )}
-        </div>
-      )
-    }
-  </header>
-  <main class="bio">
-    <p>{author.data.bio}</p>
-  </main>
-</article>
+<div class="wrapper">
+  <article class="container">
+    <a
+      href={`/blog/autor/${author.id}`}
+      class="full-card-link"
+      aria-label={`Ver perfil de ${author.data.name}`}
+    >
+      <span class="sr-only">Ver perfil</span>
+    </a>
+
+    <header class="header">
+      <div class="avatar">
+        <Image
+          src={author.data.avatar}
+          alt={author.data.name}
+          width={80}
+          height={80}
+          quality={90}
+        />
+      </div>
+      <h3 class="name">{author.data.name}</h3>
+      {
+        author.data.social && (
+          <div class="socials">
+            {author.data.social.instagram && (
+              <a
+                href={author.data.social.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Instagram"
+              >
+                <Instagram />
+              </a>
+            )}
+            {author.data.social.facebook && (
+              <a
+                href={author.data.social.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Facebook"
+              >
+                <Facebook />
+              </a>
+            )}
+            {author.data.social.twitter && (
+              <a
+                href={author.data.social.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Twitter"
+              >
+                <X />
+              </a>
+            )}
+            {author.data.website && (
+              <a
+                href={author.data.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Website"
+              >
+                <Website />
+              </a>
+            )}
+            {author.data.email && (
+              <a
+                href={`mailto:${author.data.email}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-link"
+                title="Email"
+              >
+                <MailPlus />
+              </a>
+            )}
+          </div>
+        )
+      }
+    </header>
+    <main class="content">
+      <p>{author.data.bio}</p>
+    </main>
+  </article>
+</div>
 <style>
   /* Layout */
+  .wrapper {
+    container-type: inline-size;
+    container-name: author-card;
+  }
+
   .container {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
     border-radius: var(--radius-2xl);
     border: 1px solid var(--color-border-200);
     background-color: var(--color-surface-200);
-    transition: all 0.2s ease;
     box-shadow: var(--shadow-md);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
+
+    transition: all 0.2s ease;
     overflow: hidden;
   }
 
@@ -126,37 +135,56 @@ if (!author) return null;
     outline: 2px solid var(--color-secondary-300);
   }
 
-  .full-card-link {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-  }
-
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
-
   /* Header */
   .header {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
     padding: 1rem;
-    min-width: 200px;
     background-color: var(--color-surface-300);
-    flex: 1;
   }
+
+  .content {
+    font-size: 1.1rem;
+    padding: 1rem;
+    width: 100%;
+  }
+
+  /* Container query: cuando el componente tiene más ancho, header a la izquierda (1/4) y content a la derecha (3/4) */
+  @container (min-width: 500px) {
+    .container {
+      flex-direction: row;
+    }
+
+    .header {
+      width: 25%;
+      min-width: 200px;
+    }
+
+    .content {
+      width: 75%;
+    }
+  }
+
+  /* Fallback con media query por si container queries no están soportadas */
+  @supports not (container-type: inline-size) {
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+      }
+
+      .header {
+        width: 25%;
+        min-width: 200px;
+      }
+
+      .content {
+        width: 75%;
+      }
+    }
+  }
+
   .header .avatar {
     flex-shrink: 0;
   }
@@ -191,9 +219,26 @@ if (!author) return null;
     color: var(--color-secondary-300);
   }
 
-  .bio {
-    font-size: 1.1rem;
-    padding: 1rem;
-    flex: 5;
+  /* Aux */
+
+  .full-card-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 </style>

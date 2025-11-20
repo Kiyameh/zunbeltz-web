@@ -1,0 +1,53 @@
+---
+import { getAuthorsWithPosts, getAuthorPostCounts } from "@/lib/blog/authors";
+
+const authors = await getAuthorsWithPosts();
+const authorPostCounts = await getAuthorPostCounts();
+
+const authorsWithCount = authors.map((author) => {
+  const count = authorPostCounts[author.id];
+  return { ...author, count };
+});
+---
+
+<aside>
+  <header>
+    <h3 class="title-3">
+      <a href="/blog/autor" class="anchor neutral">Autores</a>
+    </h3>
+  </header>
+</aside>
+
+<ul class="list">
+  {
+    authorsWithCount.map((author) => (
+      <li>
+        <a class="anchor primary" href={`/blog/autor/${author.id}`}>
+          {author.data.name}
+        </a>
+        <span class="count">({author.count})</span>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  h3 {
+    color: var(--color-content-300);
+  }
+  .list {
+    max-width: 320px;
+    padding-left: 1rem;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .count {
+    font-size: 0.8rem;
+    color: var(--color-content-200);
+  }
+</style>

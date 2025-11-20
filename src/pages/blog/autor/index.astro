@@ -3,6 +3,7 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import { getAuthorsWithPosts, getAuthorPostCounts } from "@/lib/blog/authors";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 
 const authors = await getAuthorsWithPosts();
 const postCounts = await getAuthorPostCounts();
@@ -20,8 +21,8 @@ const pageDescription =
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <main class="authors-container">
-    <Breadcrumb class="authors-breadcrumb" />
+  <BlogLayout>
+    <Breadcrumb />
 
     <header class="authors-header">
       <h1 class="title-1">Autores del Blog</h1>
@@ -56,20 +57,10 @@ const pageDescription =
         </div>
       )
     }
-  </main>
+  </BlogLayout>
 </HtmlLayout>
 
 <style>
-  .authors-container {
-    min-height: 100svh;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0.5rem 2rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-
   .authors-header {
     display: flex;
     flex-direction: column;

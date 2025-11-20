@@ -2,9 +2,8 @@
 import { getCollection } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import PostCard from "@/components/blog/PostCard.astro";
-import RecentPosts from "@/components/blog/RecentPosts.astro";
-import BlogCategories from "@/components/blog/BlogCategories.astro";
 import Pagination from "@/components/ui/Pagination.astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 
 // Configuración de paginación
 const POSTS_PER_PAGE = 8;
@@ -36,70 +35,21 @@ if (currentPage < 1 || currentPage > totalPages) {
 
 <HtmlLayout
   pageTitle="Blog - Zunbeltz.org"
-  pageDescription="Artículos sobre espeleología y deportes de montaña"
+  pageDescription="Crónicas desde el subsuelo y otras zonas sin cobertura"
 >
-  <main>
-    <div class="blog-container">
-      <header class="blog-header">
-        <h1 class="title-1">La falla de Zunbeltz</h1>
-        <p class="paragraph big">
-          Crónicas desde el subsuelo y otras zonas sin cobertura
-        </p>
-      </header>
-
-      <div class="posts-list">
-        {posts.map((post) => <PostCard post={post} />)}
-      </div>
-
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+  <BlogLayout>
+    <div class="posts-list">
+      {posts.map((post) => <PostCard post={post} />)}
     </div>
-  </main>
-  <div class="blog-categories">
-    <BlogCategories />
-  </div>
-  <div class="recent-posts">
-    <RecentPosts />
-  </div>
+
+    <Pagination currentPage={currentPage} totalPages={totalPages} />
+  </BlogLayout>
 </HtmlLayout>
 
 <style>
-  .blog-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0.5rem 2rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
   .posts-list {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-  }
-
-  .blog-categories {
-    position: fixed;
-    top: 4rem;
-    right: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 2rem;
-  }
-
-  .recent-posts {
-    position: fixed;
-    top: 4rem;
-    left: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 2rem;
-  }
-
-  @media (max-width: 1520px) {
-    .blog-categories,
-    .recent-posts {
-      display: none;
-    }
   }
 </style>

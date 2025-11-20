@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import { getAuthorPosts } from "@/lib/blog/authors";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export const getStaticPaths = (async () => {
   const authors = await getCollection("authors");
@@ -27,7 +28,7 @@ const pageDescription = author.data.bio;
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <main class="author-container">
+  <BlogLayout>
     <Breadcrumb class="author-breadcrumb" />
 
     <AuthorProfile author={author} />
@@ -51,20 +52,10 @@ const pageDescription = author.data.bio;
         )
       }
     </section>
-  </main>
+  </BlogLayout>
 </HtmlLayout>
 
 <style>
-  .author-container {
-    min-height: 100svh;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0.5rem 2rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-
   .author-posts {
     display: flex;
     flex-direction: column;

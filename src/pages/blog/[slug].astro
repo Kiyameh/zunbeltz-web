@@ -8,6 +8,7 @@ import RecentPosts from "@/components/blog/RecentPosts.astro";
 import PostHeader from "@/components/blog/PostHeader.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -23,8 +24,7 @@ const author = await getEntry(post.data.author);
 ---
 
 <HtmlLayout pageTitle={post.data.title} pageDescription={post.data.description}>
-  <!-- Main layout -->
-  <main class="main-container">
+  <BlogLayout>
     <Breadcrumb />
 
     <!-- ! Indexado en pagefind -->
@@ -56,62 +56,16 @@ const author = await getEntry(post.data.author);
 
       <AuthorProfile author={author} data-pagefind-ignore />
     </article>
-  </main>
-
-  <!-- Left layout -->
-  <div class="left-container">
-    <RecentPosts />
-  </div>
-
-  <!-- Right layout-->
-  <div class="right-container">
-    <BlogCategories />
-  </div>
+  </BlogLayout>
 </HtmlLayout>
 
 <style>
-  /* Layout */
-  .main-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0.5rem 2rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
   .article {
     display: flex;
     flex-direction: column;
     gap: 2rem;
   }
 
-  .right-container {
-    position: fixed;
-    top: 4rem;
-    right: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 2rem;
-  }
-
-  .left-container {
-    position: fixed;
-    top: 4rem;
-    left: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 2rem;
-  }
-
-  @media (max-width: 1520px) {
-    .right-container,
-    .left-container {
-      display: none;
-    }
-  }
-
-  /* Main content */
   .pagefind-metadata {
     display: none;
   }

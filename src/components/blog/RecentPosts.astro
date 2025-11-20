@@ -7,7 +7,9 @@ const posts = (await getCollection("posts")).sort(
 
 <aside>
   <header>
-    <h3 class="title-3">Artículos recientes</h3>
+    <h3 class="title-3">
+      <a href="/" class="anchor neutral">Artículos recientes</a>
+    </h3>
   </header>
 
   <ul class="list">
@@ -17,7 +19,7 @@ const posts = (await getCollection("posts")).sort(
           <span class="date">
             {entry.data.publishDate.toLocaleDateString()}
           </span>
-          <a class="anchor" href={`/blog/${entry.slug}`}>
+          <a class="anchor primary" href={`/blog/${entry.slug}`}>
             {entry.data.title}
           </a>
         </li>

@@ -56,9 +56,9 @@
 [data-theme="dark"] {
   --color-surface-100: oklch(30% 0.02 258);
   --color-surface-200: oklch(25% 0.02 258);
-  --color-surface-300: oklch(20% 0.03 258);
-  --color-surface-400: oklch(15% 0.03 258);
-  --color-surface-500: oklch(10% 0.03 258);
+  --color-surface-300: oklch(20% 0.02 258);
+  --color-surface-400: oklch(15% 0.02 258);
+  --color-surface-500: oklch(10% 0.02 258);
 
   --color-content-500: oklch(100% 0.01 255);
   --color-content-400: oklch(95% 0.01 255);
@@ -198,7 +198,7 @@ select {
 
 .title-3,
 .markdown-content h3 {
-  font-family: var(--font-title);
+  font-family: var(--font-paragraph);
   font-size: 1.25rem;
   line-height: 2.5rem;
   color: var(--color-primary-300);
@@ -208,7 +208,7 @@ select {
 
 .title-4,
 .markdown-content h4 {
-  font-family: var(--font-title);
+  font-family: var(--font-paragraph);
   font-size: 1rem;
   line-height: 2.5rem;
   overflow-wrap: break-word;
@@ -217,7 +217,7 @@ select {
 
 .title-5,
 .markdown-content h5 {
-  font-family: var(--font-title);
+  font-family: var(--font-paragraph);
   font-size: 1rem;
   line-height: 2.5rem;
   overflow-wrap: break-word;
@@ -264,6 +264,7 @@ select {
   margin-bottom: 1rem;
   padding-left: 2rem;
 }
+
 .markdown-content ol {
   list-style: decimal;
   margin-bottom: 1rem;

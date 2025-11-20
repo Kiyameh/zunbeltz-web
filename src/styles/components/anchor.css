@@ -31,3 +31,19 @@
 .anchor.external::after {
   content: "↗";
 }
+
+.anchor.neutral {
+  color: var(--color-content-300);
+}
+
+.anchor.neutral:before {
+  background-color: var(--color-content-300);
+}
+
+.anchor.primary {
+  color: var(--color-primary-300);
+}
+
+.anchor.primary:before {
+  background-color: var(--color-primary-300);
+}

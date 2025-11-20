@@ -5,6 +5,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
 import { getAllCategories, getPostsByCategory } from "@/lib/blog/categories";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export const getStaticPaths = (async () => {
   const categories = await getAllCategories();
@@ -26,7 +27,7 @@ const pageDescription = `Todos los posts de la categoría ${categoria}`;
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <main class="category-container">
+  <BlogLayout>
     <Breadcrumb class="category-breadcrumb" />
 
     <header class="category-header">
@@ -48,23 +49,10 @@ const pageDescription = `Todos los posts de la categoría ${categoria}`;
         </div>
       )
     }
-  </main>
-
-  <div class="blog-categories">
-    <BlogCategories />
-  </div>
+  </BlogLayout>
 </HtmlLayout>
 
 <style>
-  .category-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 0.5rem 2rem 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
   .category-header {
     display: flex;
     flex-direction: column;
@@ -92,21 +80,6 @@ const pageDescription = `Todos los posts de la categoría ${categoria}`;
     color: var(--color-content-200);
     font-family: var(--font-paragraph);
     font-size: 1.125rem;
-  }
-
-  .blog-categories {
-    position: fixed;
-    top: 4rem;
-    right: 0;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 2rem;
-  }
-
-  @media (max-width: 1520px) {
-    .blog-categories {
-      display: none;
-    }
   }
 
   @media (max-width: 768px) {
