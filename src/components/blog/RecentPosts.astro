@@ -9,14 +9,15 @@ const posts = (await getCollection("posts")).sort(
   <header>
     <h3 class="title-3">Artículos recientes</h3>
   </header>
+
   <ul class="list">
     {
       posts.map((entry) => (
         <li>
-          <a class="anchor" href={`/blog/${entry.id}`}>
+          <span class="date">{entry.data.publishDate.toLocaleDateString()}</span>
+          <a class="anchor" href={`/blog/${entry.slug}`}>
             {entry.data.title}
           </a>
-          <p class="date">{entry.data.publishDate.toLocaleDateString()}</p>
         </li>
       ))
     }
@@ -24,13 +25,23 @@ const posts = (await getCollection("posts")).sort(
 </aside>
 
 <style>
+  h3{
+      color: var(--color-content-300);
+
+  }
   .list {
-    margin-left: 0.5rem;
     max-width: 320px;
+    margin-left: 0rem;
+    padding-left: 1rem;
+  }
+  li {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
   .date {
     font-size: 0.8rem;
-    margin-left: 0.5rem;
     color: var(--color-content-200);
+    margin-left: -0.5rem;
   }
 </style>

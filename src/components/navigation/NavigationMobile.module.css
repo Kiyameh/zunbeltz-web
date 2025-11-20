@@ -21,11 +21,11 @@
   font-size: 1.2rem;
   line-height: 1.2rem;
 
-  background-color: var(--color-surface-200);
+  background-color: var(--color-surface-100);
   border: 1px solid var(--color-border-100);
 
   &:hover {
-    background-color: var(--color-surface-100);
+    background-color: var(--color-surface-200);
   }
 }
 
@@ -77,11 +77,11 @@
 
   padding: 0.4rem 0.8rem;
   border-radius: 6px;
-  background-color: var(--color-surface-200);
+  background-color: var(--color-surface-100);
   border-left: 3px solid var(--color-primary-300);
 
   &:hover {
-    background-color: var(--color-surface-100);
+    background-color: var(--color-surface-200);
   }
 
   .title {
@@ -173,19 +173,19 @@
 }
 
 .LearnCallout .BgBlue {
-  display: none;
+  display: block;
 }
 
 .LearnCallout .BgGreen {
-  display: block;
+  display: none;
 }
 
 [data-theme="dark"] .LearnCallout .BgBlue {
-  display: block;
+  display: none;
 }
 
 [data-theme="dark"] .LearnCallout .BgGreen {
-  display: none;
+  display: block;
 }
 
 /* Animations */

@@ -8,13 +8,11 @@ import {
 import "./AccountControls.css";
 ---
 
-<nav class="account-container">
-  <SignedOut>
-    <SignInButton mode="modal" asChild>
-      <button class="button secondary">Iniciar sesión</button>
-    </SignInButton>
-  </SignedOut>
-  <SignedIn>
-    <UserButton showName />
-  </SignedIn>
-</nav>
+<SignedOut class="cl-signed-out">
+  <SignInButton mode="modal" asChild>
+    <button class="button secondary">Iniciar sesión</button>
+  </SignInButton>
+</SignedOut>
+<SignedIn class="cl-signed-in">
+  <UserButton showName />
+</SignedIn>

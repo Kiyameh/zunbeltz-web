@@ -87,6 +87,10 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
     box-shadow: var(--shadow-lg);
   }
 
+  .post-card:focus-within{
+    outline: 2px solid var(--color-secondary-300);
+  }
+
   .post-card-image {
     width: 100%;
     aspect-ratio: 16 / 5;

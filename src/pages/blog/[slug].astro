@@ -53,7 +53,7 @@ const author = await getEntry(post.data.author);
 
       <PostHeader post={post} data-pagefind-ignore />
 
-      <div class="post-content">
+      <div class="markdown-content">
         <Content />
       </div>
 
@@ -61,14 +61,14 @@ const author = await getEntry(post.data.author);
     </article>
   </main>
 
-  <!-- Right layout-->
-  <div class="right-container">
-    <BlogCategories />
-  </div>
-
   <!-- Left layout -->
   <div class="left-container">
     <RecentPosts />
+  </div>
+
+  <!-- Right layout-->
+  <div class="right-container">
+    <BlogCategories />
   </div>
 </HtmlLayout>
 
@@ -137,7 +137,7 @@ const author = await getEntry(post.data.author);
     object-fit: cover;
   }
 
-  .post-content {
+  .markdown-content {
     font-family: var(--font-paragraph);
     color: var(--color-content-300);
     line-height: 1.8;
@@ -145,72 +145,5 @@ const author = await getEntry(post.data.author);
     border-bottom: 2px solid var(--color-border-100);
   }
 
-  /* Estilos para el contenido MDX */
-  .post-content :global(h2) {
-    font-family: var(--font-title);
-    font-size: 1.5rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: var(--color-content-400);
-  }
 
-  .post-content :global(h3) {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-content-400);
-  }
-
-  .post-content :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  .post-content :global(ul),
-  .post-content :global(ol) {
-    margin-bottom: 1rem;
-    padding-left: 2rem;
-  }
-
-  .post-content :global(ul) {
-    list-style: disc;
-  }
-
-  .post-content :global(ol) {
-    list-style: decimal;
-  }
-
-  .post-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .post-content :global(strong) {
-    font-weight: 600;
-    color: var(--color-content-400);
-  }
-
-  .post-content :global(code) {
-    background-color: var(--color-surface-200);
-    padding: 0.2rem 0.4rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.9em;
-  }
-
-  .post-content :global(pre) {
-    background-color: var(--color-surface-200);
-    padding: 1rem;
-    border-radius: var(--radius-md);
-    overflow-x: auto;
-    margin-bottom: 1rem;
-  }
-
-  .post-content :global(pre code) {
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .post-content :global(img) {
-    border-radius: var(--radius-lg);
-    margin: 2rem 0;
-  }
 </style>
