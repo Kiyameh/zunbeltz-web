@@ -1,26 +1,45 @@
 ---
 /* 
- !important: Este archivo se encarga de elegir el tema segun las preferencias del usuario y el sistema. Importarlo en el head del layout principal. 
+ !important: Este archivo se encarga de elegir el tema según las preferencias del usuario y el sistema. 
+ Debe importarse en el <head> del layout principal para evitar FOUC (Flash of Unstyled Content).
  */
 
-const defaultTheme = "light";
+import { DEFAULT_THEME } from "@/utils/theme-utils";
 ---
 
-<script is:inline define:vars={{ defaultTheme }}>
+<script is:inline define:vars={{ DEFAULT_THEME }}>
   (() => {
-    const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)",
-    ).matches;
+    const THEME_STORAGE_KEY = "theme";
+    const THEME_ATTRIBUTE = "data-theme";
 
-    let themeToSet = defaultTheme;
+    const getStoredTheme = () => {
+      const stored = localStorage.getItem(THEME_STORAGE_KEY);
+      if (stored === "light" || stored === "dark") {
+        return stored;
+      }
+      return null;
+    };
 
-    if (storedTheme) {
-      themeToSet = storedTheme;
-    } else if (prefersDark) {
-      themeToSet = "dark";
-    }
+    const getSystemThemePreference = () => {
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)",
+      ).matches;
+      if (prefersDark) {
+        return "dark";
+      }
+      // Si no prefiere dark, usar el tema por defecto
+      return DEFAULT_THEME;
+    };
 
-    document.documentElement.setAttribute("data-theme", themeToSet);
+    const resolveTheme = () => {
+      const storedTheme = getStoredTheme();
+      if (storedTheme) {
+        return storedTheme;
+      }
+      return getSystemThemePreference();
+    };
+
+    const theme = resolveTheme();
+    document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
   })();
 </script>

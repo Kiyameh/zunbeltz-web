@@ -1,3 +1,7 @@
+/**
+ * @vitest-environment jsdom
+ */
+
 import {
   describe,
   it,
@@ -7,23 +11,19 @@ import {
   afterEach,
   type Mock,
 } from "vitest";
-import "@testing-library/jest-dom";
+import {
+  type Theme,
+  resolveTheme,
+  THEME_STORAGE_KEY,
+  THEME_ATTRIBUTE,
+  DEFAULT_THEME,
+} from "@/utils/theme-utils";
 
-// Simulate the ThemeLoader script logic
-const themeLoaderScript = (defaultTheme: string) => {
-  const storedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  let themeToSet = defaultTheme;
-
-  if (storedTheme) {
-    themeToSet = storedTheme;
-  } else if (prefersDark) {
-    themeToSet = "dark";
-  }
-
-  document.documentElement.setAttribute("data-theme", themeToSet);
-  return themeToSet;
+// Simulate the ThemeLoader script logic (matches the refactored component)
+const themeLoaderScript = (defaultTheme: Theme) => {
+  const theme = resolveTheme();
+  document.documentElement.setAttribute(THEME_ATTRIBUTE, theme);
+  return theme;
 };
 
 describe("ThemeLoader", () => {
@@ -35,7 +35,7 @@ describe("ThemeLoader", () => {
     localStorage.clear();
 
     // Reset document.documentElement attributes
-    document.documentElement.removeAttribute("data-theme");
+    document.documentElement.removeAttribute(THEME_ATTRIBUTE);
 
     // Mock window.matchMedia
     matchMediaMock = vi.fn();
@@ -59,11 +59,13 @@ describe("ThemeLoader", () => {
       const theme = themeLoaderScript(defaultTheme);
 
       expect(theme).toBe("light");
-      expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "light",
+      );
     });
 
     it("should use stored theme when available", () => {
-      localStorage.setItem("theme", "dark");
+      localStorage.setItem(THEME_STORAGE_KEY, "dark");
       matchMediaMock.mockReturnValue({
         matches: false,
         media: "(prefers-color-scheme: dark)",
@@ -72,7 +74,9 @@ describe("ThemeLoader", () => {
       const theme = themeLoaderScript(defaultTheme);
 
       expect(theme).toBe("dark");
-      expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "dark",
+      );
     });
 
     it("should use dark theme when prefers-color-scheme is dark and no stored theme", () => {
@@ -84,11 +88,13 @@ describe("ThemeLoader", () => {
       const theme = themeLoaderScript(defaultTheme);
 
       expect(theme).toBe("dark");
-      expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "dark",
+      );
     });
 
     it("should prioritize stored theme over system preference", () => {
-      localStorage.setItem("theme", "light");
+      localStorage.setItem(THEME_STORAGE_KEY, "light");
       matchMediaMock.mockReturnValue({
         matches: true,
         media: "(prefers-color-scheme: dark)",
@@ -97,11 +103,13 @@ describe("ThemeLoader", () => {
       const theme = themeLoaderScript(defaultTheme);
 
       expect(theme).toBe("light");
-      expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "light",
+      );
     });
 
-    it("should handle custom theme values from localStorage", () => {
-      localStorage.setItem("theme", "custom-theme");
+    it("should ignore invalid theme values from localStorage", () => {
+      localStorage.setItem(THEME_STORAGE_KEY, "custom-theme");
       matchMediaMock.mockReturnValue({
         matches: false,
         media: "(prefers-color-scheme: dark)",
@@ -109,9 +117,10 @@ describe("ThemeLoader", () => {
 
       const theme = themeLoaderScript(defaultTheme);
 
-      expect(theme).toBe("custom-theme");
-      expect(document.documentElement.getAttribute("data-theme")).toBe(
-        "custom-theme",
+      // Invalid themes are ignored, should fall back to default
+      expect(theme).toBe("light");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "light",
       );
     });
   });
@@ -136,19 +145,23 @@ describe("ThemeLoader", () => {
 
       // First call with default theme
       themeLoaderScript(defaultTheme);
-      expect(document.documentElement.getAttribute("data-theme")).toBe("light");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "light",
+      );
 
       // Second call with stored theme
-      localStorage.setItem("theme", "dark");
+      localStorage.setItem(THEME_STORAGE_KEY, "dark");
       themeLoaderScript(defaultTheme);
-      expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        "dark",
+      );
     });
   });
 
   describe("LocalStorage Integration", () => {
     it("should read theme from localStorage", () => {
       const getItemSpy = vi.spyOn(Storage.prototype, "getItem");
-      localStorage.setItem("theme", "dark");
+      localStorage.setItem(THEME_STORAGE_KEY, "dark");
       matchMediaMock.mockReturnValue({
         matches: false,
         media: "(prefers-color-scheme: dark)",
@@ -156,7 +169,7 @@ describe("ThemeLoader", () => {
 
       themeLoaderScript(defaultTheme);
 
-      expect(getItemSpy).toHaveBeenCalledWith("theme");
+      expect(getItemSpy).toHaveBeenCalledWith(THEME_STORAGE_KEY);
       getItemSpy.mockRestore();
     });
 
@@ -172,7 +185,7 @@ describe("ThemeLoader", () => {
     });
 
     it("should handle empty string from localStorage", () => {
-      localStorage.setItem("theme", "");
+      localStorage.setItem(THEME_STORAGE_KEY, "");
       matchMediaMock.mockReturnValue({
         matches: false,
         media: "(prefers-color-scheme: dark)",
@@ -234,16 +247,18 @@ describe("ThemeLoader", () => {
       expect(theme).toBe("light");
     });
 
-    it("should support different default themes", () => {
+    it("should use DEFAULT_THEME constant", () => {
       matchMediaMock.mockReturnValue({
         matches: false,
         media: "(prefers-color-scheme: dark)",
       });
 
-      const theme = themeLoaderScript("dark");
+      const theme = themeLoaderScript(DEFAULT_THEME);
 
-      expect(theme).toBe("dark");
-      expect(document.documentElement.getAttribute("data-theme")).toBe("dark");
+      expect(theme).toBe(DEFAULT_THEME);
+      expect(document.documentElement.getAttribute(THEME_ATTRIBUTE)).toBe(
+        DEFAULT_THEME,
+      );
     });
   });
 });

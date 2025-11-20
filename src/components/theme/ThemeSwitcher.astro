@@ -2,7 +2,7 @@
 // El script se ejecutará en el cliente por defecto
 ---
 
-<button type="button" class="theme-toggle" aria-label="Toggle theme">
+<button type="button" class="theme-toggle" aria-label="Cambiar a tema oscuro">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
@@ -28,24 +28,82 @@
     ></path></svg
   >
 </button>
+
+<!-- Región para anunciar cambios de tema a lectores de pantalla -->
+<div
+  class="sr-only"
+  aria-live="polite"
+  aria-atomic="true"
+  id="theme-announcement"
+>
+</div>
+
 <script>
-  // Función para aplicar el tema
-  const applyTheme = (newTheme: "light" | "dark") => {
-    document.documentElement.setAttribute("data-theme", newTheme);
-    localStorage.setItem("theme", newTheme);
+  import { applyTheme, getCurrentTheme, type Theme } from "@/utils/theme-utils";
+
+  // Actualizar aria-label de todos los botones según el tema actual
+  const updateAriaLabels = (currentTheme: Theme) => {
+    const newLabel =
+      currentTheme === "dark"
+        ? "Cambiar a tema claro"
+        : "Cambiar a tema oscuro";
+
+    document
+      .querySelectorAll<HTMLButtonElement>(".theme-toggle")
+      .forEach((button) => {
+        button.setAttribute("aria-label", newLabel);
+      });
+  };
+
+  // Anunciar cambio de tema para lectores de pantalla
+  const announceThemeChange = (newTheme: Theme) => {
+    const announcement = document.getElementById("theme-announcement");
+    if (announcement) {
+      const message =
+        newTheme === "dark" ? "Tema oscuro activado" : "Tema claro activado";
+      announcement.textContent = message;
+    }
   };
 
   // Función para toggle del tema
   const toggleTheme = () => {
-    const currentTheme = document.documentElement.getAttribute("data-theme");
-    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    const currentTheme = getCurrentTheme();
+    const newTheme: Theme = currentTheme === "dark" ? "light" : "dark";
+
     applyTheme(newTheme);
+    updateAriaLabels(newTheme);
+    announceThemeChange(newTheme);
   };
 
-  // Añadir event listener a TODOS los botones con clase theme-toggle
-  document.querySelectorAll(".theme-toggle").forEach((button) => {
-    button.addEventListener("click", toggleTheme);
+  // Sincronizar tema entre pestañas/ventanas
+  const syncThemeAcrossTabs = (event: StorageEvent) => {
+    if (event.key === "theme" && event.newValue) {
+      const newTheme = event.newValue as Theme;
+      document.documentElement.setAttribute("data-theme", newTheme);
+      updateAriaLabels(newTheme);
+    }
+  };
+
+  // Inicializar aria-labels al cargar
+  const initializeAriaLabels = () => {
+    const currentTheme = getCurrentTheme();
+    updateAriaLabels(currentTheme);
+  };
+
+  // Event listener para clicks en botones de tema
+  document.addEventListener("click", (event) => {
+    const target = event.target as HTMLElement;
+    const button = target.closest(".theme-toggle");
+    if (button) {
+      toggleTheme();
+    }
   });
+
+  // Event listener para sincronización entre pestañas
+  window.addEventListener("storage", syncThemeAcrossTabs);
+
+  // Inicializar
+  initializeAriaLabels();
 </script>
 
 <style>
@@ -93,5 +151,17 @@
 
   :global([data-theme="dark"]) .theme-toggle .moon {
     transform: rotate(360deg);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 </style>
