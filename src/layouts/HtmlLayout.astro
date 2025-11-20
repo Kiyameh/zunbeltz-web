@@ -44,27 +44,26 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Pagefind: Utilidad de búsqueda -->
-    <link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+    <link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
     <script src="/pagefind/pagefind-ui.js" is:inline></script>
     <ThemeLoader />
   </head>
   <body>
     <div class="desktop-header">
-  <DesktopHeader />
-</div>
+      <DesktopHeader />
+    </div>
 
-<div class="mobile-header">
-  <MobileHeader />
-</div>
+    <div class="mobile-header">
+      <MobileHeader />
+    </div>
 
     <slot />
     <footer>This is a footer</footer>
-
   </body>
 </html>
 
 <style>
-    .desktop-header {
+  .desktop-header {
     display: none;
   }
 
@@ -90,7 +89,7 @@ const {
     color: var(--color-content-300);
     font-family: var(--font-paragraph);
   }
-    footer{
+  footer {
     width: 100%;
     height: 220px;
     display: flex;

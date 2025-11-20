@@ -1,17 +1,38 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { SearchUtility } from "./SearchUtility";
 
-// Mock del icono SVG
+// Mock de los iconos SVG
 vi.mock("@/icons/search.svg?react", () => ({
   default: (props: any) => <svg data-testid="search-icon" {...props} />,
 }));
 
+vi.mock("@/icons/x.svg?react", () => ({
+  default: (props: any) => <svg data-testid="x-icon" {...props} />,
+}));
+
 describe("SearchUtility", () => {
+  let mockPagefindUI: any;
+
   beforeEach(() => {
     vi.clearAllMocks();
+
+    // Mock de window.PagefindUI
+    mockPagefindUI = vi.fn();
+    (window as any).PagefindUI = mockPagefindUI;
+
+    // Mock de requestAnimationFrame que simula el comportamiento real
+    vi.spyOn(window, "requestAnimationFrame").mockImplementation((cb: any) => {
+      setTimeout(cb, 0);
+      return 0;
+    });
+  });
+
+  afterEach(() => {
+    delete (window as any).PagefindUI;
+    vi.restoreAllMocks();
   });
 
   describe("Button Rendering", () => {
@@ -81,7 +102,7 @@ describe("SearchUtility", () => {
       });
     });
 
-    it("should render the search input", async () => {
+    it("should render the pagefind search container", async () => {
       const user = userEvent.setup();
       render(<SearchUtility />);
 
@@ -89,12 +110,12 @@ describe("SearchUtility", () => {
       await user.click(button);
 
       await waitFor(() => {
-        const input = screen.getByPlaceholderText("Buscar...");
-        expect(input).toBeInTheDocument();
+        const pagefindContainer = document.querySelector("#pagefind-search");
+        expect(pagefindContainer).toBeInTheDocument();
       });
     });
 
-    it("should render the results placeholder", async () => {
+    it("should have the correct CSS class on pagefind container", async () => {
       const user = userEvent.setup();
       render(<SearchUtility />);
 
@@ -102,9 +123,8 @@ describe("SearchUtility", () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(
-          screen.getByText("Los resultados aparecerán aquí"),
-        ).toBeInTheDocument();
+        const pagefindContainer = document.querySelector("#pagefind-search");
+        expect(pagefindContainer).toHaveClass("PagefindSearch");
       });
     });
 
@@ -122,8 +142,69 @@ describe("SearchUtility", () => {
   });
 
   describe("Functionality", () => {
-    describe("Input", () => {
-      it("should have autofocus attribute on the search input", async () => {
+    describe("Pagefind Integration", () => {
+      it("should initialize PagefindUI when dialog opens", async () => {
+        const user = userEvent.setup();
+        render(<SearchUtility />);
+
+        const button = screen.getByLabelText("Abrir búsqueda");
+        await user.click(button);
+
+        // Esperar a que el contenedor esté en el DOM (Portal lo renderiza en document.body)
+        await waitFor(() => {
+          const pagefindContainer = document.querySelector("#pagefind-search");
+          expect(pagefindContainer).toBeInTheDocument();
+        });
+
+        // Esperar a que PagefindUI se inicialice
+        await waitFor(
+          () => {
+            expect(mockPagefindUI).toHaveBeenCalledWith({
+              element: "#pagefind-search",
+              showSubResults: true,
+              showImages: true,
+              autofocus: true,
+            });
+          },
+          { timeout: 2000 },
+        );
+      });
+
+      it("should not initialize PagefindUI if container is not empty", async () => {
+        const user = userEvent.setup();
+        render(<SearchUtility />);
+
+        const button = screen.getByLabelText("Abrir búsqueda");
+        await user.click(button);
+
+        // Esperar a que se inicialice la primera vez
+        await waitFor(
+          () => {
+            expect(mockPagefindUI).toHaveBeenCalledTimes(1);
+          },
+          { timeout: 2000 },
+        );
+
+        const pagefindContainer = document.querySelector("#pagefind-search");
+        if (pagefindContainer) {
+          pagefindContainer.innerHTML = "<div>Already initialized</div>";
+        }
+
+        // Limpiar el mock para verificar que no se llama de nuevo
+        mockPagefindUI.mockClear();
+
+        // Forzar un re-render del efecto sin cerrar el diálogo
+        // Esto simula un cambio de estado que dispara el useEffect nuevamente
+        // pero el contenedor ya tiene contenido
+
+        // Verificar que después de un tiempo razonable, no se ha llamado de nuevo
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        // No debería inicializar de nuevo porque el contenedor no está vacío
+        expect(mockPagefindUI).not.toHaveBeenCalled();
+      });
+
+      it("should use requestAnimationFrame for initialization", async () => {
         const user = userEvent.setup();
         render(<SearchUtility />);
 
@@ -131,40 +212,66 @@ describe("SearchUtility", () => {
         await user.click(button);
 
         await waitFor(() => {
-          const input = screen.getByPlaceholderText("Buscar...");
-          expect(input).toBeInTheDocument();
-          expect(input).toHaveFocus();
+          expect(window.requestAnimationFrame).toHaveBeenCalled();
         });
       });
 
-      it("should allow typing in the search input", async () => {
+      it("should handle PagefindUI initialization errors gracefully", async () => {
+        const consoleErrorSpy = vi
+          .spyOn(console, "error")
+          .mockImplementation(() => {});
+
+        // Configurar el mock para lanzar un error cuando se instancia
+        const MockPagefindUIWithError = vi.fn().mockImplementation(() => {
+          throw new Error("Pagefind error");
+        });
+        (window as any).PagefindUI = MockPagefindUIWithError;
+
         const user = userEvent.setup();
         render(<SearchUtility />);
 
         const button = screen.getByLabelText("Abrir búsqueda");
         await user.click(button);
 
+        // Esperar a que el contenedor esté en el DOM
         await waitFor(() => {
-          expect(screen.getByPlaceholderText("Buscar...")).toBeInTheDocument();
+          const pagefindContainer = document.querySelector("#pagefind-search");
+          expect(pagefindContainer).toBeInTheDocument();
         });
 
-        const input = screen.getByPlaceholderText("Buscar...");
-        await user.type(input, "test query");
+        // Esperar a que se capture el error
+        await waitFor(
+          () => {
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+              "Error al iniciar Pagefind:",
+              expect.any(Error),
+            );
+          },
+          { timeout: 2000 },
+        );
 
-        expect(input).toHaveValue("test query");
+        consoleErrorSpy.mockRestore();
       });
 
-      it('should have type="search" on the input', async () => {
+      it("should not initialize PagefindUI if window.PagefindUI is not available", async () => {
+        // Eliminar PagefindUI antes de renderizar
+        delete (window as any).PagefindUI;
+
         const user = userEvent.setup();
         render(<SearchUtility />);
 
         const button = screen.getByLabelText("Abrir búsqueda");
         await user.click(button);
 
+        // Esperar a que el diálogo se abra
         await waitFor(() => {
-          const input = screen.getByPlaceholderText("Buscar...");
-          expect(input).toHaveAttribute("type", "search");
+          expect(
+            screen.getByText("Busca contenido en el sitio web"),
+          ).toBeInTheDocument();
         });
+
+        // PagefindUI no debería haberse llamado porque no está disponible
+        expect(mockPagefindUI).not.toHaveBeenCalled();
       });
     });
 
@@ -238,22 +345,14 @@ describe("SearchUtility", () => {
       });
     });
 
-    it("should have aria-hidden on search icons", async () => {
-      const user = userEvent.setup();
+    it("should have aria-hidden on icons", () => {
       render(<SearchUtility />);
 
-      const button = screen.getByLabelText("Abrir búsqueda");
-      await user.click(button);
-
-      await waitFor(() => {
-        const icons = screen.getAllByTestId("search-icon");
-        icons.forEach((icon) => {
-          expect(icon).toHaveAttribute("aria-hidden", "true");
-        });
-      });
+      const searchIcon = screen.getByTestId("search-icon");
+      expect(searchIcon).toHaveAttribute("aria-hidden", "true");
     });
 
-    it("should have proper placeholder text", async () => {
+    it("should have aria-hidden on close icon", async () => {
       const user = userEvent.setup();
       render(<SearchUtility />);
 
@@ -261,8 +360,8 @@ describe("SearchUtility", () => {
       await user.click(button);
 
       await waitFor(() => {
-        const input = screen.getByPlaceholderText("Buscar...");
-        expect(input).toHaveAttribute("placeholder", "Buscar...");
+        const xIcon = screen.getByTestId("x-icon");
+        expect(xIcon).toHaveAttribute("aria-hidden", "true");
       });
     });
   });

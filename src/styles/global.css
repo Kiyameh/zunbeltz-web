@@ -16,7 +16,7 @@
   --color-border-200: oklch(64% 0.029 266);
   --color-border-300: oklch(32% 0.027 268);
 
-  --color-secondary-100: oklch(100% 0.10 240);
+  --color-secondary-100: oklch(100% 0.1 240);
   --color-secondary-200: oklch(90% 0.12 219);
   --color-secondary-300: oklch(70% 0.15 219);
   --color-secondary-400: oklch(50% 0.18 219);
@@ -70,18 +70,17 @@
   --color-border-200: oklch(52% 0.029 266);
   --color-border-300: oklch(62% 0.027 268);
 
-
   --color-primary-100: oklch(100% 0.18 125);
   --color-primary-200: oklch(90% 0.18 120);
   --color-primary-300: oklch(75% 0.25 120);
   --color-primary-400: oklch(65% 0.25 120);
   --color-primary-500: oklch(50% 0.25 120);
 
-  --color-secondary-100: oklch(90% 0.20 320);
+  --color-secondary-100: oklch(90% 0.2 320);
   --color-secondary-200: oklch(85% 0.25 320);
   --color-secondary-300: oklch(75% 0.25 320);
   --color-secondary-400: oklch(65% 0.25 320);
-  --color-secondary-500: oklch(45% 0.20 320);
+  --color-secondary-500: oklch(45% 0.2 320);
 }
 
 /* Box model */
@@ -107,9 +106,9 @@ html {
   font-size: 16px;
 }
 
-@media (max-width:768px){
-  html{
-    font-size:14px
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
   }
 }
 
@@ -163,7 +162,6 @@ select {
   outline: 2px solid var(--color-secondary-300);
 }
 
-
 /* Pagefind search bar styling */
 
 :root {
@@ -181,63 +179,59 @@ select {
 
 /* Text items and mdx styles */
 .title-1,
-.markdown-content h1{
+.markdown-content h1 {
   font-family: var(--font-title);
   font-size: 2rem;
   line-height: 2.5rem;
-    overflow-wrap: break-word;
-    text-wrap: balance;
-
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .title-2,
-.markdown-content h2{
+.markdown-content h2 {
   font-family: var(--font-title);
   font-size: 1.5rem;
   line-height: 2.5rem;
   overflow-wrap: break-word;
   text-wrap: balance;
-
 }
 
 .title-3,
-.markdown-content h3{
+.markdown-content h3 {
   font-family: var(--font-title);
   font-size: 1.25rem;
   line-height: 2.5rem;
   color: var(--color-primary-300);
   overflow-wrap: break-word;
   text-wrap: balance;
-
 }
 
 .title-4,
-.markdown-content h4{
+.markdown-content h4 {
   font-family: var(--font-title);
   font-size: 1rem;
   line-height: 2.5rem;
   overflow-wrap: break-word;
   text-wrap: balance;
-
 }
 
 .title-5,
-.markdown-content h5{
+.markdown-content h5 {
   font-family: var(--font-title);
   font-size: 1rem;
   line-height: 2.5rem;
   overflow-wrap: break-word;
-   text-wrap: balance;
+  text-wrap: balance;
 }
 
 .paragraph,
-.markdown-content p{
+.markdown-content p {
   font-size: 1rem;
   font-family: var(--font-paragraph);
   color: var(--color-content-300);
   overflow-wrap: break-word;
   text-wrap: pretty;
-  margin-bottom:1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .paragraph.big {
@@ -259,25 +253,24 @@ select {
   color: var(--color-content-100);
 }
 
-.emphasis, 
+.emphasis,
 .markdown-content strong {
   color: var(--color-secondary-300);
   font-weight: 500;
 }
 
-.markdown-content ul{
+.markdown-content ul {
   list-style: disc;
-   margin-bottom: 1rem;
+  margin-bottom: 1rem;
   padding-left: 2rem;
 }
-.markdown-content ol{
-    list-style: decimal;
-     margin-bottom: 1rem;
-    padding-left: 2rem;
-
+.markdown-content ol {
+  list-style: decimal;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
 }
 
-.markdown-content img{
-     border-radius: var(--radius-lg);
-    margin: 2rem 0;
+.markdown-content img {
+  border-radius: var(--radius-lg);
+  margin: 2rem 0;
 }

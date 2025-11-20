@@ -40,7 +40,7 @@ En el layout principal (`HtmlLayout.astro`), incluir los recursos de PageFind:
 
 ```astro
 <!-- Pagefind: Utilidad de búsqueda -->
-<link href="/pagefind/pagefind-ui.css" rel="stylesheet">
+<link href="/pagefind/pagefind-ui.css" rel="stylesheet" />
 <script src="/pagefind/pagefind-ui.js" is:inline></script>
 ```
 
@@ -127,26 +127,26 @@ Crea filtros para categorizar los resultados:
 En el componente donde quieras mostrar el buscador:
 
 ```astro
-    <div id="search"></div>
-      <script>
-        window.addEventListener("DOMContentLoaded", (event) => {
-          // @ts-ignore
-          new PagefindUI({ element: "#search", showSubResults: true });
-        });
-      </script>
+<div id="search"></div>
+<script>
+  window.addEventListener("DOMContentLoaded", (event) => {
+    // @ts-ignore
+    new PagefindUI({ element: "#search", showSubResults: true });
+  });
+</script>
 ```
 
 ## Recursos
 
-* [Documentación oficial de PageFind](https://pagefind.app/)
-* [Atributos de PageFind](https://pagefind.app/docs/indexing/)
-* [Personalización UI](https://pagefind.app/docs/ui/)
-* [Variables CSS](https://pagefind.app/docs/ui-usage/#customising-the-styles)
+- [Documentación oficial de PageFind](https://pagefind.app/)
+- [Atributos de PageFind](https://pagefind.app/docs/indexing/)
+- [Personalización UI](https://pagefind.app/docs/ui/)
+- [Variables CSS](https://pagefind.app/docs/ui-usage/#customising-the-styles)
 
 ## Notas Importantes
 
-* PageFind genera los archivos de índice en `/pagefind` dentro del directorio `dist` durante el build
-* Los archivos de índice son estáticos y se sirven junto con el resto del sitio
-* La búsqueda funciona completamente en el cliente, sin necesidad de servidor
-* Es compatible con temas oscuros/claros mediante variables CSS
-* Los filtros y metadatos son opcionales pero mejoran la experiencia de búsqueda
+- PageFind genera los archivos de índice en `/pagefind` dentro del directorio `dist` durante el build
+- Los archivos de índice son estáticos y se sirven junto con el resto del sitio
+- La búsqueda funciona completamente en el cliente, sin necesidad de servidor
+- Es compatible con temas oscuros/claros mediante variables CSS
+- Los filtros y metadatos son opcionales pero mejoran la experiencia de búsqueda

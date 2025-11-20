@@ -7,7 +7,6 @@ import s from "./SearchUtility.module.css";
 export const SearchUtility = () => {
   const [searchOpen, setSearchOpen] = useState(false);
 
-
   useEffect(() => {
     if (searchOpen) {
       const initPagefind = () => {
@@ -36,8 +35,6 @@ export const SearchUtility = () => {
       requestAnimationFrame(initPagefind);
     }
   }, [searchOpen]);
-
-
 
   return (
     <>

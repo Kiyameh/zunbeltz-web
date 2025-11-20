@@ -220,20 +220,16 @@ const posts = defineCollection({
   - Bio en sección principal con flex-grow
   - Efectos hover con elevación y transformación
   - Full-card link accesible que cubre toda la tarjeta
-  
 - **Páginas implementadas**:
   - `/blog/autor/` - Grid de autores con chips mostrando número de posts
   - `/blog/autor/[authorId]` - Perfil completo con grid de posts del autor
-  
 - **Utilidades de autores**:
   - Filtrado automático de posts en draft
   - Ordenación por fecha de publicación (más recientes primero)
   - Contadores eficientes usando Map para O(n) complexity
-  
 - **Testing**: 64 tests totales
   - 26 tests para `AuthorProfile.test.ts` (validación de props, estructura CSS, integración)
   - 38 tests para `authors.test.ts` (utilidades, filtrado, ordenación, integración)
-  
 - **Diseño responsive**: Grid adaptativo con breakpoints en 768px y 640px
 
 ### Componentes MDX Personalizados
@@ -360,14 +356,14 @@ export function SearchBar() {
 
 ### Entregables Fase 4
 
-- [ ] Instalación y configuración de Pagefind
-- [ ] Script de build para ejecutar Pagefind post-build
-- [ ] Atributos `data-pagefind-*` en templates de blog
-- [ ] Componente `SearchBar.tsx` (React Island con Pagefind UI)
-- [ ] Estilos CSS personalizados para Pagefind UI
-- [ ] Página `/blog/search` dedicada
-- [ ] Configuración de filtros (categorías, autor)
-- [ ] Documentación de uso
+- ✅ Instalación y configuración de Pagefind
+- ✅ Script de build para ejecutar Pagefind post-build
+- ✅ Atributos `data-pagefind-*` en templates de blog
+- ✅ Componente `SearchBar.tsx` (React Island con Pagefind UI)
+- ✅ Estilos CSS personalizados para Pagefind UI
+- ✅ Página `/blog/search` dedicada
+- ✅ Configuración de filtros (categorías, autor)
+- ✅ Documentación de uso
 
 ---
 

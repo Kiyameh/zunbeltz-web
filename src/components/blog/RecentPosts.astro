@@ -14,7 +14,9 @@ const posts = (await getCollection("posts")).sort(
     {
       posts.map((entry) => (
         <li>
-          <span class="date">{entry.data.publishDate.toLocaleDateString()}</span>
+          <span class="date">
+            {entry.data.publishDate.toLocaleDateString()}
+          </span>
           <a class="anchor" href={`/blog/${entry.slug}`}>
             {entry.data.title}
           </a>
@@ -25,9 +27,8 @@ const posts = (await getCollection("posts")).sort(
 </aside>
 
 <style>
-  h3{
-      color: var(--color-content-300);
-
+  h3 {
+    color: var(--color-content-300);
   }
   .list {
     max-width: 320px;
