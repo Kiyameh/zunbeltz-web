@@ -3,7 +3,6 @@ import { getCollection, getEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
-import HeaderLayout from "@/layouts/HeaderLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import RecentPosts from "@/components/blog/RecentPosts.astro";
 import PostHeader from "@/components/blog/PostHeader.astro";
@@ -24,7 +23,6 @@ const author = await getEntry(post.data.author);
 ---
 
 <HtmlLayout pageTitle={post.data.title} pageDescription={post.data.description}>
-  <HeaderLayout />
 
   <!-- Main layout -->
   <main class="main-container">

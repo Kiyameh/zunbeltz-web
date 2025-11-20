@@ -4,6 +4,8 @@ import "@/styles/fonts.css";
 import "@/styles/components.css";
 
 import ThemeLoader from "@/components/theme/ThemeLoader.astro";
+import DesktopHeader from "@/components/header/DesktopHeader.astro";
+import MobileHeader from "@/components/header/MobileHeader.astro";
 
 interface Props {
   pageTitle: string;
@@ -47,16 +49,54 @@ const {
     <ThemeLoader />
   </head>
   <body>
+    <div class="desktop-header">
+  <DesktopHeader />
+</div>
+
+<div class="mobile-header">
+  <MobileHeader />
+</div>
+
     <slot />
+    <footer>This is a footer</footer>
+
   </body>
 </html>
 
 <style>
+    .desktop-header {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .desktop-header {
+      display: block;
+    }
+  }
+
+  .mobile-header {
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-header {
+      display: none;
+    }
+  }
   body {
     width: 100%;
     min-height: 100vh;
     background-color: var(--color-surface-100);
     color: var(--color-content-300);
     font-family: var(--font-paragraph);
+  }
+    footer{
+    width: 100%;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color-surface-500);
   }
 </style>

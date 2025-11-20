@@ -2,11 +2,9 @@
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
-import HeaderLayout from "@/layouts/HeaderLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
-import FooterLayout from "@/layouts/FooterLayout.astro";
 import { getAuthorPosts } from "@/lib/blog/authors";
 
 export const getStaticPaths = (async () => {
@@ -29,7 +27,6 @@ const pageDescription = author.data.bio;
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <HeaderLayout />
   <main class="author-container">
     <Breadcrumb class="author-breadcrumb" />
 
@@ -55,7 +52,6 @@ const pageDescription = author.data.bio;
       }
     </section>
   </main>
-  <FooterLayout />
 </HtmlLayout>
 
 <style>

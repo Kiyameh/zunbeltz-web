@@ -1,9 +1,7 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
-import HeaderLayout from "@/layouts/HeaderLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import { getCategoriesWithCountArray } from "@/lib/blog/categories";
-import FooterLayout from "@/layouts/FooterLayout.astro";
 
 const categories = await getCategoriesWithCountArray();
 
@@ -31,7 +29,6 @@ const pageDescription = "Explora todos los posts organizados por categorías";
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <HeaderLayout />
   <main class="categories-container">
     <Breadcrumb class="categories-breadcrumb" />
 
@@ -81,7 +78,6 @@ const pageDescription = "Explora todos los posts organizados por categorías";
       </ul>
     </section>
   </main>
-  <FooterLayout />
 </HtmlLayout>
 
 <style>

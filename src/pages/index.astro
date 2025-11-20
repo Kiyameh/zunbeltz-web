@@ -2,7 +2,6 @@
 import { getCollection } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import PostCard from "@/components/blog/PostCard.astro";
-import HeaderLayout from "@/layouts/HeaderLayout.astro";
 import RecentPosts from "@/components/blog/RecentPosts.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
 import Pagination from "@/components/ui/Pagination.astro";
@@ -39,7 +38,6 @@ if (currentPage < 1 || currentPage > totalPages) {
   pageTitle="Blog - Zunbeltz.org"
   pageDescription="Artículos sobre espeleología y deportes de montaña"
 >
-  <HeaderLayout />
 
   <main>
     <div class="blog-container">

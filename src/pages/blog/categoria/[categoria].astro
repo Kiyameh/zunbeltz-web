@@ -1,7 +1,6 @@
 ---
 import type { GetStaticPaths } from "astro";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
-import HeaderLayout from "@/layouts/HeaderLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
@@ -27,7 +26,6 @@ const pageDescription = `Todos los posts de la categoría ${categoria}`;
 ---
 
 <HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
-  <HeaderLayout />
   <main class="category-container">
     <Breadcrumb class="category-breadcrumb" />
 
