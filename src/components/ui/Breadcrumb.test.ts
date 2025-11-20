@@ -1,120 +1,253 @@
 import { expect, test, describe } from "vitest";
+import Breadcrumb from "./Breadcrumb.astro";
+import { renderAstroComponent } from "@/test/astro-container";
 
-// Extraer la lógica del componente Breadcrumb para probarla de forma aislada
-const generateBreadcrumbs = (pathname: string) => {
-  // Dividir la ruta en segmentos
-  const segments = pathname.split("/").filter((segment) => segment !== "");
+describe("Breadcrumb", () => {
+  describe("Rendering - Root path", () => {
+    test("Should render only 'Inicio' for root path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/"),
+      });
+      expect(html).toContain("Inicio");
+      const breadcrumbItems = html.match(/class="breadcrumb-item"/g);
+      expect(breadcrumbItems?.length).toBe(1);
+    });
 
-  // Generar breadcrumbs
-  const breadcrumbs = segments.map((segment, index) => {
-    // Construir la ruta acumulada hasta este segmento
-    const path = "/" + segments.slice(0, index + 1).join("/");
+    test("Should render 'Inicio' as current page for root path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/"),
+      });
+      expect(html).toContain('class="breadcrumb-current"');
+      expect(html).toMatch(
+        /<span[^>]*class="breadcrumb-current"[^>]*>Inicio<\/span>/,
+      );
+    });
 
-    // Formatear el nombre del segmento (capitalizar y reemplazar guiones)
-    const label = segment
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ");
-
-    return {
-      label,
-      path,
-      isLast: index === segments.length - 1,
-    };
-  });
-
-  // Agregar "Inicio" al principio
-  const allBreadcrumbs = [
-    { label: "Inicio", path: "/", isLast: false },
-    ...breadcrumbs,
-  ];
-
-  return allBreadcrumbs;
-};
-
-describe("Breadcrumb Logic", () => {
-  test("should always include 'Inicio' as first item", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog/test-post");
-
-    expect(breadcrumbs[0]).toEqual({
-      label: "Inicio",
-      path: "/",
-      isLast: false,
+    test("Should not render separator for root path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/"),
+      });
+      expect(html).not.toContain('class="breadcrumb-separator"');
     });
   });
 
-  test("should parse URL segments correctly", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog/test-post");
+  describe("Rendering - Simple path", () => {
+    test("Should render breadcrumbs for simple path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain("Inicio");
+      expect(html).toContain("Blog");
+    });
 
-    expect(breadcrumbs).toHaveLength(3);
-    expect(breadcrumbs[1].label).toBe("Blog");
-    expect(breadcrumbs[2].label).toBe("Test Post");
+    test("Should render correct number of breadcrumb items", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      const breadcrumbItems = html.match(/class="breadcrumb-item"/g);
+      expect(breadcrumbItems?.length).toBe(2);
+    });
+
+    test("Should capitalize segment names", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain("Blog");
+      expect(html).not.toContain("blog");
+    });
+
+    test("Should render separators between items", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      const separators = html.match(/class="breadcrumb-separator"/g);
+      expect(separators?.length).toBe(1);
+    });
   });
 
-  test("should format segment labels (capitalize, replace hyphens)", () => {
-    const breadcrumbs = generateBreadcrumbs("/my-awesome-post");
+  describe("Rendering - Nested path", () => {
+    test("Should render all segments for nested path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria/montanismo"),
+      });
+      expect(html).toContain("Inicio");
+      expect(html).toContain("Blog");
+      expect(html).toContain("Categoria");
+      expect(html).toContain("Montanismo");
+    });
 
-    // "my-awesome-post" debe convertirse en "My Awesome Post"
-    expect(breadcrumbs[1].label).toBe("My Awesome Post");
+    test("Should render correct number of items for nested path", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria/montanismo"),
+      });
+      const breadcrumbItems = html.match(/class="breadcrumb-item"/g);
+      expect(breadcrumbItems?.length).toBe(4);
+    });
+
+    test("Should handle hyphenated segments", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/mi-perfil"),
+      });
+      expect(html).toContain("Mi Perfil");
+    });
+
+    test("Should render correct number of separators", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria/montanismo"),
+      });
+      const separators = html.match(/class="breadcrumb-separator"/g);
+      expect(separators?.length).toBe(3);
+    });
   });
 
-  test("should generate correct links for each segment", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog/category/test");
+  describe("Functionality - Links", () => {
+    test("'Inicio' should link to root", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria"),
+      });
+      expect(html).toContain('href="/"');
+    });
 
-    expect(breadcrumbs[0].path).toBe("/");
-    expect(breadcrumbs[1].path).toBe("/blog");
-    expect(breadcrumbs[2].path).toBe("/blog/category");
-    expect(breadcrumbs[3].path).toBe("/blog/category/test");
+    test("Intermediate segments should have correct hrefs", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria/montanismo"),
+      });
+      expect(html).toContain('href="/blog"');
+      expect(html).toContain('href="/blog/categoria"');
+    });
+
+    test("Last segment should not be a link", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria"),
+      });
+      expect(html).toMatch(
+        /<span[^>]*class="breadcrumb-current"[^>]*>Categoria<\/span>/,
+      );
+      expect(html).not.toContain('href="/blog/categoria"');
+    });
+
+    test("Links should have anchor class", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(/<a[^>]*href="\/"[^>]*class="anchor"/);
+    });
   });
 
-  test("should mark last item as current page", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog/test-post");
+  describe("Accessibility", () => {
+    test("Should use semantic nav element", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain("<nav");
+      expect(html).toContain('aria-label="Breadcrumb"');
+    });
 
-    expect(breadcrumbs[breadcrumbs.length - 1].isLast).toBe(true);
-    // Todos los demás no deben ser el último
-    for (let i = 0; i < breadcrumbs.length - 1; i++) {
-      expect(breadcrumbs[i].isLast).toBe(false);
-    }
+    test("Should use ordered list structure", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain("<ol");
+      expect(html).toContain("<li");
+    });
+
+    test("Current page should have aria-current attribute", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain('aria-current="page"');
+    });
+
+    test("Only last item should have aria-current", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/categoria"),
+      });
+      const ariaCurrent = html.match(/aria-current="page"/g);
+      expect(ariaCurrent?.length).toBe(1);
+    });
+
+    test("Separators should be hidden from screen readers", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(
+        /<span[^>]*class="breadcrumb-separator"[^>]*aria-hidden="true"/,
+      );
+    });
+
+    test("Should have descriptive class names", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toContain('class="breadcrumb"');
+      expect(html).toContain('class="breadcrumb-list"');
+      expect(html).toContain('class="breadcrumb-item"');
+    });
   });
 
-  test("should handle single-level paths", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog");
+  describe("Structure", () => {
+    test("List should be inside nav element", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(
+        /<nav[^>]*>.*<ol[^>]*class="breadcrumb-list".*<\/nav>/s,
+      );
+    });
 
-    expect(breadcrumbs).toHaveLength(2);
-    expect(breadcrumbs[0].label).toBe("Inicio");
-    expect(breadcrumbs[1].label).toBe("Blog");
+    test("Items should be inside list", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(
+        /<ol[^>]*>.*<li[^>]*class="breadcrumb-item".*<\/ol>/s,
+      );
+    });
+
+    test("Separator should be after link, not after current page", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(
+        /<a[^>]*href="\/"[^>]*>.*Inicio.*<\/a>.*<span[^>]*class="breadcrumb-separator"/s,
+      );
+      expect(html).not.toMatch(
+        /<span[^>]*class="breadcrumb-current"[^>]*>.*<\/span>.*<span[^>]*class="breadcrumb-separator"/s,
+      );
+    });
+
+    test("Current page should be in span element", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog"),
+      });
+      expect(html).toMatch(
+        /<span[^>]*class="breadcrumb-current"[^>]*>Blog<\/span>/,
+      );
+    });
   });
 
-  test("should handle multi-level paths", () => {
-    const breadcrumbs = generateBreadcrumbs("/blog/category/test-post");
+  describe("Edge cases", () => {
+    test("Should handle trailing slash", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/"),
+      });
+      expect(html).toContain("Blog");
+      const breadcrumbItems = html.match(/class="breadcrumb-item"/g);
+      expect(breadcrumbItems?.length).toBe(2);
+    });
 
-    expect(breadcrumbs).toHaveLength(4);
-    expect(breadcrumbs[0].label).toBe("Inicio");
-    expect(breadcrumbs[1].label).toBe("Blog");
-    expect(breadcrumbs[2].label).toBe("Category");
-    expect(breadcrumbs[3].label).toBe("Test Post");
-  });
+    test("Should handle multiple hyphens in segment", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/mi-super-perfil"),
+      });
+      expect(html).toContain("Mi Super Perfil");
+    });
 
-  test("should handle root path", () => {
-    const breadcrumbs = generateBreadcrumbs("/");
-
-    expect(breadcrumbs).toHaveLength(1);
-    expect(breadcrumbs[0].label).toBe("Inicio");
-    expect(breadcrumbs[0].path).toBe("/");
-  });
-
-  test("should handle paths with multiple hyphens", () => {
-    const breadcrumbs = generateBreadcrumbs("/my-super-awesome-post");
-
-    expect(breadcrumbs[1].label).toBe("My Super Awesome Post");
-  });
-
-  test("should build cumulative paths correctly", () => {
-    const breadcrumbs = generateBreadcrumbs("/a/b/c/d");
-
-    expect(breadcrumbs[1].path).toBe("/a");
-    expect(breadcrumbs[2].path).toBe("/a/b");
-    expect(breadcrumbs[3].path).toBe("/a/b/c");
-    expect(breadcrumbs[4].path).toBe("/a/b/c/d");
+    test("Should handle numeric segments", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/blog/2024"),
+      });
+      expect(html).toContain("2024");
+    });
   });
 });

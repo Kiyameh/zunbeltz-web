@@ -4,20 +4,22 @@ import { renderAstroComponent } from "@/test/astro-container";
 
 // Mock de la función de lib/blog/categories
 vi.mock("@/lib/blog/categories", () => ({
-  getCategoriesWithCountArray: vi.fn(() => Promise.resolve([
-    {
-      name: "Montañismo",
-      count: 8,
-    },
-    {
-      name: "Espeleología",
-      count: 5,
-    },
-    {
-      name: "Fotografía",
-      count: 3,
-    },
-  ])),
+  getCategoriesWithCountArray: vi.fn(() =>
+    Promise.resolve([
+      {
+        name: "Montañismo",
+        count: 8,
+      },
+      {
+        name: "Espeleología",
+        count: 5,
+      },
+      {
+        name: "Fotografía",
+        count: 3,
+      },
+    ]),
+  ),
 }));
 
 describe("BlogCategories", () => {
@@ -76,14 +78,22 @@ describe("BlogCategories", () => {
 
     test("Category links should have primary anchor class", async () => {
       const html = await renderAstroComponent(BlogCategories, {});
-      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Montañismo"/);
-      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Espeleología"/);
-      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/categoria\/Fotografía"/);
+      expect(html).toMatch(
+        /class="anchor primary"[^>]*href="\/blog\/categoria\/Montañismo"/,
+      );
+      expect(html).toMatch(
+        /class="anchor primary"[^>]*href="\/blog\/categoria\/Espeleología"/,
+      );
+      expect(html).toMatch(
+        /class="anchor primary"[^>]*href="\/blog\/categoria\/Fotografía"/,
+      );
     });
 
     test("Title link should have neutral anchor class", async () => {
       const html = await renderAstroComponent(BlogCategories, {});
-      expect(html).toMatch(/href="\/blog\/categoria"[^>]*class="anchor neutral"/);
+      expect(html).toMatch(
+        /href="\/blog\/categoria"[^>]*class="anchor neutral"/,
+      );
     });
   });
 
@@ -133,12 +143,16 @@ describe("BlogCategories", () => {
   describe("Structure", () => {
     test("List should be inside aside element", async () => {
       const html = await renderAstroComponent(BlogCategories, {});
-      expect(html).toMatch(/<aside[^>]*>.*<ul[^>]*class="categories-list".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<ul[^>]*class="categories-list".*<\/aside>/s,
+      );
     });
 
     test("Header should be inside aside element", async () => {
       const html = await renderAstroComponent(BlogCategories, {});
-      expect(html).toMatch(/<aside[^>]*>.*<header[^>]*class="categories-header".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<header[^>]*class="categories-header".*<\/aside>/s,
+      );
     });
 
     test("Each category item should contain name and count", async () => {

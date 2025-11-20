@@ -4,47 +4,49 @@ import { renderAstroComponent } from "@/test/astro-container";
 
 // Mock de getCollection
 vi.mock("astro:content", () => ({
-  getCollection: vi.fn(() => Promise.resolve([
-    {
-      id: "post-1",
-      slug: "post-1",
-      collection: "posts",
-      data: {
-        title: "Post más reciente",
-        publishDate: new Date("2024-03-15"),
-        description: "Descripción del post 1",
-        heroImage: {} as any,
-        categories: ["Test"],
-        author: {} as any,
+  getCollection: vi.fn(() =>
+    Promise.resolve([
+      {
+        id: "post-1",
+        slug: "post-1",
+        collection: "posts",
+        data: {
+          title: "Post más reciente",
+          publishDate: new Date("2024-03-15"),
+          description: "Descripción del post 1",
+          heroImage: {} as any,
+          categories: ["Test"],
+          author: {} as any,
+        },
       },
-    },
-    {
-      id: "post-2",
-      slug: "post-2",
-      collection: "posts",
-      data: {
-        title: "Segundo post reciente",
-        publishDate: new Date("2024-03-10"),
-        description: "Descripción del post 2",
-        heroImage: {} as any,
-        categories: ["Test"],
-        author: {} as any,
+      {
+        id: "post-2",
+        slug: "post-2",
+        collection: "posts",
+        data: {
+          title: "Segundo post reciente",
+          publishDate: new Date("2024-03-10"),
+          description: "Descripción del post 2",
+          heroImage: {} as any,
+          categories: ["Test"],
+          author: {} as any,
+        },
       },
-    },
-    {
-      id: "post-3",
-      slug: "post-3",
-      collection: "posts",
-      data: {
-        title: "Tercer post reciente",
-        publishDate: new Date("2024-03-05"),
-        description: "Descripción del post 3",
-        heroImage: {} as any,
-        categories: ["Test"],
-        author: {} as any,
+      {
+        id: "post-3",
+        slug: "post-3",
+        collection: "posts",
+        data: {
+          title: "Tercer post reciente",
+          publishDate: new Date("2024-03-05"),
+          description: "Descripción del post 3",
+          heroImage: {} as any,
+          categories: ["Test"],
+          author: {} as any,
+        },
       },
-    },
-  ])),
+    ]),
+  ),
 }));
 
 describe("RecentPosts", () => {
@@ -156,17 +158,23 @@ describe("RecentPosts", () => {
   describe("Structure", () => {
     test("List should be inside aside element", async () => {
       const html = await renderAstroComponent(RecentPosts, {});
-      expect(html).toMatch(/<aside[^>]*>.*<ul[^>]*class="recent-posts-list".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<ul[^>]*class="recent-posts-list".*<\/aside>/s,
+      );
     });
 
     test("Header should be inside aside element", async () => {
       const html = await renderAstroComponent(RecentPosts, {});
-      expect(html).toMatch(/<aside[^>]*>.*<header[^>]*class="recent-posts-header".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<header[^>]*class="recent-posts-header".*<\/aside>/s,
+      );
     });
 
     test("Each post item should contain date and title", async () => {
       const html = await renderAstroComponent(RecentPosts, {});
-      expect(html).toMatch(/<li[^>]*class="recent-post-item"[^>]*>.*<span[^>]*class="recent-post-date".*<\/span>.*<a.*<\/a>.*<\/li>/s);
+      expect(html).toMatch(
+        /<li[^>]*class="recent-post-item"[^>]*>.*<span[^>]*class="recent-post-date".*<\/span>.*<a.*<\/a>.*<\/li>/s,
+      );
     });
 
     test("Date should be in span element", async () => {

@@ -4,50 +4,54 @@ import { renderAstroComponent } from "@/test/astro-container";
 
 // Mock de las funciones de lib/blog/authors
 vi.mock("@/lib/blog/authors", () => ({
-  getAuthorsWithPosts: vi.fn(() => Promise.resolve([
-    {
-      id: "andoni-abarzuza",
-      collection: "authors" as const,
-      data: {
-        name: "Andoni Abarzuza",
-        bio: "Espeleólogo y montañero de Navarra",
-        avatar: {
-          src: "/_astro/test-avatar.jpg",
-          width: 80,
-          height: 80,
-          format: "jpg",
-        } as any,
-        email: "kiyameh@outlook.com",
-        website: "https://kiyameh.com/es/",
-        social: {
-          instagram: "https://www.instagram.com/andoniabarzuza",
+  getAuthorsWithPosts: vi.fn(() =>
+    Promise.resolve([
+      {
+        id: "andoni-abarzuza",
+        collection: "authors" as const,
+        data: {
+          name: "Andoni Abarzuza",
+          bio: "Espeleólogo y montañero de Navarra",
+          avatar: {
+            src: "/_astro/test-avatar.jpg",
+            width: 80,
+            height: 80,
+            format: "jpg",
+          } as any,
+          email: "kiyameh@outlook.com",
+          website: "https://kiyameh.com/es/",
+          social: {
+            instagram: "https://www.instagram.com/andoniabarzuza",
+          },
         },
       },
-    },
-    {
-      id: "maria-garcia",
-      collection: "authors" as const,
-      data: {
-        name: "María García",
-        bio: "Fotógrafa de naturaleza",
-        avatar: {
-          src: "/_astro/test-avatar2.jpg",
-          width: 80,
-          height: 80,
-          format: "jpg",
-        } as any,
-        email: "maria@example.com",
-        website: "https://maria.com",
-        social: {
-          instagram: "https://www.instagram.com/mariagarcia",
+      {
+        id: "maria-garcia",
+        collection: "authors" as const,
+        data: {
+          name: "María García",
+          bio: "Fotógrafa de naturaleza",
+          avatar: {
+            src: "/_astro/test-avatar2.jpg",
+            width: 80,
+            height: 80,
+            format: "jpg",
+          } as any,
+          email: "maria@example.com",
+          website: "https://maria.com",
+          social: {
+            instagram: "https://www.instagram.com/mariagarcia",
+          },
         },
       },
-    },
-  ])),
-  getAuthorPostCounts: vi.fn(() => Promise.resolve({
-    "andoni-abarzuza": 5,
-    "maria-garcia": 3,
-  })),
+    ]),
+  ),
+  getAuthorPostCounts: vi.fn(() =>
+    Promise.resolve({
+      "andoni-abarzuza": 5,
+      "maria-garcia": 3,
+    }),
+  ),
 }));
 
 describe("BlogAuthors", () => {
@@ -103,8 +107,12 @@ describe("BlogAuthors", () => {
 
     test("Author links should have primary anchor class", async () => {
       const html = await renderAstroComponent(BlogAuthors, {});
-      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/autor\/andoni-abarzuza"/);
-      expect(html).toMatch(/class="anchor primary"[^>]*href="\/blog\/autor\/maria-garcia"/);
+      expect(html).toMatch(
+        /class="anchor primary"[^>]*href="\/blog\/autor\/andoni-abarzuza"/,
+      );
+      expect(html).toMatch(
+        /class="anchor primary"[^>]*href="\/blog\/autor\/maria-garcia"/,
+      );
     });
 
     test("Title link should have neutral anchor class", async () => {
@@ -158,12 +166,16 @@ describe("BlogAuthors", () => {
   describe("Structure", () => {
     test("List should be inside aside element", async () => {
       const html = await renderAstroComponent(BlogAuthors, {});
-      expect(html).toMatch(/<aside[^>]*>.*<ul[^>]*class="authors-list".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<ul[^>]*class="authors-list".*<\/aside>/s,
+      );
     });
 
     test("Header should be inside aside element", async () => {
       const html = await renderAstroComponent(BlogAuthors, {});
-      expect(html).toMatch(/<aside[^>]*>.*<header[^>]*class="authors-header".*<\/aside>/s);
+      expect(html).toMatch(
+        /<aside[^>]*>.*<header[^>]*class="authors-header".*<\/aside>/s,
+      );
     });
 
     test("Each author item should contain name and count", async () => {

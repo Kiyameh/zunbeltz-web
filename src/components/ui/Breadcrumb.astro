@@ -25,7 +25,7 @@ const breadcrumbs = segments.map((segment, index) => {
 
 // Agregar "Inicio" al principio
 const allBreadcrumbs = [
-  { label: "Inicio", path: "/", isLast: false },
+  { label: "Inicio", path: "/", isLast: breadcrumbs.length === 0 },
   ...breadcrumbs,
 ];
 ---
@@ -34,21 +34,20 @@ const allBreadcrumbs = [
   <ol class="breadcrumb-list">
     {
       allBreadcrumbs.map((crumb, index) => (
-        <li class="breadcrumb-item">
+        <li
+          class="breadcrumb-item"
+          aria-current={crumb.isLast ? "page" : undefined}
+        >
           {crumb.isLast ? (
-            <span class="breadcrumb-current" aria-current="page">
-              {crumb.label}
-            </span>
+            <span class="breadcrumb-current">{crumb.label}</span>
           ) : (
             <>
               <a href={crumb.path} class="anchor">
                 {crumb.label}
               </a>
-              {index < allBreadcrumbs.length - 1 && (
-                <span class="breadcrumb-separator" aria-hidden="true">
-                  /
-                </span>
-              )}
+              <span class="breadcrumb-separator" aria-hidden="true">
+                /
+              </span>
             </>
           )}
         </li>
