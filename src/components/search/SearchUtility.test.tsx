@@ -59,9 +59,7 @@ describe("SearchUtility", () => {
     it("should not render the dialog content initially", () => {
       render(<SearchUtility />);
 
-      expect(
-        screen.queryByText("Busca contenido en el sitio web"),
-      ).toBeNull();
+      expect(screen.queryByText("Busca contenido en el sitio web")).toBeNull();
     });
 
     it("should render the dialog when button is clicked", async () => {
@@ -223,7 +221,7 @@ describe("SearchUtility", () => {
       it("should handle PagefindUI initialization errors gracefully", async () => {
         const consoleErrorSpy = vi
           .spyOn(console, "error")
-          .mockImplementation(() => { });
+          .mockImplementation(() => {});
 
         // Configurar el mock para lanzar un error cuando se instancia
         const MockPagefindUIWithError = vi.fn().mockImplementation(() => {

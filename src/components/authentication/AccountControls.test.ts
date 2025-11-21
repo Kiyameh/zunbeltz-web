@@ -9,56 +9,53 @@ describe("AccountControls", () => {
   let sourceCode: string;
 
   beforeAll(async () => {
-    const filePath = resolve(
-      __dirname,
-      "./AccountControls.astro",
-    );
+    const filePath = resolve(__dirname, "./AccountControls.astro");
     sourceCode = await readFile(filePath, "utf-8");
   });
 
   describe("Imports", () => {
     test("Should import SignedIn from Clerk", () => {
-      expect(sourceCode).toContain('import {');
-      expect(sourceCode).toContain('SignedIn');
-      expect(sourceCode).toContain('@clerk/astro/components');
+      expect(sourceCode).toContain("import {");
+      expect(sourceCode).toContain("SignedIn");
+      expect(sourceCode).toContain("@clerk/astro/components");
     });
 
     test("Should import SignedOut from Clerk", () => {
-      expect(sourceCode).toContain('SignedOut');
+      expect(sourceCode).toContain("SignedOut");
     });
 
     test("Should import UserButton from Clerk", () => {
-      expect(sourceCode).toContain('UserButton');
+      expect(sourceCode).toContain("UserButton");
     });
 
     test("Should import SignInButton from Clerk", () => {
-      expect(sourceCode).toContain('SignInButton');
+      expect(sourceCode).toContain("SignInButton");
     });
 
     test("Should import AccountControls.css", () => {
-      expect(sourceCode).toContain('./AccountControls.css');
+      expect(sourceCode).toContain("./AccountControls.css");
     });
   });
 
   describe("Component Structure", () => {
     test("Should use SignedOut component", () => {
-      expect(sourceCode).toContain('<SignedOut');
+      expect(sourceCode).toContain("<SignedOut");
       expect(sourceCode).toContain('class="cl-signed-out"');
     });
 
     test("Should use SignedIn component", () => {
-      expect(sourceCode).toContain('<SignedIn');
+      expect(sourceCode).toContain("<SignedIn");
       expect(sourceCode).toContain('class="cl-signed-in"');
     });
 
     test("Should use SignInButton component", () => {
-      expect(sourceCode).toContain('<SignInButton');
+      expect(sourceCode).toContain("<SignInButton");
       expect(sourceCode).toContain('mode="modal"');
     });
 
     test("Should use UserButton component", () => {
-      expect(sourceCode).toContain('<UserButton');
-      expect(sourceCode).toContain('showName');
+      expect(sourceCode).toContain("<UserButton");
+      expect(sourceCode).toContain("showName");
     });
   });
 
@@ -76,7 +73,7 @@ describe("AccountControls", () => {
     });
 
     test("Button should have text 'Iniciar sesión'", () => {
-      expect(sourceCode).toContain('Iniciar sesión');
+      expect(sourceCode).toContain("Iniciar sesión");
     });
   });
 
@@ -106,22 +103,22 @@ describe("AccountControls", () => {
 
   describe("Code Quality", () => {
     test("Should have proper component structure", () => {
-      expect(sourceCode).toContain('---');
+      expect(sourceCode).toContain("---");
       expect(sourceCode).toMatch(/---[\s\S]*---/);
     });
 
     test("Should have both authentication states", () => {
-      const signedOutIndex = sourceCode.indexOf('<SignedOut');
-      const signedInIndex = sourceCode.indexOf('<SignedIn');
+      const signedOutIndex = sourceCode.indexOf("<SignedOut");
+      const signedInIndex = sourceCode.indexOf("<SignedIn");
       expect(signedOutIndex).toBeGreaterThan(-1);
       expect(signedInIndex).toBeGreaterThan(-1);
     });
 
     test("Should import all required Clerk components", () => {
-      expect(sourceCode).toContain('SignedIn');
-      expect(sourceCode).toContain('SignedOut');
-      expect(sourceCode).toContain('UserButton');
-      expect(sourceCode).toContain('SignInButton');
+      expect(sourceCode).toContain("SignedIn");
+      expect(sourceCode).toContain("SignedOut");
+      expect(sourceCode).toContain("UserButton");
+      expect(sourceCode).toContain("SignInButton");
     });
   });
 });

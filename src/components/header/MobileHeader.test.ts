@@ -81,7 +81,7 @@ describe("MobileHeader - Layout Responsibility", () => {
     });
 
     test("Logo should have text 'Zunbeltz'", () => {
-      expect(sourceCode).toContain('Zunbeltz');
+      expect(sourceCode).toContain("Zunbeltz");
     });
 
     test("Logo should be inside logo div", () => {
@@ -117,25 +117,27 @@ describe("MobileHeader - Layout Responsibility", () => {
 
   describe("Component Imports", () => {
     test("Should import AccountControls", () => {
-      expect(sourceCode).toContain('import AccountControls');
+      expect(sourceCode).toContain("import AccountControls");
     });
 
     test("Should import ThemeSwitcher", () => {
-      expect(sourceCode).toContain('import ThemeSwitcher');
+      expect(sourceCode).toContain("import ThemeSwitcher");
     });
 
     test("Should import NavigationMobile", () => {
-      expect(sourceCode).toContain('import { NavigationMobile }');
+      expect(sourceCode).toContain("import { NavigationMobile }");
     });
 
     test("Should import SearchUtility", () => {
-      expect(sourceCode).toContain('import { SearchUtility }');
+      expect(sourceCode).toContain("import { SearchUtility }");
     });
   });
 
   describe("Component Placement", () => {
     test("NavigationMobile should be in menu container", () => {
-      expect(sourceCode).toMatch(/class="menuContainer"[^>]*>.*<NavigationMobile/s);
+      expect(sourceCode).toMatch(
+        /class="menuContainer"[^>]*>.*<NavigationMobile/s,
+      );
     });
 
     test("AccountControls should be in tools slot", () => {
@@ -211,8 +213,8 @@ describe("MobileHeader - Layout Responsibility", () => {
 
   describe("Mobile-Specific Layout", () => {
     test("Should use mobile-specific IDs", () => {
-      expect(sourceCode).toContain('mobile-menu-toggle');
-      expect(sourceCode).toContain('mobile-menu-overlay');
+      expect(sourceCode).toContain("mobile-menu-toggle");
+      expect(sourceCode).toContain("mobile-menu-overlay");
     });
 
     test("Should have client:load directives for interactive components", () => {

@@ -54,8 +54,12 @@ describe("DesktopHeader - Layout Responsibility", () => {
     });
 
     test("Controls section should contain AccountControls and ThemeSwitcher", () => {
-      expect(sourceCode).toMatch(/class="desktop-controls"[^>]*>.*<AccountControls/s);
-      expect(sourceCode).toMatch(/class="desktop-controls"[^>]*>.*<ThemeSwitcher/s);
+      expect(sourceCode).toMatch(
+        /class="desktop-controls"[^>]*>.*<AccountControls/s,
+      );
+      expect(sourceCode).toMatch(
+        /class="desktop-controls"[^>]*>.*<ThemeSwitcher/s,
+      );
     });
   });
 
@@ -65,7 +69,7 @@ describe("DesktopHeader - Layout Responsibility", () => {
     });
 
     test("Logo should have text 'Zunbeltz'", () => {
-      expect(sourceCode).toContain('Zunbeltz');
+      expect(sourceCode).toContain("Zunbeltz");
     });
   });
 
@@ -111,22 +115,22 @@ describe("DesktopHeader - Layout Responsibility", () => {
 
   describe("Component Imports", () => {
     test("Should import AccountControls", () => {
-      expect(sourceCode).toContain('import AccountControls');
+      expect(sourceCode).toContain("import AccountControls");
     });
 
     test("Should import Navigation", () => {
-      expect(sourceCode).toContain('import { Navigation }');
+      expect(sourceCode).toContain("import { Navigation }");
     });
 
     test("Should import ThemeSwitcher", () => {
-      expect(sourceCode).toContain('import ThemeSwitcher');
+      expect(sourceCode).toContain("import ThemeSwitcher");
     });
   });
 
   describe("Desktop-Specific Layout", () => {
     test("Should use desktop-specific class names", () => {
-      expect(sourceCode).toContain('desktop-nav');
-      expect(sourceCode).toContain('desktop-controls');
+      expect(sourceCode).toContain("desktop-nav");
+      expect(sourceCode).toContain("desktop-controls");
     });
 
     test("Should have Navigation with client:load", () => {

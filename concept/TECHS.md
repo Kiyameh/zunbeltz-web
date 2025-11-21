@@ -29,7 +29,6 @@
 - **Vitest** 4.0.8 - Test runner
 - **@testing-library/react** 16.3.0 - Testing de componentes React
 - **@testing-library/user-event** 14.6.1 - Simulación de interacciones
-- **@testing-library/jest-dom** 6.9.1 - Matchers adicionales
 - **jsdom** 27.2.0 - Entorno DOM para tests
 
 ## Development

@@ -18,7 +18,7 @@ export const getStaticPaths = (async () => {
         params: { authorId: author.id },
         props: { author, posts },
       };
-    })
+    }),
   );
 }) satisfies GetStaticPaths;
 

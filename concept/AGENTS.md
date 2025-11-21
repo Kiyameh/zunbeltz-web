@@ -6,8 +6,9 @@
 - **SOLO ejecuta lo que se te pide explícitamente**
 - Si contemplas tareas adicionales (testing, componentes de ejemplo, etc.), **pregunta antes**
 - **NO ejecutes tests** a menos que se te ordene hacerlo
+- Antes de realizar cualquier tarea, leer en este archivo sus instrucciones.
 
-## Componentes React
+## Creación de Componentes React
 
 ### Estructura
 
@@ -35,41 +36,10 @@ export const Button = ({ children }) => {
 
 ### Flujo de trabajo
 
-1. **Crear primero tests vacíos** para verificación
-2. Esperar confirmación del usuario
-3. Implementar los tests
-
-### Estructura de tests
-
-- Agrupar tests en **categorías** con `describe`:
-
-```tsx
-describe("ComponentName", () => {
-  describe("Rendering", () => {
-    it("should render...", () => {});
-  });
-
-  describe("Functionality", () => {
-    describe("Hovering", () => {
-      it("should...", async () => {});
-    });
-
-    describe("Routing", () => {
-      it("should...", () => {});
-    });
-  });
-
-  describe("Accessibility", () => {
-    it("should...", () => {});
-  });
-});
-```
-
-### Configuración de tests
-
-- **ResizeObserver** debe estar mockeado en `test.config.ts`
-- Usa `waitFor` para contenido asíncrono de Radix UI
-- Para dropdowns de Radix UI: usa `click` en lugar de `hover`
+1. Leer documentación de los tests: /docs/Testing.md
+2. **Crear primero tests vacíos** para verificación
+3. Esperar confirmación del usuario
+4. Implementar los tests
 
 ## Uso de Iconos
 
