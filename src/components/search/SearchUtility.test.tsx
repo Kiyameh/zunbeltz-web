@@ -1,7 +1,10 @@
+/**
+ * @vitest-environment jsdom
+ */
+
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import "@testing-library/jest-dom";
 import { SearchUtility } from "./SearchUtility";
 
 // Mock de los iconos SVG
@@ -31,6 +34,7 @@ describe("SearchUtility", () => {
   });
 
   afterEach(() => {
+    cleanup();
     delete (window as any).PagefindUI;
     vi.restoreAllMocks();
   });
@@ -39,8 +43,8 @@ describe("SearchUtility", () => {
     it("should render the search button", () => {
       render(<SearchUtility />);
 
-      expect(screen.getByLabelText("Abrir búsqueda")).toBeInTheDocument();
-      expect(screen.getByText("Buscar")).toBeInTheDocument();
+      expect(screen.getByLabelText("Abrir búsqueda")).toBeTruthy();
+      expect(screen.getByText("Buscar")).toBeTruthy();
     });
 
     it("should render the search icon in the button", () => {
@@ -57,7 +61,7 @@ describe("SearchUtility", () => {
 
       expect(
         screen.queryByText("Busca contenido en el sitio web"),
-      ).not.toBeInTheDocument();
+      ).toBeNull();
     });
 
     it("should render the dialog when button is clicked", async () => {
@@ -70,7 +74,7 @@ describe("SearchUtility", () => {
       await waitFor(() => {
         expect(
           screen.getByText("Busca contenido en el sitio web"),
-        ).toBeInTheDocument();
+        ).toBeTruthy();
       });
     });
 
@@ -97,8 +101,8 @@ describe("SearchUtility", () => {
 
       await waitFor(() => {
         const description = screen.getByText("Busca contenido en el sitio web");
-        expect(description).toBeInTheDocument();
-        expect(description).toHaveClass("paragraph");
+        expect(description).toBeTruthy();
+        expect(description.className).toContain("paragraph");
       });
     });
 
@@ -111,7 +115,7 @@ describe("SearchUtility", () => {
 
       await waitFor(() => {
         const pagefindContainer = document.querySelector("#pagefind-search");
-        expect(pagefindContainer).toBeInTheDocument();
+        expect(pagefindContainer).toBeTruthy();
       });
     });
 
@@ -124,7 +128,7 @@ describe("SearchUtility", () => {
 
       await waitFor(() => {
         const pagefindContainer = document.querySelector("#pagefind-search");
-        expect(pagefindContainer).toHaveClass("PagefindSearch");
+        expect(pagefindContainer?.className).toContain("PagefindSearch");
       });
     });
 
@@ -136,7 +140,7 @@ describe("SearchUtility", () => {
       await user.click(button);
 
       await waitFor(() => {
-        expect(screen.getByLabelText("Cerrar")).toBeInTheDocument();
+        expect(screen.getByLabelText("Cerrar")).toBeTruthy();
       });
     });
   });
@@ -153,7 +157,7 @@ describe("SearchUtility", () => {
         // Esperar a que el contenedor esté en el DOM (Portal lo renderiza en document.body)
         await waitFor(() => {
           const pagefindContainer = document.querySelector("#pagefind-search");
-          expect(pagefindContainer).toBeInTheDocument();
+          expect(pagefindContainer).toBeTruthy();
         });
 
         // Esperar a que PagefindUI se inicialice
@@ -219,7 +223,7 @@ describe("SearchUtility", () => {
       it("should handle PagefindUI initialization errors gracefully", async () => {
         const consoleErrorSpy = vi
           .spyOn(console, "error")
-          .mockImplementation(() => {});
+          .mockImplementation(() => { });
 
         // Configurar el mock para lanzar un error cuando se instancia
         const MockPagefindUIWithError = vi.fn().mockImplementation(() => {
@@ -236,7 +240,7 @@ describe("SearchUtility", () => {
         // Esperar a que el contenedor esté en el DOM
         await waitFor(() => {
           const pagefindContainer = document.querySelector("#pagefind-search");
-          expect(pagefindContainer).toBeInTheDocument();
+          expect(pagefindContainer).toBeTruthy();
         });
 
         // Esperar a que se capture el error
@@ -267,7 +271,7 @@ describe("SearchUtility", () => {
         await waitFor(() => {
           expect(
             screen.getByText("Busca contenido en el sitio web"),
-          ).toBeInTheDocument();
+          ).toBeTruthy();
         });
 
         // PagefindUI no debería haberse llamado porque no está disponible
@@ -284,7 +288,7 @@ describe("SearchUtility", () => {
         await user.click(button);
 
         await waitFor(() => {
-          expect(screen.getByLabelText("Cerrar")).toBeInTheDocument();
+          expect(screen.getByLabelText("Cerrar")).toBeTruthy();
         });
 
         const closeButton = screen.getByLabelText("Cerrar");
@@ -293,7 +297,7 @@ describe("SearchUtility", () => {
         await waitFor(() => {
           expect(
             screen.queryByText("Busca contenido en el sitio web"),
-          ).not.toBeInTheDocument();
+          ).toBeNull();
         });
       });
 
@@ -307,7 +311,7 @@ describe("SearchUtility", () => {
         await waitFor(() => {
           expect(
             screen.getByText("Busca contenido en el sitio web"),
-          ).toBeInTheDocument();
+          ).toBeTruthy();
         });
 
         // Radix UI overlay puede ser clickeado para cerrar el diálogo
@@ -317,7 +321,7 @@ describe("SearchUtility", () => {
           await waitFor(() => {
             expect(
               screen.queryByText("Busca contenido en el sitio web"),
-            ).not.toBeInTheDocument();
+            ).toBeNull();
           });
         }
       });
@@ -329,7 +333,7 @@ describe("SearchUtility", () => {
       render(<SearchUtility />);
 
       const button = screen.getByLabelText("Abrir búsqueda");
-      expect(button).toHaveAttribute("aria-label", "Abrir búsqueda");
+      expect(button.getAttribute("aria-label")).toBe("Abrir búsqueda");
     });
 
     it("should have aria-label on close button", async () => {
@@ -341,7 +345,7 @@ describe("SearchUtility", () => {
 
       await waitFor(() => {
         const closeButton = screen.getByLabelText("Cerrar");
-        expect(closeButton).toHaveAttribute("aria-label", "Cerrar");
+        expect(closeButton.getAttribute("aria-label")).toBe("Cerrar");
       });
     });
 
@@ -349,7 +353,7 @@ describe("SearchUtility", () => {
       render(<SearchUtility />);
 
       const searchIcon = screen.getByTestId("search-icon");
-      expect(searchIcon).toHaveAttribute("aria-hidden", "true");
+      expect(searchIcon.getAttribute("aria-hidden")).toBe("true");
     });
 
     it("should have aria-hidden on close icon", async () => {
@@ -361,7 +365,7 @@ describe("SearchUtility", () => {
 
       await waitFor(() => {
         const xIcon = screen.getByTestId("x-icon");
-        expect(xIcon).toHaveAttribute("aria-hidden", "true");
+        expect(xIcon.getAttribute("aria-hidden")).toBe("true");
       });
     });
   });

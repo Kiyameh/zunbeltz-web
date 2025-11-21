@@ -5,7 +5,7 @@ import ThemeSwitcher from "../theme/ThemeSwitcher.astro";
 ---
 
 <header>
-  <div class="logo">Zunbeltz</div>
+  <div class="logo"><a href="/">Zunbeltz</a></div>
 
   <div class="desktop-nav">
     <Navigation client:load />
@@ -41,13 +41,17 @@ import ThemeSwitcher from "../theme/ThemeSwitcher.astro";
   .logo {
     font-family: var(--font-title);
     font-size: 1.25rem;
+    min-width: 250px;
   }
   .desktop-nav {
     flex: 1;
   }
+
   .desktop-controls {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 4px;
+    min-width: 250px;
   }
 </style>
