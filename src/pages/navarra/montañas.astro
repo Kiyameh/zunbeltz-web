@@ -1,19 +1,26 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Montañas de Navarra | Zunbeltz",
+  pageDescription:
+    "Rutas, ascensiones y zonas de escalada en Navarra. Planifica tu próxima salida a la roca con nosotros.",
+  pageTags: [
+    "Montañismo",
+    "Navarra",
+    "Escalada",
+    "Alpinismo",
+    "Senderismo",
+    "Pirineos",
+    "Aralar",
+    "Urbasa",
+  ],
+  pageUrl: `https://zunbeltz.org/navarra/montañas`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Montañas de Navarra | Zunbeltz"
-  pageDescription="Las montañas y paisajes de la provincia de Navarra. Descubre los picos y sierras más emblemáticos"
-  pageTags={[
-    "montañas",
-    "navarra",
-    "senderismo",
-    "paisajes",
-    "naturaleza",
-    "picos",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Montañas de Navarra</h1>
   </main>

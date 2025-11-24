@@ -1,19 +1,22 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Biblioteca Técnica y Bibliografía | Zunbeltz",
+  pageDescription:
+    "Recopilación de manuales, libros y artículos imprescindibles para el espeleólogo y montañero curioso.",
+  pageTags: [
+    "Libros espeleología",
+    "Manuales técnicos",
+    "Bibliografía montaña",
+    "Recursos PDF",
+  ],
+  pageUrl: `https://zunbeltz.org/aprende/biblioteca`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Biblioteca Técnica | Zunbeltz"
-  pageDescription="Libros, revistas y documentos técnicos sobre espeleología, barranquismo y escalada"
-  pageTags={[
-    "biblioteca",
-    "documentación",
-    "libros",
-    "revistas",
-    "técnica",
-    "espeleología",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Biblioteca Técnica</h1>
   </main>

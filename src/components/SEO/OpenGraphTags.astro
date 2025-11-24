@@ -1,35 +1,24 @@
 ---
-interface Props {
-  title: string;
-  description?: string;
-  image?: string;
-  url: string;
-  type?: "website" | "article";
-  locale?: string;
-  siteName?: string;
+import type { MetaInfo } from "./MetaInfo";
 
-  // Article specific
-  articlePublishedTime?: string;
-  articleModifiedTime?: string;
-  articleAuthor?: string;
-  articleSection?: string;
-  articleTags?: string[];
+interface Props {
+  metaInfo: MetaInfo;
 }
 
-const {
-  title,
-  description,
-  image,
-  url,
-  type = "website",
-  locale = "es_ES",
-  siteName = "Zunbeltz",
-  articlePublishedTime,
-  articleModifiedTime,
-  articleAuthor,
-  articleSection,
-  articleTags,
-} = Astro.props;
+const { metaInfo } = Astro.props;
+
+const title = metaInfo.pageTitle;
+const description = metaInfo.pageDescription;
+const image = metaInfo.pageImage;
+const url = metaInfo.pageUrl ?? "https://zunbeltz.org";
+const type = metaInfo.pageType ?? "website";
+const locale = "es_ES";
+const siteName = "Zunbeltz";
+const articlePublishedTime = metaInfo.articlePublishedTime;
+const articleModifiedTime = metaInfo.articleModifiedTime;
+const articleAuthor = metaInfo.articleAuthor;
+const articleSection = metaInfo.articleSection;
+const articleTags = metaInfo.articleTags;
 ---
 
 <!-- Open Graph / Facebook -->
@@ -60,7 +49,7 @@ const {
       {articleSection && (
         <meta property="article:section" content={articleSection} />
       )}
-      {articleTags?.map((tag) => (
+      {articleTags?.map((tag: string) => (
         <meta property="article:tag" content={tag} />
       ))}
     </>

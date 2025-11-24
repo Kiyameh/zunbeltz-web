@@ -8,34 +8,16 @@ import DesktopHeader from "@/components/header/DesktopHeader.astro";
 import MobileHeader from "@/components/header/MobileHeader.astro";
 import OpenGraphTags from "@/components/SEO/OpenGraphTags.astro";
 import TwitterCardTags from "@/components/SEO/TwitterCardTags.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 interface Props {
-  // Meta tags básicos
-  pageTitle: string;
-  pageDescription?: string;
-  pageTags?: string[];
-  pageAuthor?: string;
-  pageImage?: string;
-  pageUrl?: string;
-  pageType?: "website" | "article";
-
-  // Open Graph - Article (para posts de blog)
-  articlePublishedTime?: string;
-  articleModifiedTime?: string;
-  articleAuthor?: string;
-  articleSection?: string;
-  articleTags?: string[];
-
-  // Twitter Cards
-  twitterCard?: "summary" | "summary_large_image";
-  twitterSite?: string;
-  twitterCreator?: string;
+  metaInfo?: MetaInfo;
 }
-const {
-  // Meta tags básicos
-  pageTitle = "Zunbeltz | Espeleología en Navarra",
-  pageDescription = "Tu portal sobre espeleología en Navarra",
-  pageTags = [
+
+const defaultMeta: MetaInfo = {
+  pageTitle: "Zunbeltz | Espeleología en Navarra",
+  pageDescription: "Tu portal sobre espeleología en Navarra",
+  pageTags: [
     "espeleología",
     "barranquismo",
     "escalada",
@@ -44,23 +26,17 @@ const {
     "cuevas",
     "blog",
   ],
-  pageAuthor = "Andoni Abarzuza @kiyameh",
-  pageImage,
-  pageUrl = "https://zunbeltz.org",
-  pageType = "website",
+  pageAuthor: "Andoni Abarzuza @kiyameh",
+  pageUrl: "https://zunbeltz.org",
+  pageType: "website",
+  twitterCard: "summary",
+  twitterSite: "@zunbeltz",
+};
 
-  // Open Graph - Article
-  articlePublishedTime,
-  articleModifiedTime,
-  articleAuthor,
-  articleSection,
-  articleTags,
+const { metaInfo = defaultMeta } = Astro.props;
 
-  // Twitter Cards (con fallbacks a valores básicos)
-  twitterCard = "summary",
-  twitterSite = "@zunbeltz",
-  twitterCreator,
-} = Astro.props;
+// Combinar valores por defecto con los proporcionados
+const finalMetaInfo: MetaInfo = { ...defaultMeta, ...metaInfo };
 ---
 
 <!doctype html>
@@ -70,39 +46,18 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Meta tags básicos -->
-    <title>{pageTitle}</title>
-    <meta name="title" content={pageTitle} />
-    <meta name="description" content={pageDescription} />
-    <meta name="author" content={pageAuthor} />
-    <meta name="keywords" content={pageTags?.join(", ") ?? ""} />
-    <link rel="canonical" href={pageUrl} />
+    <title>{finalMetaInfo.pageTitle}</title>
+    <meta name="title" content={finalMetaInfo.pageTitle} />
+    <meta name="description" content={finalMetaInfo.pageDescription} />
+    <meta name="author" content={finalMetaInfo.pageAuthor} />
+    <meta name="keywords" content={finalMetaInfo.pageTags?.join(", ") ?? ""} />
+    <link rel="canonical" href={finalMetaInfo.pageUrl} />
 
     <!-- Open Graph / Facebook -->
-    <OpenGraphTags
-      title={pageTitle}
-      description={pageDescription}
-      image={pageImage}
-      url={pageUrl}
-      type={pageType}
-      locale={"es_ES"}
-      siteName={"Zunbeltz"}
-      articlePublishedTime={articlePublishedTime}
-      articleModifiedTime={articleModifiedTime}
-      articleAuthor={articleAuthor}
-      articleSection={articleSection}
-      articleTags={articleTags}
-    />
+    <OpenGraphTags metaInfo={finalMetaInfo} />
 
     <!-- Twitter Cards -->
-    <TwitterCardTags
-      card={twitterCard}
-      site={twitterSite}
-      creator={twitterCreator}
-      title={pageTitle}
-      description={pageDescription}
-      image={pageImage}
-      imageAlt={pageTitle}
-    />
+    <TwitterCardTags metaInfo={finalMetaInfo} />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

@@ -4,6 +4,7 @@ import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import { getAuthorsWithPosts, getAuthorPostCounts } from "@/utils/blog/authors";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 const authors = await getAuthorsWithPosts();
 const postCounts = await getAuthorPostCounts();
@@ -15,12 +16,22 @@ const sortedAuthors = authors.sort((a, b) => {
   return countB - countA;
 });
 
-const pageTitle = "Autores";
-const pageDescription =
-  "Conoce a los autores que contribuyen al blog de Zunbeltz.org";
+const meta: MetaInfo = {
+  pageTitle: "El equipo | La falla de Zunbeltz",
+  pageDescription:
+    "Conoce a los espeleólogos y montañeros detrás de Zunbeltz. Lanzales cacahuetes, si quieres",
+  pageTags: [
+    "Equipo Zunbeltz",
+    "Espeleólogos",
+    "Autores",
+    "Colaboradores",
+    "Comunidad",
+  ],
+  pageUrl: `https://zunbeltz.org/blog/autor`,
+};
 ---
 
-<HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb />
 

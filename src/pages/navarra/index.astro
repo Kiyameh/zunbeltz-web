@@ -1,20 +1,23 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Espeleología y Aventura en Navarra | Guía Zunbeltz",
+  pageDescription:
+    "Explora el subsuelo y las cumbres de la Comunidad Foral. Guía de cuevas, barrancos y montes de Navarra.",
+  pageTags: [
+    "Navarra",
+    "Turismo activo",
+    "Cuevas Navarra",
+    "Pirineo Navarro",
+    "Aventura",
+  ],
+  pageUrl: `https://zunbeltz.org/navarra`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Navarra | Zunbeltz"
-  pageDescription="Descubre la naturaleza de Navarra: cuevas, montañas, ríos y paisajes únicos"
-  pageTags={[
-    "navarra",
-    "naturaleza",
-    "cuevas",
-    "montañas",
-    "ríos",
-    "espeleología",
-    "paisajes",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Navarra</h1>
   </main>

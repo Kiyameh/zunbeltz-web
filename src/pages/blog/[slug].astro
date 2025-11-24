@@ -9,6 +9,7 @@ import PostHeader from "@/components/blog/PostHeader.astro";
 import BlogCategories from "@/components/blog/BlogCategories.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 export const getStaticPaths = (async () => {
   const posts = await getCollection("posts");
@@ -21,9 +22,22 @@ export const getStaticPaths = (async () => {
 const { post } = Astro.props;
 const { Content } = await post.render();
 const author = await getEntry(post.data.author);
+
+const meta: MetaInfo = {
+  pageTitle: `${post.data.title} | Blog Zunbeltz`,
+  pageDescription: post.data.description,
+  pageTags: post.data.categories,
+  pageAuthor: author.data.name,
+  pageImage: post.data.heroImage.src,
+  pageUrl: `https://zunbeltz.org/blog/${post.slug}`,
+  pageType: "article",
+  articleAuthor: author.data.name,
+  articlePublishedTime: post.data.publishDate.toISOString(),
+  articleTags: post.data.categories,
+};
 ---
 
-<HtmlLayout pageTitle={post.data.title} pageDescription={post.data.description}>
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb />
 

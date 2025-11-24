@@ -4,6 +4,7 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import Pagination from "@/components/ui/Pagination.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 // Configuración de paginación
 const POSTS_PER_PAGE = 8;
@@ -31,12 +32,22 @@ const posts = sortedPosts.slice(startIndex, endIndex);
 if (currentPage < 1 || currentPage > totalPages) {
   return Astro.redirect("/");
 }
+
+const meta: MetaInfo = {
+  pageTitle: "La Falla de Zunbeltz: Blog de Espeleología y Aventura",
+  pageDescription: "Crónicas desde el subsuelo y otras zonas sin cobertura",
+  pageTags: [
+    "Espeleología",
+    "Blog Montaña",
+    "Aventuras Navarra",
+    "Zunbeltz",
+    "Exploración",
+  ],
+  pageUrl: `https://zunbeltz.org/`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Blog - Zunbeltz.org"
-  pageDescription="Crónicas desde el subsuelo y otras zonas sin cobertura"
->
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <div class="posts-list">
       {posts.map((post) => <PostCard post={post} />)}

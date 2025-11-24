@@ -3,6 +3,7 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import { getCategoriesWithCountArray } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 const categories = await getCategoriesWithCountArray();
 
@@ -25,11 +26,22 @@ function getCategorySize(count: number): number {
   return 1;
 }
 
-const pageTitle = "Todas las Categorías";
-const pageDescription = "Explora todos los posts organizados por categorías";
+const meta: MetaInfo = {
+  pageTitle: "Índice de temas | La falla de Zunbeltz",
+  pageDescription:
+    "Navega por nuestras secciones: técnica, biología, exploración, historia... Todo el contenido ordenado para ti.",
+  pageTags: [
+    "Categorías",
+    "Temas espeleología",
+    "Material",
+    "Técnica",
+    "Bioespeleología",
+  ],
+  pageUrl: `https://zunbeltz.org/blog/categoria`,
+};
 ---
 
-<HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb />
 

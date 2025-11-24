@@ -1,19 +1,25 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Cursos Presenciales y Talleres en Navarra | Zunbeltz",
+  pageDescription:
+    "Mancha tu mono con nosotros. Próximas fechas para cursos de espeleo, barranquismo, autorescate y más en Navarra.",
+  pageTags: [
+    "Cursos presenciales",
+    "Formación",
+    "Navarra",
+    "Talleres prácticos",
+    "Espeleología",
+    "Barranquismo",
+    "Autorescate",
+  ],
+  pageUrl: `https://zunbeltz.org/aprende/cursos`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Cursos Presenciales | Zunbeltz"
-  pageDescription="Pon en práctica tus deportes favoritos en Navarra. Cursos presenciales de espeleología, barranquismo y escalada"
-  pageTags={[
-    "cursos presenciales",
-    "formación",
-    "navarra",
-    "espeleología",
-    "barranquismo",
-    "escalada",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Cursos Presenciales</h1>
   </main>

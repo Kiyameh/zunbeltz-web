@@ -1,18 +1,23 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Aula Virtual: Cursos Online | Zunbeltz",
+  pageDescription:
+    "Mejora tu conocimiento con cursos online en todas las disciplinas. Formación flexible y de calidad",
+  pageTags: [
+    "E-learning",
+    "Cursos online",
+    "Tutoriales espeleología",
+    "Nudos",
+    "Técnica",
+  ],
+  pageUrl: `https://zunbeltz.org/aprende/online`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Aprende Online | Zunbeltz"
-  pageDescription="Mejora tu conocimiento con cursos online en todas las disciplinas. Formación flexible y de calidad"
-  pageTags={[
-    "cursos online",
-    "formación",
-    "aprendizaje",
-    "espeleología",
-    "barranquismo",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Aprende Online</h1>
   </main>

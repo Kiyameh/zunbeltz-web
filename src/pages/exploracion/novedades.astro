@@ -1,20 +1,26 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Diario de Exploraciónes subterraneas | Zunbeltz",
+  pageDescription:
+    "Novedades del frente. Descubrimientos recientes, nuevas galerías y campañas espeleológicas activas en Navarra.",
+  pageTags: [
+    "Exploración espeleológica",
+    "Nuevas cuevas",
+    "Campañas",
+    "Navarra",
+    "Zunbeltz",
+    "Expediciones",
+  ],
+  pageUrl: `https://zunbeltz.org/exploracion/novedades`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Últimas Exploraciones | Zunbeltz"
-  pageDescription="Novedades en la exploración espeleológica de Navarra. Descubre las últimas expediciones y hallazgos"
-  pageTags={[
-    "exploración",
-    "espeleología",
-    "novedades",
-    "expediciones",
-    "navarra",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
-    <h1>Últimas Exploraciones</h1>
+    <h1>Diario de Exploraciónes subterraneas</h1>
   </main>
 </HtmlLayout>
 

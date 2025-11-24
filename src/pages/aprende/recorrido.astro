@@ -1,12 +1,22 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Tu Camino Formativo: De novato a experto | Zunbeltz",
+  pageDescription:
+    "¿Por dónde empezar? Descubre el itinerario recomendado para formarte en deportes de vertical y exploración segura.",
+  pageTags: [
+    "Itinerario formativo",
+    "Aprender espeleología",
+    "Niveles",
+    "Guía aprendizaje",
+  ],
+  pageUrl: `https://zunbeltz.org/aprende/recorrido`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Recorrido de Aprendizaje | Zunbeltz"
-  pageDescription="El camino del buen amante de la aventura. Descubre tu ruta de aprendizaje personalizada"
-  pageTags={["aprendizaje", "recorrido", "formación", "aventura", "progresión"]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Recorrido de Aprendizaje</h1>
   </main>

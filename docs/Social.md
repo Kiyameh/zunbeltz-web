@@ -651,7 +651,7 @@ Esta configuración es crucial para que `Astro.site` funcione correctamente y se
 
 #### Opción 1: Usando `public/images/seo/`
 
-```
+```folder
 public/
 ├── images/
 │   ├── seo/                          # Imágenes SEO generales
@@ -681,7 +681,7 @@ public/
 
 Si quieres aprovechar la optimización automática de imágenes de Astro:
 
-```
+```folder
 src/
 ├── assets/
 │   ├── seo/                          # Imágenes SEO (optimizadas por Astro)
@@ -709,7 +709,7 @@ src/
 
 #### Para páginas específicas
 
-```
+```folder
 {pagina}-og.jpg          # Imagen Open Graph
 {pagina}-twitter.jpg     # Imagen Twitter (si es diferente)
 {pagina}-og-{idioma}.jpg # Si tienes i18n
@@ -724,7 +724,7 @@ src/
 
 #### Para secciones/categorías
 
-```
+```folder
 {seccion}-og.jpg
 ```
 
@@ -736,7 +736,7 @@ src/
 
 #### Imagen por defecto
 
-```
+```folder
 default-og.jpg           # Fallback general (1200x630px)
 ```
 
@@ -870,7 +870,7 @@ export const seoImages = {
 
 ### Estructura Recomendada Final para Zunbeltz
 
-```
+```folder
 src/
 ├── assets/
 │   └── seo/

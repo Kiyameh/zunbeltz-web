@@ -2,12 +2,24 @@
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "La falla de zunbeltz: Buscar",
+  pageDescription:
+    "¿Buscas una reseña, una topografía o un consejo técnico? Encuentra aquí todo lo que hemos escrito.",
+  pageTags: [
+    "Buscador",
+    "Archivo",
+    "Reseñas",
+    "Topografías",
+    "Artículos técnicos",
+  ],
+  pageUrl: `https://zunbeltz.org/blog/buscar`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="La falla de zunbeltz: Buscar"
-  pageDescription="Buscar en el blog de Zunbeltz"
->
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb />
     <h1 class="title-1">¿Qué estás buscando?</h1>

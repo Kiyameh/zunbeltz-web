@@ -7,6 +7,7 @@ import PostCard from "@/components/blog/PostCard.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import { getAuthorPosts } from "@/utils/blog/authors";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 export const getStaticPaths = (async () => {
   const authors = await getCollection("authors");
@@ -23,11 +24,22 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { author, posts } = Astro.props;
-const pageTitle = `Autor: ${author.data.name}`;
-const pageDescription = author.data.bio;
+
+const meta: MetaInfo = {
+  pageTitle: `Perfil de ${author.data.name} | La falla de Zunbeltz`,
+  pageDescription: `Artículos, exploraciones y aportaciones de ${author.data.name}. Conoce su trayectoria y lee sus publicaciones.`,
+  pageTags: [
+    author.data.name,
+    "Perfil",
+    "Publicaciones",
+    "Experiencia",
+    "Contacto",
+  ],
+  pageUrl: `https://zunbeltz.org/blog/autor/${author.id}`,
+};
 ---
 
-<HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb class="author-breadcrumb" />
 

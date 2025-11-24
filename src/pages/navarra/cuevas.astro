@@ -1,19 +1,17 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Cuevas y Simas de Navarra | Zunbeltz",
+  pageDescription:
+    "Zonas kársticas de Navarra y sus cavidades. Explora el mundo subterráneo de la provincia",
+  pageTags: ["Cuevas", "Navarra", "Simas", "Larra", "Urbasa", "Aralar"],
+  pageUrl: `https://zunbeltz.org/navarra/cuevas`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Cuevas de Navarra | Zunbeltz"
-  pageDescription="Zonas kársticas de Navarra y sus cavidades. Explora el mundo subterráneo de la provincia"
-  pageTags={[
-    "cuevas",
-    "navarra",
-    "espeleología",
-    "karst",
-    "cavidades",
-    "subterráneo",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Cuevas de Navarra</h1>
   </main>

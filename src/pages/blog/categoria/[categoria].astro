@@ -3,9 +3,9 @@ import type { GetStaticPaths } from "astro";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
-import BlogCategories from "@/components/blog/BlogCategories.astro";
 import { getAllCategories, getPostsByCategory } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
 export const getStaticPaths = (async () => {
   const categories = await getAllCategories();
@@ -22,11 +22,16 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { posts, categoria } = Astro.props;
-const pageTitle = `Categoría: ${categoria}`;
-const pageDescription = `Todos los posts de la categoría ${categoria}`;
+
+const meta: MetaInfo = {
+  pageTitle: `Artículos sobre ${categoria} | La falla de Zunbeltz`,
+  pageDescription: `Todo lo que necesitas saber sobre ${categoria}. Artículos destacados en Zunbeltz.`,
+  pageTags: [categoria, "Información", "Guía", "Recursos", "Zunbeltz"],
+  pageUrl: `https://zunbeltz.org/blog/categoria/${categoria}`,
+};
 ---
 
-<HtmlLayout pageTitle={pageTitle} pageDescription={pageDescription}>
+<HtmlLayout metaInfo={meta}>
   <BlogLayout>
     <Breadcrumb class="category-breadcrumb" />
 

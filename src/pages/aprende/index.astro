@@ -1,19 +1,25 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Escuela Zunbeltz: Formación en Espeleología y Montaña",
+  pageDescription:
+    "Aprende espeleología, barranquismo y escalada con la Escuela Zunbeltz. Cursos online y presenciales",
+  pageTags: [
+    "Escuela",
+    "Cursos",
+    "Formación",
+    "Espeleología",
+    "Barranquismo",
+    "Escalada",
+    "Seguridad",
+  ],
+  pageUrl: `https://zunbeltz.org/aprende`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Escuela Zunbeltz | Aprende"
-  pageDescription="Aprende espeleología, barranquismo y escalada con la Escuela Zunbeltz. Cursos online y presenciales"
-  pageTags={[
-    "escuela",
-    "aprendizaje",
-    "cursos",
-    "espeleología",
-    "barranquismo",
-    "escalada",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Escuela Zunbeltz</h1>
   </main>

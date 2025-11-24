@@ -1,19 +1,25 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Topografía y Cartografía Subterránea | Zunbeltz",
+  pageDescription:
+    "Método, herramientas y software de topografía de cavidades. Aprende las técnicas de medición subterránea",
+  pageTags: [
+    "Topografía",
+    "Herramientas",
+    "Software",
+    "Técnicas",
+    "Cartografía",
+    "Planos",
+    "Espeleometría",
+  ],
+  pageUrl: `https://zunbeltz.org/exploracion/topografia`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Topografía Espeleológica | Zunbeltz"
-  pageDescription="Método, herramientas y software de topografía de cavidades. Aprende las técnicas de medición subterránea"
-  pageTags={[
-    "topografía",
-    "espeleología",
-    "herramientas",
-    "software",
-    "técnicas",
-    "medición",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Topografía Espeleológica</h1>
   </main>

@@ -1,18 +1,23 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const meta: MetaInfo = {
+  pageTitle: "Generador de Fichas de Instalación | Herramientas Zunbeltz",
+  pageDescription:
+    "Crea fichas técnicas profesionales para tus exploraciones. Herramienta gratuita para equipadores y espeleólogos.",
+  pageTags: [
+    "Generador fichas",
+    "Ficha de instalación",
+    "Equipamiento",
+    "Anclajes",
+    "Software espeleológico",
+  ],
+  pageUrl: `https://zunbeltz.org/exploracion/fichas`,
+};
 ---
 
-<HtmlLayout
-  pageTitle="Generador de Fichas | Zunbeltz"
-  pageDescription="Herramienta para generar fichas técnicas de instalación espeleológica. Crea documentación profesional"
-  pageTags={[
-    "fichas",
-    "espeleología",
-    "herramienta",
-    "instalación",
-    "documentación",
-  ]}
->
+<HtmlLayout metaInfo={meta}>
   <main>
     <h1>Generador de Fichas</h1>
   </main>
