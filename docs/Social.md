@@ -49,9 +49,15 @@ Se añaden como meta tags en el `<head>` del HTML:
 ```html
 <!-- Open Graph básico -->
 <meta property="og:title" content="Guía completa de Astro 5" />
-<meta property="og:description" content="Aprende todo sobre las nuevas características de Astro 5" />
-<meta property="og:image" content="https://zunbeltz.com/images/blog/astro-5-hero.jpg" />
-<meta property="og:url" content="https://zunbeltz.com/blog/guia-astro-5" />
+<meta
+  property="og:description"
+  content="Aprende todo sobre las nuevas características de Astro 5"
+/>
+<meta
+  property="og:image"
+  content="https://zunbeltz.org/images/blog/astro-5-hero.jpg"
+/>
+<meta property="og:url" content="https://zunbeltz.org/blog/guia-astro-5" />
 <meta property="og:type" content="article" />
 <meta property="og:locale" content="es_ES" />
 <meta property="og:site_name" content="Zunbeltz Blog" />
@@ -109,8 +115,14 @@ Se añaden como meta tags en el `<head>` del HTML:
 <meta name="twitter:site" content="@zunbeltz" />
 <meta name="twitter:creator" content="@juanperez" />
 <meta name="twitter:title" content="Guía completa de Astro 5" />
-<meta name="twitter:description" content="Aprende todo sobre las nuevas características de Astro 5" />
-<meta name="twitter:image" content="https://zunbeltz.com/images/blog/astro-5-hero.jpg" />
+<meta
+  name="twitter:description"
+  content="Aprende todo sobre las nuevas características de Astro 5"
+/>
+<meta
+  name="twitter:image"
+  content="https://zunbeltz.org/images/blog/astro-5-hero.jpg"
+/>
 <meta name="twitter:image:alt" content="Logo de Astro 5 con fondo degradado" />
 ```
 
@@ -138,20 +150,20 @@ https://twitter.com/intent/tweet?url={URL}&text={TEXTO}
 **Ejemplo en JavaScript**:
 
 ```javascript
-const url = encodeURIComponent('https://tudominio.com/blog/mi-post');
-const text = encodeURIComponent('Título del Post');
+const url = encodeURIComponent("https://tudominio.com/blog/mi-post");
+const text = encodeURIComponent("Título del Post");
 const shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
 ```
 
 **Ejemplo completo con todos los parámetros**:
 
 ```javascript
-const url = encodeURIComponent('https://zunbeltz.com/blog/guia-astro-5');
-const text = encodeURIComponent('Guía completa de Astro 5');
-const via = 'zunbeltz';
-const hashtags = 'Astro,JavaScript,WebDev';
+const url = encodeURIComponent("https://zunbeltz.org/blog/guia-astro-5");
+const text = encodeURIComponent("Guía completa de Astro 5");
+const via = "zunbeltz";
+const hashtags = "Astro,JavaScript,WebDev";
 const shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${text}&via=${via}&hashtags=${hashtags}`;
-// Resultado: https://twitter.com/intent/tweet?url=https%3A%2F%2Fzunbeltz.com%2Fblog%2Fguia-astro-5&text=Gu%C3%ADa%20completa%20de%20Astro%205&via=zunbeltz&hashtags=Astro,JavaScript,WebDev
+// Resultado: https://twitter.com/intent/tweet?url=https%3A%2F%2Fzunbeltz.org%2Fblog%2Fguia-astro-5&text=Gu%C3%ADa%20completa%20de%20Astro%205&via=zunbeltz&hashtags=Astro,JavaScript,WebDev
 ```
 
 ---
@@ -171,7 +183,7 @@ https://www.facebook.com/sharer/sharer.php?u={URL}
 **Ejemplo en JavaScript**:
 
 ```javascript
-const url = encodeURIComponent('https://tudominio.com/blog/mi-post');
+const url = encodeURIComponent("https://tudominio.com/blog/mi-post");
 const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
 ```
 
@@ -200,8 +212,8 @@ https://web.whatsapp.com/send?text={TEXTO}
 **Ejemplo en JavaScript**:
 
 ```javascript
-const title = 'Título del Post';
-const url = 'https://tudominio.com/blog/mi-post';
+const title = "Título del Post";
+const url = "https://tudominio.com/blog/mi-post";
 const text = encodeURIComponent(`${title} ${url}`);
 const shareUrl = `https://wa.me/?text=${text}`;
 ```
@@ -209,11 +221,11 @@ const shareUrl = `https://wa.me/?text=${text}`;
 **Ejemplo completo**:
 
 ```javascript
-const title = 'Guía completa de Astro 5';
-const url = 'https://zunbeltz.com/blog/guia-astro-5';
+const title = "Guía completa de Astro 5";
+const url = "https://zunbeltz.org/blog/guia-astro-5";
 const text = encodeURIComponent(`${title}\n\n${url}`);
 const shareUrl = `https://wa.me/?text=${text}`;
-// Resultado: https://wa.me/?text=Gu%C3%ADa%20completa%20de%20Astro%205%0A%0Ahttps%3A%2F%2Fzunbeltz.com%2Fblog%2Fguia-astro-5
+// Resultado: https://wa.me/?text=Gu%C3%ADa%20completa%20de%20Astro%205%0A%0Ahttps%3A%2F%2Fzunbeltz.org%2Fblog%2Fguia-astro-5
 ```
 
 ---
@@ -233,7 +245,7 @@ https://www.linkedin.com/sharing/share-offsite/?url={URL}
 **Ejemplo en JavaScript**:
 
 ```javascript
-const url = encodeURIComponent('https://tudominio.com/blog/mi-post');
+const url = encodeURIComponent("https://tudominio.com/blog/mi-post");
 const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
 ```
 
@@ -262,13 +274,13 @@ instagram://library?AssetPath={IMAGEN}
 
 ### Tabla resumen de URLs
 
-| Red Social | URL Base | Parámetros principales | Obtiene metadata de |
-|------------|----------|------------------------|---------------------|
-| X (Twitter) | `https://twitter.com/intent/tweet` | `url`, `text`, `via`, `hashtags` | URL + parámetros |
-| Facebook | `https://www.facebook.com/sharer/sharer.php` | `u` | Open Graph tags |
-| WhatsApp | `https://wa.me/` | `text` | Parámetro text |
-| LinkedIn | `https://www.linkedin.com/sharing/share-offsite/` | `url` | Open Graph tags |
-| Instagram | ❌ No disponible en web | - | - |
+| Red Social  | URL Base                                          | Parámetros principales           | Obtiene metadata de |
+| ----------- | ------------------------------------------------- | -------------------------------- | ------------------- |
+| X (Twitter) | `https://twitter.com/intent/tweet`                | `url`, `text`, `via`, `hashtags` | URL + parámetros    |
+| Facebook    | `https://www.facebook.com/sharer/sharer.php`      | `u`                              | Open Graph tags     |
+| WhatsApp    | `https://wa.me/`                                  | `text`                           | Parámetro text      |
+| LinkedIn    | `https://www.linkedin.com/sharing/share-offsite/` | `url`                            | Open Graph tags     |
+| Instagram   | ❌ No disponible en web                           | -                                | -                   |
 
 ---
 
@@ -293,7 +305,7 @@ async function copyToClipboard(text: string): Promise<boolean> {
 ```javascript
 async function handleCopyLink(url: string) {
   const success = await copyToClipboard(url);
-  
+
   if (success) {
     // Mostrar toast de éxito
     showToast('Enlace copiado al portapapeles', 'success');
@@ -320,11 +332,11 @@ function copyToClipboardFallback(text: string): boolean {
   textArea.value = text;
   textArea.style.position = 'fixed';
   textArea.style.left = '-999999px';
-  
+
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
-  
+
   try {
     const successful = document.execCommand('copy');
     document.body.removeChild(textArea);
@@ -347,7 +359,7 @@ async function copyToClipboard(text: string): Promise<boolean> {
       console.error('Error con Clipboard API:', err);
     }
   }
-  
+
   // Fallback para navegadores antiguos
   return copyToClipboardFallback(text);
 }
@@ -406,93 +418,146 @@ async function copyToClipboard(text: string): Promise<boolean> {
 
 ### Problemas comunes y soluciones
 
-| Problema | Causa | Solución |
-|----------|-------|----------|
-| Imagen no se muestra | URL relativa en og:image | Usar URL absoluta (https://...) |
-| Caché antigua | Redes sociales cachean los meta tags | Usar herramientas de validación para limpiar caché |
-| Imagen muy pequeña | Tamaño menor al requerido | Usar mínimo 1200x630px |
-| Descripción cortada | Texto muy largo | Máximo 155-160 caracteres |
-| No se actualiza | Caché del navegador | Limpiar caché y recargar |
+| Problema             | Causa                                | Solución                                           |
+| -------------------- | ------------------------------------ | -------------------------------------------------- |
+| Imagen no se muestra | URL relativa en og:image             | Usar URL absoluta (https://...)                    |
+| Caché antigua        | Redes sociales cachean los meta tags | Usar herramientas de validación para limpiar caché |
+| Imagen muy pequeña   | Tamaño menor al requerido            | Usar mínimo 1200x630px                             |
+| Descripción cortada  | Texto muy largo                      | Máximo 155-160 caracteres                          |
+| No se actualiza      | Caché del navegador                  | Limpiar caché y recargar                           |
 
 ---
 
-## Resumen para la Implementación
+## Implementación en el Proyecto
 
-### Directrices del proyecto
+### Arquitectura y Decisiones de Diseño
 
-- ✅ Priorizar Astro sobre React
-- ✅ Iconos ya disponibles en `src/icons`
-- ✅ Twitter ahora se llama X
-- ✅ Usar clases `icon-button secondary` del sistema de diseño
-- ✅ Botones solo con iconos (sin texto de red social)
-- ❌ NO incluir Instagram (no funciona en web)
+El sistema de compartir en redes sociales del proyecto está construido con las siguientes decisiones técnicas:
 
-### Componentes a crear
+- **Iconos**: Se utilizan los iconos SVG existentes en `src/icons` (Facebook, X/Twitter, WhatsApp, Link)
+- **Nomenclatura**: Twitter se referencia como "X" en el código y la interfaz
+- **Estilos**: Los botones usan las clases `icon-button secondary` del sistema de diseño global
+- **UI minimalista**: Botones solo con iconos, sin texto descriptivo de la red social
+- **Framework**: React para el componente interactivo `ShareButtons` (requiere hidratación con `client:load`)
+- **Componentes UI**: Radix UI para el componente Toast (feedback al copiar enlace)
+- **Estilos encapsulados**: CSS Modules para evitar conflictos de estilos
+- **Redes soportadas**: Facebook, X (Twitter), WhatsApp, y función de copiar enlace
+- **Instagram**: No incluido (no tiene API de compartir disponible para web)
 
-#### 1. Componente `SocialMeta.astro`
+### Componentes del Sistema
 
-**Responsabilidades**:
+#### 1. Sistema de Meta Tags SEO
 
-- Generar Open Graph tags
-- Generar Twitter Cards
-- Usar URLs absolutas para imágenes
-- Incluir datos del post (título, descripción, fecha, autor)
+**Componentes**:
 
-**Props necesarias**:
+- `src/components/SEO/MetaInfo.ts` - Interface TypeScript para meta información
+- `src/components/SEO/OpenGraphTags.astro` - Genera Open Graph tags
+- `src/components/SEO/TwitterCardTags.astro` - Genera Twitter Cards
+
+**Interface MetaInfo**:
 
 ```typescript
-interface Props {
-  title: string;
-  description: string;
-  image: string; // Ruta relativa, se convertirá a absoluta
-  url: string; // URL del post
-  publishDate: Date;
-  author: string;
-  categories?: string[];
+export interface MetaInfo {
+  // Meta tags básicos
+  pageTitle: string;
+  pageDescription: string;
+  pageTags?: string[];
+  pageAuthor?: string;
+  pageImage?: string;
+  pageUrl?: string;
+  pageType?: "website" | "article";
+
+  // Open Graph - Article (para posts de blog)
+  articlePublishedTime?: string;
+  articleModifiedTime?: string;
+  articleAuthor?: string;
+  articleSection?: string;
+  articleTags?: string[];
+
+  // Twitter Cards
+  twitterCard?: "summary" | "summary_large_image";
+  twitterSite?: string;
+  twitterCreator?: string;
 }
 ```
 
-**Ubicación**: `src/components/blog/SocialMeta.astro`
+**Uso en layouts**:
+
+```astro
+---
+import OpenGraphTags from "@/components/SEO/OpenGraphTags.astro";
+import TwitterCardTags from "@/components/SEO/TwitterCardTags.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+
+const { metaInfo } = Astro.props;
+---
+
+<head>
+  <OpenGraphTags metaInfo={metaInfo} />
+  <TwitterCardTags metaInfo={metaInfo} />
+</head>
+```
 
 ---
 
-#### 2. Componente `ShareButtons.astro`
+#### 2. Componente `ShareButtons.tsx`
 
 **Responsabilidades**:
 
 - Botones para: X, Facebook, WhatsApp, Copiar enlace
-- Usar iconos de `src/icons`
-- Clases `icon-button secondary`
-- Script client-side para copiar al portapapeles
-- Mostrar toast al copiar (opcional)
+- Usar iconos de `src/icons` (importados como raw SVG)
+- Clases `icon-button secondary` del sistema de diseño
+- Toast de Radix UI al copiar enlace
+- CSS Modules para estilos encapsulados
 
 **Props necesarias**:
 
 ```typescript
-interface Props {
+interface ShareButtonsProps {
   url: string; // URL del post
   title: string; // Título del post
   description?: string; // Descripción opcional
 }
 ```
 
-**Redes sociales a incluir**:
+**Redes sociales incluidas**:
 
-- ✅ X (Twitter)
-- ✅ Facebook
-- ✅ WhatsApp
-- ✅ Copiar enlace
+- ✅ X (Twitter) - `https://twitter.com/intent/tweet?url={URL}&text={TITLE}`
+- ✅ Facebook - `https://www.facebook.com/sharer/sharer.php?u={URL}`
+- ✅ WhatsApp - `https://wa.me/?text={TITLE}%20{URL}`
+- ✅ Copiar enlace - Usa Clipboard API + Toast de Radix UI
 - ❌ Instagram (no disponible)
 
-**Ubicación**: `src/components/blog/ShareButtons.astro`
+**Ubicación**: `src/components/SEO/ShareButtons.tsx`
+
+**Estilos**: `src/components/SEO/ShareButtons.module.css`
+
+**Características implementadas**:
+
+- Importación de iconos SVG como raw HTML
+- Toast Provider de Radix UI con duración de 3 segundos
+- Animaciones de entrada/salida para el toast
+- Soporte para swipe gesture en el toast
+- Manejo de errores en la copia al portapapeles
+- Apertura de ventanas en `_blank` con `noopener,noreferrer`
 
 ---
 
-### Utilidades a crear
+### Arquitectura de la Implementación
 
-#### Archivo: `src/utils/blog/social.ts`
+#### Utilidades de Compartir (`socialUtils.ts`)
+
+Las funciones de generación de URLs están centralizadas en `src/components/SEO/socialUtils.ts`:
 
 ```typescript
+/**
+ * Genera la URL de compartir para Facebook
+ */
+export function getFacebookShareUrl(url: string): string {
+  const encodedUrl = encodeURIComponent(url);
+  return `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+}
+
 /**
  * Genera la URL de compartir para X (Twitter)
  */
@@ -503,73 +568,44 @@ export function getTwitterShareUrl(url: string, text: string): string {
 }
 
 /**
- * Genera la URL de compartir para Facebook
- */
-export function getFacebookShareUrl(url: string): string {
-  const encodedUrl = encodeURIComponent(url);
-  return `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
-}
-
-/**
  * Genera la URL de compartir para WhatsApp
  */
 export function getWhatsAppShareUrl(url: string, text: string): string {
-  const message = `${text}\n\n${url}`;
-  const encodedMessage = encodeURIComponent(message);
-  return `https://wa.me/?text=${encodedMessage}`;
+  const encodedText = encodeURIComponent(text);
+  const encodedUrl = encodeURIComponent(url);
+  return `https://wa.me/?text=${encodedText}%20${encodedUrl}`;
 }
 
 /**
- * Convierte una URL relativa a absoluta
+ * Genera todas las URLs de compartir para un post
  */
-export function getAbsoluteUrl(path: string, baseUrl: string): string {
-  if (path.startsWith('http://') || path.startsWith('https://')) {
-    return path;
-  }
-  const cleanBase = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
-  const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  return `${cleanBase}${cleanPath}`;
-}
-
-/**
- * Copia texto al portapapeles
- */
-export async function copyToClipboard(text: string): Promise<boolean> {
-  // Intentar con API moderna
-  if (navigator.clipboard && window.isSecureContext) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return true;
-    } catch (err) {
-      console.error('Error con Clipboard API:', err);
-    }
-  }
-  
-  // Fallback para navegadores antiguos
-  return copyToClipboardFallback(text);
-}
-
-function copyToClipboardFallback(text: string): boolean {
-  const textArea = document.createElement('textarea');
-  textArea.value = text;
-  textArea.style.position = 'fixed';
-  textArea.style.left = '-999999px';
-  
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
-  
-  try {
-    const successful = document.execCommand('copy');
-    document.body.removeChild(textArea);
-    return successful;
-  } catch (err) {
-    console.error('Fallback: Error al copiar', err);
-    document.body.removeChild(textArea);
-    return false;
-  }
+export function generateShareLinks(url: string, title: string) {
+  return {
+    facebook: getFacebookShareUrl(url),
+    x: getTwitterShareUrl(url, title),
+    whatsapp: getWhatsAppShareUrl(url, title),
+  };
 }
 ```
+
+#### Componente ShareButtons
+
+El componente `ShareButtons.tsx` utiliza estas utilidades y gestiona:
+
+- **Generación de URLs**: Usa las funciones de `socialUtils.ts`
+- **Apertura de ventanas**: Con `window.open()` y flags de seguridad `noopener,noreferrer`
+- **Copia al portapapeles**: Usa la Clipboard API moderna
+- **Feedback visual**: Toast de Radix UI con duración de 3 segundos
+- **Manejo de errores**: Captura y registra errores en la copia al portapapeles
+
+#### Testing
+
+El sistema cuenta con cobertura completa de tests (78 tests):
+
+- **socialUtils.test.ts** (19 tests): Validación de generación de URLs, codificación de caracteres especiales, casos extremos
+- **ShareButtons.test.tsx** (19 tests): Renderizado, interacciones, accesibilidad, manejo de errores
+- **OpenGraphTags.test.ts** (20 tests): Generación correcta de meta tags OG
+- **TwitterCardTags.test.ts** (20 tests): Generación correcta de Twitter Cards
 
 ---
 
@@ -579,54 +615,52 @@ function copyToClipboardFallback(text: string): boolean {
 
 ```astro
 ---
-import SocialMeta from '@/components/blog/SocialMeta.astro';
-import ShareButtons from '@/components/blog/ShareButtons.astro';
+import { getCollection, getEntry } from "astro:content";
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import ShareButtons from "@/components/SEO/ShareButtons";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
-const post = // ... obtener post
-const postUrl = new URL(`/blog/${post.slug}`, Astro.site).href;
+const { post } = Astro.props;
+const author = await getEntry(post.data.author);
+
+// Crear objeto MetaInfo con toda la información SEO
+const meta: MetaInfo = {
+  pageTitle: `${post.data.title} | Blog Zunbeltz`,
+  pageDescription: post.data.description,
+  pageTags: post.data.categories,
+  pageAuthor: author.data.name,
+  pageImage: post.data.heroImage.src,
+  pageUrl: `https://zunbeltz.org/blog/${post.slug}`,
+  pageType: "article",
+  articleAuthor: author.data.name,
+  articlePublishedTime: post.data.publishDate.toISOString(),
+  articleTags: post.data.categories,
+};
 ---
 
-<html>
-  <head>
-    <SocialMeta
-      title={post.data.title}
-      description={post.data.description}
-      image={post.data.heroImage}
-      url={postUrl}
-      publishDate={post.data.publishDate}
-      author={post.data.author}
-      categories={post.data.categories}
-    />
-  </head>
-  <body>
-    <article>
-      <!-- Contenido del post -->
-      
-      <!-- Botones de compartir al final del post -->
+<HtmlLayout metaInfo={meta}>
+  <article>
+    <!-- Contenido del post -->
+
+    <!-- Botones de compartir al final del post -->
+    <div class="share-section" data-pagefind-ignore>
+      <h3>Compartir este artículo</h3>
       <ShareButtons
-        url={postUrl}
+        client:load
+        url={meta.pageUrl || ""}
         title={post.data.title}
-        description={post.data.description}
+        description={post.data.description || ""}
       />
-    </article>
-  </body>
-</html>
+    </div>
+  </article>
+</HtmlLayout>
 ```
 
----
+**Notas importantes**:
 
-### Checklist de implementación
-
-- [ ] Crear `src/utils/blog/social.ts` con funciones de utilidad
-- [ ] Crear `src/components/blog/SocialMeta.astro`
-- [ ] Crear `src/components/blog/ShareButtons.astro`
-- [ ] Integrar `SocialMeta` en `src/pages/blog/[slug].astro`
-- [ ] Integrar `ShareButtons` en `src/pages/blog/[slug].astro`
-- [ ] Crear tests para funciones de utilidad
-- [ ] Validar meta tags con herramientas oficiales
-- [ ] Probar botones de compartir en todas las redes
-- [ ] Verificar responsive design
-- [ ] Documentar uso en README
+- El componente `ShareButtons` usa `client:load` porque es React y necesita hidratación
+- Los meta tags se pasan al `HtmlLayout` que internamente usa `OpenGraphTags` y `TwitterCardTags`
+- La sección de compartir tiene `data-pagefind-ignore` para excluirla de la búsqueda
 
 ---
 
@@ -636,7 +670,7 @@ Asegurarse de que `site` está configurado para generar URLs absolutas:
 
 ```javascript
 export default defineConfig({
-  site: 'https://zunbeltz.com', // URL base del sitio
+  site: "https://zunbeltz.org", // URL base del sitio
   // ... resto de configuración
 });
 ```
@@ -744,12 +778,12 @@ default-og.jpg           # Fallback general (1200x630px)
 
 #### Tamaños recomendados
 
-| Tipo | Tamaño | Ratio | Uso |
-|------|--------|-------|-----|
-| **Open Graph** | 1200x630px | 1.91:1 | Facebook, LinkedIn, WhatsApp |
-| **Twitter Large** | 1200x675px | 16:9 | Twitter summary_large_image |
-| **Twitter Summary** | 400x400px | 1:1 | Twitter summary (opcional) |
-| **Default** | 1200x630px | 1.91:1 | Fallback universal |
+| Tipo                | Tamaño     | Ratio  | Uso                          |
+| ------------------- | ---------- | ------ | ---------------------------- |
+| **Open Graph**      | 1200x630px | 1.91:1 | Facebook, LinkedIn, WhatsApp |
+| **Twitter Large**   | 1200x675px | 16:9   | Twitter summary_large_image  |
+| **Twitter Summary** | 400x400px  | 1:1    | Twitter summary (opcional)   |
+| **Default**         | 1200x630px | 1.91:1 | Fallback universal           |
 
 #### Formatos
 
@@ -769,7 +803,7 @@ default-og.jpg           # Fallback general (1200x630px)
 ```astro
 ---
 // src/pages/index.astro
-import HtmlLayout from '@/layouts/HtmlLayout.astro';
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
 ---
 
 <HtmlLayout
@@ -788,8 +822,8 @@ import HtmlLayout from '@/layouts/HtmlLayout.astro';
 ```astro
 ---
 // src/pages/index.astro
-import HtmlLayout from '@/layouts/HtmlLayout.astro';
-import homeOgImage from '@/assets/seo/home-og.jpg';
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import homeOgImage from "@/assets/seo/home-og.jpg";
 ---
 
 <HtmlLayout
@@ -810,7 +844,7 @@ Puedes añadir una imagen por defecto en el layout:
 ```astro
 ---
 // src/layouts/HtmlLayout.astro
-import defaultOgImage from '@/assets/seo/default-og.jpg';
+import defaultOgImage from "@/assets/seo/default-og.jpg";
 
 const {
   pageImage,
@@ -828,10 +862,10 @@ Para proyectos grandes, puedes crear un archivo de configuración:
 
 ```typescript
 // src/config/seo-images.ts
-import defaultOg from '@/assets/seo/default-og.jpg';
-import homeOg from '@/assets/seo/home-og.jpg';
-import aboutOg from '@/assets/seo/about-og.jpg';
-import espeleologiaOg from '@/assets/seo/sections/espeleologia-og.jpg';
+import defaultOg from "@/assets/seo/default-og.jpg";
+import homeOg from "@/assets/seo/home-og.jpg";
+import aboutOg from "@/assets/seo/about-og.jpg";
+import espeleologiaOg from "@/assets/seo/sections/espeleologia-og.jpg";
 
 export const seoImages = {
   default: defaultOg.src,
@@ -839,8 +873,8 @@ export const seoImages = {
   about: aboutOg.src,
   sections: {
     espeleologia: espeleologiaOg.src,
-    barranquismo: '/images/seo/sections/barranquismo-og.jpg',
-    escalada: '/images/seo/sections/escalada-og.jpg',
+    barranquismo: "/images/seo/sections/barranquismo-og.jpg",
+    escalada: "/images/seo/sections/escalada-og.jpg",
   },
 } as const;
 
@@ -900,6 +934,40 @@ src/
 
 ---
 
+## Estructura de Archivos Actual
+
+```plaintext
+src/
+├── components/
+│   └── SEO/
+│       ├── MetaInfo.ts                    # Interface TypeScript
+│       ├── OpenGraphTags.astro            # Genera Open Graph tags
+│       ├── TwitterCardTags.astro          # Genera Twitter Cards
+│       ├── ShareButtons.tsx               # Componente React de botones
+│       └── ShareButtons.module.css        # Estilos CSS Module
+│
+├── icons/
+│   ├── brand-facebook.svg                 # Icono de Facebook
+│   ├── brand-x.svg                        # Icono de X (Twitter)
+│   ├── brand-whatsapp.svg                 # Icono de WhatsApp
+│   └── link.svg                           # Icono de copiar enlace
+│
+├── layouts/
+│   └── HtmlLayout.astro                   # Layout que usa OpenGraphTags y TwitterCardTags
+│
+└── pages/
+    └── blog/
+        └── [slug].astro                   # Página de post con ShareButtons integrado
+```
+
+**Dependencias utilizadas**:
+
+- `radix-ui` (v1.4.3) - Para el componente Toast
+- `react` (v19.2.0) - Framework para ShareButtons
+- `react-dom` (v19.2.0) - Renderizado de React
+
+---
+
 ## Referencias
 
 - [Open Graph Protocol](https://ogp.me/)
@@ -907,3 +975,4 @@ src/
 - [Facebook Sharing Best Practices](https://developers.facebook.com/docs/sharing/webmasters)
 - [Clipboard API - MDN](https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API)
 - [Astro Image Service](https://docs.astro.build/en/guides/images/)
+- [Radix UI Toast](https://www.radix-ui.com/primitives/docs/components/toast)

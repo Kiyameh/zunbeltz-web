@@ -423,11 +423,22 @@ const ogImage = post.data.heroImage || "/default-og.png";
 
 ### Entregables Fase 5
 
-- [ ] Componente `ShareButtons.tsx`
-- [ ] Componente `SocialMeta.astro`
-- [ ] Utilidad `copyToClipboard()`
-- [ ] Estilos para botones de compartir
-- [ ] Tests de generación de URLs
+- [x] Componente `ShareButtons.tsx` (React con Radix UI Toast)
+- [x] Componentes `OpenGraphTags.astro` y `TwitterCardTags.astro` (separados en lugar de un único SocialMeta)
+- [x] Interface `MetaInfo.ts` para tipado de meta información
+- [x] Utilidades `socialUtils.ts`:
+  - `getFacebookShareUrl(url)`
+  - `getTwitterShareUrl(url, text)`
+  - `getWhatsAppShareUrl(url, text)`
+  - `generateShareLinks(url, title)`
+- [x] Estilos `ShareButtons.module.css` (CSS Modules)
+- [x] Tests completos (78 tests pasando):
+  - `socialUtils.test.ts` (19 tests)
+  - `ShareButtons.test.tsx` (19 tests)
+  - `OpenGraphTags.test.ts` (20 tests)
+  - `TwitterCardTags.test.ts` (20 tests)
+- [x] Integración en `src/pages/blog/[slug].astro`
+- [x] Función de copiar al portapapeles integrada en ShareButtons usando Clipboard API
 
 ---
 

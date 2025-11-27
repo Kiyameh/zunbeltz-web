@@ -21,6 +21,8 @@ export default defineConfig({
     icon(),
     mdx(),
   ],
+  /* TODO: Actualizar a dominio definitivo */
+  site: "https://zunbeltz-web.vercel.app/",
 
   adapter: vercel({
     webAnalytics: {
