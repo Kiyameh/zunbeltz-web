@@ -1,6 +1,7 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import og_escuela from "@/assets/opengraph/og_escuela.jpg";
 
 const meta: MetaInfo = {
   pageTitle: "Biblioteca Técnica y Bibliografía | Zunbeltz",
@@ -12,6 +13,8 @@ const meta: MetaInfo = {
     "Bibliografía montaña",
     "Recursos PDF",
   ],
+  pageImage: og_escuela.src,
+
   pageUrl: `https://zunbeltz.org/aprende/biblioteca`,
 };
 ---

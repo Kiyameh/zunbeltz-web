@@ -3,10 +3,15 @@ import AccountControls from "../authentication/AccountControls.astro";
 import ThemeSwitcher from "../theme/ThemeSwitcher.astro";
 import { NavigationMobile } from "../navigation/NavigationMobile";
 import { SearchUtility } from "../search/SearchUtility";
+import Logotipe from "@/assets/branding/logo.svg?react";
 ---
 
 <header class="header">
-  <div class="logo"><a href="/">Zunbeltz</a></div>
+  <div class="logo">
+    <a href="/">
+      <Logotipe className="logo-img" />
+    </a>
+  </div>
   <button
     id="mobile-menu-toggle"
     class="burgerButton"
@@ -159,6 +164,9 @@ import { SearchUtility } from "../search/SearchUtility";
   .logo {
     font-family: var(--font-title);
     font-size: 1.25rem;
+  }
+  .logo-img {
+    width: 12rem;
   }
 
   /* Header Spacer - Compensa el header fijo */

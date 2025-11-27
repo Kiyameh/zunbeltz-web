@@ -2,10 +2,15 @@
 import AccountControls from "../authentication/AccountControls.astro";
 import { Navigation } from "../navigation/Navigation";
 import ThemeSwitcher from "../theme/ThemeSwitcher.astro";
+import Logotipe from "@/assets/branding/logo.svg?react";
 ---
 
 <header>
-  <div class="logo"><a href="/">Zunbeltz</a></div>
+  <div class="logo">
+    <a href="/" aria-label="Zunbeltz">
+      <Logotipe />
+    </a>
+  </div>
 
   <div class="desktop-nav">
     <Navigation client:load />

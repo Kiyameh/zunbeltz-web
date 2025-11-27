@@ -9,6 +9,7 @@ import MobileHeader from "@/components/header/MobileHeader.astro";
 import OpenGraphTags from "@/components/SEO/OpenGraphTags.astro";
 import TwitterCardTags from "@/components/SEO/TwitterCardTags.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import main_og from "@/assets/opengraph/og_landing.jpg";
 
 interface Props {
   metaInfo?: MetaInfo;
@@ -28,6 +29,7 @@ const defaultMeta: MetaInfo = {
   ],
   pageAuthor: "Andoni Abarzuza @kiyameh",
   pageUrl: "https://zunbeltz.org",
+  pageImage: main_og.src,
   pageType: "website",
   twitterCard: "summary",
   twitterSite: "@zunbeltz",
