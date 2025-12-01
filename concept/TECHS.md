@@ -8,7 +8,6 @@
 
 ## UI
 
-- **TailwindCSS** 4.1.17 - Framework CSS
 - **Radix UI** 1.4.3 - Componentes UI accesibles
 - **Motion** 12.23.24 - Animaciones
 - **CSS Modules** - Para estilos de componentes React

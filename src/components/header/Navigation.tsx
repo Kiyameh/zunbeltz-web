@@ -4,7 +4,7 @@ import Caret from "@/icons/caret-down.svg?react";
 import Navarra from "./assets/navarra.png";
 import BgBlue from "./assets/grid-bg-blue.svg";
 import BgGreen from "./assets/grid-bg-green.svg";
-import { SearchUtility } from "@/components/search/SearchUtility";
+import { SearchUtility } from "@/components/header/SearchUtility";
 
 export const Navigation = () => {
   return (
