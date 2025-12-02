@@ -1,6 +1,10 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import heroImage from "@/assets/navarra/montes.jpg";
 
 const meta: MetaInfo = {
   pageTitle: "Montañas de Navarra | Zunbeltz",
@@ -18,20 +22,268 @@ const meta: MetaInfo = {
   ],
   pageUrl: `https://zunbeltz.org/navarra/montañas`,
 };
+
+// Obtener todas las montañas
+const mountains = await getCollection("mountains");
 ---
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <h1>Montañas de Navarra</h1>
+    <!-- Hero Section -->
+    <section class="hero">
+      <Image
+        src={heroImage}
+        alt="Montañas de Navarra"
+        class="hero-image"
+        loading="eager"
+        quality={90}
+      />
+      <div class="hero-content">
+        <h1 class="hero-title">Montañas de Navarra</h1>
+        <p class="hero-subtitle">
+          Conquista las cumbres navarras. Rutas de senderismo y alpinismo en el
+          Pirineo, Aralar, Urbasa y otros macizos.
+        </p>
+      </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="container">
+      <Breadcrumb />
+    </div>
+
+    <!-- Content Section -->
+    <section class="content">
+      <div class="container">
+        <div class="intro">
+          <p>
+            Desde los altos picos del Pirineo navarro hasta las sierras de
+            Aralar y Urbasa, el territorio ofrece montañas para todos los
+            niveles. Descubre rutas de senderismo, ascensiones clásicas y
+            travesías de montaña.
+          </p>
+        </div>
+
+        <!-- Lista de Montañas -->
+        <div class="list-header">
+          <h2>Montañas documentadas ({mountains.length})</h2>
+        </div>
+
+        <div class="mountains-list">
+          {
+            mountains.map((mountain) => (
+              <a
+                href={`/navarra/montañas/${mountain.slug}`}
+                class="mountain-card"
+              >
+                <div class="mountain-info">
+                  <h3 class="mountain-name">{mountain.data.name}</h3>
+                  <p class="mountain-range">{mountain.data.range}</p>
+                </div>
+                <div class="mountain-stats">
+                  {mountain.data.altitude && (
+                    <div class="stat">
+                      <span class="stat-label">Altitud:</span>
+                      <span class="stat-value">{mountain.data.altitude}m</span>
+                    </div>
+                  )}
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        {
+          mountains.length === 0 && (
+            <div class="empty-state">
+              <p>No hay montañas documentadas todavía.</p>
+            </div>
+          )
+        }
+      </div>
+    </section>
   </main>
 </HtmlLayout>
 
 <style>
   main {
     min-height: 100vh;
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3rem 1.5rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: 50vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-2xl);
+  }
+
+  .hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-paragraph);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Content Section */
+  .content {
+    padding: 3rem 0;
+  }
+
+  .intro {
+    margin: 2rem 0 3rem;
+  }
+
+  .intro p {
+    font-family: var(--font-paragraph);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-content-300);
+  }
+
+  .list-header {
+    margin-bottom: 2rem;
+  }
+
+  .list-header h2 {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+  }
+
+  /* Mountains List */
+  .mountains-list {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .mountain-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .mountain-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary-300);
+  }
+
+  .mountain-info {
+    flex: 1;
+  }
+
+  .mountain-name {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin-bottom: 0.5rem;
+  }
+
+  .mountain-range {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    color: var(--color-content-300);
+  }
+
+  .mountain-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    color: var(--color-content-200);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-secondary-300);
+  }
+
+  .empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: var(--color-content-200);
+    font-family: var(--font-paragraph);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      height: 40vh;
+      min-height: 300px;
+    }
+
+    .mountain-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .mountain-stats {
+      width: 100%;
+      justify-content: space-around;
+    }
+
+    .stat {
+      align-items: center;
+    }
   }
 </style>

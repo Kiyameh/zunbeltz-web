@@ -1,7 +1,11 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import og_rios from "@/assets/opengraph/og_rios.jpg";
+import heroImage from "@/assets/navarra/rios.jpg";
 
 const meta: MetaInfo = {
   pageTitle: "Barranquismo y Ríos de Navarra | Zunbeltz",
@@ -11,20 +15,264 @@ const meta: MetaInfo = {
   pageImage: og_rios.src,
   pageUrl: `https://zunbeltz.org/navarra/rios`,
 };
+
+// Obtener todos los ríos/barrancos
+const canyons = await getCollection("canyons");
 ---
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <h1>Ríos de Navarra</h1>
+    <!-- Hero Section -->
+    <section class="hero">
+      <Image
+        src={heroImage}
+        alt="Ríos y Barrancos de Navarra"
+        class="hero-image"
+        loading="eager"
+        quality={90}
+      />
+      <div class="hero-content">
+        <h1 class="hero-title">Ríos y Barrancos de Navarra</h1>
+        <p class="hero-subtitle">
+          Descubre los mejores barrancos y ríos para practicar barranquismo en
+          territorio navarro.
+        </p>
+      </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="container">
+      <Breadcrumb />
+    </div>
+
+    <!-- Content Section -->
+    <section class="content">
+      <div class="container">
+        <div class="intro">
+          <p>
+            Gran cantidad de ríos recorren la provincia de Navarra. Algunos de
+            ellos han creado increibles foces y cañones de un belleza singular.
+          </p>
+        </div>
+
+        <!-- Lista de Barrancos -->
+        <div class="list-header">
+          <h2>Barrancos catalogados ({canyons.length})</h2>
+        </div>
+
+        <div class="canyons-list">
+          {
+            canyons.map((canyon) => (
+              <a href={`/navarra/rios/${canyon.slug}`} class="canyon-card">
+                <div class="canyon-info">
+                  <h3 class="canyon-name">{canyon.data.name}</h3>
+                  <p class="canyon-description">{canyon.data.description}</p>
+                </div>
+                <div class="canyon-stats">
+                  {canyon.data.length && (
+                    <div class="stat">
+                      <span class="stat-label">Longitud:</span>
+                      <span class="stat-value">{canyon.data.length}km</span>
+                    </div>
+                  )}
+                </div>
+              </a>
+            ))
+          }
+        </div>
+
+        {
+          canyons.length === 0 && (
+            <div class="empty-state">
+              <p>No hay barrancos documentados todavía.</p>
+            </div>
+          )
+        }
+      </div>
+    </section>
   </main>
 </HtmlLayout>
 
 <style>
   main {
     min-height: 100vh;
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3rem 1.5rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: 50vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-2xl);
+  }
+
+  .hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-paragraph);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Container */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Content Section */
+  .content {
+    padding: 3rem 0;
+  }
+
+  .intro {
+    margin: 2rem 0 3rem;
+  }
+
+  .intro p {
+    font-family: var(--font-paragraph);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--color-content-300);
+  }
+
+  .list-header {
+    margin-bottom: 2rem;
+  }
+
+  .list-header h2 {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+  }
+
+  /* Canyons List */
+  .canyons-list {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .canyon-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+    padding: 1.5rem;
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .canyon-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary-300);
+  }
+
+  .canyon-info {
+    flex: 1;
+  }
+
+  .canyon-name {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin-bottom: 0.5rem;
+  }
+
+  .canyon-description {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    color: var(--color-content-300);
+    line-height: 1.5;
+  }
+
+  .canyon-stats {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    color: var(--color-content-200);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-secondary-300);
+  }
+
+  .empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: var(--color-content-200);
+    font-family: var(--font-paragraph);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      height: 40vh;
+      min-height: 300px;
+    }
+
+    .canyon-card {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .canyon-stats {
+      width: 100%;
+      justify-content: space-around;
+    }
+
+    .stat {
+      align-items: center;
+    }
   }
 </style>

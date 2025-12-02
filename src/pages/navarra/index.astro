@@ -1,34 +1,346 @@
 ---
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { Image } from "astro:assets";
+import heroImage from "@/assets/navarra/hero.jpg";
+import cuevasImage from "@/assets/navarra/cuevas.jpg";
+import riosImage from "@/assets/navarra/rios.jpg";
+import montesImage from "@/assets/navarra/montes.jpg";
+import paredesImage from "@/assets/navarra/paredes.jpg";
+import { getNavarraStats } from "@/utils/navarra/collection-stats";
+
+// Obtener estadísticas de las colecciones
+const stats = await getNavarraStats();
 
 const meta: MetaInfo = {
-  pageTitle: "Espeleología y Aventura en Navarra | Guía Zunbeltz",
+  pageTitle: "Descubre Navarra | Aventura y Naturaleza | Guía Zunbeltz",
   pageDescription:
-    "Explora el subsuelo y las cumbres de la Comunidad Foral. Guía de cuevas, barrancos y montes de Navarra.",
+    "Explora las cuevas, ríos, montañas y paredes de Navarra. Guía completa de actividades outdoor en la Comunidad Foral: espeleología, barranquismo, senderismo y escalada.",
   pageTags: [
     "Navarra",
     "Turismo activo",
     "Cuevas Navarra",
+    "Barranquismo Navarra",
+    "Montañas Navarra",
+    "Escalada Navarra",
     "Pirineo Navarro",
     "Aventura",
   ],
   pageUrl: `https://zunbeltz.org/navarra`,
 };
+
+const categories = [
+  {
+    title: "Cuevas",
+    description:
+      "Explora el mundo subterráneo de Navarra. Cavidades, simas y recorridos espeleológicos.",
+    href: "/navarra/cuevas",
+    image: cuevasImage,
+  },
+  {
+    title: "Ríos",
+    description:
+      "Descubre barrancos y ríos. Rutas de barranquismo y canyoning en territorio navarro.",
+    href: "/navarra/rios",
+    image: riosImage,
+  },
+  {
+    title: "Montañas",
+    description:
+      "Conquista las cumbres navarras. Rutas de senderismo y alpinismo en el Pirineo.",
+    href: "/navarra/montañas",
+    image: montesImage,
+  },
+  {
+    title: "Paredes",
+    description:
+      "Escala las mejores paredes. Escuelas de escalada y vías equipadas de Navarra.",
+    href: "/navarra/paredes",
+    image: paredesImage,
+  },
+];
 ---
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <h1>Navarra</h1>
+    <!-- Hero Section -->
+    <section class="hero">
+      <Image
+        src={heroImage}
+        alt="Paisaje de Navarra"
+        class="hero-image"
+        loading="eager"
+        quality={90}
+      />
+      <div class="hero-content glassmorph">
+        <h1 class="hero-title">Descubre Navarra</h1>
+        <p class="hero-subtitle">
+          Explora las actividades outdoor del territorio navarro: cuevas, ríos,
+          montañas y paredes. Tu guía completa para la aventura en la Comunidad
+          Foral.
+        </p>
+      </div>
+    </section>
+
+    <!-- Categories Grid -->
+    <section class="categories">
+      <div class="categories-container">
+        <h2 class="categories-title">Explora por categoría</h2>
+        <div class="categories-grid">
+          {
+            categories.map((category) => (
+              <a href={category.href} class="category-card">
+                <div class="category-image-wrapper">
+                  <Image
+                    src={category.image}
+                    alt={category.title}
+                    class="category-image"
+                    loading="lazy"
+                    quality={80}
+                  />
+                </div>
+                <h3 class="category-title">{category.title}</h3>
+                <p class="category-description">{category.description}</p>
+                <span class="category-arrow">→</span>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+      <div class="stats-container">
+        <div class="stat-item">
+          <span class="stat-number">{stats.caves}</span>
+          <span class="stat-label">Cuevas documentadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{stats.canyons}</span>
+          <span class="stat-label">Barrancos catalogados</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{stats.mountains}</span>
+          <span class="stat-label">Montañas documentadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{stats.climbing}</span>
+          <span class="stat-label">Vías de escalada</span>
+        </div>
+      </div>
+    </section>
   </main>
 </HtmlLayout>
 
 <style>
   main {
     min-height: 100vh;
-    max-width: 56rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 3rem 1.5rem;
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--color-content-300);
+    padding: 2rem;
+    max-width: 800px;
+    margin: 1rem;
+    border-radius: var(--radius-3xl);
+  }
+
+  .hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+    text-shadow: 0 4px 12px rgba(56, 40, 40, 0.3);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+    line-height: 1.6;
+    opacity: 0.95;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Categories Section */
+  .categories {
+    padding: 5rem 1.5rem;
+    background: var(--color-surface-200);
+  }
+
+  .categories-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .categories-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 3rem;
+    color: var(--color-content-300);
+  }
+
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .categories-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .category-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface-100);
+    border-radius: var(--radius-2xl);
+    border: 2px solid var(--color-border-100);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+
+  .category-image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    margin-bottom: 2rem;
+  }
+
+  .category-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.3s ease;
+  }
+
+  .category-card:hover .category-image {
+    transform: scale(1.05);
+  }
+
+  .category-card > :not(.category-image-wrapper) {
+    padding: 0 2rem;
+  }
+
+  .category-card > .category-arrow {
+    padding-bottom: 2rem;
+  }
+
+  .category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary-300);
+  }
+
+  .category-title {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-content-300);
+  }
+
+  .category-description {
+    font-family: var(--font-paragraph);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-content-300);
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+  }
+
+  .category-arrow {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-secondary-300);
+    align-self: flex-start;
+    transition: transform 0.3s ease;
+  }
+
+  .category-card:hover .category-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Stats Section */
+  .stats {
+    padding: 4rem 1.5rem;
+    background: var(--color-surface-100);
+    border-top: 1px solid var(--color-border-100);
+  }
+
+  .stats-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-title);
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    color: var(--color-secondary-300);
+  }
+
+  .stat-label {
+    font-family: var(--font-paragraph);
+    font-size: 1rem;
+    color: var(--color-content-300);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      height: 60vh;
+      min-height: 400px;
+    }
+
+    .categories {
+      padding: 3rem 1rem;
+    }
+
+    .stats {
+      padding: 3rem 1rem;
+    }
+
+    .stats-container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
   }
 </style>

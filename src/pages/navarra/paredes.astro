@@ -4,20 +4,20 @@ import type { MetaInfo } from "@/components/SEO/MetaInfo";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
-import og_cuevas from "@/assets/opengraph/og_cuevas.jpg";
-import heroImage from "@/assets/navarra/cuevas.jpg";
+import og_escuela from "@/assets/opengraph/og_escuela.jpg";
+import heroImage from "@/assets/navarra/paredes.jpg";
 
 const meta: MetaInfo = {
-  pageTitle: "Cuevas y Simas de Navarra | Zunbeltz",
+  pageTitle: "Paredes y Escalada en Navarra | Zunbeltz",
   pageDescription:
-    "Zonas kársticas de Navarra y sus cavidades. Explora el mundo subterráneo de la provincia",
-  pageTags: ["Cuevas", "Navarra", "Simas", "Larra", "Urbasa", "Aralar"],
-  pageImage: og_cuevas.src,
-  pageUrl: `https://zunbeltz.org/navarra/cuevas`,
+    "Escuelas de escalada y vías equipadas de Navarra. Descubre las mejores zonas de escalada deportiva y clásica.",
+  pageTags: ["Escalada", "Navarra", "Paredes", "Vías", "Deportiva", "Clásica"],
+  pageImage: og_escuela.src,
+  pageUrl: `https://zunbeltz.org/navarra/paredes`,
 };
 
-// Obtener todas las cuevas
-const caves = await getCollection("caves");
+// Obtener todas las escuelas de escalada
+const climbingSchools = await getCollection("climbing");
 ---
 
 <HtmlLayout metaInfo={meta}>
@@ -26,16 +26,16 @@ const caves = await getCollection("caves");
     <section class="hero">
       <Image
         src={heroImage}
-        alt="Cuevas de Navarra"
+        alt="Paredes y Escalada en Navarra"
         class="hero-image"
         loading="eager"
         quality={90}
       />
       <div class="hero-content">
-        <h1 class="hero-title">Cuevas de Navarra</h1>
+        <h1 class="hero-title">Escalada en Navarra</h1>
         <p class="hero-subtitle">
-          Explora el mundo subterráneo de Navarra. Cavidades, simas y recorridos
-          espeleológicos en el territorio foral.
+          Escala las mejores paredes. Escuelas de escalada deportiva y clásica
+          en territorio navarro.
         </p>
       </div>
     </section>
@@ -50,42 +50,33 @@ const caves = await getCollection("caves");
       <div class="container">
         <div class="intro">
           <p>
-            Navarra cuenta con importantes zonas kársticas donde se han
-            documentado numerosas cavidades. Desde las profundas simas de Larra
-            hasta las cuevas de Urbasa y Aralar, el territorio ofrece un amplio
-            abanico de posibilidades para la exploración espeleológica.
+            Navarra cuenta con numerosas escuelas de escalada distribuidas por
+            todo el territorio. Desde las paredes calcáreas del norte hasta los
+            roquedos de la zona media, encontrarás vías equipadas para todos los
+            niveles y estilos de escalada.
           </p>
         </div>
 
-        <!-- Lista de Cuevas -->
+        <!-- Lista de Escuelas -->
         <div class="list-header">
-          <h2>Cuevas documentadas ({caves.length})</h2>
+          <h2>Escuelas de escalada ({climbingSchools.length})</h2>
         </div>
 
-        <div class="caves-list">
+        <div class="schools-list">
           {
-            caves.map((cave) => (
-              <a href={`/navarra/cuevas/${cave.slug}`} class="cave-card">
-                <div class="cave-info">
-                  <h3 class="cave-name">{cave.data.name}</h3>
-                  <p class="cave-location">{cave.data.location}</p>
-                  {cave.data.catalogCode && (
-                    <span class="cave-code">{cave.data.catalogCode}</span>
-                  )}
-                </div>
-                <div class="cave-stats">
-                  {cave.data.depth && (
-                    <div class="stat">
-                      <span class="stat-label">Profundidad:</span>
-                      <span class="stat-value">{cave.data.depth}m</span>
-                    </div>
-                  )}
-                  {cave.data.length && (
-                    <div class="stat">
-                      <span class="stat-label">Desarrollo:</span>
-                      <span class="stat-value">{cave.data.length}m</span>
-                    </div>
-                  )}
+            climbingSchools.map((school) => (
+              <a href={`/navarra/paredes/${school.slug}`} class="school-card">
+                <div class="school-info">
+                  <h3 class="school-name">{school.data.name}</h3>
+                  <p class="school-location">{school.data.location}</p>
+                  {school.data.orientation &&
+                    school.data.orientation.length > 0 && (
+                      <div class="orientations">
+                        {school.data.orientation.map((o) => (
+                          <span class="orientation-badge">{o}</span>
+                        ))}
+                      </div>
+                    )}
                 </div>
               </a>
             ))
@@ -93,9 +84,9 @@ const caves = await getCollection("caves");
         </div>
 
         {
-          caves.length === 0 && (
+          climbingSchools.length === 0 && (
             <div class="empty-state">
-              <p>No hay cuevas documentadas todavía.</p>
+              <p>No hay escuelas de escalada documentadas todavía.</p>
             </div>
           )
         }
@@ -188,17 +179,13 @@ const caves = await getCollection("caves");
     color: var(--color-content-500);
   }
 
-  /* Caves List */
-  .caves-list {
+  /* Schools List */
+  .schools-list {
     display: grid;
     gap: 1.5rem;
   }
 
-  .cave-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2rem;
+  .school-card {
     padding: 1.5rem;
     background: var(--color-surface-100);
     border: 2px solid var(--color-border-100);
@@ -207,64 +194,45 @@ const caves = await getCollection("caves");
     transition: all 0.3s ease;
   }
 
-  .cave-card:hover {
+  .school-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
     border-color: var(--color-secondary-300);
   }
 
-  .cave-info {
-    flex: 1;
+  .school-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
 
-  .cave-name {
+  .school-name {
     font-family: var(--font-title);
     font-size: 1.25rem;
     color: var(--color-content-500);
-    margin-bottom: 0.5rem;
   }
 
-  .cave-location {
+  .school-location {
     font-family: var(--font-paragraph);
     font-size: 0.9rem;
     color: var(--color-content-300);
-    margin-bottom: 0.5rem;
   }
 
-  .cave-code {
+  .orientations {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .orientation-badge {
     display: inline-block;
     padding: 0.25rem 0.5rem;
     background: var(--color-surface-300);
     border-radius: var(--radius-md);
-    font-family: "Courier New", monospace;
-    font-size: 0.8rem;
-    color: var(--color-content-400);
-  }
-
-  .cave-stats {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .stat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 0.25rem;
-  }
-
-  .stat-label {
     font-family: var(--font-paragraph);
     font-size: 0.75rem;
-    color: var(--color-content-200);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  .stat-value {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-secondary-300);
+    color: var(--color-content-400);
+    font-weight: 600;
   }
 
   .empty-state {
@@ -279,21 +247,6 @@ const caves = await getCollection("caves");
     .hero {
       height: 40vh;
       min-height: 300px;
-    }
-
-    .cave-card {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
-    }
-
-    .cave-stats {
-      width: 100%;
-      justify-content: space-around;
-    }
-
-    .stat {
-      align-items: center;
     }
   }
 </style>
