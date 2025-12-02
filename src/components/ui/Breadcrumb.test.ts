@@ -249,5 +249,21 @@ describe("Breadcrumb", () => {
       });
       expect(html).toContain("2024");
     });
+
+    test("Should decode URL-encoded characters", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/navarra/monta%C3%B1as"),
+      });
+      expect(html).toContain("Montañas");
+      expect(html).not.toContain("Monta%C3%B1as");
+    });
+
+    test("Should handle accented characters in URLs", async () => {
+      const html = await renderAstroComponent(Breadcrumb, {
+        request: new Request("http://localhost/espa%C3%B1a/r%C3%ADos"),
+      });
+      expect(html).toContain("España");
+      expect(html).toContain("Ríos");
+    });
   });
 });
