@@ -7,7 +7,10 @@ interface ImageGalleryProps {
   columns?: 2 | 3 | 4;
 }
 
-export default function ImageGallery({ images, columns = 3 }: ImageGalleryProps) {
+export default function ImageGallery({
+  images,
+  columns = 3,
+}: ImageGalleryProps) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -80,7 +83,10 @@ export default function ImageGallery({ images, columns = 3 }: ImageGalleryProps)
             ‹
           </button>
 
-          <div className={styles.lightboxContent} onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.lightboxContent}
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
               src={images[currentIndex].url}
               alt={images[currentIndex].alt}

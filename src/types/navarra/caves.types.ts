@@ -104,11 +104,11 @@ export interface Obstacle {
 
 /**
  * Cuerda en la instalación
- * 
+ *
  * NOTA: Relación Cuerdas-Obstáculos (Muchos-a-Muchos)
  * - Una cuerda puede superar uno o más obstáculos (ej: una cuerda de 50m puede superar un P15 y un P20 consecutivos)
  * - Un obstáculo puede requerir una o más cuerdas (ej: un P80 puede requerir dos cuerdas de 50m empatadas)
- * 
+ *
  * Esta relación se modela mediante el array `obstacles` en cada `Rope`, que contiene los obstáculos
  * que esa cuerda específica supera. Si un obstáculo requiere múltiples cuerdas, aparecerá en el
  * array `obstacles` de cada una de esas cuerdas.

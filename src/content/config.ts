@@ -65,7 +65,7 @@ const restrictionsSchema = z.object({
         "Zona Protegida Fauna",
         "Propiedad Privada",
         "Otros",
-      ])
+      ]),
     )
     .optional(),
   closureSeasons: z
@@ -75,7 +75,7 @@ const restrictionsSchema = z.object({
         endDate: z.string(),
         reason: z.string(),
         isAnnual: z.boolean(),
-      })
+      }),
     )
     .optional(),
   requiresPermit: z.boolean().optional(),

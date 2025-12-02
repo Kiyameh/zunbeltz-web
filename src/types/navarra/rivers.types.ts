@@ -3,11 +3,7 @@
  * Sección Navarra - Zunbeltz.org
  */
 
-import type {
-  UTMCoordinates,
-  Duration,
-  Restrictions,
-} from "./shared.types";
+import type { UTMCoordinates, Duration, Restrictions } from "./shared.types";
 
 // ============================================================================
 // ENUMS

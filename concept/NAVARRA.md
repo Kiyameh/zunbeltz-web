@@ -193,16 +193,16 @@ Representa un río o barranco.
 
 **Propiedades:**
 
-| Propiedad         | Tipo               | Descripción                | Obligatorio |
-| ----------------- | ------------------ | -------------------------- | ----------- |
-| `id`              | `string`           | Identificador único        | ✅          |
-| `name`            | `string`           | Nombre del río             | ✅          |
-| `description`     | `string`           | Descripción general        | ✅          |
-| `length`          | `number`           | Longitud en km             | ❌          |
-| `catchmentArea`   | `number`           | Cuenca de captación en km² | ❌          |
-| `normalFlow`      | `number`           | Caudal normal en m³/s      | ❌          |
-| `restrictions`    | `Restrictions`     | Restricciones y protecciones | ❌        |
-| `canyoningRoutes` | `CanyoningRoute[]` | Recorridos barranquistas   | ✅          |
+| Propiedad         | Tipo               | Descripción                  | Obligatorio |
+| ----------------- | ------------------ | ---------------------------- | ----------- |
+| `id`              | `string`           | Identificador único          | ✅          |
+| `name`            | `string`           | Nombre del río               | ✅          |
+| `description`     | `string`           | Descripción general          | ✅          |
+| `length`          | `number`           | Longitud en km               | ❌          |
+| `catchmentArea`   | `number`           | Cuenca de captación en km²   | ❌          |
+| `normalFlow`      | `number`           | Caudal normal en m³/s        | ❌          |
+| `restrictions`    | `Restrictions`     | Restricciones y protecciones | ❌          |
+| `canyoningRoutes` | `CanyoningRoute[]` | Recorridos barranquistas     | ✅          |
 
 #### 2.2. Tipo: `CanyoningRoute` (Recorrido Barranquista)
 
@@ -210,21 +210,21 @@ Representa un recorrido de barranquismo.
 
 **Propiedades:**
 
-| Propiedad           | Tipo                         | Descripción                              | Obligatorio |
-| ------------------- | ---------------------------- | ---------------------------------------- | ----------- |
-| `id`                | `string`                     | Identificador único                      | ✅          |
-| `name`              | `string`                     | Nombre del recorrido                     | ✅          |
-| `description`       | `string`                     | Descripción del recorrido                | ✅          |
-| `entryPoint`        | `UTMCoordinates`             | Coordenadas del punto de entrada         | ✅          |
-| `exitPoint`         | `UTMCoordinates`             | Coordenadas del punto de salida          | ✅          |
-| `duration`          | `Duration`                   | Duración estimada del descenso           | ✅          |
-| `approachTime`      | `Duration`                   | Tiempo de aproximación desde parking     | ❌          |
-| `returnTime`        | `Duration`                   | Tiempo de retorno hasta parking          | ❌          |
-| `ropeLength`        | `number`                     | Longitud de cuerda necesaria en metros   | ❌          |
-| `recommendedSeason` | `string`                     | Época recomendada                        | ❌          |
-| `highestRappel`     | `number`                     | Rápel más alto en metros                 | ❌          |
-| `grading`           | `CanyoningGrading`           | Graduación del barranco                  | ✅          |
-| `installationSheet` | `CanyoningInstallationSheet` | Ficha de instalación                     | ❌          |
+| Propiedad           | Tipo                         | Descripción                            | Obligatorio |
+| ------------------- | ---------------------------- | -------------------------------------- | ----------- |
+| `id`                | `string`                     | Identificador único                    | ✅          |
+| `name`              | `string`                     | Nombre del recorrido                   | ✅          |
+| `description`       | `string`                     | Descripción del recorrido              | ✅          |
+| `entryPoint`        | `UTMCoordinates`             | Coordenadas del punto de entrada       | ✅          |
+| `exitPoint`         | `UTMCoordinates`             | Coordenadas del punto de salida        | ✅          |
+| `duration`          | `Duration`                   | Duración estimada del descenso         | ✅          |
+| `approachTime`      | `Duration`                   | Tiempo de aproximación desde parking   | ❌          |
+| `returnTime`        | `Duration`                   | Tiempo de retorno hasta parking        | ❌          |
+| `ropeLength`        | `number`                     | Longitud de cuerda necesaria en metros | ❌          |
+| `recommendedSeason` | `string`                     | Época recomendada                      | ❌          |
+| `highestRappel`     | `number`                     | Rápel más alto en metros               | ❌          |
+| `grading`           | `CanyoningGrading`           | Graduación del barranco                | ✅          |
+| `installationSheet` | `CanyoningInstallationSheet` | Ficha de instalación                   | ❌          |
 
 #### 2.3. Tipo: `CanyoningGrading` (Graduación)
 
@@ -403,23 +403,23 @@ Representa una ruta de alpinismo que requiere técnicas de escalada.
 
 **Propiedades:**
 
-| Propiedad              | Tipo              | Descripción                    | Obligatorio |
-| ---------------------- | ----------------- | ------------------------------ | ----------- |
-| `id`                   | `string`          | Identificador único            | ✅          |
-| `name`                 | `string`          | Nombre de la ruta              | ✅          |
-| `description`          | `string`          | Descripción del recorrido      | ✅          |
-| `startPoint`           | `UTMCoordinates`  | Coordenadas del punto de inicio | ✅         |
-| `endPoint`             | `UTMCoordinates`  | Coordenadas del punto final    | ✅          |
-| `duration`             | `Duration`        | Duración estimada              | ✅          |
-| `length`               | `number`          | Longitud en kilómetros         | ✅          |
-| `elevationGain`        | `number`          | Desnivel positivo en metros    | ✅          |
-| `elevationLoss`        | `number`          | Desnivel negativo en metros    | ❌          |
-| `requiredGear`         | `string[]`        | Material técnico necesario     | ✅          |
-| `difficulty`           | `ClimbingGrade`   | Dificultad de escalada         | ✅          |
-| `technicalDescription` | `string`          | Descripción técnica detallada  | ✅          |
-| `climbingPitches`      | `ClimbingPitch[]` | Largos de escalada (si aplica) | ❌          |
-| `seasonRecommendation` | `string`          | Época recomendada              | ❌          |
-| `warnings`             | `string`          | Avisos y precauciones          | ❌          |
+| Propiedad              | Tipo              | Descripción                     | Obligatorio |
+| ---------------------- | ----------------- | ------------------------------- | ----------- |
+| `id`                   | `string`          | Identificador único             | ✅          |
+| `name`                 | `string`          | Nombre de la ruta               | ✅          |
+| `description`          | `string`          | Descripción del recorrido       | ✅          |
+| `startPoint`           | `UTMCoordinates`  | Coordenadas del punto de inicio | ✅          |
+| `endPoint`             | `UTMCoordinates`  | Coordenadas del punto final     | ✅          |
+| `duration`             | `Duration`        | Duración estimada               | ✅          |
+| `length`               | `number`          | Longitud en kilómetros          | ✅          |
+| `elevationGain`        | `number`          | Desnivel positivo en metros     | ✅          |
+| `elevationLoss`        | `number`          | Desnivel negativo en metros     | ❌          |
+| `requiredGear`         | `string[]`        | Material técnico necesario      | ✅          |
+| `difficulty`           | `ClimbingGrade`   | Dificultad de escalada          | ✅          |
+| `technicalDescription` | `string`          | Descripción técnica detallada   | ✅          |
+| `climbingPitches`      | `ClimbingPitch[]` | Largos de escalada (si aplica)  | ❌          |
+| `seasonRecommendation` | `string`          | Época recomendada               | ❌          |
+| `warnings`             | `string`          | Avisos y precauciones           | ❌          |
 
 ---
 
@@ -622,7 +622,7 @@ Representa la reunión al final de un largo.
 enum BelayType {
   Equipada = "Equipada",
   Semiequipada = "Semi-equipada",
-  Natural = "Natural"
+  Natural = "Natural",
 }
 ```
 
@@ -635,15 +635,15 @@ enum BelayType {
 
 **Propiedades:**
 
-| Propiedad    | Tipo         | Descripción                                 | Obligatorio |
-| ------------ | ------------ | ------------------------------------------- | ----------- |
-| `zone`       | `number`     | Zona UTM (ej: 30 para Navarra)              | ✅          |
-| `hemisphere` | `"N" \| "S"` | Hemisferio                                  | ✅          |
-| `easting`    | `number`     | Coordenada Este (X)                         | ✅          |
-| `northing`   | `number`     | Coordenada Norte (Y)                        | ✅          |
-| `latitude`   | `number`     | Latitud en WGS84 (grados decimales)         | ✅          |
-| `longitude`  | `number`     | Longitud en WGS84 (grados decimales)        | ✅          |
-| `altitude`   | `number`     | Altitud en metros sobre el nivel del mar    | ❌          |
+| Propiedad    | Tipo         | Descripción                              | Obligatorio |
+| ------------ | ------------ | ---------------------------------------- | ----------- |
+| `zone`       | `number`     | Zona UTM (ej: 30 para Navarra)           | ✅          |
+| `hemisphere` | `"N" \| "S"` | Hemisferio                               | ✅          |
+| `easting`    | `number`     | Coordenada Este (X)                      | ✅          |
+| `northing`   | `number`     | Coordenada Norte (Y)                     | ✅          |
+| `latitude`   | `number`     | Latitud en WGS84 (grados decimales)      | ✅          |
+| `longitude`  | `number`     | Longitud en WGS84 (grados decimales)     | ✅          |
+| `altitude`   | `number`     | Altitud en metros sobre el nivel del mar | ❌          |
 
 **Ejemplo:**
 
@@ -704,14 +704,14 @@ Representa una topografía o plano de una cavidad, barranco, ruta, etc.
 
 **Propiedades:**
 
-| Propiedad | Tipo                                   | Descripción                  | Obligatorio |
-| --------- | -------------------------------------- | ---------------------------- | ----------- |
-| `url`     | `string`                               | URL o path del archivo       | ✅          |
-| `title`   | `string`                               | Título de la topografía      | ✅          |
-| `author`  | `string`                               | Autor/topógrafo              | ❌          |
-| `year`    | `number`                               | Año de realización           | ❌          |
+| Propiedad | Tipo                               | Descripción                  | Obligatorio |
+| --------- | ---------------------------------- | ---------------------------- | ----------- |
+| `url`     | `string`                           | URL o path del archivo       | ✅          |
+| `title`   | `string`                           | Título de la topografía      | ✅          |
+| `author`  | `string`                           | Autor/topógrafo              | ❌          |
+| `year`    | `number`                           | Año de realización           | ❌          |
 | `format`  | `"pdf" \| "svg" \| "png" \| "jpg"` | Formato del archivo          | ✅          |
-| `license` | `string`                               | Licencia o derechos de autor | ❌          |
+| `license` | `string`                           | Licencia o derechos de autor | ❌          |
 
 **Ejemplo:**
 
@@ -774,26 +774,26 @@ Información sobre restricciones, protecciones o prohibiciones en una localizaci
 
 **Propiedades:**
 
-| Propiedad          | Tipo                  | Descripción                                  | Obligatorio |
-| ------------------ | --------------------- | -------------------------------------------- | ----------- |
-| `hasRestrictions`  | `boolean`             | ¿Existen restricciones activas?              | ✅          |
-| `protectionStatus` | `ProtectionStatus[]`  | Estado(s) de protección aplicables           | ❌          |
-| `closureSeasons`   | `ClosurePeriod[]`     | Períodos de cierre temporal                  | ❌          |
-| `requiresPermit`   | `boolean`             | ¿Requiere permiso especial?                  | ✅ (default: false) |
-| `permitInfo`       | `string`              | Información sobre cómo obtener el permiso    | ❌          |
-| `prohibitions`     | `string[]`            | Lista de actividades prohibidas              | ❌          |
-| `additionalInfo`   | `string`              | Información adicional sobre restricciones    | ❌          |
+| Propiedad          | Tipo                 | Descripción                               | Obligatorio         |
+| ------------------ | -------------------- | ----------------------------------------- | ------------------- |
+| `hasRestrictions`  | `boolean`            | ¿Existen restricciones activas?           | ✅                  |
+| `protectionStatus` | `ProtectionStatus[]` | Estado(s) de protección aplicables        | ❌                  |
+| `closureSeasons`   | `ClosurePeriod[]`    | Períodos de cierre temporal               | ❌                  |
+| `requiresPermit`   | `boolean`            | ¿Requiere permiso especial?               | ✅ (default: false) |
+| `permitInfo`       | `string`             | Información sobre cómo obtener el permiso | ❌                  |
+| `prohibitions`     | `string[]`           | Lista de actividades prohibidas           | ❌                  |
+| `additionalInfo`   | `string`             | Información adicional sobre restricciones | ❌                  |
 
 **Tipo: `ProtectionStatus`**
 
 ```typescript
-type ProtectionStatus = 
-  | "LIC"                    // Lugar de Importancia Comunitaria
-  | "ZEPA"                   // Zona de Especial Protección para las Aves
+type ProtectionStatus =
+  | "LIC" // Lugar de Importancia Comunitaria
+  | "ZEPA" // Zona de Especial Protección para las Aves
   | "Parque Natural"
   | "Reserva Natural"
   | "Monumento Natural"
-  | "Zona Protegida Fauna"   // Por murciélagos, águilas, etc.
+  | "Zona Protegida Fauna" // Por murciélagos, águilas, etc.
   | "Propiedad Privada"
   | "Otros";
 ```
@@ -802,11 +802,11 @@ type ProtectionStatus =
 
 ```typescript
 type ClosurePeriod = {
-  startDate: string;        // Formato: "MM-DD" (ej: "11-01" para 1 de noviembre)
-  endDate: string;          // Formato: "MM-DD" (ej: "03-31" para 31 de marzo)
-  reason: string;           // Motivo del cierre (ej: "Protección de murciélagos", "Temporada de caza")
-  isAnnual: boolean;        // ¿Se repite anualmente?
-}
+  startDate: string; // Formato: "MM-DD" (ej: "11-01" para 1 de noviembre)
+  endDate: string; // Formato: "MM-DD" (ej: "03-31" para 31 de marzo)
+  reason: string; // Motivo del cierre (ej: "Protección de murciélagos", "Temporada de caza")
+  isAnnual: boolean; // ¿Se repite anualmente?
+};
 ```
 
 **Ejemplo:**
@@ -1106,25 +1106,25 @@ type NearbyActivity = {
   id: string;
   name: string;
   type: "cave" | "river" | "mountain" | "climbing";
-  category: string;              // "Cuevas", "Ríos", "Montañas", "Paredes"
+  category: string; // "Cuevas", "Ríos", "Montañas", "Paredes"
   coordinates: UTMCoordinates;
-  distance: number;              // Distancia en kilómetros
-  difficulty?: string;           // Dificultad general
-  duration?: Duration;           // Duración estimada
+  distance: number; // Distancia en kilómetros
+  difficulty?: string; // Dificultad general
+  duration?: Duration; // Duración estimada
   thumbnailUrl?: string;
-  slug: string;                  // Para enlace directo
-}
+  slug: string; // Para enlace directo
+};
 
 type NearbyActivitiesConfig = {
-  maxDistance: number;           // Distancia máxima en km (default: 10)
-  maxResults: number;            // Número máximo de resultados (default: 6)
-  includeCategories: string[];   // Categorías a incluir en búsqueda
-  excludeCurrentId: string;      // Excluir la actividad actual
-}
+  maxDistance: number; // Distancia máxima en km (default: 10)
+  maxResults: number; // Número máximo de resultados (default: 6)
+  includeCategories: string[]; // Categorías a incluir en búsqueda
+  excludeCurrentId: string; // Excluir la actividad actual
+};
 
 function findNearbyActivities(
   currentLocation: UTMCoordinates,
-  config: NearbyActivitiesConfig
+  config: NearbyActivitiesConfig,
 ): NearbyActivity[] {
   // 1. Convertir coordenadas de todas las actividades
   // 2. Calcular distancia usando fórmula Haversine
@@ -1176,11 +1176,11 @@ Para cada tipo de actividad, usar la coordenada más relevante:
 **Configuración por Categoría:**
 
 | Categoría Actual | Max Distancia | Max Resultados | Incluye Categorías |
-|-----------------|---------------|----------------|-------------------|
-| Cuevas          | 15 km         | 6              | Todas             |
-| Ríos            | 10 km         | 6              | Todas             |
-| Montañas        | 20 km         | 6              | Todas             |
-| Paredes         | 15 km         | 6              | Todas             |
+| ---------------- | ------------- | -------------- | ------------------ |
+| Cuevas           | 15 km         | 6              | Todas              |
+| Ríos             | 10 km         | 6              | Todas              |
+| Montañas         | 20 km         | 6              | Todas              |
+| Paredes          | 15 km         | 6              | Todas              |
 
 #### Implementación Técnica
 
@@ -1231,7 +1231,7 @@ CREATE TABLE location_comments (
   updated_at TIMESTAMP DEFAULT NOW(),
   is_edited BOOLEAN DEFAULT FALSE,
   is_deleted BOOLEAN DEFAULT FALSE,        -- Soft delete
-  
+
   FOREIGN KEY (parent_id) REFERENCES location_comments(id) ON DELETE CASCADE
 );
 
@@ -1248,7 +1248,7 @@ CREATE TABLE comment_reactions (
   user_id VARCHAR(255) NOT NULL,
   reaction_type VARCHAR(20) DEFAULT 'like',  -- 'like', 'helpful', etc.
   created_at TIMESTAMP DEFAULT NOW(),
-  
+
   FOREIGN KEY (comment_id) REFERENCES location_comments(id) ON DELETE CASCADE,
   UNIQUE(comment_id, user_id)  -- Un usuario solo puede reaccionar una vez
 );
@@ -1276,28 +1276,28 @@ type Comment = {
   updatedAt: Date;
   isEdited: boolean;
   isDeleted: boolean;
-  
+
   // Datos del usuario (de Clerk o caché)
   user: {
     id: string;
     username: string;
     avatarUrl?: string;
   };
-  
+
   // Comentarios hijos (para estructura anidada)
   replies?: Comment[];
-  
+
   // Metadatos
   replyCount?: number;
   hasReplies?: boolean;
-}
+};
 
 type CommentInput = {
   locationId: string;
   locationType: "cave" | "river" | "mountain" | "climbing";
   parentId?: string;
   content: string;
-}
+};
 ```
 
 #### API Endpoints
@@ -1456,41 +1456,62 @@ type CommentInput = {
 
 ---
 
-### Fase 2: UI Base y Componentes Compartidos (Semana 3-4)
+### Fase 2: UI Base y Componentes Compartidos (Semana 3-4) ✅ COMPLETADA
 
 **Objetivo**: Crear componentes reutilizables y estructura visual base para las 4 categorías.
 
 #### Tareas Fase 2
 
-- [ ] **Landing `/navarra`** - Página principal con hero y grid de 4 categorías
+- [x] **Landing `/navarra`** - Página principal con hero y grid de 4 categorías
+  - [x] Hero visual con imagen 16:9
+  - [x] Grid de 4 categorías con imágenes y enlaces
+  - [x] Sección de estadísticas dinámicas (conteo de colecciones)
+  - [x] Variables CSS del sistema de diseño
+  - [x] Responsive design (2x2 en desktop, 1 columna en móvil)
 
-- [ ] **Componentes compartidos** (React/Preact en `/src/components/navarra/shared/`)
-  - [ ] `<CoordinatesDisplay />` - Mostrar coordenadas UTM/WGS84
-  - [ ] `<DurationBadge />` - Mostrar duración (horas:minutos)
-  - [ ] `<DifficultyBadge />` - Badge de dificultad adaptable
-  - [ ] `<ImageGallery />` - Galería con lightbox
-  - [ ] `<Breadcrumb />` - Navegación jerárquica
-  - [ ] `<InfoCard />` - Card genérica para información
+- [x] **Funciones de utilidad** (`/src/utils/navarra/`)
+  - [x] `collection-stats.ts` - Funciones de conteo de colecciones
+  - [x] `getNavarraStats()` - Obtener todas las estadísticas
 
-- [ ] **Páginas de categoría básicas** (sin mapa aún)
-  - [ ] `/navarra/cuevas` - Hero + lista simple
-  - [ ] `/navarra/rios` - Hero + lista simple
-  - [ ] `/navarra/montañas` - Hero + lista simple
-  - [ ] `/navarra/paredes` - Hero + lista simple
+- [x] **Componentes compartidos** (React/Preact en `/src/components/navarra/shared/`)
+  - [x] `<CoordinatesDisplay />` - Mostrar coordenadas UTM/WGS84 con formato
+  - [x] `<DurationBadge />` - Badge de duración (formato normal y compacto)
+  - [x] `<DifficultyBadge />` - Badge de dificultad adaptable por tipo de actividad
+  - [x] `<ImageGallery />` - Galería con lightbox interactivo y navegación por teclado
+  - [x] `<InfoCard />` - Card genérica con 3 variantes (default, highlight, warning)
+  - [x] ~~`<Breadcrumb />`~~ - Se usa el componente existente en `/src/components/ui/`
 
-- [ ] **Templates de páginas individuales** (sin mapa aún)
-  - [ ] `/navarra/cuevas/[slug].astro`
-  - [ ] `/navarra/rios/[slug].astro`
-  - [ ] `/navarra/montañas/[slug].astro`
-  - [ ] `/navarra/paredes/[slug].astro`
+- [x] **Páginas de categoría básicas** (sin mapa aún)
+  - [x] `/navarra/cuevas` - Hero + breadcrumb + lista de cuevas con stats
+  - [x] `/navarra/rios` - Hero + breadcrumb + lista de barrancos
+  - [x] `/navarra/montañas` - Hero + breadcrumb + lista de montañas
+  - [x] `/navarra/paredes` - Hero + breadcrumb + lista de escuelas de escalada
+
+- [x] **Templates de páginas individuales** (sin mapa aún)
+  - [x] `/navarra/cuevas/[slug].astro` - Detalle con sidebar (stats, coordenadas, acceso, restricciones)
+  - [x] `/navarra/rios/[slug].astro` - Detalle con sidebar (stats, restricciones)
+  - [x] `/navarra/montañas/[slug].astro` - Detalle con sidebar (stats, coordenadas, restricciones)
+  - [x] `/navarra/paredes/[slug].astro` - Detalle con sidebar (coordenadas, acceso, orientaciones)
+
+- [x] **Mejoras adicionales**
+  - [x] Breadcrumb mejorado con decodificación de caracteres especiales (ñ, á, etc.)
+  - [x] Tests añadidos para breadcrumb (30/30 pasando)
+  - [x] Layout responsive 2 columnas (contenido + sidebar)
+  - [x] Estilos markdown globales para contenido
+  - [x] Integración de componentes React con `client:load`
 
 #### Entregables Fase 2
 
-- ✅ Landing `/navarra` funcional y atractiva
-- ✅ 4 páginas de categoría con hero y lista básica
-- ✅ 4 templates de páginas individuales mostrando datos
-- ✅ Biblioteca de componentes compartidos
-- ✅ Sistema de navegación (breadcrumbs) funcionando
+- ✅ Landing `/navarra` funcional y atractiva con estadísticas dinámicas
+- ✅ 4 páginas de categoría con hero, breadcrumb y listas funcionales
+- ✅ 4 templates de páginas individuales con layout completo y sidebar
+- ✅ Biblioteca de 5 componentes compartidos React/Preact
+- ✅ Sistema de navegación (breadcrumbs) funcionando con caracteres especiales
+- ✅ Funciones de utilidad para conteo de colecciones
+- ✅ Diseño responsive y consistente en todas las páginas
+- ✅ Integración completa con Content Collections de Astro
+
+**Fecha de completación**: 2 de diciembre de 2024
 
 ---
 
@@ -1790,17 +1811,17 @@ type CommentInput = {
 
 ## 📊 Resumen de Fases
 
-| Fase | Duración | Enfoque Principal | Categorías |
-|------|----------|-------------------|------------|
-| **1** | 2 semanas | Tipos y datos base | 4 en paralelo |
-| **2** | 2 semanas | UI y componentes | 4 en paralelo |
-| **3** | 2 semanas | Mapas interactivos | 4 en paralelo |
-| **4** | 2 semanas | Búsqueda y filtros | 4 en paralelo |
-| **5** | 2 semanas | Fichas de instalación | 4 en paralelo |
-| **6** | 2 semanas | Multimedia | 4 en paralelo |
-| **7** | 2 semanas | Funcionalidades avanzadas | 4 en paralelo |
-| **8** | 2 semanas | Comentarios (PostgreSQL) | 4 en paralelo |
-| **9** | 2 semanas | Optimización y pulido | 4 en paralelo |
+| Fase  | Duración  | Enfoque Principal         | Categorías    | Estado        |
+| ----- | --------- | ------------------------- | ------------- | ------------- |
+| **1** | 2 semanas | Tipos y datos base        | 4 en paralelo | ✅ Completada |
+| **2** | 2 semanas | UI y componentes          | 4 en paralelo | ✅ Completada |
+| **3** | 2 semanas | Mapas interactivos        | 4 en paralelo | ⏳ Pendiente  |
+| **4** | 2 semanas | Búsqueda y filtros        | 4 en paralelo | ⏳ Pendiente  |
+| **5** | 2 semanas | Fichas de instalación     | 4 en paralelo | ⏳ Pendiente  |
+| **6** | 2 semanas | Multimedia                | 4 en paralelo | ⏳ Pendiente  |
+| **7** | 2 semanas | Funcionalidades avanzadas | 4 en paralelo | ⏳ Pendiente  |
+| **8** | 2 semanas | Comentarios (PostgreSQL)  | 4 en paralelo | ⏳ Pendiente  |
+| **9** | 2 semanas | Optimización y pulido     | 4 en paralelo | ⏳ Pendiente  |
 
 ### Ventajas de esta Planificación
 

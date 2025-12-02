@@ -11,9 +11,9 @@ describe("Navarra Content Collections", () => {
     const caves = await getCollection("caves");
     expect(caves).toBeDefined();
     expect(caves.length).toBeGreaterThan(0);
-    
+
     // Verificar que la entrada de ejemplo existe
-    const simaSanMartin = caves.find(cave => cave.id === "sima-san-martin");
+    const simaSanMartin = caves.find((cave) => cave.id === "sima-san-martin");
     expect(simaSanMartin).toBeDefined();
     expect(simaSanMartin?.data.name).toBe("Sima de San Martín");
     expect(simaSanMartin?.data.depth).toBe(320);
@@ -23,9 +23,9 @@ describe("Navarra Content Collections", () => {
     const canyons = await getCollection("canyons");
     expect(canyons).toBeDefined();
     expect(canyons.length).toBeGreaterThan(0);
-    
+
     // Verificar que la entrada de ejemplo existe
-    const artazul = canyons.find(canyon => canyon.id === "artazul");
+    const artazul = canyons.find((canyon) => canyon.id === "artazul");
     expect(artazul).toBeDefined();
     expect(artazul?.data.name).toBe("Barranco de Artazul");
   });
@@ -34,9 +34,9 @@ describe("Navarra Content Collections", () => {
     const mountains = await getCollection("mountains");
     expect(mountains).toBeDefined();
     expect(mountains.length).toBeGreaterThan(0);
-    
+
     // Verificar que la entrada de ejemplo existe
-    const anie = mountains.find(mountain => mountain.id === "anie");
+    const anie = mountains.find((mountain) => mountain.id === "anie");
     expect(anie).toBeDefined();
     expect(anie?.data.name).toBe("Pico Anie (Auñamendi)");
     expect(anie?.data.altitude).toBe(2504);
@@ -46,17 +46,17 @@ describe("Navarra Content Collections", () => {
     const climbing = await getCollection("climbing");
     expect(climbing).toBeDefined();
     expect(climbing.length).toBeGreaterThan(0);
-    
+
     // Verificar que la entrada de ejemplo existe
-    const etxauri = climbing.find(school => school.id === "etxauri");
+    const etxauri = climbing.find((school) => school.id === "etxauri");
     expect(etxauri).toBeDefined();
     expect(etxauri?.data.name).toBe("Escuela de Escalada de Etxauri");
   });
 
   it("should validate UTM coordinates schema", async () => {
     const caves = await getCollection("caves");
-    const simaSanMartin = caves.find(cave => cave.id === "sima-san-martin");
-    
+    const simaSanMartin = caves.find((cave) => cave.id === "sima-san-martin");
+
     expect(simaSanMartin?.data.coordinates).toBeDefined();
     expect(simaSanMartin?.data.coordinates.zone).toBe(30);
     expect(simaSanMartin?.data.coordinates.hemisphere).toBe("N");

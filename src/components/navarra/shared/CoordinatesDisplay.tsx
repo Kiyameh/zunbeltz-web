@@ -26,7 +26,9 @@ export default function CoordinatesDisplay({
         <div className={styles.item}>
           <span className={styles.label}>UTM:</span>
           <span className={styles.value}>
-            {coordinates.zone}{coordinates.hemisphere} {coordinates.easting.toLocaleString()} E, {coordinates.northing.toLocaleString()} N
+            {coordinates.zone}
+            {coordinates.hemisphere} {coordinates.easting.toLocaleString()} E,{" "}
+            {coordinates.northing.toLocaleString()} N
           </span>
         </div>
       )}

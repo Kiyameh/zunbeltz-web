@@ -182,15 +182,15 @@
   .columns-4 {
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .lightbox {
     padding: 1rem;
   }
-  
+
   .lightboxImage {
     max-height: 70vh;
   }
-  
+
   .navButton {
     width: 2.5rem;
     height: 2.5rem;
