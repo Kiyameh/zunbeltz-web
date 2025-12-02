@@ -858,7 +858,7 @@ type ClosurePeriod = {
 
 **Propósito**: Página de entrada a la sección Navarra que presenta las cuatro categorías de actividades.
 
-#### Componentes y Secciones `/navarra`
+#### Componentes y Secciones del Landing
 
 ##### Hero Section
 
@@ -888,7 +888,7 @@ type ClosurePeriod = {
 - Número de localizaciones documentadas por categoría
 - Métricas destacadas (total de cavidades, km de barrancos, etc.)
 
-#### Tecnologías `/navarra`
+#### Tecnologías del Landing
 
 - Astro page component
 - CSS Modules para estilos
@@ -901,7 +901,7 @@ type ClosurePeriod = {
 
 **Rutas**: `/navarra/cuevas`, `/navarra/rios`, `/navarra/montañas`, `/navarra/paredes`
 
-#### Componentes y Secciones `/navarra/[categoria]`
+#### Componentes y Secciones de Categoría
 
 ##### 2.1. Hero Section
 
@@ -953,7 +953,7 @@ type ClosurePeriod = {
 - Recomendaciones de seguridad
 - Enlaces a cursos relacionados
 
-#### Tecnologías
+#### Tecnologías de Categoría
 
 - Astro page component
 - React/Preact para componentes interactivos (mapa, filtros)
@@ -966,7 +966,7 @@ type ClosurePeriod = {
 
 **Rutas ejemplo**: `/navarra/cuevas/sima-san-martin`, `/navarra/rios/artazul`
 
-#### Componentes y Secciones `/navarra/[categoria]/[slug]`
+#### Componentes y Secciones de Páginas Individuales
 
 ##### 3.1. Header Principal
 
@@ -1045,7 +1045,7 @@ type ClosurePeriod = {
 - Posts del blog relacionados
 - Cursos relacionados con esta actividad
 
-#### Tecnologías `/navarra/[categoria]/[slug]`
+#### Tecnologías de Páginas Individuales
 
 - Astro con Content Collections para el contenido
 - React/Preact para componentes interactivos
@@ -1379,7 +1379,7 @@ type CommentInput = {
    - "Cargar más" para siguientes páginas
    - Cache de usuarios para evitar queries repetidas
 
-#### Tecnologías Sistema de Comentarios
+#### Tecnologías del Sistema de Comentarios
 
 **Frontend:**
 
@@ -1410,164 +1410,406 @@ type CommentInput = {
 
 ---
 
-## �📋 Planificación en Fases
+## 📋 Planificación en Fases
 
-### Fase 1: Infraestructura Base (Q1 2025)
+> **Principios de Desarrollo:**
+>
+> - **Desarrollo paralelo** de las 4 categorías (Cuevas, Ríos, Montañas, Paredes)
+> - **Iteración incremental**: Cada fase añade funcionalidad a todas las categorías simultáneamente
+> - **Content Collections** para datos + PostgreSQL solo para comentarios (fase final)
+> - **Datos de ejemplo** que se irán reemplazando por datos reales
+> - **Clerk ya implementado** (se aprovechará en fase de comentarios)
 
-**Objetivo**: Establecer la estructura de datos y las colecciones básicas en Astro Content Collections.
+---
+
+### Fase 1: Fundamentos y Tipos (Semana 1-2)
+
+**Objetivo**: Establecer la base de datos tipada y las colecciones vacías para las 4 categorías.
 
 #### Tareas Fase 1
 
-- [x] Definir tipos TypeScript para todas las entidades
-- [ ] Crear schemas de validación con Zod para Content Collections
-- [ ] Implementar colecciones `caves` y `rivers`
-- [ ] Configurar sistema de coordenadas UTM
-- [ ] Establecer estructura de carpetas para imágenes y topografías
-- [ ] Crear componentes base para mostrar información geográfica
-- [ ] Implementar estructura básica de rutas dinámicas para páginas
-- [ ] Configurar Leaflet.js en el proyecto
+- [x] Crear tipos TypeScript completos en `/src/types/navarra/`
+  - [x] `caves.types.ts` - Tipos para cuevas y espeleología
+  - [x] `rivers.types.ts` - Tipos para ríos y barranquismo
+  - [x] `mountains.types.ts` - Tipos para montañas y senderismo
+  - [x] `climbing.types.ts` - Tipos para paredes y escalada
+  - [x] `shared.types.ts` - Tipos compartidos (UTM, Duration, ImageAsset, Restrictions, etc.)
+
+- [x] Crear schemas Zod en `/src/content/config.ts`
+  - [x] Schema `caves` con validación completa
+  - [x] Schema `canyons` con validación completa
+  - [x] Schema `mountains` con validación completa
+  - [x] Schema `climbing` con validación completa
+
+- [x] Crear **1 entrada de ejemplo** por categoría en `/src/content/`
+  - [x] `/content/caves/sima-san-martin.md` - Sima de San Martín (Larra)
+  - [x] `/content/canyons/artazul.md` - Barranco de Artazul
+  - [x] `/content/mountains/anie.md` - Pico Anie (2.504m)
+  - [x] `/content/climbing/etxauri.md` - Escuela de Escalada de Etxauri
 
 #### Entregables Fase 1
 
-- Tipos TypeScript documentados
-- Schemas de Zod para validación
-- Primeras 2-3 cavidades de ejemplo
-- Primeros 2-3 barrancos de ejemplo
-- Componentes React para visualización básica
-- Estructura de rutas `/navarra/[categoria]/[slug]` funcional
-- Integración de Leaflet configurada
+- ✅ Sistema de tipos completo y documentado
+- ✅ Schemas Zod funcionando con validación
+- ✅ 4 entradas de ejemplo (una por categoría)
+- ✅ Documentación de estructura de datos
 
 ---
 
-### Fase 2: Generador de Fichas de Instalación (Q1-Q2 2025)
+### Fase 2: UI Base y Componentes Compartidos (Semana 3-4)
 
-**Objetivo**: Desarrollar la aplicación interactiva para generar fichas técnicas de instalación.
+**Objetivo**: Crear componentes reutilizables y estructura visual base para las 4 categorías.
 
 #### Tareas Fase 2
 
-- [ ] Diseñar interfaz de usuario para el generador de fichas de cuevas
-- [ ] Implementar formulario dinámico para añadir cuerdas, obstáculos e instalaciones
-- [ ] Desarrollar lógica para relaciones entre cuerdas y obstáculos
-- [ ] Crear visualización de fichas generadas
-- [ ] Exportar fichas a PDF o formato imprimible
-- [ ] Replicar funcionalidad para barrancos
-- [ ] Diseñar e implementar landing `/navarra`
-- [ ] Crear hero sections para páginas de categoría
+- [ ] **Landing `/navarra`** - Página principal con hero y grid de 4 categorías
+
+- [ ] **Componentes compartidos** (React/Preact en `/src/components/navarra/shared/`)
+  - [ ] `<CoordinatesDisplay />` - Mostrar coordenadas UTM/WGS84
+  - [ ] `<DurationBadge />` - Mostrar duración (horas:minutos)
+  - [ ] `<DifficultyBadge />` - Badge de dificultad adaptable
+  - [ ] `<ImageGallery />` - Galería con lightbox
+  - [ ] `<Breadcrumb />` - Navegación jerárquica
+  - [ ] `<InfoCard />` - Card genérica para información
+
+- [ ] **Páginas de categoría básicas** (sin mapa aún)
+  - [ ] `/navarra/cuevas` - Hero + lista simple
+  - [ ] `/navarra/rios` - Hero + lista simple
+  - [ ] `/navarra/montañas` - Hero + lista simple
+  - [ ] `/navarra/paredes` - Hero + lista simple
+
+- [ ] **Templates de páginas individuales** (sin mapa aún)
+  - [ ] `/navarra/cuevas/[slug].astro`
+  - [ ] `/navarra/rios/[slug].astro`
+  - [ ] `/navarra/montañas/[slug].astro`
+  - [ ] `/navarra/paredes/[slug].astro`
 
 #### Entregables Fase 2
 
-- Generador de fichas funcional en `/exploracion/fichas`
-- Sistema de export a PDF
-- Documentación de uso
-- Landing page `/navarra` completamente diseñada
-- Heroes y estructura base de páginas de categoría
+- ✅ Landing `/navarra` funcional y atractiva
+- ✅ 4 páginas de categoría con hero y lista básica
+- ✅ 4 templates de páginas individuales mostrando datos
+- ✅ Biblioteca de componentes compartidos
+- ✅ Sistema de navegación (breadcrumbs) funcionando
 
 ---
 
-### Fase 3: Catálogo de Cuevas (Q2 2025)
+### Fase 3: Mapas Interactivos (Semana 5-6)
 
-**Objetivo**: Poblar el catálogo con información exhaustiva de cavidades navarras.
+**Objetivo**: Integrar Leaflet.js en todas las páginas de las 4 categorías.
 
 #### Tareas Fase 3
 
-- [ ] Documentar principales cavidades de la zona kárstica de Larra
-- [ ] Documentar cavidades de Urbasa-Andía
-- [ ] Documentar cavidades de otras zonas (Artxubi, Lakartxela, etc.)
-- [ ] Integrar enlaces a Subterra.app
-- [ ] Añadir fotografías de entradas
-- [ ] Digitalizar y añadir topografías existentes
-- [ ] Crear fichas de instalación para recorridos principales
-- [ ] Implementar mapa interactivo con Leaflet en `/navarra/cuevas`
-- [ ] Desarrollar tabla/lista con filtros y búsqueda
-- [ ] Crear componentes para páginas individuales de cuevas
-- [ ] Implementar galería multimedia y lightbox
+- [ ] **Configurar Leaflet.js**
+  - [ ] Instalar dependencias (`leaflet`, `@types/leaflet`)
+  - [ ] Crear componente base `<LeafletMap />`
+  - [ ] Configurar tiles (OpenStreetMap, topográfico)
+
+- [ ] **Componentes de mapa especializados**
+  - [ ] `<CategoryMap />` - Mapa con múltiples waypoints para páginas de categoría
+  - [ ] `<LocationMap />` - Mapa centrado en una ubicación para páginas individuales
+  - [ ] `<ClusterMarkers />` - Agrupación de marcadores cercanos
+  - [ ] `<MapTooltip />` - Tooltips personalizados en hover
+  - [ ] `<MapPopup />` - Popups con información detallada
+
+- [ ] **Integrar mapas en páginas de categoría**
+  - [ ] Mapa en `/navarra/cuevas` con waypoints de todas las cuevas
+  - [ ] Mapa en `/navarra/rios` con waypoints de todos los ríos
+  - [ ] Mapa en `/navarra/montañas` con waypoints de todas las montañas
+  - [ ] Mapa en `/navarra/paredes` con waypoints de todas las paredes
+
+- [ ] **Integrar mapas en páginas individuales**
+  - [ ] Mapa centrado en ubicación exacta (4 categorías)
+  - [ ] Marcador con información
+  - [ ] Indicación de parking/acceso (si disponible)
 
 #### Entregables Fase 3
 
-- Al menos 30 cavidades documentadas
-- Sistema de búsqueda y filtrado funcional
-- Mapa interactivo con waypoints y tooltips
-- Página `/navarra/cuevas` completamente operativa
-- Template de página individual de cueva funcional
-- Galería multimedia con lightbox
+- ✅ Sistema de mapas Leaflet funcionando
+- ✅ Mapas interactivos en las 4 páginas de categoría
+- ✅ Mapas de ubicación en las 4 páginas individuales
+- ✅ Tooltips y popups funcionando correctamente
 
 ---
 
-### Fase 4: Catálogo de Ríos y Barrancos (Q2-Q3 2025)
+### Fase 4: Búsqueda, Filtros y Tablas (Semana 7-8)
 
-**Objetivo**: Poblar el catálogo con información de barrancos navarros.
+**Objetivo**: Añadir funcionalidades de búsqueda y filtrado a las 4 categorías.
 
 #### Tareas Fase 4
 
-- [ ] Documentar barrancos clásicos (Artazul, Arpea, Belabarce, etc.)
-- [ ] Documentar barrancos técnicos y deportivos
-- [ ] Implementar sistema de graduación visual
-- [ ] Añadir avisos de época recomendada y caudal
-- [ ] Crear fichas de instalación para recorridos
-- [ ] Integrar información de accesos y permisos
-- [ ] Implementar mapa interactivo en `/navarra/rios`
-- [ ] Desarrollar componente de graduación visual (v/a/compromiso)
-- [ ] Crear template de página individual de barranco
+- [ ] **Componentes de búsqueda y filtrado**
+  - [ ] `<SearchBar />` - Búsqueda en tiempo real
+  - [ ] `<FilterPanel />` - Panel de filtros adaptable
+  - [ ] `<SortControls />` - Controles de ordenación
+  - [ ] `<ResultsTable />` - Tabla responsive con datos
+  - [ ] `<ResultsGrid />` - Vista en grid (alternativa a tabla)
+  - [ ] `<Pagination />` - Paginación de resultados
+
+- [ ] **Filtros específicos por categoría**
+  - [ ] **Cuevas**: Por zona, profundidad, longitud, dificultad
+  - [ ] **Ríos**: Por zona, graduación (v/a/compromiso), época
+  - [ ] **Montañas**: Por zona, altitud, dificultad, tipo de ruta
+  - [ ] **Paredes**: Por zona, orientación, estilo, dificultad
+
+- [ ] **Integrar en páginas de categoría**
+  - [ ] Barra de búsqueda visible (4 categorías)
+  - [ ] Panel de filtros colapsable (4 categorías)
+  - [ ] Tabla/grid con resultados (4 categorías)
+  - [ ] Paginación funcional (4 categorías)
+  - [ ] Sincronización con mapa (filtros afectan waypoints)
 
 #### Entregables Fase 4
 
-- Al menos 20 barrancos documentados
-- Sistema de filtrado por dificultad y época
-- Mapa interactivo con barrancos georreferenciados
-- Página `/navarra/rios` completamente operativa
-- Template de página individual de barranco funcional
-- Sistema de graduación visual implementado
+- ✅ Sistema de búsqueda funcionando en las 4 categorías
+- ✅ Filtros específicos por categoría operativos
+- ✅ Tablas/grids responsive con datos
+- ✅ Paginación implementada
+- ✅ Sincronización filtros ↔ mapa
 
 ---
 
-### Fase 5: Montañas y Paredes (Q3-Q4 2025)
+### Fase 5: Fichas de Instalación (Semana 9-10)
 
-**Objetivo**: Conceptualizar y desarrollar las secciones pendientes.
+**Objetivo**: Desarrollar visualización de fichas técnicas de instalación para cuevas y barrancos.
+
+> [!IMPORTANT]
+> **Alcance de las Fichas Técnicas:**
+>
+> Las fichas técnicas de instalación tienen tipos de datos bien definidos para todas las categorías (cuevas, barrancos, montañas, paredes). Esta sección de **Navarra** es responsable únicamente de **visualizar** estas fichas en formato de tabla/interfaz de lectura.
+>
+> La funcionalidad para que los usuarios **creen y generen** sus propias fichas técnicas se implementará en otras secciones de la web (ver sección **Exploración** o herramientas de generación). Este documento no cubre dicha funcionalidad de creación.
 
 #### Tareas Fase 5
 
-- [ ] Definir tipos de datos para montañas
-- [ ] Definir tipos de datos para paredes de escalada
-- [ ] Implementar colecciones correspondientes
-- [ ] Poblar con información inicial
-- [ ] Desarrollar componentes específicos
-- [ ] Replicar estructura de páginas (mapa, tabla, individuales)
+- [ ] **Componentes de visualización de fichas**
+  - [ ] `<InstallationSheet />` - Contenedor principal de ficha
+  - [ ] `<RopeList />` - Lista de cuerdas con detalles
+  - [ ] `<ObstacleCard />` - Card de obstáculo (P26, R15, etc.)
+  - [ ] `<InstallationPoint />` - Punto de instalación (cabecera, fracc, etc.)
+  - [ ] `<AnchorDisplay />` - Visualización de anclajes (Spx, Pb, etc.)
+  - [ ] `<InstallationDiagram />` - Diagrama visual (opcional, SVG)
+
+- [ ] **Componentes específicos por tipo**
+  - [ ] Fichas para **cuevas** (cuerdas, pozos, instalaciones)
+  - [ ] Fichas para **barrancos** (obstáculos, rápeles, saltos)
+
+- [ ] **Funcionalidades adicionales**
+  - [ ] Export a PDF de fichas
+  - [ ] Vista imprimible optimizada
+  - [ ] Descarga de datos en formato estructurado
+
+- [ ] **Integrar en páginas individuales**
+  - [ ] Sección "Recorridos" con accordion/tabs
+  - [ ] Fichas de instalación expandibles
+  - [ ] Visualización clara de material necesario
 
 #### Entregables Fase 5
 
-- Secciones `/navarra/montañas` y `/navarra/paredes` operativas
-- Documentación inicial de rutas y vías
-- Mapas interactivos para ambas categorías
-- Templates de páginas individuales
+- ✅ Sistema de visualización de fichas funcionando
+- ✅ Fichas de instalación para cuevas y barrancos
+- ✅ Export a PDF implementado
+- ✅ Integración en páginas individuales
 
 ---
 
-### Fase 6: Mejoras y Optimización (Q4 2025)
+### Fase 6: Multimedia y Contenido Enriquecido (Semana 11-12)
 
-**Objetivo**: Pulir la experiencia de usuario y añadir funcionalidades avanzadas.
+**Objetivo**: Añadir galerías, topografías y contenido multimedia a las 4 categorías.
 
 #### Tareas Fase 6
 
-- [ ] Implementar mapa interactivo con todas las localizaciones
-- [ ] Sistema de búsqueda avanzada con filtros múltiples
-- [ ] Integración con servicios meteorológicos
-- [ ] Avisos de caudal/condiciones en tiempo real
-- [ ] Sistema de favoritos para usuarios registrados
-- [ ] Exportación de datos a GPS (GPX)
-- [ ] Versión móvil optimizada (PWA)
-- [ ] Optimizar imágenes y performance general
-- [ ] Implementar lazy loading en todos los mapas
-- [ ] Añadir animaciones y transiciones pulidas
-- [ ] Testing de accesibilidad y responsive en todos los dispositivos
+- [ ] **Componentes multimedia**
+  - [ ] `<PhotoGallery />` - Galería de fotos con lightbox avanzado
+  - [ ] `<TopographyViewer />` - Visor de topografías (PDF, SVG, imágenes)
+  - [ ] `<VideoEmbed />` - Embeds de YouTube/Vimeo
+  - [ ] `<DownloadButton />` - Botón de descarga de recursos
+
+- [ ] **Sistema de assets**
+  - [ ] Estructura de carpetas para imágenes por categoría
+  - [ ] Optimización automática de imágenes (Astro Image)
+  - [ ] Lazy loading de imágenes y videos
+  - [ ] Placeholder mientras carga
+
+- [ ] **Integrar en páginas individuales**
+  - [ ] Galería de fotos adicionales (4 categorías)
+  - [ ] Visor de topografías (si disponibles)
+  - [ ] Videos embebidos (si disponibles)
+  - [ ] Sección de descargas (GPX, PDF, topografías)
+
+- [ ] **Añadir más datos de ejemplo**
+  - [ ] 3-5 entradas por categoría con fotos
+  - [ ] Al menos 2 entradas con topografías
+  - [ ] Al menos 1 entrada con video
 
 #### Entregables Fase 6
 
-- Mapa interactivo unificado con todas las categorías
-- Sistema de alertas meteorológicas
-- Exportación de datos a GPX
-- PWA instalable
-- Performance score >90 en Lighthouse
-- Accesibilidad AAA en páginas principales
+- ✅ Galerías multimedia funcionando
+- ✅ Visor de topografías operativo
+- ✅ Sistema de descargas implementado
+- ✅ 12-20 entradas de ejemplo con multimedia
+
+---
+
+### Fase 7: Funcionalidades Avanzadas (Semana 13-14)
+
+**Objetivo**: Implementar sistema de actividades cercanas y mejoras UX para las 4 categorías.
+
+#### Tareas Fase 7
+
+- [ ] **Sistema "Actividades Cercanas"**
+  - [ ] Función de cálculo de distancia (Haversine)
+  - [ ] Algoritmo de búsqueda de actividades próximas
+  - [ ] Pre-cálculo en build time
+  - [ ] Componente `<NearbyActivities />`
+
+- [ ] **Mejoras de UX**
+  - [ ] Animaciones y transiciones suaves
+  - [ ] Loading states en componentes interactivos
+  - [ ] Error boundaries y manejo de errores
+  - [ ] Skeleton loaders
+
+- [ ] **Export y compartir**
+  - [ ] Export de coordenadas a GPX
+  - [ ] Botones de compartir en redes sociales
+  - [ ] Copiar enlace directo
+  - [ ] QR code de ubicación (opcional)
+
+- [ ] **Sección de información adicional**
+  - [ ] Enlaces externos (Subterra.app, etc.)
+  - [ ] Información de colaboradores
+  - [ ] Fecha de última actualización
+  - [ ] Botón "Reportar error"
+
+#### Entregables Fase 7
+
+- ✅ Sistema de actividades cercanas funcionando
+- ✅ Export a GPX implementado
+- ✅ Animaciones y transiciones pulidas
+- ✅ Funcionalidades de compartir operativas
+
+---
+
+### Fase 8: Sistema de Comentarios (Semana 15-16)
+
+**Objetivo**: Implementar comentarios con PostgreSQL y Clerk para las 4 categorías.
+
+#### Tareas Fase 8
+
+- [ ] **Configurar base de datos**
+  - [ ] Setup PostgreSQL (Vercel Postgres o similar)
+  - [ ] Crear tablas (`location_comments`, `comment_reactions`, `user_profiles_cache`)
+  - [ ] Configurar ORM (Prisma o Drizzle)
+  - [ ] Crear migraciones
+
+- [ ] **API Endpoints**
+  - [ ] `GET /api/comments` - Obtener comentarios
+  - [ ] `POST /api/comments` - Crear comentario
+  - [ ] `PATCH /api/comments/[id]` - Editar comentario
+  - [ ] `DELETE /api/comments/[id]` - Eliminar comentario
+  - [ ] Middleware de autenticación con Clerk
+
+- [ ] **Componentes de comentarios**
+  - [ ] `<CommentsSection />` - Contenedor principal
+  - [ ] `<CommentForm />` - Formulario de nuevo comentario
+  - [ ] `<CommentThread />` - Hilo de comentarios anidados
+  - [ ] `<Comment />` - Comentario individual
+  - [ ] `<CommentActions />` - Acciones (editar, eliminar, responder)
+
+- [ ] **Funcionalidades**
+  - [ ] Comentarios anidados (3 niveles máximo)
+  - [ ] Edición y eliminación (solo autor)
+  - [ ] Markdown básico en comentarios
+  - [ ] Sanitización XSS
+  - [ ] Rate limiting (5 comentarios/hora)
+  - [ ] Ordenación (recientes, antiguos)
+
+- [ ] **Integrar en páginas individuales**
+  - [ ] Sección de comentarios al final de cada página (4 categorías)
+  - [ ] Lazy loading de comentarios
+  - [ ] Optimistic updates
+
+#### Entregables Fase 8
+
+- ✅ Base de datos PostgreSQL configurada
+- ✅ API de comentarios funcionando
+- ✅ Sistema de comentarios anidados operativo
+- ✅ Integración con Clerk completa
+- ✅ Moderación básica implementada
+
+---
+
+### Fase 9: Optimización y Pulido (Semana 17-18)
+
+**Objetivo**: Optimizar performance, SEO y accesibilidad en las 4 categorías.
+
+#### Tareas Fase 9
+
+- [ ] **Performance**
+  - [ ] Optimización de imágenes (WebP, AVIF)
+  - [ ] Code splitting agresivo
+  - [ ] Lazy loading de componentes pesados
+  - [ ] Preload de recursos críticos
+  - [ ] Análisis con Lighthouse (objetivo: >90)
+
+- [ ] **SEO**
+  - [ ] Meta tags específicos por página
+  - [ ] Open Graph tags completos
+  - [ ] Structured data (JSON-LD) para localizaciones
+  - [ ] Sitemap automático
+  - [ ] Robots.txt optimizado
+
+- [ ] **Accesibilidad**
+  - [ ] Auditoría WCAG 2.1 AA
+  - [ ] ARIA labels en componentes interactivos
+  - [ ] Navegación por teclado completa
+  - [ ] Contraste de colores adecuado
+  - [ ] Alt text en todas las imágenes
+
+- [ ] **Testing**
+  - [ ] Tests unitarios de componentes críticos
+  - [ ] Tests de integración de formularios
+  - [ ] Tests E2E de flujos principales
+  - [ ] Testing en múltiples dispositivos
+
+- [ ] **Documentación**
+  - [ ] Documentar estructura de Content Collections
+  - [ ] Guía para añadir nuevas entradas
+  - [ ] Documentación de componentes
+  - [ ] README actualizado
+
+#### Entregables Fase 9
+
+- ✅ Lighthouse score >90 en todas las métricas
+- ✅ SEO completo y optimizado
+- ✅ Accesibilidad AAA en páginas principales
+- ✅ Suite de tests funcionando
+- ✅ Documentación completa
+
+---
+
+## 📊 Resumen de Fases
+
+| Fase | Duración | Enfoque Principal | Categorías |
+|------|----------|-------------------|------------|
+| **1** | 2 semanas | Tipos y datos base | 4 en paralelo |
+| **2** | 2 semanas | UI y componentes | 4 en paralelo |
+| **3** | 2 semanas | Mapas interactivos | 4 en paralelo |
+| **4** | 2 semanas | Búsqueda y filtros | 4 en paralelo |
+| **5** | 2 semanas | Fichas de instalación | 4 en paralelo |
+| **6** | 2 semanas | Multimedia | 4 en paralelo |
+| **7** | 2 semanas | Funcionalidades avanzadas | 4 en paralelo |
+| **8** | 2 semanas | Comentarios (PostgreSQL) | 4 en paralelo |
+| **9** | 2 semanas | Optimización y pulido | 4 en paralelo |
+
+### Ventajas de esta Planificación
+
+1. ✅ **Desarrollo paralelo real**: Cada fase añade funcionalidad a las 4 categorías simultáneamente
+2. ✅ **Iteración incremental**: Cada fase construye sobre la anterior
+3. ✅ **Feedback temprano**: Las 4 categorías son visibles y probables desde la Fase 2
+4. ✅ **Flexibilidad**: Se pueden ajustar prioridades dentro de cada fase sin afectar la estructura
+5. ✅ **Datos de ejemplo**: Se generan ejemplos que se pueden ir reemplazando progresivamente
+6. ✅ **Comentarios al final**: PostgreSQL solo cuando todo lo demás está sólido y probado
 
 ---
 
