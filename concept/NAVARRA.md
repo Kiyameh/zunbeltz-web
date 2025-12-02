@@ -1,0 +1,1630 @@
+# Concepto: Sección Navarra
+
+## 📍 Introducción
+
+### Propósito
+
+La sección **Navarra** es el núcleo geográfico y temático de Zunbeltz.org, dedicada a catalogar, documentar y compartir información detallada sobre las actividades de aventura que se pueden realizar en el territorio navarro. Esta sección funciona como una base de datos exhaustiva y accesible para deportistas, exploradores y aficionados que deseen descubrir y disfrutar de los recursos naturales de Navarra.
+
+### Alcance
+
+La sección abarca cuatro grandes categorías de actividades outdoor:
+
+1. **Cuevas** - Cavidades y actividades espeleológicas
+2. **Ríos** - Ríos, barrancos y actividades de canyoning/barranquismo
+3. **Montañas** - Montañas, senderismo y alpinismo _(pendiente de desarrollo)_
+4. **Paredes** - Roquedos, paredes y actividades de escalada _(pendiente de desarrollo)_
+
+### Características Principales
+
+- **Información técnica detallada**: Fichas técnicas con datos precisos sobre localización, características, dificultad y equipamiento
+- **Fichas de instalación**: Documentación completa de las instalaciones existentes en cavidades y barrancos
+- **Sistema de catalogación**: Organización estructurada por tipo de actividad y zona geográfica
+- **Integración con bases de datos externas**: Enlaces a recursos como Subterra.app para espeleología
+- **Fotografías y topografías**: Material visual para facilitar la planificación y reconocimiento
+
+---
+
+## 🏗️ Tipos y Colecciones
+
+### 1. Cuevas (Espeleología)
+
+#### 1.1. Tipo: `Cave` (Cavidad)
+
+Representa una cavidad natural en el terreno kárstico.
+
+**Propiedades:**
+
+| Propiedad          | Tipo                | Descripción                       | Obligatorio |
+| ------------------ | ------------------- | --------------------------------- | ----------- |
+| `id`               | `string`            | Identificador único               | ✅          |
+| `name`             | `string`            | Nombre de la cavidad              | ✅          |
+| `coordinates`      | `UTMCoordinates`    | Coordenadas UTM de la entrada     | ✅          |
+| `location`         | `string`            | Localidad o municipio             | ✅          |
+| `catalogCode`      | `string`            | Sigla del catálogo (ej: "NA-01")  | ❌          |
+| `subterraUrl`      | `string`            | URL a la ficha en Subterra.app    | ❌          |
+| `length`           | `number`            | Longitud en metros                | ❌          |
+| `depth`            | `number`            | Desarrollo/profundidad en metros  | ❌          |
+| `description`      | `string`            | Descripción general de la cavidad | ✅          |
+| `entrancePhoto`    | `ImageAsset`        | Fotografía de la entrada          | ❌          |
+| `additionalPhotos` | `ImageAsset[]`      | Fotografías adicionales           | ❌          |
+| `topographies`     | `TopographyAsset[]` | Topografías de la cavidad         | ❌          |
+| `routes`           | `CaveRoute[]`       | Recorridos espeleológicos         | ✅          |
+| `access`           | `AccessInfo`        | Información de acceso             | ❌          |
+| `restrictions`     | `Restrictions`      | Restricciones y protecciones      | ❌          |
+| `permits`          | `string`            | Permisos necesarios               | ❌          |
+| `lastUpdate`       | `Date`              | Última actualización              | ❌          |
+| `contributors`     | `string[]`          | Colaboradores/fuentes             | ❌          |
+
+#### 1.2. Tipo: `CaveRoute` (Recorrido Espeleológico)
+
+Representa un recorrido dentro de una cavidad.
+
+**Propiedades:**
+
+| Propiedad            | Tipo                      | Descripción               | Obligatorio |
+| -------------------- | ------------------------- | ------------------------- | ----------- |
+| `id`                 | `string`                  | Identificador único       | ✅          |
+| `name`               | `string`                  | Nombre del recorrido      | ✅          |
+| `description`        | `string`                  | Descripción del recorrido | ✅          |
+| `duration`           | `Duration`                | Duración estimada         | ✅          |
+| `risks`              | `string`                  | Riesgos y precauciones    | ❌          |
+| `requiredGear`       | `string[]`                | Material necesario        | ✅          |
+| `installationSheets` | `CaveInstallationSheet[]` | Fichas de instalación     | ❌          |
+
+#### 1.3. Tipo: `CaveInstallationSheet` (Ficha de Instalación)
+
+Documenta la instalación de cuerdas y anclajes en una cavidad.
+
+**Propiedades:**
+
+| Propiedad | Tipo     | Descripción         | Obligatorio |
+| --------- | -------- | ------------------- | ----------- |
+| `id`      | `string` | Identificador único | ✅          |
+| `ropes`   | `Rope[]` | Cuerdas utilizadas  | ✅          |
+
+#### 1.4. Tipo: `Rope` (Cuerda)
+
+Representa una cuerda en la instalación.
+
+> [!NOTE]
+> **Relación Cuerdas-Obstáculos (Muchos-a-Muchos):**
+>
+> - Una cuerda puede superar **uno o más obstáculos** (ej: una cuerda de 50m puede superar un P15 y un P20 consecutivos)
+> - Un obstáculo puede requerir **una o más cuerdas** (ej: un P80 puede requerir dos cuerdas de 50m empatadas)
+>
+> Esta relación se modela mediante el array `obstacles` en cada `Rope`, que contiene los obstáculos que esa cuerda específica supera. Si un obstáculo requiere múltiples cuerdas, aparecerá en el array `obstacles` de cada una de esas cuerdas.
+
+**Propiedades:**
+
+| Propiedad       | Tipo             | Descripción                       | Obligatorio |
+| --------------- | ---------------- | --------------------------------- | ----------- |
+| `id`            | `string`         | Identificador único               | ✅          |
+| `length`        | `number`         | Longitud en metros                | ✅          |
+| `obstacles`     | `Obstacle[]`     | Obstáculos que supera esta cuerda | ✅          |
+| `installations` | `Installation[]` | Instalaciones en esta cuerda      | ✅          |
+
+#### 1.5. Tipo: `Obstacle` (Obstáculo)
+
+Representa un obstáculo vertical en una cavidad.
+
+**Propiedades:**
+
+| Propiedad | Tipo           | Descripción                      | Obligatorio |
+| --------- | -------------- | -------------------------------- | ----------- |
+| `id`      | `string`       | Identificador único              | ✅          |
+| `name`    | `string`       | Nombre del obstáculo (ej: "P26") | ✅          |
+| `type`    | `ObstacleType` | Tipo de obstáculo                | ✅          |
+
+**Enum: `ObstacleType`**
+
+```typescript
+enum ObstacleType {
+  Pozo = "Pozo",
+  Resalte = "Resalte",
+  Escalada = "Escalada",
+  Pasamanos = "Pasamanos",
+  Otros = "Otros",
+}
+```
+
+#### 1.6. Tipo: `Installation` (Instalación)
+
+Representa un punto de instalación en una cuerda.
+
+**Propiedades:**
+
+| Propiedad | Tipo               | Descripción                          | Obligatorio |
+| --------- | ------------------ | ------------------------------------ | ----------- |
+| `id`      | `string`           | Identificador único                  | ✅          |
+| `type`    | `InstallationType` | Tipo de instalación                  | ✅          |
+| `anchors` | `Anchor[]`         | Anclajes que componen la instalación | ✅          |
+
+**Enum: `InstallationType`**
+
+```typescript
+enum InstallationType {
+  Cabecera = "Cabecera",
+  CabeceraRecuperable = "Cabecera Recuperable",
+  Fraccionamiento = "Fraccionamiento",
+  Desviador = "Desviador",
+  PuntoIntermedio = "Punto Intermedio",
+  Otros = "Otros",
+}
+```
+
+#### 1.7. Tipo: `Anchor` (Anclaje)
+
+Representa un anclaje individual.
+
+**Propiedades:**
+
+| Propiedad  | Tipo         | Descripción                    | Obligatorio         |
+| ---------- | ------------ | ------------------------------ | ------------------- |
+| `id`       | `string`     | Identificador único            | ✅                  |
+| `type`     | `AnchorType` | Tipo de anclaje                | ✅                  |
+| `quantity` | `number`     | Cantidad (para grupos: 2x, 3x) | ✅ (default: 1)     |
+| `hasChain` | `boolean`    | ¿Tiene cadena?                 | ✅ (default: false) |
+| `notes`    | `string`     | Notas adicionales              | ❌                  |
+
+**Enum: `AnchorType`**
+
+```typescript
+enum AnchorType {
+  Spitinox = "Spx",
+  Spit = "Sp",
+  Parabolt8 = "Pb8",
+  Parabolt10 = "Pb10",
+  Parabolt12 = "Pb12",
+  Quimico = "Qm",
+  Natural = "Na",
+  Multimonti6 = "Mm6",
+  Multimonti10 = "Mm10",
+}
+```
+
+---
+
+### 2. Ríos (Barranquismo/Canyoning)
+
+#### 2.1. Tipo: `River` (Río)
+
+Representa un río o barranco.
+
+**Propiedades:**
+
+| Propiedad         | Tipo               | Descripción                | Obligatorio |
+| ----------------- | ------------------ | -------------------------- | ----------- |
+| `id`              | `string`           | Identificador único        | ✅          |
+| `name`            | `string`           | Nombre del río             | ✅          |
+| `description`     | `string`           | Descripción general        | ✅          |
+| `length`          | `number`           | Longitud en km             | ❌          |
+| `catchmentArea`   | `number`           | Cuenca de captación en km² | ❌          |
+| `normalFlow`      | `number`           | Caudal normal en m³/s      | ❌          |
+| `restrictions`    | `Restrictions`     | Restricciones y protecciones | ❌        |
+| `canyoningRoutes` | `CanyoningRoute[]` | Recorridos barranquistas   | ✅          |
+
+#### 2.2. Tipo: `CanyoningRoute` (Recorrido Barranquista)
+
+Representa un recorrido de barranquismo.
+
+**Propiedades:**
+
+| Propiedad           | Tipo                         | Descripción                              | Obligatorio |
+| ------------------- | ---------------------------- | ---------------------------------------- | ----------- |
+| `id`                | `string`                     | Identificador único                      | ✅          |
+| `name`              | `string`                     | Nombre del recorrido                     | ✅          |
+| `description`       | `string`                     | Descripción del recorrido                | ✅          |
+| `entryPoint`        | `UTMCoordinates`             | Coordenadas del punto de entrada         | ✅          |
+| `exitPoint`         | `UTMCoordinates`             | Coordenadas del punto de salida          | ✅          |
+| `duration`          | `Duration`                   | Duración estimada del descenso           | ✅          |
+| `approachTime`      | `Duration`                   | Tiempo de aproximación desde parking     | ❌          |
+| `returnTime`        | `Duration`                   | Tiempo de retorno hasta parking          | ❌          |
+| `ropeLength`        | `number`                     | Longitud de cuerda necesaria en metros   | ❌          |
+| `recommendedSeason` | `string`                     | Época recomendada                        | ❌          |
+| `highestRappel`     | `number`                     | Rápel más alto en metros                 | ❌          |
+| `grading`           | `CanyoningGrading`           | Graduación del barranco                  | ✅          |
+| `installationSheet` | `CanyoningInstallationSheet` | Ficha de instalación                     | ❌          |
+
+#### 2.3. Tipo: `CanyoningGrading` (Graduación)
+
+Sistema de graduación de barrancos.
+
+**Propiedades:**
+
+| Propiedad    | Tipo              | Descripción                     | Obligatorio |
+| ------------ | ----------------- | ------------------------------- | ----------- |
+| `vertical`   | `number`          | Dificultad vertical (v1-v7)     | ✅          |
+| `aquatic`    | `number`          | Dificultad acuática (a1-a7)     | ✅          |
+| `commitment` | `CommitmentLevel` | Compromiso y envergadura (I-VI) | ✅          |
+
+**Tipo: `CommitmentLevel`**
+
+```typescript
+type CommitmentLevel = "I" | "II" | "III" | "IV" | "V" | "VI";
+```
+
+**Ejemplos de graduación:** `v3 a2 IV`, `v4 a3 III`, `v4 a5 III`
+
+#### 2.4. Tipo: `CanyoningInstallationSheet` (Ficha de Instalación Barranquista)
+
+Documenta los obstáculos y su equipamiento en un barranco.
+
+**Propiedades:**
+
+| Propiedad   | Tipo                  | Descripción             | Obligatorio |
+| ----------- | --------------------- | ----------------------- | ----------- |
+| `id`        | `string`              | Identificador único     | ✅          |
+| `obstacles` | `CanyoningObstacle[]` | Obstáculos concatenados | ✅          |
+
+#### 2.5. Tipo: `CanyoningObstacle` (Obstáculo Barranquista)
+
+Representa un obstáculo en un barranco.
+
+**Propiedades:**
+
+| Propiedad       | Tipo                      | Descripción                             | Obligatorio |
+| --------------- | ------------------------- | --------------------------------------- | ----------- |
+| `id`            | `string`                  | Identificador único                     | ✅          |
+| `name`          | `string`                  | Nombre (ej: "R15", "P26")               | ✅          |
+| `types`         | `CanyoningObstacleType[]` | Tipos de obstáculo (puede tener varios) | ✅          |
+| `length`        | `number`                  | Longitud/altura en metros               | ❌          |
+| `notes`         | `string`                  | Notas (para saltos/toboganes)           | ❌          |
+| `installations` | `CanyoningInstallation[]` | Instalaciones (si aplica)               | ❌          |
+
+**Enum: `CanyoningObstacleType`**
+
+```typescript
+enum CanyoningObstacleType {
+  Rapel = "Rapel",
+  Resalte = "Resalte",
+  Escalada = "Escalada",
+  Pasamanos = "Pasamanos",
+  Salto = "Salto",
+  Tobogan = "Tobogan",
+}
+```
+
+> [!NOTE]
+> Un obstáculo puede tener múltiples tipos. Por ejemplo: `[Rapel, Salto, Tobogan]` indica que se puede superar de tres formas diferentes.
+
+#### 2.6. Tipo: `CanyoningInstallation` (Instalación Barranquista)
+
+Representa una instalación en un obstáculo de barranco.
+
+**Propiedades:**
+
+| Propiedad | Tipo                        | Descripción         | Obligatorio |
+| --------- | --------------------------- | ------------------- | ----------- |
+| `id`      | `string`                    | Identificador único | ✅          |
+| `type`    | `CanyoningInstallationType` | Tipo de instalación | ✅          |
+| `anchors` | `CanyoningAnchor[]`         | Anclajes            | ✅          |
+
+**Enum: `CanyoningInstallationType`**
+
+```typescript
+enum CanyoningInstallationType {
+  Cabecera = "Cabecera",
+  Fraccionamiento = "Fraccionamiento",
+  Desviador = "Desviador",
+  PuntoIntermedio = "Punto Intermedio",
+  Otros = "Otros",
+}
+```
+
+#### 2.7. Tipo: `CanyoningAnchor` (Anclaje Barranquista)
+
+Similar al anclaje de cavidades, pero con tipos ligeramente diferentes.
+
+**Propiedades:**
+
+| Propiedad  | Tipo                  | Descripción                    | Obligatorio         |
+| ---------- | --------------------- | ------------------------------ | ------------------- |
+| `id`       | `string`              | Identificador único            | ✅                  |
+| `type`     | `CanyoningAnchorType` | Tipo de anclaje                | ✅                  |
+| `quantity` | `number`              | Cantidad (para grupos: 2x, 3x) | ✅ (default: 1)     |
+| `hasChain` | `boolean`             | ¿Tiene cadena?                 | ✅ (default: false) |
+| `notes`    | `string`              | Notas adicionales              | ❌                  |
+
+**Enum: `CanyoningAnchorType`**
+
+```typescript
+enum CanyoningAnchorType {
+  Spitinox = "Spx",
+  Spit = "Sp",
+  Parabolt8 = "Pb8",
+  Parabolt10 = "Pb10",
+  Parabolt12 = "Pb12",
+  Quimico = "Qm",
+  Natural = "Na",
+}
+```
+
+---
+
+### 3. Montañas (Senderismo/Alpinismo)
+
+#### 3.1. Tipo: `Mountain` (Montaña)
+
+Representa una montaña o cumbre.
+
+**Propiedades:**
+
+| Propiedad          | Tipo               | Descripción                                              | Obligatorio |
+| ------------------ | ------------------ | -------------------------------------------------------- | ----------- |
+| `id`               | `string`           | Identificador único                                      | ✅          |
+| `name`             | `string`           | Nombre de la montaña                                     | ✅          |
+| `description`      | `string`           | Descripción general                                      | ✅          |
+| `altitude`         | `number`           | Altitud en metros s.n.m.                                 | ✅          |
+| `coordinates`      | `UTMCoordinates`   | Coordenadas de la cumbre                                 | ✅          |
+| `range`            | `string`           | Macizo o cordillera (ej: "Pirineos", "Sierra de Urbasa") | ✅          |
+| `restrictions`     | `Restrictions`     | Restricciones y protecciones                             | ❌          |
+| `hikingRoutes`     | `HikingRoute[]`    | Rutas senderistas                                        | ❌          |
+| `technicalRoutes`  | `TechnicalRoute[]` | Rutas técnicas de alpinismo                              | ❌          |
+| `mainPhoto`        | `ImageAsset`       | Fotografía principal                                     | ❌          |
+| `additionalPhotos` | `ImageAsset[]`     | Fotografías adicionales                                  | ❌          |
+
+#### 3.2. Tipo: `HikingRoute` (Ruta Senderista)
+
+Representa una ruta de senderismo no técnica.
+
+**Propiedades:**
+
+| Propiedad              | Tipo               | Descripción                           | Obligatorio         |
+| ---------------------- | ------------------ | ------------------------------------- | ------------------- |
+| `id`                   | `string`           | Identificador único                   | ✅                  |
+| `name`                 | `string`           | Nombre de la ruta                     | ✅                  |
+| `description`          | `string`           | Descripción del recorrido             | ✅                  |
+| `startPoint`           | `UTMCoordinates`   | Coordenadas del punto de inicio       | ✅                  |
+| `endPoint`             | `UTMCoordinates`   | Coordenadas del punto final           | ✅                  |
+| `duration`             | `Duration`         | Duración estimada                     | ✅                  |
+| `length`               | `number`           | Longitud en kilómetros                | ✅                  |
+| `elevationGain`        | `number`           | Desnivel positivo acumulado en metros | ✅                  |
+| `elevationLoss`        | `number`           | Desnivel negativo acumulado en metros | ❌                  |
+| `difficulty`           | `HikingDifficulty` | Dificultad de la ruta                 | ✅                  |
+| `circularRoute`        | `boolean`          | ¿Es ruta circular?                    | ✅ (default: false) |
+| `seasonRecommendation` | `string`           | Época recomendada                     | ❌                  |
+| `warnings`             | `string`           | Avisos y precauciones                 | ❌                  |
+
+**Enum: `HikingDifficulty`**
+
+```typescript
+enum HikingDifficulty {
+  Facil = "Fácil",
+  Moderada = "Moderada",
+  Dificil = "Difícil",
+  MuyDificil = "Muy Difícil",
+}
+```
+
+#### 3.3. Tipo: `TechnicalRoute` (Ruta Técnica)
+
+Representa una ruta de alpinismo que requiere técnicas de escalada.
+
+**Propiedades:**
+
+| Propiedad              | Tipo              | Descripción                    | Obligatorio |
+| ---------------------- | ----------------- | ------------------------------ | ----------- |
+| `id`                   | `string`          | Identificador único            | ✅          |
+| `name`                 | `string`          | Nombre de la ruta              | ✅          |
+| `description`          | `string`          | Descripción del recorrido      | ✅          |
+| `startPoint`           | `UTMCoordinates`  | Coordenadas del punto de inicio | ✅         |
+| `endPoint`             | `UTMCoordinates`  | Coordenadas del punto final    | ✅          |
+| `duration`             | `Duration`        | Duración estimada              | ✅          |
+| `length`               | `number`          | Longitud en kilómetros         | ✅          |
+| `elevationGain`        | `number`          | Desnivel positivo en metros    | ✅          |
+| `elevationLoss`        | `number`          | Desnivel negativo en metros    | ❌          |
+| `requiredGear`         | `string[]`        | Material técnico necesario     | ✅          |
+| `difficulty`           | `ClimbingGrade`   | Dificultad de escalada         | ✅          |
+| `technicalDescription` | `string`          | Descripción técnica detallada  | ✅          |
+| `climbingPitches`      | `ClimbingPitch[]` | Largos de escalada (si aplica) | ❌          |
+| `seasonRecommendation` | `string`          | Época recomendada              | ❌          |
+| `warnings`             | `string`          | Avisos y precauciones          | ❌          |
+
+---
+
+### 4. Paredes (Escalada)
+
+#### 4.1. Tipo: `ClimbingSchool` (Escuela de Escalada)
+
+Representa una escuela o zona de escalada que agrupa varios sectores.
+
+**Propiedades:**
+
+| Propiedad          | Tipo               | Descripción                      | Obligatorio |
+| ------------------ | ------------------ | -------------------------------- | ----------- |
+| `id`               | `string`           | Identificador único              | ✅          |
+| `name`             | `string`           | Nombre de la escuela             | ✅          |
+| `description`      | `string`           | Descripción general              | ✅          |
+| `coordinates`      | `UTMCoordinates`   | Coordenadas del acceso principal | ✅          |
+| `location`         | `string`           | Localidad o municipio            | ✅          |
+| `restrictions`     | `Restrictions`     | Restricciones y protecciones     | ❌          |
+| `sectors`          | `ClimbingSector[]` | Sectores de escalada             | ✅          |
+| `access`           | `string`           | Descripción del acceso           | ❌          |
+| `orientation`      | `Orientation[]`    | Orientaciones de los sectores    | ❌          |
+| `mainPhoto`        | `ImageAsset`       | Fotografía principal             | ❌          |
+| `additionalPhotos` | `ImageAsset[]`     | Fotografías adicionales          | ❌          |
+
+**Enum: `Orientation`**
+
+```typescript
+enum Orientation {
+  Norte = "N",
+  Sur = "S",
+  Este = "E",
+  Oeste = "O",
+  Noreste = "NE",
+  Noroeste = "NO",
+  Sureste = "SE",
+  Suroeste = "SO",
+}
+```
+
+#### 4.2. Tipo: `ClimbingSector` (Sector de Escalada)
+
+Representa un sector específico dentro de una escuela de escalada.
+
+**Propiedades:**
+
+| Propiedad     | Tipo              | Descripción                 | Obligatorio |
+| ------------- | ----------------- | --------------------------- | ----------- |
+| `id`          | `string`          | Identificador único         | ✅          |
+| `name`        | `string`          | Nombre del sector           | ✅          |
+| `description` | `string`          | Descripción del sector      | ❌          |
+| `routes`      | `ClimbingRoute[]` | Vías de escalada            | ✅          |
+| `orientation` | `Orientation`     | Orientación del sector      | ❌          |
+| `height`      | `number`          | Altura aproximada en metros | ❌          |
+| `photo`       | `ImageAsset`      | Fotografía del sector       | ❌          |
+| `topoImage`   | `ImageAsset`      | Croquis/topo del sector     | ❌          |
+
+#### 4.3. Tipo: `ClimbingRoute` (Vía de Escalada)
+
+Representa una vía de escalada individual.
+
+> [!NOTE]
+> Las vías pueden estar en sectores/escuelas O en montañas como parte de rutas técnicas.
+
+**Propiedades:**
+
+| Propiedad      | Tipo              | Descripción                         | Obligatorio |
+| -------------- | ----------------- | ----------------------------------- | ----------- |
+| `id`           | `string`          | Identificador único                 | ✅          |
+| `name`         | `string`          | Nombre de la vía                    | ✅          |
+| `description`  | `string`          | Descripción de la vía               | ✅          |
+| `heightMeters` | `number`          | Altura total de la vía en metros    | ❌          |
+| `difficulty`   | `ClimbingGrade`   | Dificultad de la vía (grado máximo) | ✅          |
+| `pitches`      | `ClimbingPitch[]` | Largos de escalada                  | ✅          |
+| `style`        | `ClimbingStyle`   | Estilo de escalada                  | ✅          |
+| `protection`   | `ProtectionType`  | Tipo de protección                  | ✅          |
+| `firstAscent`  | `string`          | Información de primera ascensión    | ❌          |
+| `requiredGear` | `string`          | Material necesario                  | ❌          |
+
+**Enum: `ClimbingStyle`**
+
+```typescript
+enum ClimbingStyle {
+  Deportiva = "Deportiva",
+  Clasica = "Clásica",
+  Mixta = "Mixta",
+  Artificial = "Artificial",
+  Boulder = "Boulder",
+}
+```
+
+**Enum: `ProtectionType`**
+
+```typescript
+enum ProtectionType {
+  Equipada = "Equipada",
+  Parcialmente = "Parcialmente Equipada",
+  Desequipada = "Desquipada",
+}
+```
+
+#### 4.4. Tipo: `ClimbingPitch` (Largo de Escalada)
+
+Representa un tramo o "largo" de una vía de escalada.
+
+**Propiedades:**
+
+| Propiedad     | Tipo               | Descripción                                      | Obligatorio |
+| ------------- | ------------------ | ------------------------------------------------ | ----------- |
+| `id`          | `string`           | Identificador único                              | ✅          |
+| `number`      | `number`           | Número de largo (1, 2, 3...)                     | ✅          |
+| `length`      | `number`           | Longitud en metros                               | ✅          |
+| `description` | `string`           | Descripción del largo                            | ✅          |
+| `difficulty`  | `ClimbingGrade`    | Dificultad del largo                             | ✅          |
+| `anchors`     | `ClimbingAnchor[]` | Anclajes a lo largo del tramo                    | ❌          |
+| `belay`       | `Belay`            | Reunión al final del largo                       | ✅          |
+| `inclination` | `number`           | Inclinación en grados (opcional, para alpinismo) | ❌          |
+
+#### 4.5. Tipo: `ClimbingGrade` (Graduación de Escalada)
+
+Sistema de graduación de dificultad en escalada.
+
+**Propiedades:**
+
+| Propiedad  | Tipo            | Descripción                  | Obligatorio |
+| ---------- | --------------- | ---------------------------- | ----------- |
+| `number`   | `number`        | Número del 1 al 9            | ✅          |
+| `letter`   | `GradeLetter`   | Letra: a, b, o c             | ✅          |
+| `modifier` | `GradeModifier` | Modificador: +, -, o ninguno | ❌          |
+
+**Enum: `GradeLetter`**
+
+```typescript
+enum GradeLetter {
+  A = "a",
+  B = "b",
+  C = "c",
+}
+```
+
+**Enum: `GradeModifier`**
+
+```typescript
+enum GradeModifier {
+  Plus = "+",
+  Minus = "-",
+}
+```
+
+**Ejemplos de graduación:** `4c+`, `6b`, `9a-`, `7a`
+
+**Helper para representación:**
+
+```typescript
+function formatClimbingGrade(grade: ClimbingGrade): string {
+  return `${grade.number}${grade.letter}${grade.modifier || ""}`;
+}
+```
+
+#### 4.6. Tipo: `ClimbingAnchor` (Anclaje de Escalada)
+
+Representa un anclaje en una vía de escalada.
+
+**Propiedades:**
+
+| Propiedad  | Tipo                 | Descripción                                           | Obligatorio |
+| ---------- | -------------------- | ----------------------------------------------------- | ----------- |
+| `id`       | `string`             | Identificador único                                   | ✅          |
+| `type`     | `ClimbingAnchorType` | Tipo de anclaje                                       | ✅          |
+| `position` | `number`             | Posición aproximada en el largo (metros desde inicio) | ❌          |
+| `notes`    | `string`             | Notas adicionales                                     | ❌          |
+
+**Enum: `ClimbingAnchorType`**
+
+```typescript
+enum ClimbingAnchorType {
+  Parabolt = "Pb",
+  Quimico = "Qm",
+  Spit = "Sp",
+  Natural = "Na",
+}
+```
+
+#### 4.7. Tipo: `Belay` (Reunión)
+
+Representa la reunión al final de un largo.
+
+**Propiedades:**
+
+| Propiedad | Tipo               | Descripción                       | Obligatorio |
+| --------- | ------------------ | --------------------------------- | ----------- |
+| `id`      | `string`           | Identificador único               | ✅          |
+| `anchors` | `ClimbingAnchor[]` | Anclajes de la reunión (mínimo 2) | ✅          |
+| `type`    | `BelayType`        | Tipo de reunión                   | ✅          |
+| `notes`   | `string`           | Notas sobre la reunión            | ❌          |
+
+**Enum: `BelayType`**
+
+```typescript
+enum BelayType {
+  Equipada = "Equipada",
+  Semiequipada = "Semi-equipada",
+  Natural = "Natural"
+}
+```
+
+### Tipos Compartidos
+
+#### Tipo: `UTMCoordinates` (Coordenadas UTM)
+
+> [!NOTE]
+> El sistema UTM es el estándar en el territorio, pero también se almacenan las coordenadas geográficas (latitud/longitud) en WGS84 para facilitar la integración con servicios externos, exportación a GPX, y visualización en mapas web.
+
+**Propiedades:**
+
+| Propiedad    | Tipo         | Descripción                                 | Obligatorio |
+| ------------ | ------------ | ------------------------------------------- | ----------- |
+| `zone`       | `number`     | Zona UTM (ej: 30 para Navarra)              | ✅          |
+| `hemisphere` | `"N" \| "S"` | Hemisferio                                  | ✅          |
+| `easting`    | `number`     | Coordenada Este (X)                         | ✅          |
+| `northing`   | `number`     | Coordenada Norte (Y)                        | ✅          |
+| `latitude`   | `number`     | Latitud en WGS84 (grados decimales)         | ✅          |
+| `longitude`  | `number`     | Longitud en WGS84 (grados decimales)        | ✅          |
+| `altitude`   | `number`     | Altitud en metros sobre el nivel del mar    | ❌          |
+
+**Ejemplo:**
+
+```typescript
+{
+  zone: 30,
+  hemisphere: "N",
+  easting: 612345,
+  northing: 4712345,
+  latitude: 42.9876,
+  longitude: -1.2345,
+  altitude: 850
+}
+```
+
+#### Tipo: `Duration` (Duración)
+
+**Propiedades:**
+
+| Propiedad | Tipo     | Descripción | Obligatorio |
+| --------- | -------- | ----------- | ----------- |
+| `hours`   | `number` | Horas       | ✅          |
+| `minutes` | `number` | Minutos     | ✅          |
+
+---
+
+#### Tipo: `ImageAsset` (Recurso de Imagen)
+
+Representa una imagen (fotografía) en el sistema.
+
+**Propiedades:**
+
+| Propiedad      | Tipo     | Descripción                          | Obligatorio |
+| -------------- | -------- | ------------------------------------ | ----------- |
+| `url`          | `string` | URL o path de la imagen              | ✅          |
+| `alt`          | `string` | Texto alternativo para accesibilidad | ✅          |
+| `caption`      | `string` | Descripción o pie de foto            | ❌          |
+| `photographer` | `string` | Autor de la fotografía               | ❌          |
+| `date`         | `Date`   | Fecha de captura                     | ❌          |
+
+**Ejemplo:**
+
+```typescript
+{
+  url: "/images/caves/san-martin-entrance.jpg",
+  alt: "Entrada a la Sima de San Martín",
+  caption: "Vista de la boca de entrada en invierno",
+  photographer: "Juan Pérez",
+  date: new Date("2024-02-15")
+}
+```
+
+---
+
+#### Tipo: `TopographyAsset` (Recurso de Topografía)
+
+Representa una topografía o plano de una cavidad, barranco, ruta, etc.
+
+**Propiedades:**
+
+| Propiedad | Tipo                                   | Descripción                  | Obligatorio |
+| --------- | -------------------------------------- | ---------------------------- | ----------- |
+| `url`     | `string`                               | URL o path del archivo       | ✅          |
+| `title`   | `string`                               | Título de la topografía      | ✅          |
+| `author`  | `string`                               | Autor/topógrafo              | ❌          |
+| `year`    | `number`                               | Año de realización           | ❌          |
+| `format`  | `"pdf" \| "svg" \| "png" \| "jpg"` | Formato del archivo          | ✅          |
+| `license` | `string`                               | Licencia o derechos de autor | ❌          |
+
+**Ejemplo:**
+
+```typescript
+{
+  url: "/topographies/san-martin-topo.pdf",
+  title: "Topografía Sima de San Martín",
+  author: "G.E. Edelweiss",
+  year: 2020,
+  format: "pdf",
+  license: "CC BY-NC-SA 4.0"
+}
+```
+
+---
+
+#### Tipo: `AccessInfo` (Información de Acceso)
+
+Información sobre cómo acceder a una localización (cueva, río, montaña, pared).
+
+**Propiedades:**
+
+| Propiedad      | Tipo             | Descripción                                  | Obligatorio |
+| -------------- | ---------------- | -------------------------------------------- | ----------- |
+| `description`  | `string`         | Descripción textual del acceso               | ✅          |
+| `parking`      | `UTMCoordinates` | Coordenadas del aparcamiento/punto de inicio | ❌          |
+| `difficulty`   | `string`         | Dificultad del acceso                        | ❌          |
+| `time`         | `Duration`       | Tiempo desde parking hasta inicio actividad  | ❌          |
+| `distance`     | `number`         | Distancia en kilómetros desde parking        | ❌          |
+| `restrictions` | `string`         | Restricciones, permisos, avisos              | ❌          |
+| `4x4Required`  | `boolean`        | ¿Requiere vehículo 4x4?                      | ❌          |
+
+**Ejemplo:**
+
+```typescript
+{
+  description: "Desde Isaba tomar la pista hacia el refugio de Belagua. En el km 8 encontramos el desvío señalizado.",
+  parking: {
+    zone: 30,
+    hemisphere: "N",
+    easting: 678234,
+    northing: 4745123,
+    latitude: 42.8765,
+    longitude: -0.8901,
+    altitude: 1250
+  },
+  difficulty: "Moderado",
+  time: { hours: 0, minutes: 45 },
+  distance: 2.3,
+  restrictions: "Cerrado durante la temporada de caza (noviembre-diciembre)",
+  "4x4Required": false
+}
+```
+
+---
+
+#### Tipo: `Restrictions` (Restricciones)
+
+Información sobre restricciones, protecciones o prohibiciones en una localización.
+
+**Propiedades:**
+
+| Propiedad          | Tipo                  | Descripción                                  | Obligatorio |
+| ------------------ | --------------------- | -------------------------------------------- | ----------- |
+| `hasRestrictions`  | `boolean`             | ¿Existen restricciones activas?              | ✅          |
+| `protectionStatus` | `ProtectionStatus[]`  | Estado(s) de protección aplicables           | ❌          |
+| `closureSeasons`   | `ClosurePeriod[]`     | Períodos de cierre temporal                  | ❌          |
+| `requiresPermit`   | `boolean`             | ¿Requiere permiso especial?                  | ✅ (default: false) |
+| `permitInfo`       | `string`              | Información sobre cómo obtener el permiso    | ❌          |
+| `prohibitions`     | `string[]`            | Lista de actividades prohibidas              | ❌          |
+| `additionalInfo`   | `string`              | Información adicional sobre restricciones    | ❌          |
+
+**Tipo: `ProtectionStatus`**
+
+```typescript
+type ProtectionStatus = 
+  | "LIC"                    // Lugar de Importancia Comunitaria
+  | "ZEPA"                   // Zona de Especial Protección para las Aves
+  | "Parque Natural"
+  | "Reserva Natural"
+  | "Monumento Natural"
+  | "Zona Protegida Fauna"   // Por murciélagos, águilas, etc.
+  | "Propiedad Privada"
+  | "Otros";
+```
+
+**Tipo: `ClosurePeriod`**
+
+```typescript
+type ClosurePeriod = {
+  startDate: string;        // Formato: "MM-DD" (ej: "11-01" para 1 de noviembre)
+  endDate: string;          // Formato: "MM-DD" (ej: "03-31" para 31 de marzo)
+  reason: string;           // Motivo del cierre (ej: "Protección de murciélagos", "Temporada de caza")
+  isAnnual: boolean;        // ¿Se repite anualmente?
+}
+```
+
+**Ejemplo:**
+
+```typescript
+{
+  hasRestrictions: true,
+  protectionStatus: ["Zona Protegida Fauna", "LIC"],
+  closureSeasons: [
+    {
+      startDate: "11-01",
+      endDate: "03-31",
+      reason: "Hibernación de murciélagos",
+      isAnnual: true
+    }
+  ],
+  requiresPermit: true,
+  permitInfo: "Solicitar autorización al Departamento de Medio Ambiente del Gobierno de Navarra con 15 días de antelación",
+  prohibitions: ["Uso de carburo", "Grupos mayores de 10 personas"],
+  additionalInfo: "Especialmente sensible durante el período de cría (mayo-julio)"
+}
+```
+
+---
+
+## �️ Arquitectura de Páginas
+
+### Estructura de Navegación
+
+```text
+/navarra (Landing principal)
+├── /navarra/cuevas (Categoría: Cuevas)
+│   ├── /navarra/cuevas/[slug] (Localización individual)
+│   └── ...
+├── /navarra/rios (Categoría: Ríos)
+│   ├── /navarra/rios/[slug] (Localización individual)
+│   └── ...
+├── /navarra/montañas (Categoría: Montañas)
+│   ├── /navarra/montañas/[slug] (Localización individual)
+│   └── ...
+└── /navarra/paredes (Categoría: Paredes)
+    ├── /navarra/paredes/[slug] (Localización individual)
+    └── ...
+```
+
+---
+
+### 1. Landing Principal: `/navarra`
+
+**Propósito**: Página de entrada a la sección Navarra que presenta las cuatro categorías de actividades.
+
+#### Componentes y Secciones `/navarra`
+
+##### Hero Section
+
+- **Diseño**: Hero visual a pantalla completa
+- **Contenido**:
+  - Título principal: "Descubre Navarra"
+  - Subtítulo descriptivo del propósito de la sección
+  - Imagen de fondo de alta calidad (paisaje navarro representativo)
+  - CTA principal para explorar categorías
+
+##### Sección de Categorías
+
+- **Layout**: Grid responsive (2x2 en desktop, 1 columna en móvil)
+- **Cards de categoría**:
+  - **Cuevas**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/cuevas`
+  - **Ríos**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/rios`
+  - **Montañas**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/montañas`
+  - **Paredes**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/paredes`
+
+##### Sección Multimedia (Opcional)
+
+- Galería destacada de fotografías de aventuras en Navarra
+- Video promocional o timelapse del territorio
+
+##### Estadísticas
+
+- Número de localizaciones documentadas por categoría
+- Métricas destacadas (total de cavidades, km de barrancos, etc.)
+
+#### Tecnologías `/navarra`
+
+- Astro page component
+- CSS Modules para estilos
+- Imágenes optimizadas con `Image` component de Astro
+- Animaciones sutiles con CSS o Framer Motion
+
+---
+
+### 2. Páginas de Categoría: `/navarra/[categoria]`
+
+**Rutas**: `/navarra/cuevas`, `/navarra/rios`, `/navarra/montañas`, `/navarra/paredes`
+
+#### Componentes y Secciones `/navarra/[categoria]`
+
+##### 2.1. Hero Section
+
+- **Diseño**: Hero visual atractivo
+- **Contenido**:
+  - Título de la categoría (ej: "Cuevas de Navarra")
+  - Breve descripción de la actividad
+  - Imagen de fondo temática
+  - Breadcrumb: Navarra > Cuevas
+
+##### 2.2. Mapa Interactivo (Leaflet)
+
+- **Posición**: Sección destacada después del hero
+- **Características**:
+  - Mapa de Navarra centrado
+  - Waypoints/marcadores para cada localización
+  - Clusters para zonas con alta densidad de puntos
+  - Tooltip en hover con:
+    - Nombre de la localización
+    - Miniatura (si disponible)
+    - Info básica (ej: profundidad, longitud)
+    - Enlace a página individual
+  - Popup en click con más detalles y botón "Ver ficha completa"
+  - Controles de zoom y capas
+
+##### 2.3. Lista/Tabla de Localizaciones
+
+- **Diseño**: Tabla responsive o lista de cards
+- **Funcionalidades**:
+  - **Filtros**:
+    - Por zona/comarca
+    - Por dificultad
+    - Por características (ej: longitud > 500m)
+  - **Búsqueda**: Campo de búsqueda en tiempo real
+  - **Ordenación**: Por nombre, longitud, dificultad, etc.
+  - **Paginación**: 20-30 elementos por página
+
+- **Datos mostrados en tabla**:
+  - Nombre (con enlace a ficha)
+  - Localidad
+  - Característica principal (longitud/profundidad/altura)
+  - Dificultad (si aplica)
+  - Estado de equipamiento (si aplica)
+
+##### 2.4. Sección Informativa
+
+- Introducción a la actividad en Navarra
+- Mejores épocas para practicarla
+- Recomendaciones de seguridad
+- Enlaces a cursos relacionados
+
+#### Tecnologías
+
+- Astro page component
+- React/Preact para componentes interactivos (mapa, filtros)
+- Leaflet.js para el mapa
+- React Leaflet o vanilla Leaflet
+
+---
+
+### 3. Páginas Individuales: `/navarra/[categoria]/[slug]`
+
+**Rutas ejemplo**: `/navarra/cuevas/sima-san-martin`, `/navarra/rios/artazul`
+
+#### Componentes y Secciones `/navarra/[categoria]/[slug]`
+
+##### 3.1. Header Principal
+
+- **Diseño**: Header visual impactante
+- **Contenido**:
+  - Imagen principal de alta calidad (foto de entrada/paisaje)
+  - Overlay con información general:
+    - Nombre de la localización
+    - Localidad/municipio
+    - Coordenadas
+    - Datos principales en badges:
+      - Profundidad/longitud
+      - Dificultad
+      - Estado de equipamiento
+  - Breadcrumb: Navarra > Cuevas > Sima San Martín
+
+##### 3.2. Información Extendida
+
+- **Layout**: Sección estructurada con subsecciones
+- **Contenido**:
+  - **Descripción general**: Texto largo con markdown support
+  - **Acceso**: Cómo llegar, parking, permisos necesarios
+  - **Características técnicas**:
+    - Datos específicos según tipo (profundidad, caudal, altura, etc.)
+    - Catálogo/código de referencia
+    - Época recomendada
+  - **Material necesario**: Lista de equipamiento
+  - **Riesgos y precauciones**: Avisos importantes
+
+##### 3.3. Mapa de Ubicación (Leaflet)
+
+- **Características**:
+  - Mapa centrado en la localización exacta
+  - Marcador en las coordenadas precisas
+  - Capa topográfica
+  - Indicación de accesos/parking si disponible
+  - Export a GPX para GPS
+
+##### 3.4. Sección de Recorridos
+
+- **Diseño**: Accordion o tabs para múltiples recorridos
+- **Contenido por recorrido**:
+  - Nombre del recorrido
+  - Descripción detallada
+  - Duración estimada
+  - Dificultad/graduación
+  - Material específico
+  - **Ficha de instalación** (componente interactivo):
+    - Visualización de cuerdas, obstáculos, instalaciones
+    - Listado detallado de anclajes
+    - Diagrama visual (si disponible)
+    - Opción de descarga en PDF
+
+##### 3.5. Topografías
+
+- Visualizador de topografías (si disponibles)
+- Galería de topografías con zoom
+- Descarga de archivos
+
+##### 3.6. Galería Multimedia
+
+- **Fotos**: Galería lightbox con imágenes adicionales
+- **Videos**: Embeds de YouTube/Vimeo si disponibles
+- **Layout**: Grid responsivo con lazy loading
+
+##### 3.7. Información Adicional
+
+- Enlaces externos (Subterra.app, bases de datos, etc.)
+- Fecha de última actualización
+- Autor/colaboradores
+- Botón para reportar errores o sugerir cambios
+
+##### 3.8. Contenido Relacionado
+
+- Otras localizaciones cercanas
+- Posts del blog relacionados
+- Cursos relacionados con esta actividad
+
+#### Tecnologías `/navarra/[categoria]/[slug]`
+
+- Astro con Content Collections para el contenido
+- React/Preact para componentes interactivos
+- Leaflet.js para mapas
+- jsPDF o similar para export de fichas
+- MDX para contenido con componentes embebidos
+
+---
+
+### Consideraciones de Diseño
+
+#### Responsive Design
+
+- Mobile-first approach
+- Breakpoints estándar: 640px, 768px, 1024px, 1280px
+- Mapas adaptables con controles touch-friendly
+- Tablas que se convierten en cards en móvil
+
+#### Performance
+
+- Lazy loading de imágenes
+- Code splitting para componentes React
+- Mapas que se cargan solo cuando están en viewport
+- Optimización de imágenes con Astro Image
+
+#### Accesibilidad
+
+- Semántica HTML correcta
+- Alt text en todas las imágenes
+- ARIA labels en componentes interactivos
+- Contraste adecuado en texto sobre imágenes
+- Navegación por teclado funcional
+
+#### SEO
+
+- Meta tags específicos por página
+- Open Graph tags para compartir en redes
+- Structured data (JSON-LD) para localizaciones
+- URLs semánticas y limpias
+- Sitemap automático
+
+---
+
+## 💬 Funcionalidades Interactivas
+
+### 1. Sistema de Actividades Cercanas
+
+#### Conceptualización
+
+Sistema automático que calcula y muestra actividades próximas basándose en la distancia geográfica entre coordenadas, permitiendo a los usuarios descubrir oportunidades de combinar múltiples actividades en una misma visita.
+
+#### Especificación Técnica
+
+**Algoritmo de Búsqueda:**
+
+```typescript
+type NearbyActivity = {
+  id: string;
+  name: string;
+  type: "cave" | "river" | "mountain" | "climbing";
+  category: string;              // "Cuevas", "Ríos", "Montañas", "Paredes"
+  coordinates: UTMCoordinates;
+  distance: number;              // Distancia en kilómetros
+  difficulty?: string;           // Dificultad general
+  duration?: Duration;           // Duración estimada
+  thumbnailUrl?: string;
+  slug: string;                  // Para enlace directo
+}
+
+type NearbyActivitiesConfig = {
+  maxDistance: number;           // Distancia máxima en km (default: 10)
+  maxResults: number;            // Número máximo de resultados (default: 6)
+  includeCategories: string[];   // Categorías a incluir en búsqueda
+  excludeCurrentId: string;      // Excluir la actividad actual
+}
+
+function findNearbyActivities(
+  currentLocation: UTMCoordinates,
+  config: NearbyActivitiesConfig
+): NearbyActivity[] {
+  // 1. Convertir coordenadas de todas las actividades
+  // 2. Calcular distancia usando fórmula Haversine
+  // 3. Filtrar por distancia máxima
+  // 4. Ordenar por distancia (más cercana primero)
+  // 5. Limitar a maxResults
+  // 6. Retornar array de actividades cercanas
+}
+```
+
+**Fórmula de Distancia:**
+
+- Usar fórmula de Haversine para calcular distancia entre coordenadas lat/long
+- Precisión suficiente para distancias cortas (<100km)
+
+**Coordenadas de Referencia:**
+Para cada tipo de actividad, usar la coordenada más relevante:
+
+- **Cuevas**: Coordenada de entrada (`coordinates`)
+- **Ríos/Barrancos**: Coordenada de entrada del recorrido (`entryPoint` del CanyoningRoute)
+- **Montañas (Senderismo)**: Coordenada de inicio de ruta (`startPoint` del HikingRoute/TechnicalRoute)
+- **Escalada**: Coordenada de acceso de la escuela (`coordinates` del ClimbingSchool)
+
+#### Componente UI: "Combínalo con..."
+
+**Ubicación**: Sección destacada en páginas individuales de localizaciones
+
+**Diseño Visual:**
+
+- Título: "Combínalo con actividades cercanas"
+- Grid responsivo de cards (2-3 por fila en desktop, 1 en móvil)
+- Cada card muestra:
+  - Icono de tipo de actividad
+  - Nombre de la actividad
+  - Categoría (badge)
+  - Distancia ("A 3.2 km")
+  - Dificultad (si aplica)
+  - Duración estimada (si aplica)
+  - Imagen miniatura
+  - Enlace a ficha completa
+
+**Comportamiento:**
+
+- Carga lazy (solo cuando sección visible)
+- Actualización dinámica al cambiar de ruta dentro de una montaña/río
+- Posibilidad de filtrar por tipo de actividad
+- Ordenamiento: por distancia (default) o por dificultad
+
+**Configuración por Categoría:**
+
+| Categoría Actual | Max Distancia | Max Resultados | Incluye Categorías |
+|-----------------|---------------|----------------|-------------------|
+| Cuevas          | 15 km         | 6              | Todas             |
+| Ríos            | 10 km         | 6              | Todas             |
+| Montañas        | 20 km         | 6              | Todas             |
+| Paredes         | 15 km         | 6              | Todas             |
+
+#### Implementación Técnica
+
+**Build-time Processing:**
+
+- Pre-calcular distancias entre todas las actividades
+- Generar índice de actividades cercanas en build time
+- Almacenar en formato JSON optimizado
+
+**Runtime:**
+
+- Cargar datos de actividades cercanas desde JSON
+- Renderizar componente React/Preact
+- Lazy loading de imágenes
+
+**Alternativa: API Endpoint (Si base de datos está disponible):**
+
+```typescript
+// GET /api/nearby-activities?id={locationId}&type={type}&maxDistance=10
+{
+  currentActivity: {...},
+  nearbyActivities: [...]
+}
+```
+
+---
+
+### 2. Sistema de Comentarios
+
+#### Conceptualización Sistema de Comentarios
+
+Sistema de comentarios anidados (threaded comments) que permite a usuarios autenticados compartir experiencias, condiciones actuales, avisos y consejos sobre localizaciones específicas. Integrado con Clerk para autenticación y PostgreSQL para almacenamiento persistente.
+
+#### Especificación Técnica Sistema de Comentarios
+
+**Modelo de Datos (PostgreSQL):**
+
+```sql
+-- Tabla principal de comentarios
+CREATE TABLE location_comments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  location_id VARCHAR(255) NOT NULL,      -- ID de la localización (cave-id, river-id, etc.)
+  location_type VARCHAR(50) NOT NULL,      -- 'cave', 'river', 'mountain', 'climbing'
+  user_id VARCHAR(255) NOT NULL,           -- ID de usuario de Clerk
+  parent_id UUID,                          -- ID del comentario padre (NULL si es raíz)
+  content TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW(),
+  updated_at TIMESTAMP DEFAULT NOW(),
+  is_edited BOOLEAN DEFAULT FALSE,
+  is_deleted BOOLEAN DEFAULT FALSE,        -- Soft delete
+  
+  FOREIGN KEY (parent_id) REFERENCES location_comments(id) ON DELETE CASCADE
+);
+
+-- Índices para optimizar queries
+CREATE INDEX idx_location_comments_location ON location_comments(location_id, location_type);
+CREATE INDEX idx_location_comments_user ON location_comments(user_id);
+CREATE INDEX idx_location_comments_parent ON location_comments(parent_id);
+CREATE INDEX idx_location_comments_created ON location_comments(created_at DESC);
+
+-- Tabla de reacciones/likes (opcional, para futuro)
+CREATE TABLE comment_reactions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  comment_id UUID NOT NULL,
+  user_id VARCHAR(255) NOT NULL,
+  reaction_type VARCHAR(20) DEFAULT 'like',  -- 'like', 'helpful', etc.
+  created_at TIMESTAMP DEFAULT NOW(),
+  
+  FOREIGN KEY (comment_id) REFERENCES location_comments(id) ON DELETE CASCADE,
+  UNIQUE(comment_id, user_id)  -- Un usuario solo puede reaccionar una vez
+);
+
+-- Tabla para información de usuario en caché (optimización)
+CREATE TABLE user_profiles_cache (
+  user_id VARCHAR(255) PRIMARY KEY,
+  username VARCHAR(100),
+  avatar_url TEXT,
+  last_updated TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Tipos TypeScript:**
+
+```typescript
+type Comment = {
+  id: string;
+  locationId: string;
+  locationType: "cave" | "river" | "mountain" | "climbing";
+  userId: string;
+  parentId: string | null;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  isEdited: boolean;
+  isDeleted: boolean;
+  
+  // Datos del usuario (de Clerk o caché)
+  user: {
+    id: string;
+    username: string;
+    avatarUrl?: string;
+  };
+  
+  // Comentarios hijos (para estructura anidada)
+  replies?: Comment[];
+  
+  // Metadatos
+  replyCount?: number;
+  hasReplies?: boolean;
+}
+
+type CommentInput = {
+  locationId: string;
+  locationType: "cave" | "river" | "mountain" | "climbing";
+  parentId?: string;
+  content: string;
+}
+```
+
+#### API Endpoints
+
+**Obtener comentarios de una localización:**
+
+```typescript
+// GET /api/comments?locationId={id}&locationType={type}
+// Response: Comment[] (estructura jerárquica)
+```
+
+**Crear comentario:**
+
+```typescript
+// POST /api/comments
+// Body: CommentInput
+// Headers: Authorization (Clerk JWT)
+// Response: Comment
+```
+
+**Editar comentario:**
+
+```typescript
+// PATCH /api/comments/{commentId}
+// Body: { content: string }
+// Headers: Authorization (Clerk JWT)
+// Response: Comment
+```
+
+**Eliminar comentario:**
+
+```typescript
+// DELETE /api/comments/{commentId}
+// Headers: Authorization (Clerk JWT)
+// Response: { success: boolean }
+// Nota: Soft delete, marca is_deleted = true
+```
+
+#### Componente UI
+
+**Ubicación**: Sección al final de páginas individuales de localizaciones
+
+**Características:**
+
+1. **Autenticación:**
+   - Solo usuarios logueados pueden comentar
+   - Botón "Iniciar sesión para comentar" si no está autenticado
+   - Integración con Clerk para login/signup
+
+2. **Comentarios Anidados:**
+   - Máximo 3 niveles de anidamiento (raíz → respuesta → sub-respuesta)
+   - Indentación visual para jerarquía
+   - Botón "Responder" en cada comentario
+
+3. **Edición y Eliminación:**
+   - Solo el autor puede editar/eliminar sus comentarios
+   - Marca visual "editado" si fue modificado
+   - Eliminados muestran "[Comentario eliminado]"
+
+4. **Ordenación:**
+   - Por defecto: Más recientes primero
+   - Opción: Más antiguos primero
+   - Futuro: Más útiles (por reacciones)
+
+5. **Moderación (Webmaster):**
+   - Panel admin para eliminar comentarios inapropiados
+   - Banear usuarios si necesario
+   - Ver todos los comentarios del sitio
+
+6. **Validaciones:**
+   - Longitud mínima: 10 caracteres
+   - Longitud máxima: 2000 caracteres
+   - Markdown básico: **negrita**, _cursiva_, enlaces
+   - Prevención XSS: sanitización de HTML
+
+7. **Performance:**
+   - Lazy loading: cargar comentarios solo cuando sección visible
+   - Paginación: 10-20 comentarios iniciales
+   - "Cargar más" para siguientes páginas
+   - Cache de usuarios para evitar queries repetidas
+
+#### Tecnologías Sistema de Comentarios
+
+**Frontend:**
+
+- React para componente interactivo
+- Editor de texto con soporte Markdown (react-markdown)
+- Clerk React SDK para autenticación
+- Optimistic updates para mejor UX
+
+**Backend:**
+
+- API Routes de Astro (o endpoints serverless)
+- PostgreSQL con Prisma o Drizzle ORM
+- Clerk Backend SDK para validar tokens
+- Rate limiting para prevenir spam
+
+**Seguridad:**
+
+- Validación de JWT de Clerk en cada request
+- Sanitización de contenido (DOMPurify)
+- Rate limiting: máximo 5 comentarios por hora por usuario
+- SQL Injection prevention (usar ORM)
+
+#### Notificaciones (Futuro)
+
+- Email cuando alguien responde a tu comentario
+- Notificación in-app de nuevas respuestas
+- Suscripción a comentarios de una localización
+
+---
+
+## �📋 Planificación en Fases
+
+### Fase 1: Infraestructura Base (Q1 2025)
+
+**Objetivo**: Establecer la estructura de datos y las colecciones básicas en Astro Content Collections.
+
+#### Tareas Fase 1
+
+- [x] Definir tipos TypeScript para todas las entidades
+- [ ] Crear schemas de validación con Zod para Content Collections
+- [ ] Implementar colecciones `caves` y `rivers`
+- [ ] Configurar sistema de coordenadas UTM
+- [ ] Establecer estructura de carpetas para imágenes y topografías
+- [ ] Crear componentes base para mostrar información geográfica
+- [ ] Implementar estructura básica de rutas dinámicas para páginas
+- [ ] Configurar Leaflet.js en el proyecto
+
+#### Entregables Fase 1
+
+- Tipos TypeScript documentados
+- Schemas de Zod para validación
+- Primeras 2-3 cavidades de ejemplo
+- Primeros 2-3 barrancos de ejemplo
+- Componentes React para visualización básica
+- Estructura de rutas `/navarra/[categoria]/[slug]` funcional
+- Integración de Leaflet configurada
+
+---
+
+### Fase 2: Generador de Fichas de Instalación (Q1-Q2 2025)
+
+**Objetivo**: Desarrollar la aplicación interactiva para generar fichas técnicas de instalación.
+
+#### Tareas Fase 2
+
+- [ ] Diseñar interfaz de usuario para el generador de fichas de cuevas
+- [ ] Implementar formulario dinámico para añadir cuerdas, obstáculos e instalaciones
+- [ ] Desarrollar lógica para relaciones entre cuerdas y obstáculos
+- [ ] Crear visualización de fichas generadas
+- [ ] Exportar fichas a PDF o formato imprimible
+- [ ] Replicar funcionalidad para barrancos
+- [ ] Diseñar e implementar landing `/navarra`
+- [ ] Crear hero sections para páginas de categoría
+
+#### Entregables Fase 2
+
+- Generador de fichas funcional en `/exploracion/fichas`
+- Sistema de export a PDF
+- Documentación de uso
+- Landing page `/navarra` completamente diseñada
+- Heroes y estructura base de páginas de categoría
+
+---
+
+### Fase 3: Catálogo de Cuevas (Q2 2025)
+
+**Objetivo**: Poblar el catálogo con información exhaustiva de cavidades navarras.
+
+#### Tareas Fase 3
+
+- [ ] Documentar principales cavidades de la zona kárstica de Larra
+- [ ] Documentar cavidades de Urbasa-Andía
+- [ ] Documentar cavidades de otras zonas (Artxubi, Lakartxela, etc.)
+- [ ] Integrar enlaces a Subterra.app
+- [ ] Añadir fotografías de entradas
+- [ ] Digitalizar y añadir topografías existentes
+- [ ] Crear fichas de instalación para recorridos principales
+- [ ] Implementar mapa interactivo con Leaflet en `/navarra/cuevas`
+- [ ] Desarrollar tabla/lista con filtros y búsqueda
+- [ ] Crear componentes para páginas individuales de cuevas
+- [ ] Implementar galería multimedia y lightbox
+
+#### Entregables Fase 3
+
+- Al menos 30 cavidades documentadas
+- Sistema de búsqueda y filtrado funcional
+- Mapa interactivo con waypoints y tooltips
+- Página `/navarra/cuevas` completamente operativa
+- Template de página individual de cueva funcional
+- Galería multimedia con lightbox
+
+---
+
+### Fase 4: Catálogo de Ríos y Barrancos (Q2-Q3 2025)
+
+**Objetivo**: Poblar el catálogo con información de barrancos navarros.
+
+#### Tareas Fase 4
+
+- [ ] Documentar barrancos clásicos (Artazul, Arpea, Belabarce, etc.)
+- [ ] Documentar barrancos técnicos y deportivos
+- [ ] Implementar sistema de graduación visual
+- [ ] Añadir avisos de época recomendada y caudal
+- [ ] Crear fichas de instalación para recorridos
+- [ ] Integrar información de accesos y permisos
+- [ ] Implementar mapa interactivo en `/navarra/rios`
+- [ ] Desarrollar componente de graduación visual (v/a/compromiso)
+- [ ] Crear template de página individual de barranco
+
+#### Entregables Fase 4
+
+- Al menos 20 barrancos documentados
+- Sistema de filtrado por dificultad y época
+- Mapa interactivo con barrancos georreferenciados
+- Página `/navarra/rios` completamente operativa
+- Template de página individual de barranco funcional
+- Sistema de graduación visual implementado
+
+---
+
+### Fase 5: Montañas y Paredes (Q3-Q4 2025)
+
+**Objetivo**: Conceptualizar y desarrollar las secciones pendientes.
+
+#### Tareas Fase 5
+
+- [ ] Definir tipos de datos para montañas
+- [ ] Definir tipos de datos para paredes de escalada
+- [ ] Implementar colecciones correspondientes
+- [ ] Poblar con información inicial
+- [ ] Desarrollar componentes específicos
+- [ ] Replicar estructura de páginas (mapa, tabla, individuales)
+
+#### Entregables Fase 5
+
+- Secciones `/navarra/montañas` y `/navarra/paredes` operativas
+- Documentación inicial de rutas y vías
+- Mapas interactivos para ambas categorías
+- Templates de páginas individuales
+
+---
+
+### Fase 6: Mejoras y Optimización (Q4 2025)
+
+**Objetivo**: Pulir la experiencia de usuario y añadir funcionalidades avanzadas.
+
+#### Tareas Fase 6
+
+- [ ] Implementar mapa interactivo con todas las localizaciones
+- [ ] Sistema de búsqueda avanzada con filtros múltiples
+- [ ] Integración con servicios meteorológicos
+- [ ] Avisos de caudal/condiciones en tiempo real
+- [ ] Sistema de favoritos para usuarios registrados
+- [ ] Exportación de datos a GPS (GPX)
+- [ ] Versión móvil optimizada (PWA)
+- [ ] Optimizar imágenes y performance general
+- [ ] Implementar lazy loading en todos los mapas
+- [ ] Añadir animaciones y transiciones pulidas
+- [ ] Testing de accesibilidad y responsive en todos los dispositivos
+
+#### Entregables Fase 6
+
+- Mapa interactivo unificado con todas las categorías
+- Sistema de alertas meteorológicas
+- Exportación de datos a GPX
+- PWA instalable
+- Performance score >90 en Lighthouse
+- Accesibilidad AAA en páginas principales
+
+---
+
+## 🎯 Objetivos de Negocio
+
+### Objetivos Principales
+
+1. **Centralizar información**: Crear la referencia más completa de actividades outdoor en Navarra
+2. **Facilitar el acceso**: Hacer la información accesible y comprensible para todos los niveles
+3. **Promover la seguridad**: Proporcionar información técnica precisa sobre instalaciones
+4. **Preservar el conocimiento**: Documentar instalaciones y recorridos para futuras generaciones
+5. **Fomentar la comunidad**: Crear un espacio donde compartir experiencias y conocimiento
+
+### Métricas de Éxito
+
+- **Cobertura**: Número de localizaciones documentadas
+- **Calidad**: Porcentaje de fichas con información completa
+- **Uso**: Visitas mensuales a la sección
+- **Engagement**: Fichas generadas con la herramienta
+- **Contribución**: Usuarios que aportan información
+
+---
+
+## 🔗 Integraciones
+
+### Externas
+
+- **Subterra.app**: Base de datos espeleológica (enlaces a fichas)
+- **Servicios meteorológicos**: Datos de precipitación y caudal
+- **OpenStreetMap**: Cartografía base para tiles de mapas
+- **Leaflet.js**: Biblioteca de mapas interactivos (usada en todas las visualizaciones)
+
+### Internas
+
+- **Content Collections**: Sistema de gestión de contenido de Astro
+- **Sistema de usuarios (Clerk)**: Autenticación para funciones avanzadas
+- **Blog**: Enlazar actividades con posts relacionados
+- **Cursos**: Vincular localizaciones con cursos formativos
+
+---
+
+## 📝 Notas Técnicas
+
+### Consideraciones de Implementación
+
+1. **TypeScript estricto**: Todos los tipos deben ser fuertemente tipados
+2. **Validación con Zod**: Todas las colecciones deben validarse con schemas
+3. **Normalización**: Evitar duplicación de datos (ej: tipos de anclajes)
+4. **Relaciones**: Gestionar correctamente relaciones muchos-a-muchos (cuerdas ↔ obstáculos)
+5. **Assets**: Optimizar imágenes y PDFs para web
+6. **SEO**: Cada localización debe tener metadata apropiada
+7. **Accesibilidad**: Información técnica debe ser legible y comprensible
+
+### Consideraciones de Contenido
+
+1. **Precisión**: La información técnica debe ser exacta y actualizada
+2. **Responsabilidad**: Incluir avisos sobre riesgos y necesidad de formación
+3. **Actualización**: Establecer proceso para mantener información vigente
+4. **Fuentes**: Citar fuentes de información cuando proceda
+5. **Permisos**: Respetar derechos de autor en topografías y fotografías
