@@ -43,14 +43,14 @@ mainPhoto:
   caption: "Ambiente selvático en el tramo medio"
   photographer: "Andoni Abarzuza"
 #additionalPhotos:
-  #- url: "./1.jpg"
-   # alt: "Pozas en Artazul"
-    #caption: "Pozas en Artazul"
-    #photographer: "Andoni Abarzuza"
-  #- url: "./2.jpg"
-    #alt: "Último rapel"
-    #caption: "Último rapel del barranco"
-    #photographer: "Andoni Abarzuza"
+#- url: "./1.jpg"
+# alt: "Pozas en Artazul"
+#caption: "Pozas en Artazul"
+#photographer: "Andoni Abarzuza"
+#- url: "./2.jpg"
+#alt: "Último rapel"
+#caption: "Último rapel del barranco"
+#photographer: "Andoni Abarzuza"
 restrictions:
   hasRestrictions: true
   protectionStatus: ["Otros"]
@@ -60,7 +60,7 @@ restrictions:
 
 ## Descripción General
 
-El **Barranco de Diablozulo** (conocido localmente como *Ixostia*) es un descenso sorprendente situado muy cerca de Pamplona, en las laderas de la imponente Higa de Monreal.
+El **Barranco de Diablozulo** (conocido localmente como _Ixostia_) es un descenso sorprendente situado muy cerca de Pamplona, en las laderas de la imponente Higa de Monreal.
 
 Se diferencia de otros barrancos navarros por su carácter **continuo y vertical**. Apenas hay tramos de andar; es una sucesión ininterrumpida de resaltes y cascadas (alrededor de 22 rápeles). El ambiente es cerrado y boscoso, ofreciendo una sensación de aislamiento y "selva" muy particular.
 
@@ -77,9 +77,9 @@ Desde el coche superior, buscar el sendero que baja directo hacia el cauce. La a
 
 El barranco se puede dividir en tramos continuos sin grandes escapes:
 
-* **Inicio**: Comienza con vegetación y pequeños resaltes que rápidamente obligan a usar la cuerda.
-* **Zona Media**: Es la parte más estética. El cauce se encajona ligeramente y se suceden los rápeles de entre 8 y 15 metros. Las maniobras deben ser ágiles ya que el grupo puede ralentizarse mucho debido al gran número de instalaciones.
-* **Gran Cascada**: El descenso culmina con los rápeles más altos, destacando la cascada de **30 metros** (el rápel más alto) que da nombre al barranco y donde se encuentra la pequeña cueva colgada de "Diablozulo".
+- **Inicio**: Comienza con vegetación y pequeños resaltes que rápidamente obligan a usar la cuerda.
+- **Zona Media**: Es la parte más estética. El cauce se encajona ligeramente y se suceden los rápeles de entre 8 y 15 metros. Las maniobras deben ser ágiles ya que el grupo puede ralentizarse mucho debido al gran número de instalaciones.
+- **Gran Cascada**: El descenso culmina con los rápeles más altos, destacando la cascada de **30 metros** (el rápel más alto) que da nombre al barranco y donde se encuentra la pequeña cueva colgada de "Diablozulo".
 
 ## Retorno
 
@@ -90,11 +90,11 @@ Si hemos dejado el coche en el cruce de la pista con el barranco, el retorno es 
 **Primavera y Otoño**.
 El Diablozulo es un barranco de régimen torrencial que se seca rápidamente.
 
-* **Verano**: Suele estar seco o con hilos de agua testimonial, perdiendo gran parte de su interés deportivo y estético.
-* **Lluvias**: Es ideal descenderlo tras periodos de lluvias para encontrarlo con "alegría" (caudal fluido), aunque con crecidas muy fuertes puede volverse peligroso debido a la falta de escapes.
+- **Verano**: Suele estar seco o con hilos de agua testimonial, perdiendo gran parte de su interés deportivo y estético.
+- **Lluvias**: Es ideal descenderlo tras periodos de lluvias para encontrarlo con "alegría" (caudal fluido), aunque con crecidas muy fuertes puede volverse peligroso debido a la falta de escapes.
 
 ## Advertencias y Caudal
 
-* **Cuerdas**: Se recomienda llevar al menos 2 cuerdas de 40m (el rápel largo es de ~30m, pero conviene ir sobrado para recuperaciones).
-* **Roca**: La roca es caliza y en tramos húmedos puede ser muy resbaladiza (calcáreo con musgo).
-* **Fauna**: En la parte alta anidan aves rapaces; se ruega máximo silencio y respeto. Evitar el descenso si se observa actividad de nidificación evidente.
+- **Cuerdas**: Se recomienda llevar al menos 2 cuerdas de 40m (el rápel largo es de ~30m, pero conviene ir sobrado para recuperaciones).
+- **Roca**: La roca es caliza y en tramos húmedos puede ser muy resbaladiza (calcáreo con musgo).
+- **Fauna**: En la parte alta anidan aves rapaces; se ruega máximo silencio y respeto. Evitar el descenso si se observa actividad de nidificación evidente.

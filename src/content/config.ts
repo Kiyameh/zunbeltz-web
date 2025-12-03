@@ -21,7 +21,6 @@ const durationSchema = z.object({
   minutes: z.number(),
 });
 
-
 // Recurso de topografía
 const topographyAssetSchema = z.object({
   url: z.string(),
@@ -86,7 +85,9 @@ const caves = defineCollection({
     z.object({
       name: z.string(),
       alternativeNames: z.array(z.string()).optional(),
-      morphology: z.enum(["Cueva", "Sima", "Sumidero", "Manantial", "Mina"]).optional(),
+      morphology: z
+        .enum(["Cueva", "Sima", "Sumidero", "Manantial", "Mina"])
+        .optional(),
       massif: z.string().optional(),
       coordinates: utmCoordinatesSchema,
       location: z.string(),

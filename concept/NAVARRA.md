@@ -204,28 +204,28 @@ Representa un barranco o descenso de barranquismo en Navarra.
 
 **Propiedades del Frontmatter:**
 
-| Propiedad           | Tipo               | Descripción                            | Obligatorio |
-| ------------------- | ------------------ | -------------------------------------- | ----------- |
-| `name`              | `string`           | Nombre del barranco                    | ✅          |
-| `description`       | `string`           | Descripción general                    | ✅          |
-| `location`          | `string`           | Localidad o municipio                  | ✅          |
-| `river`             | `string`           | Río al que pertenece el barranco       | ✅          |
-| `highestRappel`     | `number`           | Rápel más alto en metros               | ❌          |
-| `numberOfRappels`   | `number`           | Número total de rápeles                | ❌          |
-| `verticalDrop`      | `number`           | Desnivel total en metros               | ❌          |
-| `length`            | `number`           | Longitud del descenso en km            | ❌          |
-| `approachTime`      | `Duration`         | Tiempo de aproximación desde parking   | ❌          |
-| `descentTime`       | `Duration`         | Duración estimada del descenso         | ❌          |
-| `returnTime`        | `Duration`         | Tiempo de retorno hasta parking        | ❌          |
-| `grading`           | `CanyoningGrading` | Graduación del barranco                | ❌          |
-| `recommendedMonths` | `number[]`         | Meses recomendados (1-12)              | ❌          |
-| `entryPoint`        | `UTMCoordinates`   | Coordenadas del punto de entrada       | ❌          |
-| `exitPoint`         | `UTMCoordinates`   | Coordenadas del punto de salida        | ❌          |
-| `catchmentArea`     | `number`           | Cuenca de captación en km²             | ❌          |
-| `normalFlow`        | `number`           | Caudal normal en m³/s                  | ❌          |
-| `mainPhoto`         | `ImageAsset`       | Foto de portada                        | ❌          |
-| `additionalPhotos`  | `ImageAsset[]`     | Fotografías adicionales                | ❌          |
-| `restrictions`      | `Restrictions`     | Restricciones y protecciones           | ❌          |
+| Propiedad           | Tipo               | Descripción                          | Obligatorio |
+| ------------------- | ------------------ | ------------------------------------ | ----------- |
+| `name`              | `string`           | Nombre del barranco                  | ✅          |
+| `description`       | `string`           | Descripción general                  | ✅          |
+| `location`          | `string`           | Localidad o municipio                | ✅          |
+| `river`             | `string`           | Río al que pertenece el barranco     | ✅          |
+| `highestRappel`     | `number`           | Rápel más alto en metros             | ❌          |
+| `numberOfRappels`   | `number`           | Número total de rápeles              | ❌          |
+| `verticalDrop`      | `number`           | Desnivel total en metros             | ❌          |
+| `length`            | `number`           | Longitud del descenso en km          | ❌          |
+| `approachTime`      | `Duration`         | Tiempo de aproximación desde parking | ❌          |
+| `descentTime`       | `Duration`         | Duración estimada del descenso       | ❌          |
+| `returnTime`        | `Duration`         | Tiempo de retorno hasta parking      | ❌          |
+| `grading`           | `CanyoningGrading` | Graduación del barranco              | ❌          |
+| `recommendedMonths` | `number[]`         | Meses recomendados (1-12)            | ❌          |
+| `entryPoint`        | `UTMCoordinates`   | Coordenadas del punto de entrada     | ❌          |
+| `exitPoint`         | `UTMCoordinates`   | Coordenadas del punto de salida      | ❌          |
+| `catchmentArea`     | `number`           | Cuenca de captación en km²           | ❌          |
+| `normalFlow`        | `number`           | Caudal normal en m³/s                | ❌          |
+| `mainPhoto`         | `ImageAsset`       | Foto de portada                      | ❌          |
+| `additionalPhotos`  | `ImageAsset[]`     | Fotografías adicionales              | ❌          |
+| `restrictions`      | `Restrictions`     | Restricciones y protecciones         | ❌          |
 
 **Ejemplo de uso:**
 
@@ -276,7 +276,6 @@ restrictions:
   protectionStatus: ["ZEPA"]
   requiresPermit: false
 ---
-
 ## Descripción del descenso
 
 Contenido en Markdown con información detallada del barranco...

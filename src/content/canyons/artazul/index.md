@@ -24,9 +24,9 @@ recommendedMonths: [4, 5, 6, 9, 10, 11]
 entryPoint:
   zone: 30
   hemisphere: "N"
-  easting: 591636	
+  easting: 591636
   northing: 4743366
-  latitude: 42.837384	
+  latitude: 42.837384
   longitude: -1.878699
   altitude: 722
 exitPoint:
@@ -36,7 +36,7 @@ exitPoint:
   northing: 4743646
   latitude: 42.839862
   longitude: -1.874462
-  altitude: 573 
+  altitude: 573
 mainPhoto:
   url: "./hero.jpg"
   alt: "Cascada final del barranco"

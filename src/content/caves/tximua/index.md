@@ -64,7 +64,8 @@ restrictions:
       isAnnual: true
   requiresPermit: true
   permitInfo: "Solicitar autorización al Departamento de Medio Ambiente del Gobierno de Navarra con al menos 15 días de antelación"
-  prohibitions: ["Uso de carburo", "Grupos mayores de 8 personas", "Acampada en la zona"]
+  prohibitions:
+    ["Uso de carburo", "Grupos mayores de 8 personas", "Acampada en la zona"]
   additionalInfo: "Cavidad especialmente sensible por la presencia de colonias de murciélagos. Respetar estrictamente los períodos de cierre."
 ---
 
@@ -129,7 +130,7 @@ La Sima de Tximua fue descubierta en agosto de 1982 durante una campaña de expl
 
 ## Conservación
 
-Esta cavidad alberga importantes colonias de murciélagos, incluyendo especies protegidas como el murciélago grande de herradura (*Rhinolophus ferrumequinum*). Es fundamental:
+Esta cavidad alberga importantes colonias de murciélagos, incluyendo especies protegidas como el murciélago grande de herradura (_Rhinolophus ferrumequinum_). Es fundamental:
 
 - Respetar los períodos de cierre
 - No tocar las formaciones

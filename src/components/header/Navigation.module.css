@@ -54,7 +54,7 @@
 
   transition: transform 250ms ease;
 
-  [data-state="open"]>& {
+  [data-state="open"] > & {
     transform: rotate(-180deg);
   }
 }
