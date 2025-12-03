@@ -187,46 +187,102 @@ enum AnchorType {
 
 ### 2. Ríos (Barranquismo/Canyoning)
 
-#### 2.1. Tipo: `River` (Río)
+> [!NOTE]
+> **Estado de Implementación:**
+>
+> - ✅ **Colección `canyons`**: Implementada con frontmatter completo (localidad, río, características técnicas, tiempos, graduación, coordenadas, fotos)
+> - ⏳ **Fichas de instalación**: Pendiente de implementación (obstáculos, instalaciones, anclajes)
 
-Representa un río o barranco.
+#### 2.1. Colección: `canyons` (Barrancos) - IMPLEMENTADO
 
-**Propiedades:**
+Representa un barranco o descenso de barranquismo en Navarra.
 
-| Propiedad         | Tipo               | Descripción                  | Obligatorio |
-| ----------------- | ------------------ | ---------------------------- | ----------- |
-| `id`              | `string`           | Identificador único          | ✅          |
-| `name`            | `string`           | Nombre del río               | ✅          |
-| `description`     | `string`           | Descripción general          | ✅          |
-| `length`          | `number`           | Longitud en km               | ❌          |
-| `catchmentArea`   | `number`           | Cuenca de captación en km²   | ❌          |
-| `normalFlow`      | `number`           | Caudal normal en m³/s        | ❌          |
-| `restrictions`    | `Restrictions`     | Restricciones y protecciones | ❌          |
-| `canyoningRoutes` | `CanyoningRoute[]` | Recorridos barranquistas     | ✅          |
+**Implementación:** Astro Content Collection con frontmatter YAML y contenido Markdown.
 
-#### 2.2. Tipo: `CanyoningRoute` (Recorrido Barranquista)
+**Archivo de configuración:** `src/content/config.ts`  
+**Directorio de contenido:** `src/content/canyons/`
 
-Representa un recorrido de barranquismo.
+**Propiedades del Frontmatter:**
 
-**Propiedades:**
+| Propiedad           | Tipo               | Descripción                            | Obligatorio |
+| ------------------- | ------------------ | -------------------------------------- | ----------- |
+| `name`              | `string`           | Nombre del barranco                    | ✅          |
+| `description`       | `string`           | Descripción general                    | ✅          |
+| `location`          | `string`           | Localidad o municipio                  | ✅          |
+| `river`             | `string`           | Río al que pertenece el barranco       | ✅          |
+| `highestRappel`     | `number`           | Rápel más alto en metros               | ❌          |
+| `numberOfRappels`   | `number`           | Número total de rápeles                | ❌          |
+| `verticalDrop`      | `number`           | Desnivel total en metros               | ❌          |
+| `length`            | `number`           | Longitud del descenso en km            | ❌          |
+| `approachTime`      | `Duration`         | Tiempo de aproximación desde parking   | ❌          |
+| `descentTime`       | `Duration`         | Duración estimada del descenso         | ❌          |
+| `returnTime`        | `Duration`         | Tiempo de retorno hasta parking        | ❌          |
+| `grading`           | `CanyoningGrading` | Graduación del barranco                | ❌          |
+| `recommendedMonths` | `number[]`         | Meses recomendados (1-12)              | ❌          |
+| `entryPoint`        | `UTMCoordinates`   | Coordenadas del punto de entrada       | ❌          |
+| `exitPoint`         | `UTMCoordinates`   | Coordenadas del punto de salida        | ❌          |
+| `catchmentArea`     | `number`           | Cuenca de captación en km²             | ❌          |
+| `normalFlow`        | `number`           | Caudal normal en m³/s                  | ❌          |
+| `mainPhoto`         | `ImageAsset`       | Foto de portada                        | ❌          |
+| `additionalPhotos`  | `ImageAsset[]`     | Fotografías adicionales                | ❌          |
+| `restrictions`      | `Restrictions`     | Restricciones y protecciones           | ❌          |
 
-| Propiedad           | Tipo                         | Descripción                            | Obligatorio |
-| ------------------- | ---------------------------- | -------------------------------------- | ----------- |
-| `id`                | `string`                     | Identificador único                    | ✅          |
-| `name`              | `string`                     | Nombre del recorrido                   | ✅          |
-| `description`       | `string`                     | Descripción del recorrido              | ✅          |
-| `entryPoint`        | `UTMCoordinates`             | Coordenadas del punto de entrada       | ✅          |
-| `exitPoint`         | `UTMCoordinates`             | Coordenadas del punto de salida        | ✅          |
-| `duration`          | `Duration`                   | Duración estimada del descenso         | ✅          |
-| `approachTime`      | `Duration`                   | Tiempo de aproximación desde parking   | ❌          |
-| `returnTime`        | `Duration`                   | Tiempo de retorno hasta parking        | ❌          |
-| `ropeLength`        | `number`                     | Longitud de cuerda necesaria en metros | ❌          |
-| `recommendedSeason` | `string`                     | Época recomendada                      | ❌          |
-| `highestRappel`     | `number`                     | Rápel más alto en metros               | ❌          |
-| `grading`           | `CanyoningGrading`           | Graduación del barranco                | ✅          |
-| `installationSheet` | `CanyoningInstallationSheet` | Ficha de instalación                   | ❌          |
+**Ejemplo de uso:**
 
-#### 2.3. Tipo: `CanyoningGrading` (Graduación)
+```yaml
+---
+name: "Barranco de Artazul"
+description: "Barranco acuático clásico del Pirineo Navarro"
+location: "Isaba"
+river: "Río Belagua"
+highestRappel: 15
+numberOfRappels: 6
+verticalDrop: 280
+length: 3.5
+approachTime:
+  hours: 0
+  minutes: 20
+descentTime:
+  hours: 3
+  minutes: 30
+returnTime:
+  hours: 0
+  minutes: 30
+grading:
+  vertical: 3
+  aquatic: 3
+  commitment: "III"
+recommendedMonths: [6, 7, 8, 9]
+entryPoint:
+  zone: 30
+  hemisphere: "N"
+  easting: 672500
+  northing: 4750800
+  latitude: 42.9234
+  longitude: -0.8567
+  altitude: 1380
+exitPoint:
+  zone: 30
+  hemisphere: "N"
+  easting: 672800
+  northing: 4750200
+  latitude: 42.9180
+  longitude: -0.8532
+  altitude: 1100
+catchmentArea: 12.5
+normalFlow: 0.8
+restrictions:
+  hasRestrictions: true
+  protectionStatus: ["ZEPA"]
+  requiresPermit: false
+---
+
+## Descripción del descenso
+
+Contenido en Markdown con información detallada del barranco...
+```
+
+#### 2.2. Tipo: `CanyoningGrading` (Graduación) - IMPLEMENTADO
 
 Sistema de graduación de barrancos.
 
@@ -246,7 +302,9 @@ type CommitmentLevel = "I" | "II" | "III" | "IV" | "V" | "VI";
 
 **Ejemplos de graduación:** `v3 a2 IV`, `v4 a3 III`, `v4 a5 III`
 
-#### 2.4. Tipo: `CanyoningInstallationSheet` (Ficha de Instalación Barranquista)
+---
+
+#### 2.3. Tipo: `CanyoningInstallationSheet` (Ficha de Instalación Barranquista) - PENDIENTE
 
 Documenta los obstáculos y su equipamiento en un barranco.
 
@@ -257,7 +315,7 @@ Documenta los obstáculos y su equipamiento en un barranco.
 | `id`        | `string`              | Identificador único     | ✅          |
 | `obstacles` | `CanyoningObstacle[]` | Obstáculos concatenados | ✅          |
 
-#### 2.5. Tipo: `CanyoningObstacle` (Obstáculo Barranquista)
+#### 2.4. Tipo: `CanyoningObstacle` (Obstáculo Barranquista) - PENDIENTE
 
 Representa un obstáculo en un barranco.
 
@@ -312,7 +370,7 @@ enum CanyoningInstallationType {
 }
 ```
 
-#### 2.7. Tipo: `CanyoningAnchor` (Anclaje Barranquista)
+#### 2.6. Tipo: `CanyoningAnchor` (Anclaje Barranquista) - PENDIENTE
 
 Similar al anclaje de cavidades, pero con tipos ligeramente diferentes.
 
@@ -357,7 +415,7 @@ Representa una montaña o cumbre.
 | `description`      | `string`           | Descripción general                                      | ✅          |
 | `altitude`         | `number`           | Altitud en metros s.n.m.                                 | ✅          |
 | `coordinates`      | `UTMCoordinates`   | Coordenadas de la cumbre                                 | ✅          |
-| `range`            | `string`           | Macizo o cordillera (ej: "Pirineos", "Sierra de Urbasa") | ✅          |
+| `massif`           | `string`           | Macizo o cordillera (ej: "Pirineos", "Sierra de Urbasa") | ❌          |
 | `restrictions`     | `Restrictions`     | Restricciones y protecciones                             | ❌          |
 | `hikingRoutes`     | `HikingRoute[]`    | Rutas senderistas                                        | ❌          |
 | `technicalRoutes`  | `TechnicalRoute[]` | Rutas técnicas de alpinismo                              | ❌          |
@@ -878,22 +936,10 @@ type ClosurePeriod = {
   - **Montañas**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/montañas`
   - **Paredes**: Imagen representativa, icono, título, descripción breve, enlace a `/navarra/paredes`
 
-##### Sección Multimedia (Opcional)
-
-- Galería destacada de fotografías de aventuras en Navarra
-- Video promocional o timelapse del territorio
-
 ##### Estadísticas
 
 - Número de localizaciones documentadas por categoría
 - Métricas destacadas (total de cavidades, km de barrancos, etc.)
-
-#### Tecnologías del Landing
-
-- Astro page component
-- CSS Modules para estilos
-- Imágenes optimizadas con `Image` component de Astro
-- Animaciones sutiles con CSS o Framer Motion
 
 ---
 
@@ -952,13 +998,6 @@ type ClosurePeriod = {
 - Mejores épocas para practicarla
 - Recomendaciones de seguridad
 - Enlaces a cursos relacionados
-
-#### Tecnologías de Categoría
-
-- Astro page component
-- React/Preact para componentes interactivos (mapa, filtros)
-- Leaflet.js para el mapa
-- React Leaflet o vanilla Leaflet
 
 ---
 
@@ -1044,14 +1083,6 @@ type ClosurePeriod = {
 - Otras localizaciones cercanas
 - Posts del blog relacionados
 - Cursos relacionados con esta actividad
-
-#### Tecnologías de Páginas Individuales
-
-- Astro con Content Collections para el contenido
-- React/Preact para componentes interactivos
-- Leaflet.js para mapas
-- jsPDF o similar para export de fichas
-- MDX para contenido con componentes embebidos
 
 ---
 
@@ -1515,6 +1546,71 @@ type CommentInput = {
 
 ---
 
+### Fase 2b: Colecciones Avanzadas (Semana 4.5-5)
+
+**Objetivo**: Expandir las colecciones básicas de `mountains` y `climbing` a sus versiones completas con rutas, sectores y vías.
+
+#### Tareas Fase 2b
+
+- [ ] **Colección Mountains - Rutas**
+  - [ ] Implementar tipo `HikingRoute` (rutas senderistas)
+    - [ ] Campos: startPoint, endPoint, duration, length, elevationGain/Loss
+    - [ ] Dificultad (Fácil, Moderada, Difícil, Muy Difícil)
+    - [ ] Ruta circular vs lineal
+    - [ ] Época recomendada y avisos
+  - [ ] Implementar tipo `TechnicalRoute` (rutas técnicas de alpinismo)
+    - [ ] Campos técnicos: requiredGear, difficulty (ClimbingGrade)
+    - [ ] Array de `ClimbingPitch` (largos de escalada)
+    - [ ] Descripción técnica detallada
+  - [ ] Añadir campos `hikingRoutes` y `technicalRoutes` al schema de `mountains`
+  - [ ] Crear componentes de visualización de rutas
+
+- [ ] **Colección Climbing - Sistema completo**
+  - [ ] Implementar tipo `ClimbingSector` (sectores dentro de escuelas)
+    - [ ] Campos: name, description, orientation, height
+    - [ ] Array de `ClimbingRoute` (vías)
+    - [ ] Foto del sector y topo/croquis
+  - [ ] Implementar tipo `ClimbingRoute` (vías individuales)
+    - [ ] Campos: name, description, heightMeters, difficulty
+    - [ ] Array de `ClimbingPitch` (largos)
+    - [ ] Style (Deportiva, Clásica, Mixta, Artificial, Boulder)
+    - [ ] Protection (Equipada, Parcialmente, Desequipada)
+    - [ ] Primera ascensión y material necesario
+  - [ ] Implementar tipo `ClimbingPitch` (largos de escalada)
+    - [ ] Campos: number, length, description, difficulty
+    - [ ] Array de `ClimbingAnchor` (anclajes intermedios)
+    - [ ] `Belay` (reunión al final del largo)
+    - [ ] Inclinación (para alpinismo)
+  - [ ] Implementar tipo `ClimbingGrade` (graduación)
+    - [ ] number (1-9), letter (a/b/c), modifier (+/-)
+    - [ ] Helper para formatear (ej: "6b+", "7a")
+  - [ ] Implementar tipos de anclajes y reuniones
+    - [ ] `ClimbingAnchor` con tipos (Pb, Qm, Sp, Na)
+    - [ ] `Belay` con tipos (Equipada, Semi-equipada, Natural)
+  - [ ] Añadir campo `sectors` al schema de `climbing`
+  - [ ] Crear componentes de visualización de sectores y vías
+
+- [ ] **Componentes de visualización**
+  - [ ] `<RouteCard />` - Tarjeta de ruta (senderista o técnica)
+  - [ ] `<SectorViewer />` - Visualizador de sectores de escalada
+  - [ ] `<RouteList />` - Lista de vías con filtros por dificultad
+  - [ ] `<GradeDisplay />` - Componente para mostrar graduaciones
+  - [ ] `<PitchTable />` - Tabla de largos con detalles técnicos
+
+- [ ] **Actualizar páginas individuales**
+  - [ ] Integrar rutas en páginas de montañas
+  - [ ] Integrar sectores y vías en páginas de escalada
+  - [ ] Añadir secciones de información técnica
+
+#### Entregables Fase 2b
+
+- ✅ Schema completo de `mountains` con rutas senderistas y técnicas
+- ✅ Schema completo de `climbing` con sectores, vías, largos y graduaciones
+- ✅ Componentes de visualización para rutas y vías
+- ✅ Páginas individuales actualizadas con información técnica completa
+
+---
+
 ### Fase 3: Mapas Interactivos (Semana 5-6)
 
 **Objetivo**: Integrar Leaflet.js en todas las páginas de las 4 categorías.
@@ -1891,3 +1987,37 @@ type CommentInput = {
 3. **Actualización**: Establecer proceso para mantener información vigente
 4. **Fuentes**: Citar fuentes de información cuando proceda
 5. **Permisos**: Respetar derechos de autor en topografías y fotografías
+
+---
+
+## 📝 Historial de Cambios
+
+### 2024-12-02: Actualización Colección Canyons
+
+**Cambios implementados en `src/content/config.ts`:**
+
+- ✅ Agregado campo `location` (localidad/municipio)
+- ✅ Agregado campo `river` (río al que pertenece)
+- ✅ Agregado campo `highestRappel` (rápel máximo en metros)
+- ✅ Agregado campo `numberOfRappels` (número de rápeles)
+- ✅ Agregado campo `verticalDrop` (desnivel en metros)
+- ✅ Reestructurados tiempos con objetos `Duration`:
+  - `approachTime` (tiempo de aproximación)
+  - `descentTime` (tiempo de descenso)
+  - `returnTime` (tiempo de retorno)
+- ✅ Agregado schema `canyoningGradingSchema` con:
+  - `vertical` (1-7)
+  - `aquatic` (1-7)
+  - `commitment` (I-VI)
+- ✅ Agregado campo `recommendedMonths` (array de meses 1-12)
+- ✅ Agregado campo `entryPoint` (coordenadas UTM de entrada)
+- ✅ Agregado campo `exitPoint` (coordenadas UTM de salida)
+- ✅ Agregado campo `mainPhoto` (foto de portada)
+- ✅ Agregado campo `additionalPhotos` (array de fotos)
+
+**Archivos actualizados:**
+
+- `src/content/config.ts`: Schema completo de la colección
+- `src/content/canyons/artazul/index.md`: Ejemplo actualizado con todos los campos
+
+**Estado:** La colección `canyons` está completamente implementada con frontmatter. Las fichas de instalación (obstáculos, instalaciones, anclajes) quedan pendientes para una fase posterior.
