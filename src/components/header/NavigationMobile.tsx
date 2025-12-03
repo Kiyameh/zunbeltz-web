@@ -94,6 +94,20 @@ export const NavigationMobile = () => {
                   </a>
                 </NavigationMenu.Link>
               </li>
+              <li>
+                <NavigationMenu.Link asChild>
+                  <a
+                    href="/navarra/paredes"
+                    className={s.SubmenuLink}
+                    onClick={handleLinkClick}
+                  >
+                    <p className={s.title}>Paredes</p>
+                    <p className={s.desc}>
+                      Paredes de cuevas y montañas de Navarra
+                    </p>
+                  </a>
+                </NavigationMenu.Link>
+              </li>
             </ul>
           </NavigationMenu.Content>
         </NavigationMenu.Item>

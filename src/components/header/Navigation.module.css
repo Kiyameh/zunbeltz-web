@@ -54,7 +54,7 @@
 
   transition: transform 250ms ease;
 
-  [data-state="open"] > & {
+  [data-state="open"]>& {
     transform: rotate(-180deg);
   }
 }
@@ -105,16 +105,16 @@
   grid-auto-flow: column;
 }
 
-.Grid1x3 {
+.Grid1x4 {
   width: 500px;
   display: grid;
   gap: 12px;
   grid-template-columns: 0.6fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
-.Span3 {
-  grid-row: span 3 / span 3;
+.Span4 {
+  grid-row: span 4 / span 4;
 }
 
 /* Callout Navarra */

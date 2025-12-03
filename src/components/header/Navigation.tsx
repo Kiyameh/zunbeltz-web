@@ -24,8 +24,8 @@ export const Navigation = () => {
               Navarra <Caret className={s.CaretDown} aria-hidden />
             </NavigationMenu.Trigger>
             <NavigationMenu.Content className={s.Content}>
-              <ul className={s.Grid1x3}>
-                <li className={s.Span3}>
+              <ul className={s.Grid1x4}>
+                <li className={s.Span4}>
                   <NavigationMenu.Link asChild>
                     <a href="/navarra" className={s.Navarra}>
                       <p>Navarra</p>
@@ -58,12 +58,24 @@ export const Navigation = () => {
                     </a>
                   </NavigationMenu.Link>
                 </li>
+
                 <li>
                   <NavigationMenu.Link asChild>
                     <a href="/navarra/rios" className={s.GridLink}>
                       <p className={s.title}>Ríos</p>
                       <p className={s.desc}>
                         Ríos, foces y cauces del territorio
+                      </p>
+                    </a>
+                  </NavigationMenu.Link>
+                </li>
+
+                <li>
+                  <NavigationMenu.Link asChild>
+                    <a href="/navarra/paredes" className={s.GridLink}>
+                      <p className={s.title}>Paredes</p>
+                      <p className={s.desc}>
+                        Paredes de cuevas y montañas de Navarra
                       </p>
                     </a>
                   </NavigationMenu.Link>
