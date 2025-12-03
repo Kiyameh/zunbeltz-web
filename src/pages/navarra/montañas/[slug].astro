@@ -2,9 +2,12 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import MountainCharacteristics from "@/components/navarra/mountains/MountainCharacteristics.astro";
+import MountainLocationCard from "@/components/navarra/mountains/MountainLocationCard.astro";
+import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
+import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
-import CoordinatesDisplay from "@/components/navarra/shared/CoordinatesDisplay";
-import InfoCard from "@/components/navarra/shared/InfoCard";
+import HeroSection from "@/components/navarra/shared/HeroSection.astro";
 
 export async function getStaticPaths() {
   const mountains = await getCollection("mountains");
@@ -24,33 +27,23 @@ const { Content } = await mountain.render();
 const meta: MetaInfo = {
   pageTitle: `${mountain.data.name} | Montañas de Navarra | Zunbeltz`,
   pageDescription: mountain.data.description,
-  pageTags: ["Montaña", "Navarra", "Senderismo", mountain.data.range],
+  pageTags: ["Montaña", "Navarra", "Senderismo", mountain.data.location],
   pageUrl: `https://zunbeltz.org/navarra/montañas/${mountain.slug}`,
 };
 ---
 
 <HtmlLayout metaInfo={meta}>
   <main>
+    <HeroSection
+      title={mountain.data.name}
+      description={mountain.data.description}
+      photo={mountain.data.mainPhoto}
+    />
+
     <!-- Breadcrumb -->
     <div class="container">
       <Breadcrumb />
     </div>
-
-    <!-- Header -->
-    <header class="header">
-      <div class="container">
-        <h1 class="title">{mountain.data.name}</h1>
-        <div class="header-meta">
-          <span class="range">{mountain.data.range}</span>
-          {
-            mountain.data.altitude && (
-              <span class="altitude">{mountain.data.altitude}m</span>
-            )
-          }
-        </div>
-        <p class="description">{mountain.data.description}</p>
-      </div>
-    </header>
 
     <!-- Main Content -->
     <div class="content">
@@ -58,6 +51,9 @@ const meta: MetaInfo = {
         <div class="grid">
           <!-- Left Column: Main Info -->
           <div class="main-column">
+            <!-- Características Principales -->
+            <MountainCharacteristics mountain={mountain.data} />
+
             <!-- Markdown Content -->
             <section class="section markdown-content">
               <Content />
@@ -66,58 +62,18 @@ const meta: MetaInfo = {
 
           <!-- Right Column: Sidebar -->
           <aside class="sidebar">
-            <!-- Stats Card -->
-            <InfoCard title="Datos Técnicos">
-              <div class="stats-list">
-                {
-                  mountain.data.altitude && (
-                    <div class="stat-item">
-                      <span class="stat-label">Altitud</span>
-                      <span class="stat-value">{mountain.data.altitude}m</span>
-                    </div>
-                  )
-                }
-                {
-                  mountain.data.range && (
-                    <div class="stat-item">
-                      <span class="stat-label">Macizo</span>
-                      <span class="stat-value">{mountain.data.range}</span>
-                    </div>
-                  )
-                }
-              </div>
-            </InfoCard>
+            <!-- Localización -->
+            <MountainLocationCard coordinates={mountain.data.coordinates} />
 
-            <!-- Coordinates Card -->
-            <InfoCard title="Coordenadas">
-              <CoordinatesDisplay
-                coordinates={mountain.data.coordinates}
-                client:load
-              />
-            </InfoCard>
-
-            <!-- Restrictions Card -->
-            {
-              mountain.data.restrictions?.hasRestrictions && (
-                <InfoCard title="Restricciones" variant="warning">
-                  {mountain.data.restrictions.protectionStatus && (
-                    <p class="restriction-item">
-                      <strong>Protección:</strong>{" "}
-                      {mountain.data.restrictions.protectionStatus.join(", ")}
-                    </p>
-                  )}
-                  {mountain.data.restrictions.additionalInfo && (
-                    <p class="restriction-item">
-                      {mountain.data.restrictions.additionalInfo}
-                    </p>
-                  )}
-                </InfoCard>
-              )
-            }
+            <!-- Restricciones -->
+            <RestrictionsCard restrictions={mountain.data.restrictions} />
           </aside>
         </div>
       </div>
     </div>
+
+    <!-- Multimedia Section -->
+    <ImageGallery photos={mountain.data.additionalPhotos || []} />
   </main>
 </HtmlLayout>
 
@@ -126,49 +82,6 @@ const meta: MetaInfo = {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 1.5rem;
-  }
-
-  /* Header */
-  .header {
-    padding: 2rem 0;
-    border-bottom: 2px solid var(--color-border-100);
-  }
-
-  .title {
-    font-family: var(--font-title);
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    color: var(--color-content-500);
-    margin-bottom: 0.75rem;
-  }
-
-  .header-meta {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-    margin-bottom: 1rem;
-  }
-
-  .range {
-    font-family: var(--font-paragraph);
-    font-size: 0.9rem;
-    color: var(--color-content-300);
-    padding: 0.25rem 0.75rem;
-    background: var(--color-surface-200);
-    border-radius: var(--radius-md);
-  }
-
-  .altitude {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-secondary-300);
-    font-weight: 700;
-  }
-
-  .description {
-    font-family: var(--font-paragraph);
-    font-size: 1.125rem;
-    line-height: 1.7;
-    color: var(--color-content-400);
   }
 
   /* Content */
@@ -194,52 +107,6 @@ const meta: MetaInfo = {
 
   .section {
     margin-bottom: 2rem;
-  }
-
-  /* Stats List */
-  .stats-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .stat-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--color-border-100);
-  }
-
-  .stat-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-  }
-
-  .stat-label {
-    font-family: var(--font-paragraph);
-    font-size: 0.875rem;
-    color: var(--color-content-200);
-  }
-
-  .stat-value {
-    font-family: var(--font-title);
-    font-size: 1.125rem;
-    color: var(--color-secondary-300);
-    font-weight: 600;
-  }
-
-  /* Restrictions */
-  .restriction-item {
-    font-family: var(--font-paragraph);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    color: var(--color-content-400);
-    margin-bottom: 0.75rem;
-  }
-
-  .restriction-item:last-child {
-    margin-bottom: 0;
   }
 
   /* Markdown Content */
@@ -299,22 +166,6 @@ const meta: MetaInfo = {
 
     .sidebar {
       order: -1;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .header {
-      padding: 1.5rem 0;
-    }
-
-    .title {
-      font-size: 1.75rem;
-    }
-
-    .header-meta {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 0.5rem;
     }
   }
 </style>
