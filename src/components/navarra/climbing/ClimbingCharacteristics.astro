@@ -1,0 +1,147 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  climbing: CollectionEntry<"climbing">["data"];
+}
+
+const { climbing } = Astro.props;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Características Principales</h3>
+  </div>
+  <div class="content">
+    <div class="characteristics-grid">
+      {
+        climbing.location && (
+          <div class="char-item">
+            <span class="char-label">Localidad</span>
+            <span class="char-value">{climbing.location}</span>
+          </div>
+        )
+      }
+      {
+        climbing.orientation && climbing.orientation.length > 0 && (
+          <div class="char-item-full">
+            <span class="char-label">Orientación</span>
+            <div class="orientation-list">
+              {climbing.orientation.map((o) => (
+                <span class="orientation-badge">{o}</span>
+              ))}
+            </div>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-200);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0;
+  }
+
+  .content {
+    color: var(--color-content-300);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  /* Características Principales Grid */
+  .characteristics-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .char-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .char-item-full {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .char-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .char-value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-primary-300);
+    font-weight: 600;
+  }
+
+  /* Orientation List */
+  .orientation-list {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .orientation-badge {
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-surface-200);
+    border-radius: var(--radius-md);
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  /* Access Text */
+  .access-text {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-content-300);
+    margin: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .content {
+      font-size: 0.875rem;
+    }
+  }
+</style>

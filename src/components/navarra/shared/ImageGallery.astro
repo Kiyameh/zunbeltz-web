@@ -1,0 +1,515 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Photo {
+  url: ImageMetadata;
+  alt: string;
+  caption?: string;
+  photographer?: string;
+}
+
+interface Props {
+  photos: Photo[];
+  title?: string;
+}
+
+const { photos, title = "Galería de Imágenes" } = Astro.props;
+---
+
+{
+  photos && photos.length > 0 && (
+    <>
+      <section class="multimedia">
+        <div class="container">
+          <h2 class="multimedia-title">{title}</h2>
+          <div class="photo-grid" id="photoGrid">
+            {photos.map((photo, index) => (
+              <div
+                class="photo-item"
+                data-index={index}
+                data-src={photo.url.src}
+                data-alt={photo.alt}
+                data-caption={photo.caption || ""}
+                data-photographer={photo.photographer || ""}
+              >
+                <Image
+                  src={photo.url}
+                  alt={photo.alt}
+                  class="photo-image"
+                  quality={85}
+                  inferSize
+                />
+                {photo.caption && <p class="photo-caption">{photo.caption}</p>}
+                {photo.photographer && (
+                  <p class="photo-credit">© {photo.photographer}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <dialog class="gallery-modal" id="galleryModal">
+        <button class="modal-close" aria-label="Cerrar galería">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        <button
+          class="modal-nav modal-prev"
+          aria-label="Imagen anterior"
+          style="display: none;"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6" />
+          </svg>
+        </button>
+
+        <button
+          class="modal-nav modal-next"
+          aria-label="Imagen siguiente"
+          style="display: none;"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6" />
+          </svg>
+        </button>
+
+        <div class="modal-content">
+          <div class="modal-image-container">
+            <img src="" alt="" class="modal-image" id="modalImage" />
+          </div>
+          <div class="modal-info">
+            <p class="modal-caption" id="modalCaption" />
+            <p class="modal-credit" id="modalCredit" />
+            <p class="modal-counter" id="modalCounter" />
+          </div>
+        </div>
+      </dialog>
+    </>
+  )
+}
+
+<script>
+  function initGallery() {
+    const modal = document.getElementById(
+      "galleryModal",
+    ) as HTMLDialogElement | null;
+    const photoGrid = document.getElementById("photoGrid");
+    if (!modal || !photoGrid) return;
+
+    const photoItems = document.querySelectorAll(".photo-item");
+    const modalImage = document.getElementById(
+      "modalImage",
+    ) as HTMLImageElement | null;
+    const modalCaption = document.getElementById("modalCaption");
+    const modalCredit = document.getElementById("modalCredit");
+    const modalCounter = document.getElementById("modalCounter");
+    const closeBtn = document.querySelector(
+      ".modal-close",
+    ) as HTMLElement | null;
+    const prevBtn = document.querySelector(".modal-prev") as HTMLElement | null;
+    const nextBtn = document.querySelector(".modal-next") as HTMLElement | null;
+
+    if (!modalImage || photoItems.length === 0) return;
+
+    const totalPhotos = photoItems.length;
+    let currentIndex = 0;
+
+    function openModal(index: number): void {
+      if (!modal) return;
+      currentIndex = index;
+      updateModalContent();
+      modal.showModal();
+    }
+
+    function closeModal(): void {
+      if (!modal) return;
+      modal.close();
+    }
+
+    function updateModalContent(): void {
+      // Get photo data from DOM attributes
+      const photoItem = document.querySelector(
+        `.photo-item[data-index="${currentIndex}"]`,
+      ) as HTMLElement | null;
+
+      if (!photoItem) return;
+
+      const src = photoItem.getAttribute("data-src") || "";
+      const alt = photoItem.getAttribute("data-alt") || "";
+      const caption = photoItem.getAttribute("data-caption") || "";
+      const photographer = photoItem.getAttribute("data-photographer") || "";
+
+      if (modalImage) {
+        modalImage.src = src;
+        modalImage.alt = alt;
+      }
+
+      if (modalCaption) {
+        modalCaption.textContent = caption;
+        modalCaption.style.display = caption ? "block" : "none";
+      }
+
+      if (modalCredit) {
+        modalCredit.textContent = photographer ? `© ${photographer}` : "";
+        modalCredit.style.display = photographer ? "block" : "none";
+      }
+
+      if (modalCounter) {
+        modalCounter.textContent = `${currentIndex + 1} / ${totalPhotos}`;
+      }
+
+      // Update navigation buttons visibility
+      if (prevBtn) {
+        prevBtn.style.display = currentIndex > 0 ? "flex" : "none";
+      }
+      if (nextBtn) {
+        nextBtn.style.display =
+          currentIndex < totalPhotos - 1 ? "flex" : "none";
+      }
+    }
+
+    function showPrev(): void {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateModalContent();
+      }
+    }
+
+    function showNext(): void {
+      if (currentIndex < totalPhotos - 1) {
+        currentIndex++;
+        updateModalContent();
+      }
+    }
+
+    // Event delegation: single listener on parent container
+    photoGrid.addEventListener("click", (e) => {
+      const photoItem = (e.target as HTMLElement).closest(
+        ".photo-item",
+      ) as HTMLElement | null;
+      if (photoItem) {
+        const index = parseInt(photoItem.getAttribute("data-index") || "0", 10);
+        openModal(index);
+      }
+    });
+
+    closeBtn?.addEventListener("click", closeModal);
+    prevBtn?.addEventListener("click", showPrev);
+    nextBtn?.addEventListener("click", showNext);
+
+    // Close on backdrop click (native dialog behavior)
+    modal.addEventListener("click", (e) => {
+      const rect = modal.getBoundingClientRect();
+      if (
+        e.clientX < rect.left ||
+        e.clientX > rect.right ||
+        e.clientY < rect.top ||
+        e.clientY > rect.bottom
+      ) {
+        closeModal();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (!modal.open) return;
+
+      // Escape is handled natively by dialog
+      if (e.key === "ArrowLeft") showPrev();
+      if (e.key === "ArrowRight") showNext();
+    });
+
+    console.log("Gallery initialized with", totalPhotos, "photos");
+  }
+
+  // Initialize on page load
+  document.addEventListener("astro:page-load", initGallery);
+
+  // Also initialize immediately if script loads after page
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    initGallery();
+  }
+</script>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .multimedia {
+    padding: 4rem 0;
+    background: var(--color-surface-200);
+  }
+
+  .multimedia-title {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    color: var(--color-content-500);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .photo-item {
+    background: var(--color-surface-100);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .photo-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .photo-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .photo-caption {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    color: var(--color-content-400);
+    padding: 1rem 1rem 0.5rem;
+    margin: 0;
+  }
+
+  .photo-credit {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    color: var(--color-content-200);
+    padding: 0 1rem 1rem;
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* Gallery Modal */
+  .gallery-modal {
+    border: none;
+    padding: 0;
+    max-width: 100vw;
+    max-height: 100vh;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .gallery-modal::backdrop {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(4px);
+  }
+
+  .gallery-modal[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .modal-image-container {
+    position: relative;
+    max-width: 90vw;
+    max-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-image {
+    max-width: 100%;
+    max-height: 75vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-info {
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    padding: 0 1rem;
+  }
+
+  .modal-caption {
+    font-family: var(--font-paragraph);
+    font-size: 1rem;
+    margin: 0 0 0.5rem 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .modal-credit {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    margin: 0 0 0.5rem 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+  }
+
+  .modal-counter {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-weight: 500;
+  }
+
+  /* Modal Controls */
+  .modal-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+    z-index: 10001;
+  }
+
+  .modal-close:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+  }
+
+  .modal-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    transition: all 0.2s ease;
+    z-index: 10001;
+  }
+
+  .modal-nav:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .modal-prev {
+    left: 2rem;
+  }
+
+  .modal-next {
+    right: 2rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .modal-close {
+      top: 1rem;
+      right: 1rem;
+      width: 40px;
+      height: 40px;
+    }
+
+    .modal-close svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .modal-nav {
+      width: 48px;
+      height: 48px;
+    }
+
+    .modal-nav svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .modal-prev {
+      left: 0.5rem;
+    }
+
+    .modal-next {
+      right: 0.5rem;
+    }
+
+    .modal-image {
+      max-height: 70vh;
+    }
+
+    .modal-info {
+      font-size: 0.875rem;
+    }
+  }
+</style>

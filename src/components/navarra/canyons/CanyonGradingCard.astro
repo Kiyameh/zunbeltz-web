@@ -1,0 +1,118 @@
+---
+interface Props {
+  grading?: {
+    vertical: number;
+    aquatic: number;
+    commitment: string;
+  };
+}
+
+const { grading } = Astro.props;
+---
+
+{
+  grading && (
+    <div class="card">
+      <div class="header">
+        <h3 class="title">Graduación</h3>
+      </div>
+      <div class="content">
+        <div class="grading-display">
+          <div class="grading-item">
+            <span class="grading-label">Vertical</span>
+            <span class="grading-badge">v{grading.vertical}</span>
+          </div>
+          <div class="grading-item">
+            <span class="grading-label">Acuático</span>
+            <span class="grading-badge">a{grading.aquatic}</span>
+          </div>
+          <div class="grading-item">
+            <span class="grading-label">Compromiso</span>
+            <span class="grading-badge">{grading.commitment}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-200);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0;
+  }
+
+  .content {
+    color: var(--color-content-300);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .grading-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+  }
+
+  .grading-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .grading-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    color: var(--color-content-200);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .grading-badge {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-surface-100);
+    background: var(--color-secondary-300);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    min-width: 3rem;
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .content {
+      font-size: 0.875rem;
+    }
+  }
+</style>

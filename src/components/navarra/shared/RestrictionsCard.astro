@@ -1,0 +1,120 @@
+---
+interface Props {
+  restrictions?: {
+    hasRestrictions: boolean;
+    protectionStatus?: string[];
+    requiresPermit?: boolean;
+    additionalInfo?: string;
+  };
+}
+
+const { restrictions } = Astro.props;
+---
+
+{
+  restrictions?.hasRestrictions && (
+    <div class="card warning">
+      <div class="header">
+        <h3 class="title">Restricciones</h3>
+      </div>
+      <div class="content">
+        {restrictions.protectionStatus && (
+          <p class="restriction-item">
+            <strong>Protección:</strong>{" "}
+            {restrictions.protectionStatus.join(", ")}
+          </p>
+        )}
+        {restrictions.requiresPermit && (
+          <p class="restriction-item">
+            <strong>Se requiere permiso</strong>
+          </p>
+        )}
+        {restrictions.additionalInfo && (
+          <p class="restriction-item">{restrictions.additionalInfo}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0;
+  }
+
+  .content {
+    color: var(--color-content-300);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  /* Warning variant */
+  .warning {
+    background: oklch(98% 0.05 40);
+    border-color: oklch(70% 0.15 40);
+  }
+
+  .warning .title {
+    color: oklch(40% 0.1 40);
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .warning {
+    background: oklch(25% 0.02 40);
+    border-color: oklch(50% 0.15 40);
+  }
+
+  :global([data-theme="dark"]) .warning .title {
+    color: oklch(75% 0.12 40);
+  }
+
+  :global([data-theme="dark"]) .warning .content {
+    color: oklch(85% 0.05 40);
+  }
+
+  .restriction-item {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--color-content-400);
+    margin-bottom: 0.75rem;
+  }
+
+  .restriction-item:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .content {
+      font-size: 0.875rem;
+    }
+  }
+</style>

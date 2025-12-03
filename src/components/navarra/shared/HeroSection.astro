@@ -1,0 +1,135 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Photo {
+  url: ImageMetadata;
+  alt: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  photo?: Photo;
+}
+
+const { title, description, photo } = Astro.props;
+---
+
+{
+  photo ? (
+    <section class="hero">
+      <Image
+        src={photo.url}
+        alt={photo.alt}
+        class="hero-image"
+        loading="eager"
+        quality={90}
+        inferSize
+      />
+      <div class="hero-content glassmorph">
+        <h1 class="hero-title">{title}</h1>
+        <p class="hero-subtitle">{description}</p>
+      </div>
+    </section>
+  ) : (
+    <header class="header">
+      <div class="container">
+        <h1 class="title">{title}</h1>
+        <p class="description">{description}</p>
+      </div>
+    </header>
+  )
+}
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  /* Hero Section with Image */
+  .hero {
+    position: relative;
+    height: 50vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+    max-width: 900px;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-2xl);
+  }
+
+  .hero-title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 6vw, 3rem);
+    margin-bottom: 1rem;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-paragraph);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Header (fallback without image) */
+  .header {
+    padding: 2rem 0;
+    border-bottom: 2px solid var(--color-border-100);
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    color: var(--color-content-500);
+    margin-bottom: 1rem;
+  }
+
+  .description {
+    font-family: var(--font-paragraph);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: var(--color-content-400);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      height: 40vh;
+      min-height: 300px;
+    }
+
+    .header {
+      padding: 1.5rem 0;
+    }
+
+    .title {
+      font-size: 1.75rem;
+    }
+  }
+</style>
