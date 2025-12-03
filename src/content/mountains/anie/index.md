@@ -10,13 +10,15 @@ coordinates:
   latitude: 42.9654
   longitude: -0.7823
   altitude: 2504
-range: "Pirineos"
+location: "Isaba, Valle de Roncal"
+massif: "Pirineos Occidentales"
+mainPhoto:
+  url: "./hero.jpg"
+  alt: "Pico Anie"
+  caption: "Pico Anie"
+  photographer: "Andoni Abarzuza"
 restrictions:
   hasRestrictions: false
-mainPhoto:
-  url: "/images/mountains/anie-summit.jpg"
-  alt: "Cumbre del Pico Anie"
-  caption: "Vista de la cumbre desde el collado"
 ---
 
 ## Descripción General

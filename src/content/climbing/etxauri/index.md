@@ -12,12 +12,7 @@ coordinates:
 location: "Etxauri, Cuenca de Pamplona"
 restrictions:
   hasRestrictions: false
-access: "Desde Pamplona, tomar la carretera hacia Etxauri. Aparcar en el pueblo y seguir el sendero señalizado durante 10 minutos hasta la base de la escuela."
 orientation: ["S", "SE"]
-mainPhoto:
-  url: "/images/climbing/etxauri-overview.jpg"
-  alt: "Vista general de la escuela de Etxauri"
-  caption: "Sectores principales de la escuela"
 ---
 
 ## Descripción General

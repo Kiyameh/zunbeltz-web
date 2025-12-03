@@ -21,14 +21,6 @@ const durationSchema = z.object({
   minutes: z.number(),
 });
 
-// Recurso de imagen
-const imageAssetSchema = z.object({
-  url: z.string(),
-  alt: z.string(),
-  caption: z.string().optional(),
-  photographer: z.string().optional(),
-  date: z.coerce.date().optional(),
-});
 
 // Recurso de topografía
 const topographyAssetSchema = z.object({
@@ -90,40 +82,112 @@ const restrictionsSchema = z.object({
 
 const caves = defineCollection({
   type: "content",
-  schema: z.object({
-    name: z.string(),
-    coordinates: utmCoordinatesSchema,
-    location: z.string(),
-    catalogCode: z.string().optional(),
-    subterraUrl: z.string().url().optional(),
-    length: z.number().optional(),
-    depth: z.number().optional(),
-    description: z.string(),
-    entrancePhoto: imageAssetSchema.optional(),
-    additionalPhotos: z.array(imageAssetSchema).optional(),
-    topographies: z.array(topographyAssetSchema).optional(),
-    access: accessInfoSchema.optional(),
-    restrictions: restrictionsSchema.optional(),
-    permits: z.string().optional(),
-    lastUpdate: z.coerce.date().optional(),
-    contributors: z.array(z.string()).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      alternativeNames: z.array(z.string()).optional(),
+      morphology: z.enum(["Cueva", "Sima", "Sumidero", "Manantial", "Mina"]).optional(),
+      massif: z.string().optional(),
+      coordinates: utmCoordinatesSchema,
+      location: z.string(),
+      catalogCode: z.string().optional(),
+      subterraUrl: z.string().url().optional(),
+      length: z.number().optional(),
+      depth: z.number().optional(),
+      description: z.string(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+      topographies: z.array(topographyAssetSchema).optional(),
+      access: accessInfoSchema.optional(),
+      restrictions: restrictionsSchema.optional(),
+    }),
 });
 
 // ============================================================================
 // COLECCIÓN: RÍOS/BARRANCOS (CANYONING)
 // ============================================================================
 
+// Graduación de barrancos
+const canyoningGradingSchema = z.object({
+  vertical: z.number().min(1).max(7),
+  aquatic: z.number().min(1).max(7),
+  commitment: z.enum(["I", "II", "III", "IV", "V", "VI"]),
+});
+
 const canyons = defineCollection({
   type: "content",
-  schema: z.object({
-    name: z.string(),
-    description: z.string(),
-    length: z.number().optional(),
-    catchmentArea: z.number().optional(),
-    normalFlow: z.number().optional(),
-    restrictions: restrictionsSchema.optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      // Información básica
+      name: z.string(),
+      description: z.string(),
+      location: z.string(), // Localidad
+      river: z.string(), // Río al que pertenece el barranco
+
+      // Características técnicas
+      highestRappel: z.number().optional(), // Rápel máximo en metros
+      numberOfRappels: z.number().optional(), // Número de rápeles
+      verticalDrop: z.number().optional(), // Desnivel en metros
+      length: z.number().optional(), // Longitud del descenso en km
+
+      // Tiempos
+      approachTime: durationSchema.optional(), // Tiempo de aproximación
+      descentTime: durationSchema.optional(), // Tiempo de descenso
+      returnTime: durationSchema.optional(), // Tiempo de retorno
+
+      // Graduación
+      grading: canyoningGradingSchema.optional(), // Graduación del barranco
+
+      // Época recomendada (array de meses: 1-12)
+      recommendedMonths: z.array(z.number().min(1).max(12)).optional(),
+
+      // Coordenadas
+      entryPoint: utmCoordinatesSchema.optional(), // Coordenadas de acceso/entrada
+      exitPoint: utmCoordinatesSchema.optional(), // Coordenadas de salida/final
+
+      // Información hidrológica
+      catchmentArea: z.number().optional(), // Cuenca de captación en km²
+      normalFlow: z.number().optional(), // Caudal normal en m³/s
+
+      // Fotografías (usando helper image() de Astro)
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(), // Foto de portada
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(), // Fotos adicionales
+
+      // Restricciones
+      restrictions: restrictionsSchema.optional(),
+    }),
 });
 
 // ============================================================================
@@ -132,16 +196,34 @@ const canyons = defineCollection({
 
 const mountains = defineCollection({
   type: "content",
-  schema: z.object({
-    name: z.string(),
-    description: z.string(),
-    altitude: z.number(),
-    coordinates: utmCoordinatesSchema,
-    range: z.string(),
-    restrictions: restrictionsSchema.optional(),
-    mainPhoto: imageAssetSchema.optional(),
-    additionalPhotos: z.array(imageAssetSchema).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      altitude: z.number(),
+      coordinates: utmCoordinatesSchema,
+      location: z.string(),
+      massif: z.string().optional(),
+      restrictions: restrictionsSchema.optional(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+    }),
 });
 
 // ============================================================================
@@ -150,19 +232,35 @@ const mountains = defineCollection({
 
 const climbing = defineCollection({
   type: "content",
-  schema: z.object({
-    name: z.string(),
-    description: z.string(),
-    coordinates: utmCoordinatesSchema,
-    location: z.string(),
-    restrictions: restrictionsSchema.optional(),
-    access: z.string().optional(),
-    orientation: z
-      .array(z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]))
-      .optional(),
-    mainPhoto: imageAssetSchema.optional(),
-    additionalPhotos: z.array(imageAssetSchema).optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      coordinates: utmCoordinatesSchema,
+      location: z.string(),
+      restrictions: restrictionsSchema.optional(),
+      orientation: z
+        .array(z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]))
+        .optional(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+    }),
 });
 
 // ============================================================================
