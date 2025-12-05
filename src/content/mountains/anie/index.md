@@ -12,6 +12,9 @@ coordinates:
   altitude: 2504
 location: "Isaba, Valle de Roncal"
 massif: "Pirineos Occidentales"
+hikingRoutes:
+  - anie-pescamou
+  - anie-travesia
 mainPhoto:
   url: "./hero.jpg"
   alt: "Pico Anie"

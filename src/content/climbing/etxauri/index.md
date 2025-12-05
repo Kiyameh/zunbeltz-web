@@ -13,6 +13,9 @@ location: "Etxauri, Cuenca de Pamplona"
 restrictions:
   hasRestrictions: false
 orientation: ["S", "SE"]
+sectors:
+  - etxauri-principal
+  - etxauri-cueva
 ---
 
 ## Descripción General
@@ -31,69 +34,15 @@ La **Escuela de Escalada de Etxauri** es un referente de la escalada deportiva e
 
 ## Sectores
 
+La escuela cuenta con varios sectores, cada uno con características propias. Los dos sectores principales son:
+
 ### Sector Principal
 
-- **Vías**: 40 vías
-- **Grados**: 5a - 7b+
-- **Características**: Sector más popular, ideal para iniciación y perfeccionamiento
-- **Orientación**: Sur
+El sector más popular y frecuentado, ideal para iniciación y perfeccionamiento. Pared vertical con placas y pequeños desplomes. Orientación sur.
 
 ### Sector de la Cueva
 
-- **Vías**: 25 vías
-- **Grados**: 6a - 8a
-- **Características**: Desplomes y techos, escalada atlética
-- **Orientación**: Sureste
-
-### Sector de los Expertos
-
-- **Vías**: 30 vías
-- **Grados**: 7a - 8b+
-- **Características**: Vías técnicas y de resistencia
-- **Orientación**: Sur
-
-### Sector Infantil
-
-- **Vías**: 15 vías
-- **Grados**: 3 - 5b
-- **Características**: Vías cortas y fáciles, ideal para niños y principiantes
-- **Orientación**: Sur
-
-## Vías Destacadas
-
-### Nivel Iniciación (4-5)
-
-- **"Primera Vez"** - 4c, 18m - Perfecta para empezar
-- **"El Principiante"** - 5a, 20m - Movimientos variados
-- **"Paso a Paso"** - 5b, 22m - Técnica de pies
-
-### Nivel Intermedio (6)
-
-- **"La Clásica"** - 6a, 25m - La vía más popular de la escuela
-- **"Placas del Sur"** - 6b, 28m - Escalada en placa técnica
-- **"Fisura Central"** - 6c, 30m - Fisura atlética
-
-### Nivel Avanzado (7-8)
-
-- **"Resistencia"** - 7a, 32m - Vía de resistencia pura
-- **"El Techo"** - 7c, 25m - Desplome espectacular
-- **"Proyecto Etxauri"** - 8b+, 35m - La vía más dura de la escuela
-
-## Material Necesario
-
-### Material Personal
-
-- Arnés de escalada
-- Pies de gato
-- Casco (recomendado)
-- Magnesio y bolsa de magnesio
-
-### Material de Aseguramiento
-
-- Cuerda de 70 metros (recomendado para las vías más largas)
-- Dispositivo de aseguramiento (GriGri, ATC, etc.)
-- 12-15 cintas exprés
-- Mosquetón de seguridad con seguro
+Sector más técnico con desplomes y techos. Escalada atlética y potente. Orientación sureste, sombra por la mañana.
 
 ## Acceso y Aproximación
 
@@ -123,6 +72,22 @@ La **Escuela de Escalada de Etxauri** es un referente de la escalada deportiva e
 ### Invierno (diciembre-febrero)
 
 ✅ **Bueno**: Orientación sur permite escalar en días soleados
+
+## Material Necesario
+
+### Material Personal
+
+- Arnés de escalada
+- Pies de gato
+- Casco (recomendado)
+- Magnesio y bolsa de magnesio
+
+### Material de Aseguramiento
+
+- Cuerda de 70 metros (recomendado para las vías más largas)
+- Dispositivo de aseguramiento (GriGri, ATC, etc.)
+- 12-15 cintas exprés
+- Mosquetón de seguridad con seguro
 
 ## Servicios
 
