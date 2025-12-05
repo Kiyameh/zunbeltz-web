@@ -61,7 +61,9 @@ const canyons = await getCollection("canyons");
                     <div class="stat">
                       <span class="stat-label">Graduación:</span>
                       <span class="stat-value">
-                        v{canyon.data.grading.vertical}a{canyon.data.grading.aquatic} {canyon.data.grading.commitment}
+                        v{canyon.data.grading.vertical}a
+                        {canyon.data.grading.aquatic}{" "}
+                        {canyon.data.grading.commitment}
                       </span>
                     </div>
                   )}

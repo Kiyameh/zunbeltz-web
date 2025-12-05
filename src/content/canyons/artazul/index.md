@@ -82,7 +82,7 @@ Sin vehículo, se puede llegar a pie a la primera cascada en aproximadamente 1 h
 1. **Rapel inicial**: El barranco comienza con un bonito rapel de 35 metros desde una repisa. Hay que prestar especial atención a los roces en este rapel, pues no han sido pocos los incidentes en este sentido.
 
 2. **Zona media**: Despues de una zona boscosa nos introducimos en la grieta caliza que nos acompañara hasta el final del barranco. Una sucesión de pequeños rapeles, toboganes y saltos harán las delicias de los más intrepidos.
-Los croquis marcan entre 11 y 14 rapeles, pero es habitual poder saltar varios de ellos.
+   Los croquis marcan entre 11 y 14 rapeles, pero es habitual poder saltar varios de ellos.
 
 3. **Cascada final**: El último rapel es el más impresionante, con una cascada de 45 metros que nos deja en el circo final del Nacedero de Arteta.
 

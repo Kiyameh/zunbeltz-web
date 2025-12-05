@@ -1545,68 +1545,93 @@ type CommentInput = {
 
 ---
 
-### Fase 2b: Colecciones Avanzadas (Semana 4.5-5)
+### Fase 2b: Colecciones Avanzadas (Semana 4.5-5) ✅ COMPLETADA
 
 **Objetivo**: Expandir las colecciones básicas de `mountains` y `climbing` a sus versiones completas con rutas, sectores y vías.
 
 #### Tareas Fase 2b
 
-- [ ] **Colección Mountains - Rutas**
-  - [ ] Implementar tipo `HikingRoute` (rutas senderistas)
-    - [ ] Campos: startPoint, endPoint, duration, length, elevationGain/Loss
-    - [ ] Dificultad (Fácil, Moderada, Difícil, Muy Difícil)
-    - [ ] Ruta circular vs lineal
-    - [ ] Época recomendada y avisos
-  - [ ] Implementar tipo `TechnicalRoute` (rutas técnicas de alpinismo)
-    - [ ] Campos técnicos: requiredGear, difficulty (ClimbingGrade)
-    - [ ] Array de `ClimbingPitch` (largos de escalada)
-    - [ ] Descripción técnica detallada
-  - [ ] Añadir campos `hikingRoutes` y `technicalRoutes` al schema de `mountains`
-  - [ ] Crear componentes de visualización de rutas
+- [x] **Colección Mountains - Rutas**
+  - [x] Implementar colección `hikingRoutes` (rutas senderistas)
+    - [x] Campos: startPoint, endPoint, duration, length, elevationGain/Loss
+    - [x] Dificultad (Fácil, Moderada, Difícil, Muy Difícil)
+    - [x] Ruta circular vs lineal
+    - [x] Época recomendada y avisos
+    - [x] Campo `location` (localidad)
+    - [x] Campo `mountainReference` (referencia a montaña padre)
+  - [x] Implementar colección `technicalRoutes` (rutas técnicas de alpinismo)
+    - [x] Campos técnicos: requiredGear, difficulty (ClimbingGrade)
+    - [x] Array de `ClimbingPitch` (largos de escalada)
+    - [x] Descripción técnica detallada
+    - [x] Campo `location` (localidad)
+    - [x] Campo `mountainReference` (referencia a montaña padre)
+  - [x] Añadir campo `mountainReference` como objeto `{name, slug}` en schemas
+  - [x] Crear páginas individuales `/navarra/senderismo/[slug]` y `/navarra/largos/[slug]`
 
-- [ ] **Colección Climbing - Sistema completo**
-  - [ ] Implementar tipo `ClimbingSector` (sectores dentro de escuelas)
-    - [ ] Campos: name, description, orientation, height
-    - [ ] Array de `ClimbingRoute` (vías)
-    - [ ] Foto del sector y topo/croquis
-  - [ ] Implementar tipo `ClimbingRoute` (vías individuales)
-    - [ ] Campos: name, description, heightMeters, difficulty
-    - [ ] Array de `ClimbingPitch` (largos)
-    - [ ] Style (Deportiva, Clásica, Mixta, Artificial, Boulder)
-    - [ ] Protection (Equipada, Parcialmente, Desequipada)
-    - [ ] Primera ascensión y material necesario
-  - [ ] Implementar tipo `ClimbingPitch` (largos de escalada)
-    - [ ] Campos: number, length, description, difficulty
-    - [ ] Array de `ClimbingAnchor` (anclajes intermedios)
-    - [ ] `Belay` (reunión al final del largo)
-    - [ ] Inclinación (para alpinismo)
-  - [ ] Implementar tipo `ClimbingGrade` (graduación)
-    - [ ] number (1-9), letter (a/b/c), modifier (+/-)
-    - [ ] Helper para formatear (ej: "6b+", "7a")
-  - [ ] Implementar tipos de anclajes y reuniones
-    - [ ] `ClimbingAnchor` con tipos (Pb, Qm, Sp, Na)
-    - [ ] `Belay` con tipos (Equipada, Semi-equipada, Natural)
-  - [ ] Añadir campo `sectors` al schema de `climbing`
-  - [ ] Crear componentes de visualización de sectores y vías
+- [x] **Colección Climbing - Sistema completo**
+  - [x] Implementar colección `climbingSectors` (sectores de escalada)
+    - [x] Campos: name, description, orientation, height
+    - [x] Array de `ClimbingRoute` (vías)
+    - [x] Foto del sector y topo/croquis
+    - [x] Coordenadas y ubicación
+    - [x] Campo `climbingSchoolReference` como objeto `{name, slug}`
+  - [x] Implementar tipo `ClimbingRoute` (vías individuales)
+    - [x] Campos: name, description, heightMeters, difficulty
+    - [x] Array de `ClimbingPitch` (largos)
+    - [x] Style (Deportiva, Clásica, Mixta, Artificial, Boulder)
+    - [x] Protection (Equipada, Parcialmente Equipada, Desequipada)
+    - [x] Primera ascensión y material necesario
+  - [x] Implementar tipo `ClimbingPitch` (largos de escalada)
+    - [x] Campos: number, length, description, difficulty
+    - [x] Array de `ClimbingAnchor` (anclajes intermedios)
+    - [x] `Belay` (reunión al final del largo)
+  - [x] Implementar tipo `ClimbingGrade` (graduación)
+    - [x] number (1-9), letter (a/b/c), modifier (+/-)
+  - [x] Implementar tipos de anclajes y reuniones
+    - [x] `ClimbingAnchor` con tipos (Pb, Qm, Sp, Na)
+    - [x] `Belay` con tipos (Equipada, Semi-equipada, Natural)
+  - [x] Crear página individual `/navarra/sectores/[slug]`
 
-- [ ] **Componentes de visualización**
-  - [ ] `<RouteCard />` - Tarjeta de ruta (senderista o técnica)
-  - [ ] `<SectorViewer />` - Visualizador de sectores de escalada
-  - [ ] `<RouteList />` - Lista de vías con filtros por dificultad
-  - [ ] `<GradeDisplay />` - Componente para mostrar graduaciones
-  - [ ] `<PitchTable />` - Tabla de largos con detalles técnicos
+- [x] **Componentes de visualización**
+  - [x] `<RouteList />` - Lista de vías con filtros por dificultad
+  - [x] `<PitchTable />` - Tabla de largos con detalles técnicos
+  - [x] **Componentes de cards laterales** (mejora adicional):
+    - [x] `<SectorLocationCard />` - Ubicación y coordenadas con toggle UTM/Lat-Long
+    - [x] `<SectorPhotoCard />` - Foto del sector con caption
+    - [x] `<SectorReferenceCard />` - Card clickeable para escuela relacionada
+    - [x] `<TechnicalRouteLocationCard />` - Puntos inicio/fin con coordenadas
+    - [x] `<TechnicalRouteGearCard />` - Lista de material necesario
+    - [x] `<HikingRouteLocationCard />` - Puntos inicio/fin para senderismo
+    - [x] `<RouteReferenceCard />` - Card clickeable para montaña relacionada
 
-- [ ] **Actualizar páginas individuales**
-  - [ ] Integrar rutas en páginas de montañas
-  - [ ] Integrar sectores y vías en páginas de escalada
-  - [ ] Añadir secciones de información técnica
+- [x] **Actualizar páginas individuales**
+  - [x] Crear página `/navarra/sectores/[slug]` con información técnica completa
+  - [x] Crear página `/navarra/largos/[slug]` con información técnica completa
+  - [x] Crear página `/navarra/senderismo/[slug]` con información completa
+  - [x] Layout responsive 2 columnas (contenido + sidebar)
+  - [x] Integración de componentes de cards laterales
+  - [x] Sistema de referencias clickeables entre páginas
 
 #### Entregables Fase 2b
 
-- ✅ Schema completo de `mountains` con rutas senderistas y técnicas
-- ✅ Schema completo de `climbing` con sectores, vías, largos y graduaciones
-- ✅ Componentes de visualización para rutas y vías
-- ✅ Páginas individuales actualizadas con información técnica completa
+- ✅ Schema completo de `hikingRoutes` con todas las propiedades
+- ✅ Schema completo de `technicalRoutes` con largos de escalada
+- ✅ Schema completo de `climbingSectors` con vías, largos y graduaciones
+- ✅ Sistema de referencias padre-hijo con objetos `{name, slug}`
+- ✅ Páginas individuales `/navarra/sectores/[slug]`, `/navarra/largos/[slug]`, `/navarra/senderismo/[slug]`
+- ✅ Componentes de visualización: `<RouteList />`, `<PitchTable />`
+- ✅ Biblioteca de 7 componentes de cards laterales reutilizables
+- ✅ Sistema de navegación clickeable entre entidades relacionadas
+- ✅ 7 archivos de contenido de ejemplo actualizados
+
+**Fecha de completación**: 5 de diciembre de 2024
+
+**Notas de implementación**:
+
+- Las referencias entre entidades se implementaron como objetos `{name: string, slug: string}` en lugar de strings simples, permitiendo navegación directa sin conversión
+- Se crearon componentes de cards laterales con estilo consistente con caves/canyons, incluyendo toggle UTM/Lat-Long y enlaces a Google Maps
+- Las cards de referencia son clickeables y redirigen a las páginas padre correspondientes
+- Se mantiene arquitectura de colecciones independientes (sectores, rutas) con referencias inversas al padre
 
 ---
 
@@ -2020,3 +2045,67 @@ type CommentInput = {
 - `src/content/canyons/artazul/index.md`: Ejemplo actualizado con todos los campos
 
 **Estado:** La colección `canyons` está completamente implementada con frontmatter. Las fichas de instalación (obstáculos, instalaciones, anclajes) quedan pendientes para una fase posterior.
+
+---
+
+### 2024-12-05: Fase 2b - Colecciones Avanzadas (Montañas y Escalada)
+
+**Cambios implementados:**
+
+**Colecciones creadas:**
+
+- ✅ `hikingRoutes` - Rutas senderistas con campos completos
+- ✅ `technicalRoutes` - Rutas técnicas de alpinismo con largos de escalada
+- ✅ `climbingSectors` - Sectores de escalada con vías y graduaciones
+
+**Schemas actualizados en `src/content/config.ts`:**
+
+- ✅ Referencias padre-hijo implementadas como objetos `{name: string, slug: string}`:
+  - `mountainReference` en `hikingRoutes` y `technicalRoutes`
+  - `climbingSchoolReference` en `climbingSectors`
+- ✅ Tipos completos: `ClimbingGrade`, `ClimbingPitch`, `ClimbingRoute`, `ClimbingAnchor`, `Belay`
+- ✅ Validación Zod completa para todas las propiedades
+
+**Páginas creadas:**
+
+- ✅ `/navarra/sectores/[slug].astro` - Página individual de sector de escalada
+- ✅ `/navarra/largos/[slug].astro` - Página individual de ruta técnica
+- ✅ `/navarra/senderismo/[slug].astro` - Página individual de ruta senderista
+
+**Componentes creados:**
+
+_Visualización de datos:_
+
+- ✅ `<RouteList />` - Lista de vías de escalada con filtros
+- ✅ `<PitchTable />` - Tabla de largos con detalles técnicos
+
+_Cards laterales (sidebar):_
+
+- ✅ `<SectorLocationCard />` - Ubicación con toggle UTM/Lat-Long y enlace a Google Maps
+- ✅ `<SectorPhotoCard />` - Foto del sector con caption y crédito
+- ✅ `<SectorReferenceCard />` - Card clickeable para escuela relacionada
+- ✅ `<TechnicalRouteLocationCard />` - Puntos inicio/fin con coordenadas
+- ✅ `<TechnicalRouteGearCard />` - Lista de material necesario con checkmarks
+- ✅ `<HikingRouteLocationCard />` - Puntos inicio/fin para senderismo
+- ✅ `<RouteReferenceCard />` - Card clickeable para montaña relacionada
+
+**Contenido de ejemplo actualizado:**
+
+- ✅ `climbingSectors/etxauri-principal/index.md`
+- ✅ `climbingSectors/etxauri-cueva/index.md`
+- ✅ `hikingRoutes/sandonato-normal/index.md`
+- ✅ `hikingRoutes/sandonato-brecha/index.md`
+- ✅ `hikingRoutes/anie-pescamou/index.md`
+- ✅ `hikingRoutes/anie-travesia/index.md`
+- ✅ `technicalRoutes/sandonato-espolon/index.md`
+
+**Características implementadas:**
+
+- Sistema de navegación clickeable entre entidades relacionadas
+- Cards laterales con estilo consistente con caves/canyons
+- Toggle UTM/Lat-Long en componentes de coordenadas
+- Enlaces directos a Google Maps
+- Layout responsive 2 columnas (contenido + sidebar)
+- Efectos hover en cards clickeables
+
+**Estado:** Fase 2b completada. Las colecciones, schemas, páginas individuales y sistema de navegación entre entidades están implementados y funcionando correctamente.

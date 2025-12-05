@@ -20,13 +20,13 @@ grading:
   vertical: 3
   aquatic: 2
   commitment: "III"
-recommendedMonths: [ 4, 5, 6, 7]
+recommendedMonths: [4, 5, 6, 7]
 entryPoint:
   zone: 30
   hemisphere: "N"
   easting: 619661
   northing: 4729147
-  latitude: 42.705503	
+  latitude: 42.705503
   longitude: -1.538886
   altitude: 745
 exitPoint:
@@ -43,18 +43,18 @@ mainPhoto:
   caption: "Ambiente selvatico en Diablozulo"
   photographer: "Andoni Abarzuza"
 additionalPhotos:
-- url: "./hero.jpg"
-  alt: "Ambiente selvatico en Diablozulo"
-  caption: "Ambiente selvatico en Diablozulo"
-  photographer: "Andoni Abarzuza"
-- url: "./1.jpg"
-  alt: "Rapel final de Diablozulo"
-  caption: "Rapel final de Diablozulo"
-  photographer: "Andoni Abarzuza"
-- url: "./2.jpg"
-  alt: "Zona encañonada previa a la gran cascada"
-  caption: "Zona encañonada previa a la gran cascada"
-  photographer: "Andoni Abarzuza"
+  - url: "./hero.jpg"
+    alt: "Ambiente selvatico en Diablozulo"
+    caption: "Ambiente selvatico en Diablozulo"
+    photographer: "Andoni Abarzuza"
+  - url: "./1.jpg"
+    alt: "Rapel final de Diablozulo"
+    caption: "Rapel final de Diablozulo"
+    photographer: "Andoni Abarzuza"
+  - url: "./2.jpg"
+    alt: "Zona encañonada previa a la gran cascada"
+    caption: "Zona encañonada previa a la gran cascada"
+    photographer: "Andoni Abarzuza"
 restrictions:
   hasRestrictions: false
   requiresPermit: false

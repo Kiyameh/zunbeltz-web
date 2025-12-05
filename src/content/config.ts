@@ -487,7 +487,9 @@ const climbingSectors = defineCollection({
       name: z.string(),
       description: z.string().optional(),
       routes: z.array(climbingRouteSchema),
-      orientation: z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]).optional(),
+      orientation: z
+        .enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"])
+        .optional(),
       height: z.number().optional(),
       coordinates: utmCoordinatesSchema.optional(),
       location: z.string().optional(),
