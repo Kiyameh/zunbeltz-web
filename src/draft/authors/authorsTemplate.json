@@ -1,0 +1,12 @@
+{
+  "name": "required",
+  "bio": "required",
+  "avatar": "required",
+  "email": "",
+  "website": "",
+  "social": {
+    "instagram": "",
+    "facebook": "",
+    "twitter": ""
+  }
+}
