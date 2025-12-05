@@ -5,13 +5,13 @@ location: "Monreal"
 river: "Regata Ixostia"
 highestRappel: 30
 numberOfRappels: 22
-verticalDrop: 250
-length: 2.7
+verticalDrop: 200
+length: 0.5
 approachTime:
-  hours: 0
-  minutes: 45
+  hours: 1
+  minutes: 15
 descentTime:
-  hours: 4
+  hours: 3
   minutes: 0
 returnTime:
   hours: 0
@@ -20,42 +20,44 @@ grading:
   vertical: 3
   aquatic: 2
   commitment: "III"
-recommendedMonths: [3, 4, 5, 10, 11]
+recommendedMonths: [ 4, 5, 6, 7]
 entryPoint:
   zone: 30
   hemisphere: "N"
-  easting: 617850
-  northing: 4728100
-  latitude: 42.6955
-  longitude: -1.5605
-  altitude: 900
+  easting: 619661
+  northing: 4729147
+  latitude: 42.705503	
+  longitude: -1.538886
+  altitude: 745
 exitPoint:
   zone: 30
   hemisphere: "N"
-  easting: 619200
-  northing: 4729300
-  latitude: 42.7065
-  longitude: -1.5440
-  altitude: 650
+  easting: 619661
+  northing: 4729503
+  latitude: 42.708707
+  longitude: -1.538805
+  altitude: 556
 mainPhoto:
   url: "./hero.jpg"
-  alt: "Rápel en la zona estrecha de Diablozulo"
-  caption: "Ambiente selvático en el tramo medio"
+  alt: "Ambiente selvatico en Diablozulo"
+  caption: "Ambiente selvatico en Diablozulo"
   photographer: "Andoni Abarzuza"
-#additionalPhotos:
-#- url: "./1.jpg"
-# alt: "Pozas en Artazul"
-#caption: "Pozas en Artazul"
-#photographer: "Andoni Abarzuza"
-#- url: "./2.jpg"
-#alt: "Último rapel"
-#caption: "Último rapel del barranco"
-#photographer: "Andoni Abarzuza"
+additionalPhotos:
+- url: "./hero.jpg"
+  alt: "Ambiente selvatico en Diablozulo"
+  caption: "Ambiente selvatico en Diablozulo"
+  photographer: "Andoni Abarzuza"
+- url: "./1.jpg"
+  alt: "Rapel final de Diablozulo"
+  caption: "Rapel final de Diablozulo"
+  photographer: "Andoni Abarzuza"
+- url: "./2.jpg"
+  alt: "Zona encañonada previa a la gran cascada"
+  caption: "Zona encañonada previa a la gran cascada"
+  photographer: "Andoni Abarzuza"
 restrictions:
-  hasRestrictions: true
-  protectionStatus: ["Otros"]
+  hasRestrictions: false
   requiresPermit: false
-  additionalInfo: "No hay restricciones de acceso actuales, pero se encuentra en un entorno protegido (Nacedero de Arteta)"
 ---
 
 ## Descripción General
@@ -68,18 +70,18 @@ Se diferencia de otros barrancos navarros por su carácter **continuo y vertical
 
 Se recomienda realizar **combinación de coches** para evitar una larga caminata de retorno y subida:
 
-1. **Coche Retorno**: Aparcar en el pueblo de Monreal o, mejor aún, remontar la pista que sale hacia la Higa hasta donde cruza el cauce evidente del barranco (hay un ensanchamiento).
-2. **Coche Inicio**: Subir por la carretera asfaltada que lleva a las antenas de la Higa de Monreal. Aparcar en una curva cerrada (aprox. km 14 o pista Malpica) desde donde se intuye la cabecera.
+1. **Coche Retorno**: Aparcar en el camino cerca del final del barranco, sin molestar al paso.
+2. **Coche Inicio**: Subir por el camino de Malpica hasta el segundo ensanchamiento. Luego continuar por el camino unos 20 minutos hasta la segunda curva cerrada a izquierda (hitos).
 
-Desde el coche superior, buscar el sendero que baja directo hacia el cauce. La aproximación es evidente si se ha estudiado el mapa, entrando al cauce en la cota superior.
+Si no se tienen dos coches, se suele dejar el coche en el retorno y subir andando por varios senderos que remontan la zona de campos.
 
 ## Descenso
 
 El barranco se puede dividir en tramos continuos sin grandes escapes:
 
-- **Inicio**: Comienza con vegetación y pequeños resaltes que rápidamente obligan a usar la cuerda.
-- **Zona Media**: Es la parte más estética. El cauce se encajona ligeramente y se suceden los rápeles de entre 8 y 15 metros. Las maniobras deben ser ágiles ya que el grupo puede ralentizarse mucho debido al gran número de instalaciones.
+- **Inicio**: Comenzamos el barranco con un pequeño rapel que nos deja en el cauce del río. A partir de ahí, los rapeles se suceden uno tras otro sin apenas descanso.
 - **Gran Cascada**: El descenso culmina con los rápeles más altos, destacando la cascada de **30 metros** (el rápel más alto) que da nombre al barranco y donde se encuentra la pequeña cueva colgada de "Diablozulo".
+- **Tramo final**: Tras la gran cascada, nos esperan cuatro esticos rapeles que nos llevan al final del barranco, una bonita cascada que dejar directamente en el valle.
 
 ## Retorno
 
@@ -91,7 +93,7 @@ Si hemos dejado el coche en el cruce de la pista con el barranco, el retorno es 
 El Diablozulo es un barranco de régimen torrencial que se seca rápidamente.
 
 - **Verano**: Suele estar seco o con hilos de agua testimonial, perdiendo gran parte de su interés deportivo y estético.
-- **Lluvias**: Es ideal descenderlo tras periodos de lluvias para encontrarlo con "alegría" (caudal fluido), aunque con crecidas muy fuertes puede volverse peligroso debido a la falta de escapes.
+- **Lluvias**: Es ideal descenderlo tras periodos de lluvias para encontrarlo con "alegría" (caudal fluido). Hay que tener en cuenta que pierde el agua muy rapidamente (en pocos dias)
 
 ## Advertencias y Caudal
 
