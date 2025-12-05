@@ -55,6 +55,7 @@ const restrictionsSchema = z.object({
         "Monumento Natural",
         "Zona Protegida Fauna",
         "Propiedad Privada",
+        "ZEC",
         "Otros",
       ]),
     )
