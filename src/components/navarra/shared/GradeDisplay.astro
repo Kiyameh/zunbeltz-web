@@ -1,0 +1,59 @@
+---
+interface ClimbingGrade {
+  number: number;
+  letter: "a" | "b" | "c";
+  modifier?: "+" | "-";
+}
+
+interface Props {
+  grade: ClimbingGrade;
+  size?: "small" | "medium" | "large";
+}
+
+const { grade, size = "medium" } = Astro.props;
+
+// Formatear graduación: ej. "6b+", "7a", "5c-"
+const formattedGrade = `${grade.number}${grade.letter}${grade.modifier || ""}`;
+---
+
+<span class={`grade grade-${size}`}>
+  {formattedGrade}
+</span>
+
+<style>
+  .grade {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-title);
+    font-weight: 600;
+    color: var(--color-secondary-400);
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-secondary-300);
+    border-radius: var(--radius-md);
+    padding: 0.25rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  .grade-small {
+    font-size: 0.75rem;
+    padding: 0.125rem 0.5rem;
+  }
+
+  .grade-medium {
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+  }
+
+  .grade-large {
+    font-size: 1.125rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .grade {
+    background: oklch(25% 0.02 var(--hue-secondary));
+    border-color: oklch(50% 0.15 var(--hue-secondary));
+    color: oklch(75% 0.15 var(--hue-secondary));
+  }
+</style>

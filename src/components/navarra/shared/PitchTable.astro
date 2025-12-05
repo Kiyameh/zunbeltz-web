@@ -1,0 +1,256 @@
+---
+import GradeDisplay from "./GradeDisplay.astro";
+
+interface ClimbingGrade {
+  number: number;
+  letter: "a" | "b" | "c";
+  modifier?: "+" | "-";
+}
+
+interface ClimbingAnchor {
+  type: "Pb" | "Qm" | "Sp" | "Na";
+  position?: number;
+  notes?: string;
+}
+
+interface Belay {
+  anchors: ClimbingAnchor[];
+  type: "Equipada" | "Semi-equipada" | "Natural";
+  notes?: string;
+}
+
+interface ClimbingPitch {
+  number: number;
+  length: number;
+  description: string;
+  difficulty: ClimbingGrade;
+  anchors?: ClimbingAnchor[];
+  belay?: Belay;
+}
+
+interface Props {
+  pitches: ClimbingPitch[];
+}
+
+const { pitches } = Astro.props;
+
+// Formatear tipo de anclaje
+const formatAnchorType = (type: string) => {
+  const types: Record<string, string> = {
+    Pb: "Parabolt",
+    Qm: "Químico",
+    Sp: "Spit",
+    Na: "Natural",
+  };
+  return types[type] || type;
+};
+---
+
+<div class="pitch-table-container">
+  <table class="pitch-table">
+    <thead>
+      <tr>
+        <th>L</th>
+        <th>Longitud</th>
+        <th>Dificultad</th>
+        <th>Descripción</th>
+        <th>Reunión</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        pitches.map((pitch) => (
+          <tr>
+            <td class="pitch-number">{pitch.number}</td>
+            <td class="pitch-length">{pitch.length}m</td>
+            <td class="pitch-difficulty">
+              <GradeDisplay grade={pitch.difficulty} size="small" />
+            </td>
+            <td class="pitch-description">
+              {pitch.description}
+              {pitch.anchors && pitch.anchors.length > 0 && (
+                <div class="anchors-info">
+                  <span class="anchors-label">Anclajes:</span>
+                  {pitch.anchors.map((anchor, idx) => (
+                    <span class="anchor-item">
+                      {anchor.type}
+                      {anchor.position && ` (${anchor.position}m)`}
+                      {idx < pitch.anchors!.length - 1 && ", "}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </td>
+            <td class="pitch-belay">
+              {pitch.belay ? (
+                <div class="belay-info">
+                  <span class="belay-type">{pitch.belay.type}</span>
+                  <span class="belay-anchors">
+                    ({pitch.belay.anchors.map((a) => a.type).join(" + ")})
+                  </span>
+                  {pitch.belay.notes && (
+                    <div class="belay-notes">{pitch.belay.notes}</div>
+                  )}
+                </div>
+              ) : (
+                <span class="no-belay">-</span>
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .pitch-table-container {
+    overflow-x: auto;
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1rem;
+  }
+
+  .pitch-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-paragraph);
+  }
+
+  .pitch-table thead {
+    background: var(--color-surface-200);
+  }
+
+  .pitch-table th {
+    font-family: var(--font-title);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-content-400);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 2px solid var(--color-border-100);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pitch-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--color-border-100);
+    color: var(--color-content-300);
+    font-size: 0.9rem;
+    vertical-align: top;
+  }
+
+  .pitch-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pitch-table tbody tr:hover {
+    background: var(--color-surface-200);
+  }
+
+  .pitch-number {
+    font-family: var(--font-title);
+    font-weight: 600;
+    color: var(--color-secondary-400);
+    text-align: center;
+    width: 50px;
+  }
+
+  .pitch-length {
+    font-family: var(--font-title);
+    font-weight: 500;
+    color: var(--color-content-400);
+    white-space: nowrap;
+    width: 100px;
+  }
+
+  .pitch-difficulty {
+    width: 100px;
+  }
+
+  .pitch-description {
+    line-height: 1.6;
+  }
+
+  .anchors-info {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--color-content-200);
+  }
+
+  .anchors-label {
+    font-weight: 600;
+    margin-right: 0.25rem;
+  }
+
+  .anchor-item {
+    font-family: var(--font-mono, monospace);
+  }
+
+  .pitch-belay {
+    width: 150px;
+  }
+
+  .belay-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .belay-type {
+    font-weight: 600;
+    color: var(--color-content-400);
+  }
+
+  .belay-anchors {
+    font-family: var(--font-mono, monospace);
+    font-size: 0.8rem;
+    color: var(--color-content-200);
+  }
+
+  .belay-notes {
+    font-size: 0.8rem;
+    color: var(--color-content-200);
+    font-style: italic;
+    margin-top: 0.25rem;
+  }
+
+  .no-belay {
+    color: var(--color-content-200);
+    font-style: italic;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .pitch-table-container {
+    background: var(--color-surface-200);
+    border-color: var(--color-border-200);
+  }
+
+  :global([data-theme="dark"]) .pitch-table thead {
+    background: var(--color-surface-300);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pitch-table-container {
+      padding: 0.5rem;
+    }
+
+    .pitch-table {
+      font-size: 0.85rem;
+    }
+
+    .pitch-table th,
+    .pitch-table td {
+      padding: 0.5rem;
+    }
+
+    /* Ocultar columnas menos importantes en móvil */
+    .pitch-table th:nth-child(2),
+    .pitch-table td:nth-child(2) {
+      display: none;
+    }
+  }
+</style>

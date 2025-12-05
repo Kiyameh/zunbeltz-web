@@ -1,0 +1,330 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+import HikingRouteLocationCard from "@/components/navarra/mountains/HikingRouteLocationCard.astro";
+import RouteReferenceCard from "@/components/navarra/mountains/RouteReferenceCard.astro";
+
+export async function getStaticPaths() {
+  const routes = await getCollection("hikingRoutes");
+  return routes.map((route) => ({
+    params: { slug: route.slug },
+    props: { route },
+  }));
+}
+
+interface Props {
+  route: CollectionEntry<"hikingRoutes">;
+}
+
+const { route } = Astro.props;
+const { Content } = await route.render();
+
+const meta: MetaInfo = {
+  pageTitle: `${route.data.name} | Rutas Senderistas | Zunbeltz`,
+  pageDescription: route.data.description,
+  pageTags: ["Senderismo", "Navarra", "Ruta", route.data.difficulty],
+  pageUrl: `https://zunbeltz.org/navarra/senderismo/${route.slug}`,
+};
+---
+
+<HtmlLayout metaInfo={meta}>
+  <main>
+    <HeroSection
+      title={route.data.name}
+      description={route.data.description}
+      photo={route.data.mainPhoto}
+    />
+
+    <!-- Breadcrumb -->
+    <div class="container">
+      <Breadcrumb />
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="container">
+        <div class="grid">
+          <!-- Left Column: Main Info -->
+          <div class="main-column">
+            <!-- Características de la Ruta -->
+            <section class="section characteristics">
+              <h2 class="section-title">Características</h2>
+              <div class="characteristics-grid">
+                <div class="characteristic">
+                  <span class="characteristic-label">Dificultad</span>
+                  <span
+                    class={`difficulty-badge difficulty-${route.data.difficulty.toLowerCase().replace(/\s+/g, "-")}`}
+                  >
+                    {route.data.difficulty}
+                  </span>
+                </div>
+                <div class="characteristic">
+                  <span class="characteristic-label">Distancia</span>
+                  <span class="characteristic-value"
+                    >{route.data.length} km</span
+                  >
+                </div>
+                <div class="characteristic">
+                  <span class="characteristic-label">Desnivel +</span>
+                  <span class="characteristic-value"
+                    >{route.data.elevationGain} m</span
+                  >
+                </div>
+                {
+                  route.data.elevationLoss && (
+                    <div class="characteristic">
+                      <span class="characteristic-label">Desnivel -</span>
+                      <span class="characteristic-value">
+                        {route.data.elevationLoss} m
+                      </span>
+                    </div>
+                  )
+                }
+                <div class="characteristic">
+                  <span class="characteristic-label">Duración</span>
+                  <span class="characteristic-value">
+                    {route.data.duration.hours}h {
+                      route.data.duration.minutes
+                    }min
+                  </span>
+                </div>
+                <div class="characteristic">
+                  <span class="characteristic-label">Tipo</span>
+                  <span class="characteristic-value">
+                    {route.data.circularRoute ? "Circular" : "Lineal"}
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Markdown Content -->
+            <section class="section markdown-content">
+              <Content />
+            </section>
+
+            <!-- Recomendaciones -->
+            {
+              route.data.seasonRecommendation && (
+                <section class="section recommendations">
+                  <h2 class="section-title">Época Recomendada</h2>
+                  <p class="recommendation-text">
+                    {route.data.seasonRecommendation}
+                  </p>
+                </section>
+              )
+            }
+
+            <!-- Advertencias -->
+            {
+              route.data.warnings && (
+                <section class="section warnings">
+                  <h2 class="section-title">⚠️ Precauciones</h2>
+                  <p class="warning-text">{route.data.warnings}</p>
+                </section>
+              )
+            }
+          </div>
+
+          <!-- Right Column: Sidebar -->
+          <aside class="sidebar">
+            <HikingRouteLocationCard
+              startPoint={route.data.startPoint}
+              endPoint={route.data.endPoint}
+              location={route.data.location}
+            />
+
+            {
+              route.data.mountainReference && (
+                <RouteReferenceCard
+                  referenceName={route.data.mountainReference.name}
+                  referenceSlug={route.data.mountainReference.slug}
+                />
+              )
+            }
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+</HtmlLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .content {
+    padding: 3rem 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 3rem;
+  }
+
+  .main-column {
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+    margin: 0 0 1.5rem 0;
+  }
+
+  /* Characteristics */
+  .characteristics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .characteristic {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .characteristic-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+    font-weight: 600;
+  }
+
+  .characteristic-value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+  }
+
+  .difficulty-badge {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-md);
+    display: inline-block;
+    width: fit-content;
+  }
+
+  .difficulty-fácil {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .difficulty-moderada {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  .difficulty-difícil {
+    background: #f8d7da;
+    color: #721c24;
+  }
+
+  .difficulty-muy-difícil {
+    background: #d6d8db;
+    color: #1b1e21;
+  }
+
+  /* Markdown Content */
+  .markdown-content {
+    font-family: var(--font-paragraph);
+    color: var(--color-content-300);
+    line-height: 1.7;
+  }
+
+  .markdown-content :global(h2) {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--color-content-500);
+    margin: 2rem 0 1rem;
+  }
+
+  .markdown-content :global(h3) {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-400);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .markdown-content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .markdown-content :global(ul),
+  .markdown-content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .markdown-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-content :global(strong) {
+    color: var(--color-content-500);
+    font-weight: 600;
+  }
+
+  /* Recommendations & Warnings */
+  .recommendations,
+  .warnings {
+    background: var(--color-surface-100);
+    border-left: 4px solid var(--color-secondary-400);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+  }
+
+  .warnings {
+    border-left-color: #f8d7da;
+    background: #fff5f5;
+  }
+
+  .recommendation-text,
+  .warning-text {
+    font-family: var(--font-paragraph);
+    color: var(--color-content-300);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .recommendations,
+  :global([data-theme="dark"]) .warnings {
+    background: var(--color-surface-200);
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      order: -1;
+    }
+
+    .characteristics-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  }
+</style>

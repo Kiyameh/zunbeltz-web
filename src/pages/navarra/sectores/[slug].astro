@@ -1,0 +1,331 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+import RouteList from "@/components/navarra/shared/RouteList.astro";
+import SectorLocationCard from "@/components/navarra/climbing/SectorLocationCard.astro";
+import SectorPhotoCard from "@/components/navarra/climbing/SectorPhotoCard.astro";
+import SectorReferenceCard from "@/components/navarra/climbing/SectorReferenceCard.astro";
+
+export async function getStaticPaths() {
+  const sectors = await getCollection("climbingSectors");
+  return sectors.map((sector) => ({
+    params: { slug: sector.slug },
+    props: { sector },
+  }));
+}
+
+interface Props {
+  sector: CollectionEntry<"climbingSectors">;
+}
+
+const { sector } = Astro.props;
+const { Content } = await sector.render();
+
+const meta: MetaInfo = {
+  pageTitle: `${sector.data.name} | Sectores de Escalada | Zunbeltz`,
+  pageDescription:
+    sector.data.description || `Sector de escalada ${sector.data.name}`,
+  pageTags: ["Escalada", "Navarra", "Sector", sector.data.orientation || ""],
+  pageUrl: `https://zunbeltz.org/navarra/sectores/${sector.slug}`,
+};
+---
+
+<HtmlLayout metaInfo={meta}>
+  <main>
+    <HeroSection
+      title={sector.data.name}
+      description={sector.data.description ||
+        `Sector de escalada ${sector.data.name}`}
+      photo={sector.data.mainPhoto || sector.data.photo}
+    />
+
+    <!-- Breadcrumb -->
+    <div class="container">
+      <Breadcrumb />
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div class="container">
+        <div class="grid">
+          <!-- Left Column: Main Info -->
+          <div class="main-column">
+            <!-- Características del Sector -->
+            <section class="section characteristics">
+              <h2 class="section-title">Características</h2>
+              <div class="characteristics-grid">
+                {
+                  sector.data.orientation && (
+                    <div class="characteristic">
+                      <span class="characteristic-label">Orientación</span>
+                      <span class="characteristic-value">
+                        {sector.data.orientation}
+                      </span>
+                    </div>
+                  )
+                }
+                {
+                  sector.data.height && (
+                    <div class="characteristic">
+                      <span class="characteristic-label">Altura</span>
+                      <span class="characteristic-value">
+                        {sector.data.height}m
+                      </span>
+                    </div>
+                  )
+                }
+                {
+                  sector.data.routes && (
+                    <div class="characteristic">
+                      <span class="characteristic-label">Número de Vías</span>
+                      <span class="characteristic-value">
+                        {sector.data.routes.length}
+                      </span>
+                    </div>
+                  )
+                }
+                {
+                  sector.data.routes && sector.data.routes.length > 0 && (
+                    <div class="characteristic">
+                      <span class="characteristic-label">Grados</span>
+                      <span class="characteristic-value">
+                        {Math.min(
+                          ...sector.data.routes.map((r) => r.difficulty.number),
+                        )}
+                        {sector.data.routes[0].difficulty.letter}
+                        {" - "}
+                        {Math.max(
+                          ...sector.data.routes.map((r) => r.difficulty.number),
+                        )}
+                        {
+                          sector.data.routes[sector.data.routes.length - 1]
+                            .difficulty.letter
+                        }
+                      </span>
+                    </div>
+                  )
+                }
+              </div>
+            </section>
+
+            <!-- Markdown Content -->
+            <section class="section markdown-content">
+              <Content />
+            </section>
+
+            <!-- Topo Image -->
+            {
+              sector.data.topoImage && (
+                <section class="section topo-section">
+                  <h2 class="section-title">Croquis del Sector</h2>
+                  <div class="topo-image">
+                    <img
+                      src={sector.data.topoImage.url.src}
+                      alt={sector.data.topoImage.alt}
+                    />
+                    {sector.data.topoImage.caption && (
+                      <p class="topo-caption">
+                        {sector.data.topoImage.caption}
+                      </p>
+                    )}
+                  </div>
+                </section>
+              )
+            }
+
+            <!-- Vías del Sector -->
+            {
+              sector.data.routes && sector.data.routes.length > 0 && (
+                <section class="section routes-section">
+                  <h2 class="section-title">Vías del Sector</h2>
+                  <RouteList routes={sector.data.routes} showFilters={false} />
+                </section>
+              )
+            }
+          </div>
+
+          <!-- Right Column: Sidebar -->
+          <aside class="sidebar">
+            <SectorLocationCard
+              coordinates={sector.data.coordinates}
+              location={sector.data.location}
+            />
+
+            {
+              sector.data.climbingSchoolReference && (
+                <SectorReferenceCard
+                  referenceName={sector.data.climbingSchoolReference.name}
+                  referenceSlug={sector.data.climbingSchoolReference.slug}
+                />
+              )
+            }
+
+            {sector.data.photo && <SectorPhotoCard photo={sector.data.photo} />}
+          </aside>
+        </div>
+      </div>
+    </div>
+  </main>
+</HtmlLayout>
+
+<style>
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .content {
+    padding: 3rem 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 3rem;
+  }
+
+  .main-column {
+    min-width: 0;
+  }
+
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .section {
+    margin-bottom: 2rem;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+    margin: 0 0 1.5rem 0;
+  }
+
+  /* Characteristics */
+  .characteristics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .characteristic {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .characteristic-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+    font-weight: 600;
+  }
+
+  .characteristic-value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+  }
+
+  /* Markdown Content */
+  .markdown-content {
+    font-family: var(--font-paragraph);
+    color: var(--color-content-300);
+    line-height: 1.7;
+  }
+
+  .markdown-content :global(h2) {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--color-content-500);
+    margin: 2rem 0 1rem;
+  }
+
+  .markdown-content :global(h3) {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-400);
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .markdown-content :global(p) {
+    margin-bottom: 1rem;
+  }
+
+  .markdown-content :global(ul),
+  .markdown-content :global(ol) {
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
+  }
+
+  .markdown-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .markdown-content :global(strong) {
+    color: var(--color-content-500);
+    font-weight: 600;
+  }
+
+  /* Topo Section */
+  .topo-section {
+    margin-bottom: 2rem;
+  }
+
+  .topo-image {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+  }
+
+  .topo-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .topo-caption {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-200);
+    margin-top: 0.75rem;
+    text-align: center;
+    font-style: italic;
+  }
+
+  /* Routes Section */
+  .routes-section {
+    margin-top: 2rem;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .topo-image {
+    background: var(--color-surface-200);
+    border-color: var(--color-border-200);
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      order: -1;
+    }
+
+    .characteristics-grid {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+  }
+</style>

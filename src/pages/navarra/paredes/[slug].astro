@@ -1,5 +1,5 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
 import ClimbingCharacteristics from "@/components/navarra/climbing/ClimbingCharacteristics.astro";
@@ -8,6 +8,7 @@ import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro
 import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+import SectorViewer from "@/components/navarra/shared/SectorViewer.astro";
 
 export async function getStaticPaths() {
   const climbingSchools = await getCollection("climbing");
@@ -23,6 +24,11 @@ interface Props {
 
 const { school } = Astro.props;
 const { Content } = await school.render();
+
+// Resolver referencias a sectores usando getEntry
+const sectors = school.data.sectors
+  ? await Promise.all(school.data.sectors.map((ref) => getEntry(ref)))
+  : [];
 
 const meta: MetaInfo = {
   pageTitle: `${school.data.name} | Escalada en Navarra | Zunbeltz`,
@@ -58,6 +64,88 @@ const meta: MetaInfo = {
             <section class="section markdown-content">
               <Content />
             </section>
+
+            <!-- Sectores de Escalada -->
+            {
+              sectors && sectors.length > 0 && (
+                <section class="section sectors-section">
+                  <h2 class="section-title">Sectores de Escalada</h2>
+                  <p class="section-intro">
+                    Explora los sectores de escalada de {school.data.name}. Haz
+                    clic en cada sector para ver el listado completo de vías,
+                    croquis y detalles técnicos.
+                  </p>
+                  <div class="sectors-list">
+                    {sectors.map(
+                      (sector) =>
+                        sector && (
+                          <a
+                            href={`/navarra/sectores/${sector.slug}`}
+                            class="sector-link"
+                          >
+                            <div class="sector-card-link">
+                              <div class="sector-header">
+                                <h3 class="sector-name">{sector.data.name}</h3>
+                                <div class="sector-badges">
+                                  {sector.data.orientation && (
+                                    <span class="orientation-badge">
+                                      {sector.data.orientation}
+                                    </span>
+                                  )}
+                                  {sector.data.routes && (
+                                    <span class="routes-badge">
+                                      {sector.data.routes.length} vías
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                              {sector.data.description && (
+                                <p class="sector-description">
+                                  {sector.data.description}
+                                </p>
+                              )}
+                              <div class="sector-stats">
+                                {sector.data.height && (
+                                  <span class="stat">
+                                    <strong>Altura:</strong>{" "}
+                                    {sector.data.height}m
+                                  </span>
+                                )}
+                                {sector.data.routes &&
+                                  sector.data.routes.length > 0 && (
+                                    <span class="stat">
+                                      <strong>Grados:</strong>{" "}
+                                      {Math.min(
+                                        ...sector.data.routes.map(
+                                          (r) => r.difficulty.number,
+                                        ),
+                                      )}
+                                      {sector.data.routes[0].difficulty.letter}{" "}
+                                      -{" "}
+                                      {Math.max(
+                                        ...sector.data.routes.map(
+                                          (r) => r.difficulty.number,
+                                        ),
+                                      )}
+                                      {
+                                        sector.data.routes[
+                                          sector.data.routes.length - 1
+                                        ].difficulty.letter
+                                      }
+                                    </span>
+                                  )}
+                              </div>
+                              <span class="view-more">
+                                Ver sector completo →
+                              </span>
+                            </div>
+                          </a>
+                        ),
+                    )}
+                  </div>
+                </section>
+              )
+            }
           </div>
 
           <!-- Right Column: Sidebar -->
@@ -162,6 +250,139 @@ const meta: MetaInfo = {
     border-radius: var(--radius-sm);
     font-family: "Courier New", monospace;
     font-size: 0.875em;
+  }
+
+  /* Sectors Section */
+  .sectors-section {
+    margin-top: 3rem;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+    margin: 0 0 0.75rem 0;
+  }
+
+  .section-intro {
+    font-family: var(--font-paragraph);
+    font-size: 1rem;
+    color: var(--color-content-300);
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+    padding: 1rem;
+    background: var(--color-surface-100);
+    border-left: 4px solid var(--color-secondary-400);
+    border-radius: var(--radius-md);
+  }
+
+  .sectors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sector-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .sector-card-link {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .sector-card-link:hover {
+    border-color: var(--color-secondary-400);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .sector-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .sector-name {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0;
+  }
+
+  .sector-badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .orientation-badge,
+  .routes-badge {
+    font-family: var(--font-title);
+    font-size: 0.875rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    white-space: nowrap;
+  }
+
+  .orientation-badge {
+    background: var(--color-secondary-100);
+    color: var(--color-secondary-500);
+  }
+
+  .routes-badge {
+    background: var(--color-primary-100);
+    color: var(--color-primary-500);
+  }
+
+  .sector-description {
+    font-family: var(--font-paragraph);
+    font-size: 0.95rem;
+    color: var(--color-content-300);
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+  }
+
+  .sector-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+  }
+
+  .stat {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+  }
+
+  .stat strong {
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  .view-more {
+    font-family: var(--font-title);
+    font-size: 0.875rem;
+    color: var(--color-secondary-400);
+    font-weight: 600;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .sector-card-link {
+    background: var(--color-surface-200);
+    border-color: var(--color-border-200);
+  }
+
+  :global([data-theme="dark"]) .sector-card-link:hover {
+    border-color: var(--color-secondary-300);
   }
 
   /* Responsive */

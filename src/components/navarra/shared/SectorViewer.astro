@@ -1,0 +1,314 @@
+---
+import RouteList from "./RouteList.astro";
+
+interface ClimbingGrade {
+  number: number;
+  letter: "a" | "b" | "c";
+  modifier?: "+" | "-";
+}
+
+interface ClimbingPitch {
+  number: number;
+  length: number;
+  description: string;
+  difficulty: ClimbingGrade;
+}
+
+interface ClimbingRoute {
+  name: string;
+  description: string;
+  heightMeters?: number;
+  difficulty: ClimbingGrade;
+  pitches: ClimbingPitch[];
+  style: "Deportiva" | "Clásica" | "Mixta" | "Artificial" | "Boulder";
+  protection: "Equipada" | "Parcialmente Equipada" | "Desequipada";
+  firstAscent?: string;
+  requiredGear?: string;
+}
+
+interface ClimbingSector {
+  name: string;
+  description?: string;
+  routes: ClimbingRoute[];
+  orientation?: "N" | "S" | "E" | "O" | "NE" | "NO" | "SE" | "SO";
+  height?: number;
+  photo?: {
+    url: string;
+    alt: string;
+    caption?: string;
+    photographer?: string;
+  };
+  topoImage?: {
+    url: string;
+    alt: string;
+    caption?: string;
+    photographer?: string;
+  };
+}
+
+interface Props {
+  sector: ClimbingSector;
+  showTopo?: boolean;
+}
+
+const { sector, showTopo = true } = Astro.props;
+
+// Formatear orientación
+const formatOrientation = (orientation?: string) => {
+  const orientations: Record<string, string> = {
+    N: "Norte",
+    S: "Sur",
+    E: "Este",
+    O: "Oeste",
+    NE: "Noreste",
+    NO: "Noroeste",
+    SE: "Sureste",
+    SO: "Suroeste",
+  };
+  return orientation ? orientations[orientation] : null;
+};
+---
+
+<div class="sector-viewer">
+  <div class="sector-header">
+    <div class="sector-info">
+      <h3 class="sector-name">{sector.name}</h3>
+      {
+        sector.description && (
+          <p class="sector-description">{sector.description}</p>
+        )
+      }
+
+      <div class="sector-meta">
+        {
+          sector.orientation && (
+            <div class="meta-item">
+              <span class="meta-label">Orientación:</span>
+              <span class="meta-value">
+                {formatOrientation(sector.orientation)}
+              </span>
+            </div>
+          )
+        }
+        {
+          sector.height && (
+            <div class="meta-item">
+              <span class="meta-label">Altura:</span>
+              <span class="meta-value">{sector.height}m</span>
+            </div>
+          )
+        }
+        <div class="meta-item">
+          <span class="meta-label">Vías:</span>
+          <span class="meta-value">{sector.routes.length}</span>
+        </div>
+      </div>
+    </div>
+
+    {
+      sector.photo && (
+        <div class="sector-photo">
+          <img src={sector.photo.url} alt={sector.photo.alt} />
+          {sector.photo.caption && (
+            <p class="photo-caption">{sector.photo.caption}</p>
+          )}
+        </div>
+      )
+    }
+  </div>
+
+  {
+    showTopo && sector.topoImage && (
+      <div class="topo-section">
+        <h4 class="topo-title">Croquis del Sector</h4>
+        <div class="topo-image">
+          <img src={sector.topoImage.url} alt={sector.topoImage.alt} />
+          {sector.topoImage.caption && (
+            <p class="topo-caption">{sector.topoImage.caption}</p>
+          )}
+        </div>
+      </div>
+    )
+  }
+
+  <div class="routes-section">
+    <h4 class="routes-title">Vías del Sector</h4>
+    <RouteList routes={sector.routes} />
+  </div>
+</div>
+
+<style>
+  .sector-viewer {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .sector-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .sector-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sector-name {
+    font-family: var(--font-title);
+    font-size: 1.75rem;
+    color: var(--color-content-500);
+    margin: 0;
+  }
+
+  .sector-description {
+    font-family: var(--font-paragraph);
+    font-size: 1rem;
+    color: var(--color-content-300);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .sector-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-100);
+  }
+
+  .meta-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  .meta-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-content-400);
+  }
+
+  .meta-value {
+    font-family: var(--font-title);
+    font-size: 0.875rem;
+    color: var(--color-secondary-400);
+  }
+
+  .sector-photo {
+    width: 100%;
+  }
+
+  .sector-photo img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+  }
+
+  .photo-caption {
+    font-family: var(--font-paragraph);
+    font-size: 0.85rem;
+    color: var(--color-content-200);
+    margin-top: 0.5rem;
+    font-style: italic;
+  }
+
+  .topo-section {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--color-border-100);
+  }
+
+  .topo-title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0 0 1rem 0;
+  }
+
+  .topo-image {
+    background: var(--color-surface-200);
+    border: 1px solid var(--color-border-100);
+    border-radius: var(--radius-lg);
+    padding: 1rem;
+  }
+
+  .topo-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  .topo-caption {
+    font-family: var(--font-paragraph);
+    font-size: 0.85rem;
+    color: var(--color-content-200);
+    margin-top: 0.75rem;
+    text-align: center;
+    font-style: italic;
+  }
+
+  .routes-section {
+    margin-top: 2rem;
+  }
+
+  .routes-title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0 0 1.5rem 0;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .sector-viewer {
+    background: var(--color-surface-200);
+    border-color: var(--color-border-200);
+  }
+
+  :global([data-theme="dark"]) .topo-image {
+    background: var(--color-surface-300);
+    border-color: var(--color-border-200);
+  }
+
+  /* Responsive */
+  @media (min-width: 1024px) {
+    .sector-header {
+      grid-template-columns: 2fr 1fr;
+    }
+
+    .sector-photo {
+      max-height: 400px;
+    }
+
+    .sector-photo img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .sector-viewer {
+      padding: 1.5rem;
+    }
+
+    .sector-name {
+      font-size: 1.5rem;
+    }
+
+    .sector-meta {
+      gap: 1rem;
+    }
+
+    .routes-title,
+    .topo-title {
+      font-size: 1.125rem;
+    }
+  }
+</style>

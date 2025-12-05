@@ -1,0 +1,287 @@
+---
+import GradeDisplay from "./GradeDisplay.astro";
+
+interface ClimbingGrade {
+  number: number;
+  letter: "a" | "b" | "c";
+  modifier?: "+" | "-";
+}
+
+interface HikingRoute {
+  name: string;
+  description: string;
+  length: number;
+  elevationGain: number;
+  difficulty: "Fácil" | "Moderada" | "Difícil" | "Muy Difícil";
+  circularRoute: boolean;
+  duration: { hours: number; minutes: number };
+}
+
+interface TechnicalRoute {
+  name: string;
+  description: string;
+  length: number;
+  elevationGain: number;
+  difficulty: ClimbingGrade;
+  requiredGear: string[];
+  duration: { hours: number; minutes: number };
+}
+
+interface Props {
+  route: HikingRoute | TechnicalRoute;
+  type: "hiking" | "technical";
+}
+
+const { route, type } = Astro.props;
+
+const isHiking = type === "hiking";
+const isTechnical = type === "technical";
+
+// Formatear duración
+const formatDuration = (duration: { hours: number; minutes: number }) => {
+  if (duration.hours > 0 && duration.minutes > 0) {
+    return `${duration.hours}h ${duration.minutes}min`;
+  } else if (duration.hours > 0) {
+    return `${duration.hours}h`;
+  } else {
+    return `${duration.minutes}min`;
+  }
+};
+
+// Color de dificultad para senderismo
+const getDifficultyColor = (difficulty: string) => {
+  switch (difficulty) {
+    case "Fácil":
+      return "easy";
+    case "Moderada":
+      return "moderate";
+    case "Difícil":
+      return "hard";
+    case "Muy Difícil":
+      return "very-hard";
+    default:
+      return "moderate";
+  }
+};
+---
+
+<div class="route-card">
+  <div class="route-header">
+    <h3 class="route-name">{route.name}</h3>
+    {
+      isHiking && (
+        <span
+          class={`difficulty-badge ${getDifficultyColor((route as HikingRoute).difficulty)}`}
+        >
+          {(route as HikingRoute).difficulty}
+        </span>
+      )
+    }
+    {
+      isTechnical && (
+        <GradeDisplay
+          grade={(route as TechnicalRoute).difficulty}
+          size="medium"
+        />
+      )
+    }
+  </div>
+
+  <p class="route-description">{route.description}</p>
+
+  <div class="route-stats">
+    <div class="stat">
+      <span class="stat-label">Longitud</span>
+      <span class="stat-value">{route.length} km</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Desnivel+</span>
+      <span class="stat-value">{route.elevationGain} m</span>
+    </div>
+    <div class="stat">
+      <span class="stat-label">Duración</span>
+      <span class="stat-value">{formatDuration(route.duration)}</span>
+    </div>
+    {
+      isHiking && (route as HikingRoute).circularRoute && (
+        <div class="stat">
+          <span class="stat-label">Tipo</span>
+          <span class="stat-value">Circular</span>
+        </div>
+      )
+    }
+  </div>
+
+  {
+    isTechnical && (route as TechnicalRoute).requiredGear.length > 0 && (
+      <div class="gear-section">
+        <span class="gear-label">Material:</span>
+        <span class="gear-list">
+          {(route as TechnicalRoute).requiredGear.join(", ")}
+        </span>
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .route-card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+  }
+
+  .route-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-secondary-300);
+  }
+
+  .route-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .route-name {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0;
+    flex: 1;
+  }
+
+  .difficulty-badge {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.75rem;
+    border-radius: var(--radius-md);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .difficulty-badge.easy {
+    background: oklch(90% 0.1 140);
+    color: oklch(35% 0.15 140);
+  }
+
+  .difficulty-badge.moderate {
+    background: oklch(90% 0.1 80);
+    color: oklch(35% 0.15 80);
+  }
+
+  .difficulty-badge.hard {
+    background: oklch(90% 0.1 40);
+    color: oklch(35% 0.15 40);
+  }
+
+  .difficulty-badge.very-hard {
+    background: oklch(90% 0.1 10);
+    color: oklch(35% 0.15 10);
+  }
+
+  .route-description {
+    font-family: var(--font-paragraph);
+    font-size: 0.9rem;
+    color: var(--color-content-300);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .route-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-100);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .stat-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    color: var(--color-content-200);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-value {
+    font-family: var(--font-title);
+    font-size: 1rem;
+    color: var(--color-secondary-400);
+    font-weight: 600;
+  }
+
+  .gear-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-100);
+  }
+
+  .gear-label {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-content-400);
+  }
+
+  .gear-list {
+    font-family: var(--font-paragraph);
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+    margin-left: 0.5rem;
+  }
+
+  /* Dark theme */
+  :global([data-theme="dark"]) .route-card {
+    background: var(--color-surface-200);
+    border-color: var(--color-border-200);
+  }
+
+  :global([data-theme="dark"]) .difficulty-badge.easy {
+    background: oklch(25% 0.05 140);
+    color: oklch(75% 0.15 140);
+  }
+
+  :global([data-theme="dark"]) .difficulty-badge.moderate {
+    background: oklch(25% 0.05 80);
+    color: oklch(75% 0.15 80);
+  }
+
+  :global([data-theme="dark"]) .difficulty-badge.hard {
+    background: oklch(25% 0.05 40);
+    color: oklch(75% 0.15 40);
+  }
+
+  :global([data-theme="dark"]) .difficulty-badge.very-hard {
+    background: oklch(25% 0.05 10);
+    color: oklch(75% 0.15 10);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .route-card {
+      padding: 1.25rem;
+    }
+
+    .route-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .route-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
