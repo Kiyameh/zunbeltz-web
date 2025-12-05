@@ -195,6 +195,79 @@ const canyons = defineCollection({
 // COLECCIÓN: MONTAÑAS (SENDERISMO/ALPINISMO)
 // ============================================================================
 
+// Dificultad de senderismo
+const hikingDifficultySchema = z.enum([
+  "Fácil",
+  "Moderada",
+  "Difícil",
+  "Muy Difícil",
+]);
+
+// Graduación de escalada
+const climbingGradeSchema = z.object({
+  number: z.number().min(1).max(9),
+  letter: z.enum(["a", "b", "c"]),
+  modifier: z.enum(["+", "-"]).optional(),
+});
+
+// Anclaje de escalada
+const climbingAnchorSchema = z.object({
+  type: z.enum(["Pb", "Qm", "Sp", "Na"]),
+  position: z.number().optional(),
+  notes: z.string().optional(),
+});
+
+// Reunión (belay)
+const belaySchema = z.object({
+  anchors: z.array(climbingAnchorSchema).min(2),
+  type: z.enum(["Equipada", "Semi-equipada", "Natural"]),
+  notes: z.string().optional(),
+});
+
+// Largo de escalada
+const climbingPitchSchema = z.object({
+  number: z.number(),
+  length: z.number(),
+  description: z.string(),
+  difficulty: climbingGradeSchema,
+  anchors: z.array(climbingAnchorSchema).optional(),
+  belay: belaySchema.optional(),
+});
+
+// Schema básico de ruta senderista (para referencias)
+const hikingRouteRefSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  startPoint: utmCoordinatesSchema,
+  endPoint: utmCoordinatesSchema,
+  duration: durationSchema,
+  length: z.number(),
+  elevationGain: z.number(),
+  elevationLoss: z.number().optional(),
+  difficulty: hikingDifficultySchema,
+  circularRoute: z.boolean().default(false),
+  seasonRecommendation: z.string().optional(),
+  warnings: z.string().optional(),
+});
+
+// Schema básico de ruta técnica (para referencias)
+const technicalRouteRefSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  startPoint: utmCoordinatesSchema,
+  endPoint: utmCoordinatesSchema,
+  duration: durationSchema,
+  length: z.number(),
+  elevationGain: z.number(),
+  elevationLoss: z.number().optional(),
+  requiredGear: z.array(z.string()),
+  difficulty: climbingGradeSchema,
+  technicalDescription: z.string(),
+  climbingPitches: z.array(climbingPitchSchema).optional(),
+  seasonRecommendation: z.string().optional(),
+  warnings: z.string().optional(),
+});
+
 const mountains = defineCollection({
   type: "content",
   schema: ({ image }) =>
@@ -206,6 +279,8 @@ const mountains = defineCollection({
       location: z.string(),
       massif: z.string().optional(),
       restrictions: restrictionsSchema.optional(),
+      hikingRoutes: z.array(reference("hikingRoutes")).optional(),
+      technicalRoutes: z.array(reference("technicalRoutes")).optional(),
       mainPhoto: z
         .object({
           url: image(),
@@ -231,6 +306,44 @@ const mountains = defineCollection({
 // COLECCIÓN: ESCALADA (PAREDES)
 // ============================================================================
 
+// Vía de escalada
+const climbingRouteSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  heightMeters: z.number().optional(),
+  difficulty: climbingGradeSchema,
+  pitches: z.array(climbingPitchSchema),
+  style: z.enum(["Deportiva", "Clásica", "Mixta", "Artificial", "Boulder"]),
+  protection: z.enum(["Equipada", "Parcialmente Equipada", "Desequipada"]),
+  firstAscent: z.string().optional(),
+  requiredGear: z.string().optional(),
+});
+
+// Schema básico de sector (para referencias)
+const climbingSectorRefSchema = z.object({
+  name: z.string(),
+  description: z.string().optional(),
+  routes: z.array(climbingRouteSchema),
+  orientation: z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]).optional(),
+  height: z.number().optional(),
+  photo: z
+    .object({
+      url: z.string(),
+      alt: z.string(),
+      caption: z.string().optional(),
+      photographer: z.string().optional(),
+    })
+    .optional(),
+  topoImage: z
+    .object({
+      url: z.string(),
+      alt: z.string(),
+      caption: z.string().optional(),
+      photographer: z.string().optional(),
+    })
+    .optional(),
+});
+
 const climbing = defineCollection({
   type: "content",
   schema: ({ image }) =>
@@ -243,6 +356,7 @@ const climbing = defineCollection({
       orientation: z
         .array(z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]))
         .optional(),
+      sectors: z.array(reference("climbingSectors")).optional(),
       mainPhoto: z
         .object({
           url: image(),
@@ -260,6 +374,162 @@ const climbing = defineCollection({
             photographer: z.string().optional(),
           }),
         )
+        .optional(),
+    }),
+});
+
+// ============================================================================
+// COLECCIÓN: RUTAS SENDERISTAS
+// ============================================================================
+
+const hikingRoutes = defineCollection({
+  type: "content",
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      startPoint: utmCoordinatesSchema,
+      endPoint: utmCoordinatesSchema,
+      duration: durationSchema,
+      length: z.number(),
+      elevationGain: z.number(),
+      elevationLoss: z.number().optional(),
+      difficulty: hikingDifficultySchema,
+      circularRoute: z.boolean().default(false),
+      seasonRecommendation: z.string().optional(),
+      warnings: z.string().optional(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+      location: z.string().optional(),
+      mountainReference: z
+        .object({
+          name: z.string(),
+          slug: z.string(),
+        })
+        .optional(),
+    }),
+});
+
+// ============================================================================
+// COLECCIÓN: RUTAS TÉCNICAS (LARGOS)
+// ============================================================================
+
+const technicalRoutes = defineCollection({
+  type: "content",
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      startPoint: utmCoordinatesSchema,
+      endPoint: utmCoordinatesSchema,
+      duration: durationSchema,
+      length: z.number(),
+      elevationGain: z.number(),
+      elevationLoss: z.number().optional(),
+      requiredGear: z.array(z.string()),
+      difficulty: climbingGradeSchema,
+      technicalDescription: z.string(),
+      climbingPitches: z.array(climbingPitchSchema).optional(),
+      seasonRecommendation: z.string().optional(),
+      warnings: z.string().optional(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+      location: z.string().optional(),
+      mountainReference: z
+        .object({
+          name: z.string(),
+          slug: z.string(),
+        })
+        .optional(),
+    }),
+});
+
+// ============================================================================
+// COLECCIÓN: SECTORES DE ESCALADA
+// ============================================================================
+
+const climbingSectors = defineCollection({
+  type: "content",
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      description: z.string().optional(),
+      routes: z.array(climbingRouteSchema),
+      orientation: z.enum(["N", "S", "E", "O", "NE", "NO", "SE", "SO"]).optional(),
+      height: z.number().optional(),
+      coordinates: utmCoordinatesSchema.optional(),
+      location: z.string().optional(),
+      mainPhoto: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      photo: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      topoImage: z
+        .object({
+          url: image(),
+          alt: z.string(),
+          caption: z.string().optional(),
+          photographer: z.string().optional(),
+        })
+        .optional(),
+      additionalPhotos: z
+        .array(
+          z.object({
+            url: image(),
+            alt: z.string(),
+            caption: z.string().optional(),
+            photographer: z.string().optional(),
+          }),
+        )
+        .optional(),
+      climbingSchoolReference: z
+        .object({
+          name: z.string(),
+          slug: z.string(),
+        })
         .optional(),
     }),
 });
@@ -312,4 +582,8 @@ export const collections = {
   canyons,
   mountains,
   climbing,
+  // Colecciones de rutas y sectores
+  hikingRoutes,
+  technicalRoutes,
+  climbingSectors,
 };
