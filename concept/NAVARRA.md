@@ -831,15 +831,17 @@ Información sobre restricciones, protecciones o prohibiciones en una localizaci
 
 **Propiedades:**
 
-| Propiedad          | Tipo                 | Descripción                               | Obligatorio         |
-| ------------------ | -------------------- | ----------------------------------------- | ------------------- |
-| `hasRestrictions`  | `boolean`            | ¿Existen restricciones activas?           | ✅                  |
-| `protectionStatus` | `ProtectionStatus[]` | Estado(s) de protección aplicables        | ❌                  |
-| `closureSeasons`   | `ClosurePeriod[]`    | Períodos de cierre temporal               | ❌                  |
-| `requiresPermit`   | `boolean`            | ¿Requiere permiso especial?               | ✅ (default: false) |
-| `permitInfo`       | `string`             | Información sobre cómo obtener el permiso | ❌                  |
-| `prohibitions`     | `string[]`           | Lista de actividades prohibidas           | ❌                  |
-| `additionalInfo`   | `string`             | Información adicional sobre restricciones | ❌                  |
+| Propiedad                 | Tipo                 | Descripción                                      | Obligatorio         |
+| ------------------------- | -------------------- | ------------------------------------------------ | ------------------- |
+| `hasRestrictions`         | `boolean`            | ¿Existen restricciones activas?                  | ✅ (default: false) |
+| `isPermanentlyClosed`     | `boolean`            | ¿Está permanentemente cerrada/prohibida?         | ✅ (default: false) |
+| `permanentClosureReason`  | `string`             | Motivo del cierre permanente                     | ❌                  |
+| `protectionStatus`        | `ProtectionStatus[]` | Estado(s) de protección aplicables               | ❌                  |
+| `closureSeasons`          | `ClosurePeriod[]`    | Períodos de cierre temporal                      | ❌                  |
+| `requiresPermit`          | `boolean`            | ¿Requiere permiso especial?                      | ✅ (default: false) |
+| `permitInfo`              | `string`             | Información sobre cómo obtener el permiso        | ❌                  |
+| `prohibitions`            | `string[]`           | Lista de actividades prohibidas                  | ❌                  |
+| `additionalInfo`          | `string`             | Información adicional sobre restricciones        | ❌                  |
 
 **Tipo: `ProtectionStatus`**
 
@@ -847,6 +849,7 @@ Información sobre restricciones, protecciones o prohibiciones en una localizaci
 type ProtectionStatus =
   | "LIC" // Lugar de Importancia Comunitaria
   | "ZEPA" // Zona de Especial Protección para las Aves
+  | "ZEC" // Zona Especial de Conservación
   | "Parque Natural"
   | "Reserva Natural"
   | "Monumento Natural"
@@ -866,7 +869,7 @@ type ClosurePeriod = {
 };
 ```
 
-**Ejemplo:**
+**Ejemplo 1 - Restricciones temporales:**
 
 ```typescript
 {
@@ -884,6 +887,17 @@ type ClosurePeriod = {
   permitInfo: "Solicitar autorización al Departamento de Medio Ambiente del Gobierno de Navarra con 15 días de antelación",
   prohibitions: ["Uso de carburo", "Grupos mayores de 10 personas"],
   additionalInfo: "Especialmente sensible durante el período de cría (mayo-julio)"
+}
+```
+
+**Ejemplo 2 - Cierre permanente:**
+
+```typescript
+{
+  hasRestrictions: true,
+  isPermanentlyClosed: true,
+  permanentClosureReason: "Acceso permanentemente prohibido por protección de colonia de murciélagos en peligro de extinción - Decreto 45/2019 del Gobierno de Navarra",
+  protectionStatus: ["Zona Protegida Fauna", "Reserva Natural"]
 }
 ```
 

@@ -44,7 +44,9 @@ const accessInfoSchema = z.object({
 
 // Restricciones
 const restrictionsSchema = z.object({
-  hasRestrictions: z.boolean(),
+  hasRestrictions: z.boolean().default(false),
+  isPermanentlyClosed: z.boolean().default(false),
+  permanentClosureReason: z.string().optional(),
   protectionStatus: z
     .array(
       z.enum([
@@ -63,14 +65,14 @@ const restrictionsSchema = z.object({
   closureSeasons: z
     .array(
       z.object({
-        startDate: z.string(),
-        endDate: z.string(),
+        startDate: z.string().regex(/^\d{2}-\d{2}$/, "Formato debe ser MM-DD"),
+        endDate: z.string().regex(/^\d{2}-\d{2}$/, "Formato debe ser MM-DD"),
         reason: z.string(),
         isAnnual: z.boolean(),
       }),
     )
     .optional(),
-  requiresPermit: z.boolean().optional(),
+  requiresPermit: z.boolean().default(false),
   permitInfo: z.string().optional(),
   prohibitions: z.array(z.string()).optional(),
   additionalInfo: z.string().optional(),

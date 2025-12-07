@@ -1,9 +1,21 @@
 ---
+interface ClosureSeason {
+  startDate: string;
+  endDate: string;
+  reason: string;
+  isAnnual: boolean;
+}
+
 interface Props {
   restrictions?: {
     hasRestrictions: boolean;
+    isPermanentlyClosed?: boolean;
+    permanentClosureReason?: string;
     protectionStatus?: string[];
+    closureSeasons?: ClosureSeason[];
     requiresPermit?: boolean;
+    permitInfo?: string;
+    prohibitions?: string[];
     additionalInfo?: string;
   };
 }
@@ -18,19 +30,69 @@ const { restrictions } = Astro.props;
         <h3 class="title">Restricciones</h3>
       </div>
       <div class="content">
+        {restrictions.isPermanentlyClosed && (
+          <div class="permanent-closure">
+            <p class="restriction-item alert">
+              <strong>⚠️ ACCESO PERMANENTEMENTE PROHIBIDO</strong>
+            </p>
+            {restrictions.permanentClosureReason && (
+              <p class="restriction-item">
+                {restrictions.permanentClosureReason}
+              </p>
+            )}
+          </div>
+        )}
         {restrictions.protectionStatus && (
           <p class="restriction-item">
             <strong>Protección:</strong>{" "}
             {restrictions.protectionStatus.join(", ")}
           </p>
         )}
+        {restrictions.closureSeasons &&
+          restrictions.closureSeasons.length > 0 && (
+            <div class="closure-seasons">
+              <p class="restriction-item">
+                <strong>Períodos de cierre:</strong>
+              </p>
+              <ul class="closure-list">
+                {restrictions.closureSeasons.map((season) => (
+                  <li>
+                    <strong>
+                      {season.startDate} al {season.endDate}
+                    </strong>
+                    {season.isAnnual && " (anual)"}: {season.reason}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         {restrictions.requiresPermit && (
           <p class="restriction-item">
-            <strong>Se requiere permiso</strong>
+            <strong>⚠️ Se requiere permiso</strong>
+            {restrictions.permitInfo && (
+              <span class="permit-info">
+                <br />
+                {restrictions.permitInfo}
+              </span>
+            )}
           </p>
         )}
+        {restrictions.prohibitions && restrictions.prohibitions.length > 0 && (
+          <div class="prohibitions">
+            <p class="restriction-item">
+              <strong>Prohibiciones:</strong>
+            </p>
+            <ul class="prohibition-list">
+              {restrictions.prohibitions.map((prohibition) => (
+                <li>{prohibition}</li>
+              ))}
+            </ul>
+          </div>
+        )}
         {restrictions.additionalInfo && (
-          <p class="restriction-item">{restrictions.additionalInfo}</p>
+          <p class="restriction-item additional-info">
+            {restrictions.additionalInfo}
+          </p>
         )}
       </div>
     </div>
@@ -101,6 +163,67 @@ const { restrictions } = Astro.props;
 
   .restriction-item:last-child {
     margin-bottom: 0;
+  }
+
+  /* Permanent Closure Alert */
+  .permanent-closure {
+    background: oklch(95% 0.08 30);
+    border-left: 4px solid oklch(50% 0.2 30);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+  }
+
+  .alert {
+    color: oklch(35% 0.15 30);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  :global([data-theme="dark"]) .permanent-closure {
+    background: oklch(20% 0.05 30);
+    border-left-color: oklch(60% 0.2 30);
+  }
+
+  :global([data-theme="dark"]) .alert {
+    color: oklch(80% 0.15 30);
+  }
+
+  /* Lists */
+  .closure-list,
+  .prohibition-list {
+    list-style: disc;
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .closure-list li,
+  .prohibition-list li {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+  }
+
+  .closure-list li:last-child,
+  .prohibition-list li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Permit Info */
+  .permit-info {
+    display: inline-block;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+  }
+
+  /* Additional Info */
+  .additional-info {
+    font-style: italic;
+    color: var(--color-content-300);
+    border-top: 1px solid var(--color-border-100);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
   }
 
   /* Responsive */

@@ -54,10 +54,8 @@ export interface Duration {
 export interface ImageAsset {
   /** URL o path de la imagen */
   url: string;
-  /** Texto alternativo para accesibilidad */
-  alt: string;
-  /** Descripción o pie de foto (opcional) */
-  caption?: string;
+  /** Descripción o pie de foto (se usa también como texto alternativo) */
+  caption: string;
   /** Autor de la fotografía (opcional) */
   photographer?: string;
   /** Fecha de captura (opcional) */
@@ -112,6 +110,7 @@ export interface AccessInfo {
 export type ProtectionStatus =
   | "LIC" // Lugar de Importancia Comunitaria
   | "ZEPA" // Zona de Especial Protección para las Aves
+  | "ZEC" // Zona Especial de Conservación
   | "Parque Natural"
   | "Reserva Natural"
   | "Monumento Natural"
@@ -137,8 +136,12 @@ export interface ClosurePeriod {
  * Restricciones y protecciones en una localización
  */
 export interface Restrictions {
-  /** ¿Existen restricciones activas? */
+  /** ¿Existen restricciones activas? (default: false) */
   hasRestrictions: boolean;
+  /** ¿Está permanentemente cerrada/prohibida? (default: false) */
+  isPermanentlyClosed?: boolean;
+  /** Motivo del cierre permanente (opcional) */
+  permanentClosureReason?: string;
   /** Estado(s) de protección aplicables (opcional) */
   protectionStatus?: ProtectionStatus[];
   /** Períodos de cierre temporal (opcional) */
