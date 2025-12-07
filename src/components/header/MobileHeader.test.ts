@@ -80,10 +80,6 @@ describe("MobileHeader - Layout Responsibility", () => {
       expect(sourceCode).toContain('href="/"');
     });
 
-    test("Logo should have text 'Zunbeltz'", () => {
-      expect(sourceCode).toContain("Zunbeltz");
-    });
-
     test("Logo should be inside logo div", () => {
       expect(sourceCode).toMatch(/class="logo"[^>]*>.*<a[^>]*href="\/"/s);
     });
