@@ -37,6 +37,14 @@ exitPoint:
   latitude: 42.880777
   longitude: -2.274324
   altitude: 613
+mainPhoto: 
+  url: "./leze1.jpg"
+  caption: "Entrada a la grieta"
+  photographer: "Andoni Abarzuza"
+additionalPhotos:
+  - url: "./leze1.jpg"
+    caption: "Entrada a la grieta"
+    photographer: "Andoni Abarzuza"
 restrictions:
   hasRestrictions: true
   protectionStatus: ["Parque Natural", "ZEC"]

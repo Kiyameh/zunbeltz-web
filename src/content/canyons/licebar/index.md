@@ -40,17 +40,20 @@ exitPoint:
 catchmentArea: 2
 normalFlow: 0
 mainPhoto:
-  url: "./hero.jpg"
-  alt: "Poza que normalmente tiene agua"
+  url: "./licebar4.jpg"
   caption: "Poza que normalmente tiene agua"
   photographer: "Andoni Abarzuza"
 additionalPhotos:
-  - url: "./1.jpg"
-    alt: "Vista desde el Gran Rapel"
-    caption: "Vista desde el Gran Rapel"
+  - url: "./licebar1.jpg"
+    caption: "Vista desde cabecera del Gran Rapel"
     photographer: "Andoni Abarzuza"
-  - url: "./hero.jpg"
-    alt: "Poza que normalmente tiene agua"
+  - url: "./licebar2.jpg"
+    caption: "Gran Rapel y la poza colgada"
+    photographer: "Andoni Abarzuza"
+  - url: "./licebar3.jpg"
+    caption: "Rapel-rampa del tramo final"
+    photographer: "Andoni Abarzuza"
+  - url: "./licebar4.jpg"
     caption: "Poza que normalmente tiene agua"
     photographer: "Andoni Abarzuza"
 restrictions:

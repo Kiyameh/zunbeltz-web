@@ -38,22 +38,21 @@ exitPoint:
   longitude: -1.538805
   altitude: 556
 mainPhoto:
-  url: "./hero.jpg"
-  alt: "Ambiente selvatico en Diablozulo"
+  url: "./diablozulo4.jpg"
   caption: "Ambiente selvatico en Diablozulo"
   photographer: "Andoni Abarzuza"
 additionalPhotos:
-  - url: "./hero.jpg"
-    alt: "Ambiente selvatico en Diablozulo"
-    caption: "Ambiente selvatico en Diablozulo"
-    photographer: "Andoni Abarzuza"
-  - url: "./1.jpg"
-    alt: "Rapel final de Diablozulo"
+  - url: "./diablozulo1.jpg"
     caption: "Rapel final de Diablozulo"
     photographer: "Andoni Abarzuza"
-  - url: "./2.jpg"
-    alt: "Zona encañonada previa a la gran cascada"
+  - url: "./diablozulo2.jpg"
     caption: "Zona encañonada previa a la gran cascada"
+    photographer: "Andoni Abarzuza"
+  - url: "./diablozulo3.jpg"
+    caption: "Rapel de la zona inicial"
+    photographer: "Andoni Abarzuza"
+  - url: "./diablozulo4.jpg"
+    caption: "Ambiente selvatico en Diablozulo"
     photographer: "Andoni Abarzuza"
 restrictions:
   hasRestrictions: false

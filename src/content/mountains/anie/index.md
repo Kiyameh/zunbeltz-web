@@ -17,7 +17,6 @@ hikingRoutes:
   - anie-travesia
 mainPhoto:
   url: "./hero.jpg"
-  alt: "Pico Anie"
   caption: "Pico Anie"
   photographer: "Andoni Abarzuza"
 restrictions:
