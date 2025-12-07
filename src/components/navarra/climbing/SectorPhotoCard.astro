@@ -7,8 +7,7 @@ interface Props {
       height: number;
       format: string;
     };
-    alt: string;
-    caption?: string;
+    caption: string;
     photographer?: string;
   };
 }
@@ -21,7 +20,7 @@ const { photo } = Astro.props;
     <h3 class="card-title">Foto del Sector</h3>
   </div>
   <div class="card-content">
-    <img src={photo.url.src} alt={photo.alt} class="sector-photo" />
+    <img src={photo.url.src} alt={photo.caption} class="sector-photo" />
     {
       (photo.caption || photo.photographer) && (
         <div class="photo-info">

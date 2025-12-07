@@ -4,7 +4,7 @@ import type { ImageMetadata } from "astro";
 
 interface Photo {
   url: ImageMetadata;
-  alt: string;
+  caption: string;
 }
 
 interface Props {
@@ -21,7 +21,7 @@ const { title, description, photo } = Astro.props;
     <section class="hero">
       <Image
         src={photo.url}
-        alt={photo.alt}
+        alt={photo.caption}
         class="hero-image"
         loading="eager"
         quality={90}

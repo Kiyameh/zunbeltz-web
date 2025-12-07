@@ -34,14 +34,12 @@ interface ClimbingSector {
   height?: number;
   photo?: {
     url: string;
-    alt: string;
-    caption?: string;
+    caption: string;
     photographer?: string;
   };
   topoImage?: {
     url: string;
-    alt: string;
-    caption?: string;
+    caption: string;
     photographer?: string;
   };
 }
@@ -108,7 +106,7 @@ const formatOrientation = (orientation?: string) => {
     {
       sector.photo && (
         <div class="sector-photo">
-          <img src={sector.photo.url} alt={sector.photo.alt} />
+          <img src={sector.photo.url} alt={sector.photo.caption} />
           {sector.photo.caption && (
             <p class="photo-caption">{sector.photo.caption}</p>
           )}
@@ -122,7 +120,7 @@ const formatOrientation = (orientation?: string) => {
       <div class="topo-section">
         <h4 class="topo-title">Croquis del Sector</h4>
         <div class="topo-image">
-          <img src={sector.topoImage.url} alt={sector.topoImage.alt} />
+          <img src={sector.topoImage.url} alt={sector.topoImage.caption} />
           {sector.topoImage.caption && (
             <p class="topo-caption">{sector.topoImage.caption}</p>
           )}

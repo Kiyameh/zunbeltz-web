@@ -100,8 +100,7 @@ const caves = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -109,8 +108,7 @@ const caves = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -171,8 +169,7 @@ const canyons = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(), // Foto de portada
@@ -180,8 +177,7 @@ const canyons = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -285,8 +281,7 @@ const mountains = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -294,8 +289,7 @@ const mountains = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -330,16 +324,14 @@ const climbingSectorRefSchema = z.object({
   photo: z
     .object({
       url: z.string(),
-      alt: z.string(),
-      caption: z.string().optional(),
+      caption: z.string(),
       photographer: z.string().optional(),
     })
     .optional(),
   topoImage: z
     .object({
       url: z.string(),
-      alt: z.string(),
-      caption: z.string().optional(),
+      caption: z.string(),
       photographer: z.string().optional(),
     })
     .optional(),
@@ -361,8 +353,7 @@ const climbing = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -370,8 +361,7 @@ const climbing = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -402,8 +392,7 @@ const hikingRoutes = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -411,8 +400,7 @@ const hikingRoutes = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -452,8 +440,7 @@ const technicalRoutes = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -461,8 +448,7 @@ const technicalRoutes = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )
@@ -497,24 +483,21 @@ const climbingSectors = defineCollection({
       mainPhoto: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
       photo: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
       topoImage: z
         .object({
           url: image(),
-          alt: z.string(),
-          caption: z.string().optional(),
+          caption: z.string(),
           photographer: z.string().optional(),
         })
         .optional(),
@@ -522,8 +505,7 @@ const climbingSectors = defineCollection({
         .array(
           z.object({
             url: image(),
-            alt: z.string(),
-            caption: z.string().optional(),
+            caption: z.string(),
             photographer: z.string().optional(),
           }),
         )

@@ -4,8 +4,7 @@ import type { ImageMetadata } from "astro";
 
 interface Photo {
   url: ImageMetadata;
-  alt: string;
-  caption?: string;
+  caption: string;
   photographer?: string;
 }
 
@@ -29,13 +28,12 @@ const { photos, title = "Galería de Imágenes" } = Astro.props;
                 class="photo-item"
                 data-index={index}
                 data-src={photo.url.src}
-                data-alt={photo.alt}
-                data-caption={photo.caption || ""}
+                data-caption={photo.caption}
                 data-photographer={photo.photographer || ""}
               >
                 <Image
                   src={photo.url}
-                  alt={photo.alt}
+                  alt={photo.caption}
                   class="photo-image"
                   quality={85}
                   inferSize
@@ -170,13 +168,12 @@ const { photos, title = "Galería de Imágenes" } = Astro.props;
       if (!photoItem) return;
 
       const src = photoItem.getAttribute("data-src") || "";
-      const alt = photoItem.getAttribute("data-alt") || "";
       const caption = photoItem.getAttribute("data-caption") || "";
       const photographer = photoItem.getAttribute("data-photographer") || "";
 
       if (modalImage) {
         modalImage.src = src;
-        modalImage.alt = alt;
+        modalImage.alt = caption;
       }
 
       if (modalCaption) {
