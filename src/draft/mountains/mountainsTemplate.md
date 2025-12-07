@@ -1,7 +1,7 @@
 ---
-name: "required"
-description: "required"
-altitude: required
+name: ""
+description: ""
+altitude:
 coordinates:
   zone:
   hemisphere: ""
@@ -10,32 +10,32 @@ coordinates:
   latitude:
   longitude:
   altitude:
-location: "required"
-massif: ""
-restrictions:
-  hasRestrictions:
-  protectionStatus: []
-  closureSeasons:
-    - startDate: ""
-      endDate: ""
-      reason: ""
-      isAnnual:
-  requiresPermit:
-  permitInfo: ""
-  prohibitions: []
-  additionalInfo: ""
-hikingRoutes: []
-technicalRoutes: []
-mainPhoto:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-additionalPhotos:
-  - url: ""
-    alt: ""
-    caption: ""
-    photographer: ""
+location: ""
+#massif: ""
+#restrictions:
+#  hasRestrictions:
+#  isPermanentlyClosed:
+#  permanentClosureReason: ""
+#  protectionStatus: []
+#  closureSeasons:
+#    - startDate: ""
+#      endDate: ""
+#      reason: ""
+#      isAnnual:
+#  requiresPermit:
+#  permitInfo: ""
+#  prohibitions: []
+#  additionalInfo: ""
+#hikingRoutes: []
+#technicalRoutes: []
+#mainPhoto:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#additionalPhotos:
+#  - url: ""
+#    caption: ""
+#    photographer: ""
 ---
 
 ## Descripción General

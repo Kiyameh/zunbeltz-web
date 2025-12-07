@@ -1,14 +1,14 @@
 ---
-name: "required"
-description: ""
+name: ""
+#description: ""
 routes:
   - name: ""
     description: ""
-    heightMeters:
+    #heightMeters:
     difficulty:
       number:
       letter: ""
-      modifier: ""
+      #modifier: ""
     pitches:
       - number:
         length:
@@ -16,55 +16,51 @@ routes:
         difficulty:
           number:
           letter: ""
-          modifier: ""
-        anchors:
-          - type: ""
-            position:
-            notes: ""
+          #modifier: ""
+        #anchors:
+        #  - type: ""
+        #    position:
+        #    notes: ""
         belay:
           anchors:
             - type: ""
-              notes: ""
+              #notes: ""
           type: ""
-          notes: ""
+          #notes: ""
     style: ""
     protection: ""
-    firstAscent: ""
-    requiredGear: ""
-orientation: ""
-height:
-coordinates:
-  zone:
-  hemisphere: ""
-  easting:
-  northing:
-  latitude:
-  longitude:
-  altitude:
-location: ""
-mainPhoto:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-photo:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-topoImage:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-additionalPhotos:
-  - url: ""
-    alt: ""
-    caption: ""
-    photographer: ""
-climbingSchoolReference:
-  name: ""
-  slug: ""
+    #firstAscent: ""
+    #requiredGear: ""
+#orientation: ""
+#height:
+#coordinates:
+#  zone:
+#  hemisphere: ""
+#  easting:
+#  northing:
+#  latitude:
+#  longitude:
+#  altitude:
+#location: ""
+#mainPhoto:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#photo:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#topoImage:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#additionalPhotos:
+#  - url: ""
+#    caption: ""
+#    photographer: ""
+#climbingSchoolReference:
+#  name: ""
+#  slug: ""
 ---
 
 ## Descripción del Sector

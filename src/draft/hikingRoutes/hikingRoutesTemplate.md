@@ -1,6 +1,6 @@
 ---
-name: "required"
-description: "required"
+name: ""
+description: ""
 startPoint:
   zone:
   hemisphere: ""
@@ -20,27 +20,25 @@ endPoint:
 duration:
   hours:
   minutes:
-length: required
-elevationGain: required
-elevationLoss:
-difficulty: "required"
-circularRoute:
-seasonRecommendation: ""
-warnings: ""
-mainPhoto:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-additionalPhotos:
-  - url: ""
-    alt: ""
-    caption: ""
-    photographer: ""
-location: ""
-mountainReference:
-  name: ""
-  slug: ""
+length:
+elevationGain:
+#elevationLoss:
+difficulty: ""
+#circularRoute:
+#seasonRecommendation: ""
+#warnings: ""
+#mainPhoto:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#additionalPhotos:
+#  - url: ""
+#    caption: ""
+#    photographer: ""
+#location: ""
+#mountainReference:
+#  name: ""
+#  slug: ""
 ---
 
 ## Descripción del Itinerario

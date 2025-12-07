@@ -1,6 +1,6 @@
 ---
-name: "required"
-description: "required"
+name: ""
+description: ""
 startPoint:
   zone:
   hemisphere: ""
@@ -20,49 +20,47 @@ endPoint:
 duration:
   hours:
   minutes:
-length: required
-elevationGain: required
-elevationLoss:
+length:
+elevationGain:
+#elevationLoss:
 requiredGear: []
 difficulty:
   number:
   letter: ""
-  modifier: ""
-technicalDescription: "required"
-climbingPitches:
-  - number:
-    length:
-    description: ""
-    difficulty:
-      number:
-      letter: ""
-      modifier: ""
-    anchors:
-      - type: ""
-        position:
-        notes: ""
-    belay:
-      anchors:
-        - type: ""
-          notes: ""
-      type: ""
-      notes: ""
-seasonRecommendation: ""
-warnings: ""
-mainPhoto:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-additionalPhotos:
-  - url: ""
-    alt: ""
-    caption: ""
-    photographer: ""
-location: ""
-mountainReference:
-  name: ""
-  slug: ""
+  #modifier: ""
+technicalDescription: ""
+#climbingPitches:
+#  - number:
+#    length:
+#    description: ""
+#    difficulty:
+#      number:
+#      letter: ""
+#      modifier: ""
+#    anchors:
+#      - type: ""
+#        position:
+#        notes: ""
+#    belay:
+#      anchors:
+#        - type: ""
+#          notes: ""
+#      type: ""
+#      notes: ""
+#seasonRecommendation: ""
+#warnings: ""
+#mainPhoto:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#additionalPhotos:
+#  - url: ""
+#    caption: ""
+#    photographer: ""
+#location: ""
+#mountainReference:
+#  name: ""
+#  slug: ""
 ---
 
 ## Descripción General

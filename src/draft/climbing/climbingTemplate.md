@@ -1,6 +1,6 @@
 ---
-name: "required"
-description: "required"
+name: ""
+description: ""
 coordinates:
   zone:
   hemisphere: ""
@@ -9,31 +9,31 @@ coordinates:
   latitude:
   longitude:
   altitude:
-location: "required"
-restrictions:
-  hasRestrictions:
-  protectionStatus: []
-  closureSeasons:
-    - startDate: ""
-      endDate: ""
-      reason: ""
-      isAnnual:
-  requiresPermit:
-  permitInfo: ""
-  prohibitions: []
-  additionalInfo: ""
-orientation: []
-sectors: []
-mainPhoto:
-  url: ""
-  alt: ""
-  caption: ""
-  photographer: ""
-additionalPhotos:
-  - url: ""
-    alt: ""
-    caption: ""
-    photographer: ""
+location: ""
+#restrictions:
+#  hasRestrictions:
+#  isPermanentlyClosed:
+#  permanentClosureReason: ""
+#  protectionStatus: []
+#  closureSeasons:
+#    - startDate: ""
+#      endDate: ""
+#      reason: ""
+#      isAnnual:
+#  requiresPermit:
+#  permitInfo: ""
+#  prohibitions: []
+#  additionalInfo: ""
+#orientation: []
+#sectors: []
+#mainPhoto:
+#  url: ""
+#  caption: ""
+#  photographer: ""
+#additionalPhotos:
+#  - url: ""
+#    caption: ""
+#    photographer: ""
 ---
 
 ## Descripción General
