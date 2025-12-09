@@ -1,0 +1,108 @@
+---
+import type { ClimbingSector } from "@/schemas/locations";
+
+interface Props {
+  sector: ClimbingSector;
+}
+
+const { sector } = Astro.props;
+
+const { description, orientation, height, location } = sector;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos del sector</h3>
+  </div>
+  <div class="grid">
+    {
+      description && (
+        <div class="grid-item full-width">
+          <span class="label">Descripción</span>
+          <span class="value">{description}</span>
+        </div>
+      )
+    }
+    {
+      orientation && (
+        <div class="grid-item">
+          <span class="label">Orientación</span>
+          <span class="value">{orientation}</span>
+        </div>
+      )
+    }
+    {
+      height && (
+        <div class="grid-item">
+          <span class="label">Altura</span>
+          <span class="value">{height} m</span>
+        </div>
+      )
+    }
+    {
+      location && (
+        <div class="grid-item">
+          <span class="label">Localidad</span>
+          <span class="value">{location}</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .grid-item.full-width {
+    grid-column: 1 / -1;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.9375rem;
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

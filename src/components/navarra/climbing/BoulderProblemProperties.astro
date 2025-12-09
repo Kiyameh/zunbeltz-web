@@ -1,0 +1,74 @@
+---
+import type { BoulderProblem } from "@/schemas/activities";
+
+interface Props {
+  problem: BoulderProblem;
+}
+
+const { problem } = Astro.props;
+
+const { grading } = problem;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos del problema</h3>
+  </div>
+  <div class="grid">
+    <div class="grid-item">
+      <span class="label">Grado</span>
+      <span class="value grade">{grading}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.9375rem;
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  .value.grade {
+    color: var(--color-secondary-400);
+    font-size: 1.125rem;
+  }
+</style>

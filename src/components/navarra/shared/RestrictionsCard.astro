@@ -1,23 +1,8 @@
 ---
-interface ClosureSeason {
-  startDate: string;
-  endDate: string;
-  reason: string;
-  isAnnual: boolean;
-}
+import type { Restrictions } from "@/schemas/shared/restrictions.ts";
 
 interface Props {
-  restrictions?: {
-    hasRestrictions: boolean;
-    isPermanentlyClosed?: boolean;
-    permanentClosureReason?: string;
-    protectionStatus?: string[];
-    closureSeasons?: ClosureSeason[];
-    requiresPermit?: boolean;
-    permitInfo?: string;
-    prohibitions?: string[];
-    additionalInfo?: string;
-  };
+  restrictions?: Restrictions;
 }
 
 const { restrictions } = Astro.props;
@@ -58,9 +43,9 @@ const { restrictions } = Astro.props;
                 {restrictions.closureSeasons.map((season) => (
                   <li>
                     <strong>
-                      {season.startDate} al {season.endDate}
+                      {season.startMonth} al {season.endMonth}
                     </strong>
-                    {season.isAnnual && " (anual)"}: {season.reason}
+                    {season.reason}
                   </li>
                 ))}
               </ul>

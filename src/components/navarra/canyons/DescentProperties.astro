@@ -1,0 +1,161 @@
+---
+import type { CanyoningDescent } from "@/schemas/activities";
+
+interface Props {
+  descent: CanyoningDescent;
+}
+
+const { descent } = Astro.props;
+
+const {
+  highestRappel,
+  numberOfRappels,
+  verticalDrop,
+  length,
+  descentTime,
+  recommendedMonths,
+  accessInfo,
+  returnInfo,
+} = descent;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos del descenso</h3>
+  </div>
+  <div class="grid">
+    {
+      accessInfo?.time && (
+        <div class="grid-item">
+          <span class="label">Aproximación</span>
+          <span class="value">
+            {accessInfo.time.hours > 0 && `${accessInfo.time.hours}h `}
+            {accessInfo.time.minutes}min
+          </span>
+        </div>
+      )
+    }
+    {
+      descentTime && (
+        <div class="grid-item">
+          <span class="label">Descenso</span>
+          <span class="value">
+            {descentTime.hours > 0 && `${descentTime.hours}h `}
+            {descentTime.minutes}min
+          </span>
+        </div>
+      )
+    }
+    {
+      returnInfo?.time && (
+        <div class="grid-item">
+          <span class="label">Retorno</span>
+          <span class="value">
+            {returnInfo.time.hours > 0 && `${returnInfo.time.hours}h `}
+            {returnInfo.time.minutes}min
+          </span>
+        </div>
+      )
+    }
+
+    {
+      highestRappel && (
+        <div class="grid-item">
+          <span class="label">Rapel más alto</span>
+          <span class="value">{highestRappel}</span>
+        </div>
+      )
+    }
+    {
+      numberOfRappels && (
+        <div class="grid-item">
+          <span class="label">Numero de rapeles</span>
+          <span class="value">{numberOfRappels}</span>
+        </div>
+      )
+    }
+    {
+      verticalDrop && (
+        <div class="grid-item">
+          <span class="label">Desnivel</span>
+          <span class="value">{verticalDrop}</span>
+        </div>
+      )
+    }
+    {
+      length && (
+        <div class="grid-item">
+          <span class="label">Longitud</span>
+          <span class="value">{length}</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-family: var(--font-title);
+    font-size: 1.125rem;
+    color: var(--color-primary-300);
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .content {
+      font-size: 0.875rem;
+    }
+  }
+</style>

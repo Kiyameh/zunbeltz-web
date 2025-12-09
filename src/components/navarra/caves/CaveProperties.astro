@@ -1,0 +1,153 @@
+---
+import type { Cave } from "@/schemas/locations";
+
+interface Props {
+  cave: Cave;
+}
+
+const { cave } = Astro.props;
+
+const { location, catalogCode, subterraUrl, alternativeNames, length, depth } =
+  cave;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos de la cueva</h3>
+  </div>
+  <div class="grid">
+    {
+      location && (
+        <div class="grid-item">
+          <span class="label">Localidad</span>
+          <span class="value">{location}</span>
+        </div>
+      )
+    }
+    {
+      catalogCode && (
+        <div class="grid-item">
+          <span class="label">Código catálogo</span>
+          <span class="value">{catalogCode}</span>
+        </div>
+      )
+    }
+    {
+      subterraUrl && (
+        <div class="grid-item">
+          <span class="label">Subterra</span>
+          <a
+            href={subterraUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="value link"
+          >
+            Ver ficha
+          </a>
+        </div>
+      )
+    }
+    {
+      alternativeNames && alternativeNames.length > 0 && (
+        <div class="grid-item">
+          <span class="label">Nombres alternativos</span>
+          <span class="value">{alternativeNames.join(", ")}</span>
+        </div>
+      )
+    }
+    {
+      length && (
+        <div class="grid-item">
+          <span class="label">Desarrollo</span>
+          <span class="value">{length} m</span>
+        </div>
+      )
+    }
+    {
+      depth && (
+        <div class="grid-item">
+          <span class="label">Profundidad</span>
+          <span class="value">{depth} m</span>
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  /* Características Principales Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-primary-300);
+    font-weight: 600;
+  }
+
+  .value.link {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .value.link:hover {
+    color: var(--color-secondary-300);
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .content {
+      font-size: 0.875rem;
+    }
+  }
+</style>

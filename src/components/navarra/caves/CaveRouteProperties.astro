@@ -1,0 +1,151 @@
+---
+import type { CavingRoute } from "@/schemas/activities";
+
+interface Props {
+  route: CavingRoute;
+}
+
+const { route } = Astro.props;
+
+const { description, difficulty, duration, verticalDevelopment } = route;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos de la ruta</h3>
+  </div>
+  <div class="content">
+    {
+      description && (
+        <div class="description-item">
+          <span class="label">Descripción</span>
+          <p class="description-text">{description}</p>
+        </div>
+      )
+    }
+    <div class="grid">
+      {
+        difficulty && (
+          <>
+            <div class="grid-item">
+              <span class="label">Dificultad técnica</span>
+              <span class="value">{difficulty.technical}</span>
+            </div>
+            <div class="grid-item">
+              <span class="label">Dificultad física</span>
+              <span class="value">{difficulty.physical}</span>
+            </div>
+          </>
+        )
+      }
+      {
+        duration && (
+          <div class="grid-item">
+            <span class="label">Duración</span>
+            <span class="value">
+              {duration.hours > 0 && `${duration.hours}h `}
+              {duration.minutes}min
+            </span>
+          </div>
+        )
+      }
+      {
+        verticalDevelopment && (
+          <div class="grid-item">
+            <span class="label">Desarrollo vertical</span>
+            <span class="value">{verticalDevelopment} m</span>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Description */
+  .description-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .description-text {
+    font-family: var(--font-paragraph);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-content-300);
+    margin: 0;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .label {
+    font-family: var(--font-paragraph);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-family: var(--font-title);
+    font-size: 1.125rem;
+    color: var(--color-primary-300);
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .card {
+      padding: 1.25rem;
+    }
+
+    .title {
+      font-size: 1.125rem;
+    }
+
+    .description-text {
+      font-size: 0.875rem;
+    }
+  }
+</style>

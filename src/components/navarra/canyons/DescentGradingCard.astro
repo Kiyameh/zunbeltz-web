@@ -3,13 +3,10 @@ import { Image } from "astro:assets";
 import verticalImg from "@/assets/navarra/canyons/vertical.png";
 import acuaticImg from "@/assets/navarra/canyons/acuatic.png";
 import expositionImg from "@/assets/navarra/canyons/exposition.png";
+import type { CanyoningDescent } from "@/schemas/activities";
 
 interface Props {
-  grading?: {
-    vertical: number;
-    aquatic: number;
-    commitment: string;
-  };
+  grading?: CanyoningDescent["grading"];
 }
 
 const { grading } = Astro.props;
@@ -109,7 +106,7 @@ const { grading } = Astro.props;
 <script>
   function initGradingDialog() {
     const dialog = document.getElementById(
-      "gradingDialog"
+      "gradingDialog",
     ) as HTMLDialogElement | null;
     const openBtn = document.getElementById("openGradingDialog");
     const closeBtn = document.getElementById("closeGradingDialog");
@@ -168,7 +165,6 @@ const { grading } = Astro.props;
   .title {
     font-family: var(--font-title);
     font-size: 1.25rem;
-    color: var(--color-content-500);
     margin: 0;
   }
 

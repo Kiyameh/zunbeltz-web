@@ -1,110 +1,142 @@
 ---
+import type { AccessInfo, UtmCoordinates } from '@/schemas/shared';
+import { utmToLatLong } from '@/utils/coordinate-utils';
+import { Icon } from "astro-icon/components";
+
 interface Props {
-  coordinates?: {
-    zone: number;
-    hemisphere: "N" | "S";
-    easting: number;
-    northing: number;
-    latitude: number;
-    longitude: number;
-    altitude?: number;
-  };
-  location?: string;
+  entryPoint?: UtmCoordinates
+  exitPoint?: UtmCoordinates
+  accessInfo?: AccessInfo
+  returnInfo?: AccessInfo
 }
 
-const { coordinates, location } = Astro.props;
+const { entryPoint, exitPoint, accessInfo, returnInfo } = Astro.props;
 
 // Format numbers with thousands separator
 function formatNumber(num: number): string {
   return num.toLocaleString("es-ES");
 }
+
+// Prepare coordinates with computed lat/long if needed
+interface CoordData {
+  label: string;
+  icon: string;
+  utm: UtmCoordinates;
+  lat: number;
+  lng: number;
+}
+
+const coordinates: CoordData[] = [];
+
+if (entryPoint) {
+  const geo = entryPoint.latitude && entryPoint.longitude 
+    ? { latitude: entryPoint.latitude, longitude: entryPoint.longitude }
+    : utmToLatLong(entryPoint);
+  coordinates.push({
+    label: "Entrada",
+    icon: "map-down",
+    utm: entryPoint,
+    lat: geo.latitude,
+    lng: geo.longitude
+  });
+}
+
+if (exitPoint) {
+  const geo = exitPoint.latitude && exitPoint.longitude 
+    ? { latitude: exitPoint.latitude, longitude: exitPoint.longitude }
+    : utmToLatLong(exitPoint);
+  coordinates.push({
+    label: "Salida",
+    icon: "map-up",
+    utm: exitPoint,
+    lat: geo.latitude,
+    lng: geo.longitude
+  });
+}
+
+if (accessInfo?.parking) {
+  const geo = accessInfo.parking.latitude && accessInfo.parking.longitude 
+    ? { latitude: accessInfo.parking.latitude, longitude: accessInfo.parking.longitude }
+    : utmToLatLong(accessInfo.parking);
+  coordinates.push({
+    label: "Parking acceso",
+    icon: "parking-circle",
+    utm: accessInfo.parking,
+    lat: geo.latitude,
+    lng: geo.longitude
+  });
+}
+
+if (returnInfo?.parking) {
+  const geo = returnInfo.parking.latitude && returnInfo.parking.longitude 
+    ? { latitude: returnInfo.parking.latitude, longitude: returnInfo.parking.longitude }
+    : utmToLatLong(returnInfo.parking);
+  coordinates.push({
+    label: "Parking retorno",
+    icon: "parking",
+    utm: returnInfo.parking,
+    lat: geo.latitude,
+    lng: geo.longitude
+  });
+}
+
+// Only render if we have at least one coordinate
+const shouldRender = coordinates.length > 0;
 ---
 
 {
-  (coordinates || location) && (
+  shouldRender && (
     <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Ubicación</h3>
+      <div class="header">
+        <h3 class="title">Localización</h3>
+           <p class="datum-info">ETRS89</p>
+        <div class="toggle-container">
+           <button class="toggle-btn active" data-system="utm">UTM</button>
+           <button class="toggle-btn" data-system="latlong">Lat/Long</button>
+        </div>
       </div>
       <div class="card-content">
-        {location && (
-          <div class="location-text">
-            <p>{location}</p>
-          </div>
-        )}
-        {coordinates && (
-          <div class="location-container">
-            <div class="header-with-toggle">
-              <div class="toggle-container">
-                <button class="toggle-btn active" data-system="utm">
-                  UTM
-                </button>
-                <button class="toggle-btn" data-system="latlong">
-                  Lat/Long
-                </button>
-              </div>
-            </div>
-
-            <div class="stats-list">
+        <div class="location-container">
+          <div class="stats-list">
+            {coordinates.map((coord) => (
               <div class="stat-item">
                 <div class="stat-content">
-                  <span class="stat-label">Coordenadas</span>
+                  <span class="stat-label">{coord.label}</span>
                   <div class="coordinates-wrapper">
                     <!-- UTM Format -->
                     <div class="utm-coords coord-block">
-                      <div class="coord-system">ETRS89 ({coordinates.zone}T)</div>
                       <div class="coord-values">
                         <div class="coord-line">
-                          <span class="coord-axis">X:</span>
-                          <span class="coord-number">
-                            {formatNumber(coordinates.easting)}
-                          </span>
+                          <span class="coord-axis">X ({coord.utm.zone}T):</span>
+                          <span class="coord-number">{formatNumber(coord.utm.easting)}</span>
                         </div>
                         <div class="coord-line">
-                          <span class="coord-axis">Y:</span>
-                          <span class="coord-number">
-                            {formatNumber(coordinates.northing)}
-                          </span>
+                          <span class="coord-axis">Y ({coord.utm.zone}T):</span>
+                          <span class="coord-number">{formatNumber(coord.utm.northing)}</span>
                         </div>
                       </div>
                     </div>
                     <!-- Lat/Long Format -->
                     <div class="latlong-coords coord-block" style="display: none;">
-                      <div class="coord-system">ETRS89</div>
                       <div class="coord-values">
-                        <span class="coord-number">
-                          {coordinates.latitude.toFixed(5)}°, {coordinates.longitude.toFixed(5)}°
-                        </span>
+                        <span class="coord-number">{coord.lat.toFixed(5)}°, {coord.lng.toFixed(5)}°</span>
                       </div>
                     </div>
                   </div>
                 </div>
                 <a
-                  href={`https://www.google.com/maps?q=${coordinates.latitude},${coordinates.longitude}`}
+                  href={`https://www.google.com/maps?q=${coord.lat},${coord.lng}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   class="map-link"
                   title="Ver en Google Maps"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                    <circle cx="12" cy="10" r="3" />
-                  </svg>
+                  <Icon name={coord.icon} class="icon-size" />
                 </a>
               </div>
-            </div>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
@@ -146,12 +178,9 @@ function formatNumber(num: number): string {
 
   // Initialize on page load
   document.addEventListener("astro:page-load", initLocationToggle);
-
+  
   // Also initialize immediately if script loads after page
-  if (
-    document.readyState === "complete" ||
-    document.readyState === "interactive"
-  ) {
+  if (document.readyState === "complete" || document.readyState === "interactive") {
     initLocationToggle();
   }
 </script>
@@ -166,34 +195,29 @@ function formatNumber(num: number): string {
     font-family: var(--font-paragraph);
   }
 
-  .card-header {
+  .header {
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    justify-content: space-between;
     gap: 0.75rem;
     margin-bottom: 1rem;
   }
 
-  .card-title {
+  .title {
     font-family: var(--font-title);
     font-size: 1.25rem;
-    color: var(--color-content-500);
     margin: 0;
+  }
+
+  .datum-info{
+    font-size: 0.8rem;
+    color: var(--color-content-200)
   }
 
   .card-content {
     color: var(--color-content-300);
     font-size: 0.9375rem;
     line-height: 1.6;
-  }
-
-  .location-text {
-    margin-bottom: 1rem;
-  }
-
-  .location-text p {
-    margin: 0;
-    font-size: 0.9375rem;
-    color: var(--color-content-300);
   }
 
   .location-container {
@@ -257,14 +281,17 @@ function formatNumber(num: number): string {
   .stat-content {
     flex: 1;
     display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    gap: 1rem;
   }
 
   .stat-label {
     font-family: var(--font-paragraph);
     font-size: 0.875rem;
     color: var(--color-content-200);
+    max-width: 80px;
   }
 
   .coordinates-wrapper {
@@ -285,7 +312,7 @@ function formatNumber(num: number): string {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 0.4rem;
     color: var(--color-primary-300);
     background: var(--color-surface-200);
     border-radius: var(--radius-md);
@@ -300,17 +327,9 @@ function formatNumber(num: number): string {
     transform: translateY(-2px);
   }
 
-  .map-link svg {
+  .map-link :global(.icon-size) {
+    width: 22px;
+    height: 22px;
     display: block;
-  }
-
-  /* Dark theme */
-  :global([data-theme="dark"]) .card {
-    background: var(--color-surface-200);
-    border-color: var(--color-border-200);
-  }
-
-  :global([data-theme="dark"]) .stat-item {
-    border-bottom-color: var(--color-border-200);
   }
 </style>

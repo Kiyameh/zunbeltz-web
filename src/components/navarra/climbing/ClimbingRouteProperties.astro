@@ -1,0 +1,105 @@
+---
+import type { ClimbingRoute } from "@/schemas/activities";
+
+interface Props {
+  route: ClimbingRoute;
+}
+
+const { route } = Astro.props;
+
+const { heightMeters, anchorCount, anchorType, grading } = route;
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos de la vía</h3>
+  </div>
+  <div class="grid">
+    {
+      heightMeters && (
+        <div class="grid-item">
+          <span class="label">Altura</span>
+          <span class="value">{heightMeters} m</span>
+        </div>
+      )
+    }
+    {
+      anchorCount && (
+        <div class="grid-item">
+          <span class="label">Anclajes</span>
+          <span class="value">{anchorCount}</span>
+        </div>
+      )
+    }
+    {
+      anchorType && (
+        <div class="grid-item">
+          <span class="label">Tipo de anclaje</span>
+          <span class="value">{anchorType}</span>
+        </div>
+      )
+    }
+    <div class="grid-item">
+      <span class="label">Grado</span>
+      <span class="value grade">{grading.number}{grading.letter}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.9375rem;
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  .value.grade {
+    color: var(--color-secondary-400);
+    font-size: 1.125rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

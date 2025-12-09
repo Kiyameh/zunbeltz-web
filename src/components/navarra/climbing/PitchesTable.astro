@@ -1,0 +1,130 @@
+---
+import type { ClimbingPitch } from "@/schemas/shared";
+
+interface Props {
+  pitches: ClimbingPitch[];
+}
+
+const { pitches } = Astro.props;
+---
+
+<div class="pitches-section">
+  <h2 class="section-title">Largos ({pitches.length})</h2>
+  <div class="table-container">
+    <table class="pitches-table">
+      <thead>
+        <tr>
+          <th>L</th>
+          <th>Longitud</th>
+          <th>Grado</th>
+          <th>Anclajes</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          pitches.map((pitch) => (
+            <tr>
+              <td class="pitch-number">{pitch.number}</td>
+              <td>{pitch.length}m</td>
+              <td class="grade">
+                {pitch.difficulty.number}
+                {pitch.difficulty.letter}
+              </td>
+              <td>{pitch.anchorCount || "-"}</td>
+              <td class="description">{pitch.description || "-"}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<style>
+  .pitches-section {
+    margin: 2rem 0;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: var(--color-content-500);
+    margin: 0 0 1rem 0;
+  }
+
+  .table-container {
+    overflow-x: auto;
+    border-radius: var(--radius-lg);
+    border: 2px solid var(--color-border-100);
+  }
+
+  .pitches-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-paragraph);
+    background: var(--color-surface-100);
+  }
+
+  .pitches-table thead {
+    background: var(--color-surface-200);
+  }
+
+  .pitches-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-family: var(--font-title);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-content-400);
+    border-bottom: 2px solid var(--color-border-100);
+  }
+
+  .pitches-table td {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-content-300);
+    border-bottom: 1px solid var(--color-border-100);
+  }
+
+  .pitches-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .pitches-table tbody tr:hover {
+    background: var(--color-surface-200);
+  }
+
+  .pitch-number {
+    font-family: var(--font-title);
+    font-weight: 600;
+    color: var(--color-content-400);
+    text-align: center;
+  }
+
+  .grade {
+    font-family: var(--font-title);
+    font-weight: 600;
+    color: var(--color-secondary-400);
+  }
+
+  .description {
+    max-width: 300px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pitches-table th,
+    .pitches-table td {
+      padding: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .description {
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import type { Hiking } from "@/schemas/activities";
+
+interface Props {
+  hiking: Hiking;
+}
+
+const { hiking } = Astro.props;
+
+const {
+  length,
+  elevationGain,
+  elevationLoss,
+  duration,
+  difficulty,
+  circularRoute,
+} = hiking;
+
+// Formatear duración
+const formatDuration = () => {
+  const parts = [];
+  if (duration.days && duration.days > 0) parts.push(`${duration.days}d`);
+  if (duration.hours && duration.hours > 0) parts.push(`${duration.hours}h`);
+  if (duration.minutes && duration.minutes > 0)
+    parts.push(`${duration.minutes}min`);
+  return parts.join(" ");
+};
+---
+
+<div class="card">
+  <div class="header">
+    <h3 class="title">Datos de la ruta</h3>
+  </div>
+  <div class="grid">
+    <div class="grid-item">
+      <span class="label">Distancia</span>
+      <span class="value">{length} km</span>
+    </div>
+    <div class="grid-item">
+      <span class="label">Desnivel positivo</span>
+      <span class="value">{elevationGain} m</span>
+    </div>
+    {
+      elevationLoss && (
+        <div class="grid-item">
+          <span class="label">Desnivel negativo</span>
+          <span class="value">{elevationLoss} m</span>
+        </div>
+      )
+    }
+    <div class="grid-item">
+      <span class="label">Duración</span>
+      <span class="value">{formatDuration()}</span>
+    </div>
+    <div class="grid-item">
+      <span class="label">Dificultad</span>
+      <span class="value difficulty">{difficulty}</span>
+    </div>
+    <div class="grid-item">
+      <span class="label">Tipo</span>
+      <span class="value">{circularRoute ? "Circular" : "Lineal"}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Card */
+  .card {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+    font-family: var(--font-paragraph);
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  /* Grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .grid-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label {
+    font-size: 0.875rem;
+    color: var(--color-content-200);
+    font-weight: 500;
+  }
+
+  .value {
+    font-size: 0.9375rem;
+    color: var(--color-content-400);
+    font-weight: 600;
+  }
+
+  .value.difficulty {
+    color: var(--color-secondary-400);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
