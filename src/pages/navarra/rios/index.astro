@@ -57,14 +57,10 @@ const canyons = await getCollection("canyons");
                   <p class="canyon-description">{canyon.data.description}</p>
                 </div>
                 <div class="canyon-stats">
-                  {canyon.data.grading && (
+                  {canyon.data.location && (
                     <div class="stat">
-                      <span class="stat-label">Graduación:</span>
-                      <span class="stat-value">
-                        v{canyon.data.grading.vertical}a
-                        {canyon.data.grading.aquatic}{" "}
-                        {canyon.data.grading.commitment}
-                      </span>
+                      <span class="stat-label">Localidad:</span>
+                      <span class="stat-value">{canyon.data.location}</span>
                     </div>
                   )}
                 </div>

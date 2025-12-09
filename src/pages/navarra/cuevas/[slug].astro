@@ -2,28 +2,35 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
-import CaveCharacteristics from "@/components/navarra/caves/CaveCharacteristics.astro";
-import CaveTechnicalData from "@/components/navarra/caves/CaveTechnicalData.astro";
-import CaveLocationCard from "@/components/navarra/caves/CaveLocationCard.astro";
-import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
 import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+import CaveProperties from "@/components/navarra/caves/CaveProperties.astro";
+import CaveRouteProperties from "@/components/navarra/caves/CaveRouteProperties.astro";
+import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
+import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
 
 export async function getStaticPaths() {
   const caves = await getCollection("caves");
-  return caves.map((cave) => ({
-    params: { slug: cave.slug },
-    props: { cave },
-  }));
+  const cavingRoutes = await getCollection("cavingRoutes");
+  return caves.map((cave) => {
+    const relatedRoutes = cavingRoutes.filter(
+      (route) => route.data.cave?.id === cave.slug,
+    );
+    return {
+      params: { slug: cave.slug },
+      props: { cave, relatedRoutes },
+    };
+  });
 }
 
 interface Props {
   cave: CollectionEntry<"caves">;
+  relatedRoutes: CollectionEntry<"cavingRoutes">[];
 }
 
-const { cave } = Astro.props;
-const { Content } = await cave.render();
+const { cave, relatedRoutes } = Astro.props;
+const { Content: CaveContent } = await cave.render();
 
 const meta: MetaInfo = {
   pageTitle: `${cave.data.name} | Cuevas de Navarra | Zunbeltz`,
@@ -35,134 +42,109 @@ const meta: MetaInfo = {
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <HeroSection
-      title={cave.data.name}
-      description={cave.data.description}
-      photo={cave.data.mainPhoto}
-    />
+    <article>
+      <HeroSection
+        title={cave.data.name}
+        description={cave.data.description}
+        photo={cave.data.mainPhoto}
+      />
 
-    <!-- Breadcrumb -->
-    <div class="container">
-      <Breadcrumb />
-    </div>
-
-    <!-- Main Content -->
-    <div class="content">
+      <!-- Breadcrumb -->
       <div class="container">
+        <Breadcrumb />
+      </div>
+
+      <div class="container">
+        <!-- Cave info -->
         <div class="grid">
-          <!-- Left Column: Main Info -->
-          <div class="main-column">
-            <!-- Características Principales -->
-            <CaveCharacteristics cave={cave.data} />
-
-            <!-- Markdown Content -->
-            <section class="section markdown-content">
-              <Content />
-            </section>
-          </div>
-
-          <!-- Right Column: Sidebar -->
-          <aside class="sidebar">
-            <!-- Información Adicional -->
-            <CaveTechnicalData
-              catalogCode={cave.data.catalogCode}
-              subterraUrl={cave.data.subterraUrl}
-              alternativeNames={cave.data.alternativeNames}
-            />
-
-            <!-- Localización -->
-            <CaveLocationCard coordinates={cave.data.coordinates} />
-
-            <!-- Restricciones -->
+          <section class="main-column">
+            <CaveProperties cave={cave.data} />
+            <div class="markdown-content">
+              <CaveContent />
+            </div>
+          </section>
+          <aside class="side-column">
             <RestrictionsCard restrictions={cave.data.restrictions} />
+            <LogisticCard
+              entryPoint={cave.data.entryPoint}
+              accessInfo={cave.data.accessInfo}
+            />
+            {
+              relatedRoutes.length > 0 && (
+                <>
+                  <h4>Rutas:</h4>
+                  {relatedRoutes.map((route) => {
+                    return (
+                      <a class="anchor" href={`#${route.slug}`}>
+                        {route.data.name}
+                      </a>
+                    );
+                  })}
+                </>
+              )
+            }
           </aside>
         </div>
-      </div>
-    </div>
 
-    <!-- Multimedia Section -->
-    <ImageGallery photos={cave.data.additionalPhotos || []} />
+        <!-- Routes info -->
+        {
+          relatedRoutes.map(async (route) => {
+            const { Content: RouteContent } = await route.render();
+            return (
+              <div>
+                <hr class="content-separator" />
+                <div class="grid">
+                  <section id={route.slug} class="main-column">
+                    <CaveRouteProperties route={route.data} />
+                    <div class="markdown-content">
+                      <RouteContent />
+                    </div>
+                  </section>
+                  <aside class="side-column">
+                    {/* Aquí podrían ir componentes específicos de rutas si los hubiera */}
+                  </aside>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      <!-- Multimedia Section -->
+      <ImageGallery photos={cave.data.additionalPhotos || []} />
+    </article>
   </main>
 </HtmlLayout>
 
 <style>
   .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  /* Content */
-  .content {
-    padding: 3rem 0;
+    padding: 0 1.5rem 3rem 1.5rem;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
   }
 
-  .main-column {
-    min-width: 0;
+  .content-separator {
+    margin: 1rem 0;
+    border: none;
+    border-top: 2px solid var(--color-border-100);
   }
 
-  .sidebar {
+  .main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .side-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  .section {
-    margin-bottom: 2rem;
-  }
-
-  /* Markdown Content */
-  .markdown-content {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.7;
-  }
-
-  .markdown-content :global(h2) {
-    font-family: var(--font-title);
-    font-size: 1.75rem;
-    color: var(--color-content-500);
-    margin: 2rem 0 1rem;
-  }
-
-  .markdown-content :global(h3) {
-    font-family: var(--font-title);
-    font-size: 1.375rem;
-    color: var(--color-content-400);
-    margin: 1.5rem 0 0.75rem;
-  }
-
-  .markdown-content :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  .markdown-content :global(ul),
-  .markdown-content :global(ol) {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .markdown-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .markdown-content :global(strong) {
-    color: var(--color-content-500);
-    font-weight: 600;
-  }
-
-  .markdown-content :global(code) {
-    background: var(--color-surface-200);
-    padding: 0.125rem 0.375rem;
-    border-radius: var(--radius-sm);
-    font-family: "Courier New", monospace;
-    font-size: 0.875em;
   }
 
   /* Responsive */
@@ -174,6 +156,20 @@ const meta: MetaInfo = {
 
     .sidebar {
       order: -1;
+    }
+
+    .photo-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .multimedia {
+      padding: 3rem 0;
+    }
+
+    .multimedia-title {
+      font-size: 1.5rem;
     }
   }
 </style>

@@ -17,7 +17,7 @@ const meta: MetaInfo = {
 };
 
 // Obtener todas las escuelas de escalada
-const climbingSchools = await getCollection("climbing");
+const climbingSchools = await getCollection("climbingCrags");
 ---
 
 <HtmlLayout metaInfo={meta}>
@@ -57,14 +57,6 @@ const climbingSchools = await getCollection("climbing");
                 <div class="school-info">
                   <h3 class="school-name">{school.data.name}</h3>
                   <p class="school-location">{school.data.location}</p>
-                  {school.data.orientation &&
-                    school.data.orientation.length > 0 && (
-                      <div class="orientations">
-                        {school.data.orientation.map((o) => (
-                          <span class="orientation-badge">{o}</span>
-                        ))}
-                      </div>
-                    )}
                 </div>
               </a>
             ))

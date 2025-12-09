@@ -2,29 +2,37 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
-import CanyonCharacteristics from "@/components/navarra/canyons/CanyonCharacteristics.astro";
-import CanyonTechnicalData from "@/components/navarra/canyons/CanyonTechnicalData.astro";
-import CanyonGradingCard from "@/components/navarra/canyons/CanyonGradingCard.astro";
-import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
-import CanyonLocationCard from "@/components/navarra/canyons/CanyonLocationCard.astro";
 import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+import CanyonProperties from "@/components/navarra/canyons/CanyonProperties.astro";
+import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
+import DescentGradingCard from "@/components/navarra/canyons/DescentGradingCard.astro";
+import DescentProperties from "@/components/navarra/canyons/DescentProperties.astro";
+import RecomendedMonthsCard from "@/components/navarra/shared/RecomendedMonthsCard.astro";
+import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
 
 export async function getStaticPaths() {
   const canyons = await getCollection("canyons");
-  return canyons.map((canyon) => ({
-    params: { slug: canyon.slug },
-    props: { canyon },
-  }));
+  const canyonsDescents = await getCollection("canyoningDescents");
+  return canyons.map((canyon) => {
+    const relatedDescents = canyonsDescents.filter(
+      (descent) => descent.data.canyon?.id === canyon.slug,
+    );
+    return {
+      params: { slug: canyon.slug },
+      props: { canyon, relatedDescents },
+    };
+  });
 }
 
 interface Props {
   canyon: CollectionEntry<"canyons">;
+  relatedDescents: CollectionEntry<"canyoningDescents">[];
 }
 
-const { canyon } = Astro.props;
-const { Content } = await canyon.render();
+const { canyon, relatedDescents } = Astro.props;
+const { Content: CanyonContent } = await canyon.render();
 
 const meta: MetaInfo = {
   pageTitle: `${canyon.data.name} | Barrancos de Navarra | Zunbeltz`,
@@ -36,143 +44,112 @@ const meta: MetaInfo = {
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <HeroSection
-      title={canyon.data.name}
-      description={canyon.data.description}
-      photo={canyon.data.mainPhoto}
-    />
+    <article>
+      <HeroSection
+        title={canyon.data.name}
+        description={canyon.data.description}
+        photo={canyon.data.mainPhoto}
+      />
 
-    <!-- Breadcrumb -->
-    <div class="container">
-      <Breadcrumb />
-    </div>
+      <div class="container">
+        <Breadcrumb />
+      </div>
 
-    <!-- Main Content -->
-    <div class="content">
       <div class="container">
         <div class="grid">
-          <!-- Left Column: Main Info -->
-          <div class="main-column">
-            <!-- Características Principales -->
-            <CanyonCharacteristics canyon={canyon.data} />
+          <section class="main-column">
+            <CanyonProperties canyon={canyon.data} />
+            <div class="markdown-content">
+              <CanyonContent />
+            </div>
+          </section>
 
-            <!-- Markdown Content -->
-            <section class="section markdown-content">
-              <Content />
-            </section>
-          </div>
-
-          <!-- Right Column: Sidebar -->
-          <aside class="sidebar">
-            <!-- Datos Técnicos -->
-            <CanyonTechnicalData
-              approachTime={canyon.data.approachTime}
-              descentTime={canyon.data.descentTime}
-              returnTime={canyon.data.returnTime}
-              recommendedMonths={canyon.data.recommendedMonths}
-              catchmentArea={canyon.data.catchmentArea}
-              normalFlow={canyon.data.normalFlow}
-            />
-
-            <!-- Localización -->
-            <CanyonLocationCard
-              entryPoint={canyon.data.entryPoint}
-              exitPoint={canyon.data.exitPoint}
-            />
-
-            <!-- Graduación -->
-            <CanyonGradingCard grading={canyon.data.grading} />
-
-            <!-- Restricciones -->
+          <aside class="side-column">
             <RestrictionsCard restrictions={canyon.data.restrictions} />
+            {
+              relatedDescents.length > 0 && (
+                <>
+                  <h4>Variantes:</h4>
+                  {relatedDescents.map((descent) => {
+                    return (
+                      <a class="anchor" href={`#${descent.slug}`}>
+                        {descent.data.name}
+                      </a>
+                    );
+                  })}
+                </>
+              )
+            }
           </aside>
         </div>
-      </div>
-    </div>
 
-    <!-- Multimedia Section -->
-    <ImageGallery photos={canyon.data.additionalPhotos || []} />
+        <!-- Descents info -->
+        {
+          relatedDescents.map(async (descent) => {
+            const { Content: ActivityContent } = await descent.render();
+            return (
+              <div>
+                <hr class="content-separator" />
+                <div class="grid">
+                  <section id={descent.slug} class="main-column">
+                    <DescentProperties descent={descent.data} />
+                    <div class="markdown-content">
+                      <ActivityContent />
+                    </div>
+                  </section>
+                  <aside class="side-column">
+                    <DescentGradingCard grading={descent.data.grading} />
+                    <RecomendedMonthsCard
+                      months={descent.data.recommendedMonths}
+                    />
+                    <LogisticCard
+                      entryPoint={descent.data.entryPoint}
+                      exitPoint={descent.data.exitPoint}
+                      accessInfo={descent.data.accessInfo}
+                      returnInfo={descent.data.returnInfo}
+                    />
+                  </aside>
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+
+      <!-- Multimedia Section -->
+      <ImageGallery photos={canyon.data.additionalPhotos || []} />
+    </article>
   </main>
 </HtmlLayout>
 
 <style>
   .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  /* Content */
-  .content {
-    padding: 3rem 0;
+    padding: 0 1.5rem 3rem 1.5rem;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
   }
 
+  .content-separator {
+    margin: 1rem 0;
+    border: none;
+    border-top: 2px solid var(--color-border-100);
+  }
   .main-column {
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .sidebar {
+  .side-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-
-  .section {
-    margin-bottom: 2rem;
-  }
-
-  /* Markdown Content */
-  .markdown-content {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.7;
-  }
-
-  .markdown-content :global(h2) {
-    font-family: var(--font-title);
-    font-size: 1.75rem;
-    color: var(--color-content-500);
-    margin: 2rem 0 1rem;
-  }
-
-  .markdown-content :global(h3) {
-    font-family: var(--font-title);
-    font-size: 1.375rem;
-    color: var(--color-content-400);
-    margin: 1.5rem 0 0.75rem;
-  }
-
-  .markdown-content :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  .markdown-content :global(ul),
-  .markdown-content :global(ol) {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .markdown-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .markdown-content :global(strong) {
-    color: var(--color-content-500);
-    font-weight: 600;
-  }
-
-  .markdown-content :global(code) {
-    background: var(--color-surface-200);
-    padding: 0.125rem 0.375rem;
-    border-radius: var(--radius-sm);
-    font-family: "Courier New", monospace;
-    font-size: 0.875em;
   }
 
   /* Responsive */

@@ -4,24 +4,38 @@ import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
-import RouteList from "@/components/navarra/shared/RouteList.astro";
-import SectorLocationCard from "@/components/navarra/climbing/SectorLocationCard.astro";
-import SectorPhotoCard from "@/components/navarra/climbing/SectorPhotoCard.astro";
-import SectorReferenceCard from "@/components/navarra/climbing/SectorReferenceCard.astro";
+import SectorProperties from "@/components/navarra/climbing/SectorProperties.astro";
+import RestrictionsCard from "@/components/navarra/shared/RestrictionsCard.astro";
+import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
+import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 
 export async function getStaticPaths() {
   const sectors = await getCollection("climbingSectors");
-  return sectors.map((sector) => ({
-    params: { slug: sector.slug },
-    props: { sector },
-  }));
+  const climbingRoutes = await getCollection("climbingRoutes");
+  const multiPitchRoutes = await getCollection("multiPitchRoutes");
+
+  return sectors.map((sector) => {
+    const relatedClimbingRoutes = climbingRoutes.filter(
+      (route) => route.data.climbingSector?.id === sector.slug,
+    );
+    const relatedMultiPitchRoutes = multiPitchRoutes.filter(
+      (route) => route.data.climbingSector?.id === sector.slug,
+    );
+
+    return {
+      params: { slug: sector.slug },
+      props: { sector, relatedClimbingRoutes, relatedMultiPitchRoutes },
+    };
+  });
 }
 
 interface Props {
   sector: CollectionEntry<"climbingSectors">;
+  relatedClimbingRoutes: CollectionEntry<"climbingRoutes">[];
+  relatedMultiPitchRoutes: CollectionEntry<"multiPitchRoutes">[];
 }
 
-const { sector } = Astro.props;
+const { sector, relatedClimbingRoutes, relatedMultiPitchRoutes } = Astro.props;
 const { Content } = await sector.render();
 
 const meta: MetaInfo = {
@@ -39,7 +53,7 @@ const meta: MetaInfo = {
       title={sector.data.name}
       description={sector.data.description ||
         `Sector de escalada ${sector.data.name}`}
-      photo={sector.data.mainPhoto || sector.data.photo}
+      photo={sector.data.mainPhoto}
     />
 
     <!-- Breadcrumb -->
@@ -53,95 +67,93 @@ const meta: MetaInfo = {
         <div class="grid">
           <!-- Left Column: Main Info -->
           <div class="main-column">
-            <!-- Características del Sector -->
-            <section class="section characteristics">
-              <h2 class="section-title">Características</h2>
-              <div class="characteristics-grid">
-                {
-                  sector.data.orientation && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Orientación</span>
-                      <span class="characteristic-value">
-                        {sector.data.orientation}
-                      </span>
-                    </div>
-                  )
-                }
-                {
-                  sector.data.height && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Altura</span>
-                      <span class="characteristic-value">
-                        {sector.data.height}m
-                      </span>
-                    </div>
-                  )
-                }
-                {
-                  sector.data.routes && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Número de Vías</span>
-                      <span class="characteristic-value">
-                        {sector.data.routes.length}
-                      </span>
-                    </div>
-                  )
-                }
-                {
-                  sector.data.routes && sector.data.routes.length > 0 && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Grados</span>
-                      <span class="characteristic-value">
-                        {Math.min(
-                          ...sector.data.routes.map((r) => r.difficulty.number),
-                        )}
-                        {sector.data.routes[0].difficulty.letter}
-                        {" - "}
-                        {Math.max(
-                          ...sector.data.routes.map((r) => r.difficulty.number),
-                        )}
-                        {
-                          sector.data.routes[sector.data.routes.length - 1]
-                            .difficulty.letter
-                        }
-                      </span>
-                    </div>
-                  )
-                }
-              </div>
-            </section>
+            <!-- Sector Properties -->
+            <SectorProperties sector={sector.data} />
 
             <!-- Markdown Content -->
-            <section class="section markdown-content">
+            <section class="markdown-content">
               <Content />
             </section>
 
-            <!-- Topo Image -->
+            <!-- Climbing Routes Table -->
             {
-              sector.data.topoImage && (
-                <section class="section topo-section">
-                  <h2 class="section-title">Croquis del Sector</h2>
-                  <div class="topo-image">
-                    <img
-                      src={sector.data.topoImage.url.src}
-                      alt={sector.data.topoImage.caption}
-                    />
-                    {sector.data.topoImage.caption && (
-                      <p class="topo-caption">
-                        {sector.data.topoImage.caption}
-                      </p>
-                    )}
+              relatedClimbingRoutes.length > 0 && (
+                <section class="routes-section">
+                  <h2 class="section-title">
+                    Vías de Escalada ({relatedClimbingRoutes.length})
+                  </h2>
+                  <div class="table-container">
+                    <table class="routes-table">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Altura</th>
+                          <th>Anclajes</th>
+                          <th>Tipo</th>
+                          <th>Grado</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {relatedClimbingRoutes.map((route) => (
+                          <tr>
+                            <td class="route-name">
+                              <a href={`/navarra/vias/${route.slug}`}>
+                                {route.data.name}
+                              </a>
+                            </td>
+                            <td>
+                              {route.data.heightMeters
+                                ? `${route.data.heightMeters}m`
+                                : "-"}
+                            </td>
+                            <td>{route.data.anchorCount || "-"}</td>
+                            <td>{route.data.anchorType || "-"}</td>
+                            <td class="grade">
+                              {route.data.grading.number}
+                              {route.data.grading.letter}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </section>
               )
             }
 
-            <!-- Vías del Sector -->
+            <!-- Multi-Pitch Routes -->
             {
-              sector.data.routes && sector.data.routes.length > 0 && (
-                <section class="section routes-section">
-                  <h2 class="section-title">Vías del Sector</h2>
-                  <RouteList routes={sector.data.routes} showFilters={false} />
+              relatedMultiPitchRoutes.length > 0 && (
+                <section class="multipitch-section">
+                  <h2 class="section-title">
+                    Vías de Varios Largos ({relatedMultiPitchRoutes.length})
+                  </h2>
+                  <div class="multipitch-list">
+                    {relatedMultiPitchRoutes.map((route) => (
+                      <a
+                        href={`/navarra/grandes-vias/${route.slug}`}
+                        class="multipitch-card"
+                      >
+                        <div class="multipitch-header">
+                          <h3 class="multipitch-name">{route.data.name}</h3>
+                          <span class="grade-badge">
+                            {route.data.grading.number}
+                            {route.data.grading.letter}
+                          </span>
+                        </div>
+                        {route.data.description && (
+                          <p class="multipitch-description">
+                            {route.data.description}
+                          </p>
+                        )}
+                        <div class="multipitch-stats">
+                          <span class="stat">
+                            <strong>Largos:</strong> {route.data.pitches.length}
+                          </span>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
                 </section>
               )
             }
@@ -149,183 +161,225 @@ const meta: MetaInfo = {
 
           <!-- Right Column: Sidebar -->
           <aside class="sidebar">
-            <SectorLocationCard
-              coordinates={sector.data.coordinates}
-              location={sector.data.location}
+            <RestrictionsCard restrictions={sector.data.restrictions} />
+            <LogisticCard
+              entryPoint={sector.data.entryPoint}
+              accessInfo={sector.data.accessInfo}
             />
-
-            {
-              sector.data.climbingSchoolReference && (
-                <SectorReferenceCard
-                  referenceName={sector.data.climbingSchoolReference.name}
-                  referenceSlug={sector.data.climbingSchoolReference.slug}
-                />
-              )
-            }
-
-            {sector.data.photo && <SectorPhotoCard photo={sector.data.photo} />}
           </aside>
         </div>
       </div>
     </div>
+
+    <!-- Multimedia Section -->
+    <ImageGallery photos={sector.data.additionalPhotos || []} />
   </main>
-</HtmlLayout>
 
-<style>
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
+  <style>
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
 
-  .content {
-    padding: 3rem 0;
-  }
+    /* Content Section */
+    .content {
+      padding: 3rem 0;
+    }
 
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: 3rem;
-  }
-
-  .main-column {
-    min-width: 0;
-  }
-
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .section {
-    margin-bottom: 2rem;
-  }
-
-  .section-title {
-    font-family: var(--font-title);
-    font-size: 1.75rem;
-    color: var(--color-content-500);
-    margin: 0 0 1.5rem 0;
-  }
-
-  /* Characteristics */
-  .characteristics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .characteristic {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .characteristic-label {
-    font-family: var(--font-paragraph);
-    font-size: 0.875rem;
-    color: var(--color-content-300);
-    font-weight: 600;
-  }
-
-  .characteristic-value {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-content-500);
-  }
-
-  /* Markdown Content */
-  .markdown-content {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.7;
-  }
-
-  .markdown-content :global(h2) {
-    font-family: var(--font-title);
-    font-size: 1.5rem;
-    color: var(--color-content-500);
-    margin: 2rem 0 1rem;
-  }
-
-  .markdown-content :global(h3) {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-content-400);
-    margin: 1.5rem 0 0.75rem;
-  }
-
-  .markdown-content :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  .markdown-content :global(ul),
-  .markdown-content :global(ol) {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .markdown-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .markdown-content :global(strong) {
-    color: var(--color-content-500);
-    font-weight: 600;
-  }
-
-  /* Topo Section */
-  .topo-section {
-    margin-bottom: 2rem;
-  }
-
-  .topo-image {
-    background: var(--color-surface-100);
-    border: 2px solid var(--color-border-100);
-    border-radius: var(--radius-lg);
-    padding: 1rem;
-  }
-
-  .topo-image img {
-    width: 100%;
-    height: auto;
-    border-radius: var(--radius-md);
-  }
-
-  .topo-caption {
-    font-family: var(--font-paragraph);
-    font-size: 0.875rem;
-    color: var(--color-content-200);
-    margin-top: 0.75rem;
-    text-align: center;
-    font-style: italic;
-  }
-
-  /* Routes Section */
-  .routes-section {
-    margin-top: 2rem;
-  }
-
-  /* Dark theme */
-  :global([data-theme="dark"]) .topo-image {
-    background: var(--color-surface-200);
-    border-color: var(--color-border-200);
-  }
-
-  /* Responsive */
-  @media (max-width: 968px) {
     .grid {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .main-column {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
       gap: 2rem;
     }
 
     .sidebar {
-      order: -1;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
-    .characteristics-grid {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    /* Section Titles */
+    .section-title {
+      font-family: var(--font-title);
+      font-size: 1.75rem;
+      color: var(--color-content-500);
+      margin: 0 0 1.5rem 0;
     }
-  }
-</style>
+
+    /* Markdown Content */
+    .markdown-content {
+      font-family: var(--font-paragraph);
+      color: var(--color-content-300);
+      line-height: 1.7;
+    }
+
+    /* Routes Table */
+    .routes-section {
+      margin-top: 1rem;
+    }
+
+    .table-container {
+      overflow-x: auto;
+      background: var(--color-surface-100);
+      border: 2px solid var(--color-border-100);
+      border-radius: var(--radius-xl);
+    }
+
+    .routes-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-paragraph);
+    }
+
+    .routes-table thead {
+      background: var(--color-surface-200);
+    }
+
+    .routes-table th {
+      padding: 1rem;
+      text-align: left;
+      font-family: var(--font-title);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-content-400);
+      border-bottom: 2px solid var(--color-border-100);
+    }
+
+    .routes-table td {
+      padding: 0.875rem 1rem;
+      font-size: 0.9rem;
+      color: var(--color-content-300);
+      border-bottom: 1px solid var(--color-border-100);
+    }
+
+    .routes-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .routes-table tbody tr:hover {
+      background: var(--color-surface-200);
+    }
+
+    .route-name a {
+      color: var(--color-primary-300);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .route-name a:hover {
+      text-decoration: underline;
+    }
+
+    .grade {
+      font-family: var(--font-title);
+      font-weight: 700;
+      color: var(--color-secondary-400);
+    }
+
+    /* Multi-Pitch Routes */
+    .multipitch-section {
+      margin-top: 2rem;
+    }
+
+    .multipitch-list {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .multipitch-card {
+      padding: 1.5rem;
+      background: var(--color-surface-100);
+      border: 2px solid var(--color-border-100);
+      border-radius: var(--radius-xl);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .multipitch-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-secondary-300);
+    }
+
+    .multipitch-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .multipitch-name {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      color: var(--color-content-500);
+      margin: 0;
+    }
+
+    .grade-badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--color-secondary-100);
+      color: var(--color-secondary-500);
+      border-radius: var(--radius-md);
+      font-family: var(--font-title);
+      font-size: 0.875rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .multipitch-description {
+      font-family: var(--font-paragraph);
+      font-size: 0.9rem;
+      color: var(--color-content-300);
+      line-height: 1.6;
+      margin: 0 0 0.75rem 0;
+    }
+
+    .multipitch-stats {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .stat {
+      font-family: var(--font-paragraph);
+      font-size: 0.875rem;
+      color: var(--color-content-300);
+    }
+
+    .stat strong {
+      color: var(--color-content-400);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .sidebar {
+        order: -1;
+      }
+
+      .table-container {
+        font-size: 0.85rem;
+      }
+
+      .routes-table th,
+      .routes-table td {
+        padding: 0.75rem 0.5rem;
+      }
+    }
+  </style>
+</HtmlLayout>

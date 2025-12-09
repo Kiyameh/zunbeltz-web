@@ -1,0 +1,169 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import ViaFerrataProperties from "@/components/navarra/climbing/ViaFerrataProperties.astro";
+import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
+import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import HeroSection from "@/components/navarra/shared/HeroSection.astro";
+
+export async function getStaticPaths() {
+  const viaFerratas = await getCollection("viaFerratas");
+  return viaFerratas.map((ferrata) => ({
+    params: { slug: ferrata.slug },
+    props: { ferrata },
+  }));
+}
+
+interface Props {
+  ferrata: CollectionEntry<"viaFerratas">;
+}
+
+const { ferrata } = Astro.props;
+const { Content: FerrataContent } = await ferrata.render();
+
+const meta: MetaInfo = {
+  pageTitle: `${ferrata.data.name} | Vías Ferratas | Zunbeltz`,
+  pageDescription:
+    ferrata.data.description || `Vía ferrata ${ferrata.data.name}`,
+  pageTags: ["Vía Ferrata", "Ferrata", "Navarra"],
+  pageUrl: `https://zunbeltz.org/navarra/ferratas/${ferrata.slug}`,
+};
+---
+
+<HtmlLayout metaInfo={meta}>
+  <main>
+    <article>
+      <HeroSection
+        title={ferrata.data.name}
+        description={ferrata.data.description}
+        photo={ferrata.data.mainPhoto}
+      />
+
+      <div class="container">
+        <Breadcrumb />
+      </div>
+
+      <div class="container">
+        <div class="grid">
+          <div class="main-column">
+            <ViaFerrataProperties viaFerrata={ferrata.data} />
+
+            <section class="markdown-content">
+              <FerrataContent />
+            </section>
+
+            {
+              ferrata.data.requiredGear &&
+                ferrata.data.requiredGear.length > 0 && (
+                  <div class="gear-section">
+                    <h2 class="section-title">Material necesario</h2>
+                    <ul class="gear-list">
+                      {ferrata.data.requiredGear.map((item) => (
+                        <li>{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                )
+            }
+          </div>
+
+          <aside class="side-column">
+            <LogisticCard
+              entryPoint={ferrata.data.startPoint}
+              exitPoint={ferrata.data.endPoint}
+              accessInfo={ferrata.data.accessInfo}
+              returnInfo={ferrata.data.returnInfo}
+            />
+          </aside>
+        </div>
+      </div>
+
+      <ImageGallery photos={ferrata.data.additionalPhotos || []} />
+    </article>
+  </main>
+</HtmlLayout>
+
+<style>
+  .container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem 1.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+  }
+
+  .main-column {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .markdown-content {
+    font-family: var(--font-paragraph);
+    color: var(--color-content-300);
+    line-height: 1.7;
+  }
+
+  .gear-section {
+    background: var(--color-surface-100);
+    border: 2px solid var(--color-border-100);
+    border-radius: var(--radius-xl);
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    color: var(--color-content-500);
+    margin: 0 0 1rem 0;
+  }
+
+  .gear-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .gear-list li {
+    font-family: var(--font-paragraph);
+    font-size: 0.9375rem;
+    color: var(--color-content-300);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .gear-list li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5rem;
+    color: var(--color-secondary-400);
+    font-weight: bold;
+  }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .side-column {
+      order: -1;
+    }
+  }
+</style>

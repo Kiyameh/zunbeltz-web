@@ -2,33 +2,32 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
-import HikingProperties from "@/components/navarra/hiking/HikingProperties.astro";
-import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
+import BoulderProblemProperties from "@/components/navarra/climbing/BoulderProblemProperties.astro";
 import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
 
 export async function getStaticPaths() {
-  const hikings = await getCollection("hikings");
-  return hikings.map((hiking) => ({
-    params: { slug: hiking.slug },
-    props: { hiking },
+  const boulderProblems = await getCollection("boulderProblems");
+  return boulderProblems.map((problem) => ({
+    params: { slug: problem.slug },
+    props: { problem },
   }));
 }
 
 interface Props {
-  hiking: CollectionEntry<"hikings">;
+  problem: CollectionEntry<"boulderProblems">;
 }
 
-const { hiking } = Astro.props;
-const { Content: HikingContent } = await hiking.render();
+const { problem } = Astro.props;
+const { Content: ProblemContent } = await problem.render();
 
 const meta: MetaInfo = {
-  pageTitle: `${hiking.data.name} | Senderismo | Zunbeltz`,
+  pageTitle: `${problem.data.name} | Problemas de Boulder | Zunbeltz`,
   pageDescription:
-    hiking.data.description || `Ruta de senderismo ${hiking.data.name}`,
-  pageTags: ["Senderismo", "Hiking", "Navarra"],
-  pageUrl: `https://zunbeltz.org/navarra/senderismo/${hiking.slug}`,
+    problem.data.description || `Problema de boulder ${problem.data.name}`,
+  pageTags: ["Boulder", "Bloque", "Navarra"],
+  pageUrl: `https://zunbeltz.org/navarra/bloques/${problem.slug}`,
 };
 ---
 
@@ -36,9 +35,9 @@ const meta: MetaInfo = {
   <main>
     <article>
       <HeroSection
-        title={hiking.data.name}
-        description={hiking.data.description}
-        photo={hiking.data.mainPhoto}
+        title={problem.data.name}
+        description={problem.data.description}
+        photo={problem.data.mainPhoto}
       />
 
       <div class="container">
@@ -48,22 +47,19 @@ const meta: MetaInfo = {
       <div class="container">
         <div class="grid">
           <div class="main-column">
-            <HikingProperties hiking={hiking.data} />
+            <BoulderProblemProperties problem={problem.data} />
             <section class="markdown-content">
-              <HikingContent />
+              <ProblemContent />
             </section>
           </div>
 
           <aside class="side-column">
-            <LogisticCard
-              entryPoint={hiking.data.startPoint}
-              exitPoint={hiking.data.endPoint}
-            />
+            <!-- Aquí podrían ir cards adicionales si las hay -->
           </aside>
         </div>
       </div>
 
-      <ImageGallery photos={hiking.data.additionalPhotos || []} />
+      <ImageGallery photos={problem.data.additionalPhotos || []} />
     </article>
   </main>
 </HtmlLayout>

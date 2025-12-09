@@ -2,354 +2,105 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import MultiPitchProperties from "@/components/navarra/climbing/MultiPitchProperties.astro";
+import PitchesTable from "@/components/navarra/climbing/PitchesTable.astro";
+import LogisticCard from "@/components/navarra/shared/LogisticCard.astro";
+import ImageGallery from "@/components/navarra/shared/ImageGallery.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import HeroSection from "@/components/navarra/shared/HeroSection.astro";
-import PitchTable from "@/components/navarra/shared/PitchTable.astro";
-import TechnicalRouteLocationCard from "@/components/navarra/mountains/TechnicalRouteLocationCard.astro";
-import TechnicalRouteGearCard from "@/components/navarra/mountains/TechnicalRouteGearCard.astro";
-import RouteReferenceCard from "@/components/navarra/mountains/RouteReferenceCard.astro";
 
 export async function getStaticPaths() {
-  const routes = await getCollection("technicalRoutes");
-  return routes.map((route) => ({
+  const multiPitchRoutes = await getCollection("multiPitchRoutes");
+  return multiPitchRoutes.map((route) => ({
     params: { slug: route.slug },
     props: { route },
   }));
 }
 
 interface Props {
-  route: CollectionEntry<"technicalRoutes">;
+  route: CollectionEntry<"multiPitchRoutes">;
 }
 
 const { route } = Astro.props;
-const { Content } = await route.render();
+const { Content: RouteContent } = await route.render();
 
 const meta: MetaInfo = {
-  pageTitle: `${route.data.name} | Rutas Técnicas | Zunbeltz`,
-  pageDescription: route.data.description,
-  pageTags: ["Alpinismo", "Navarra", "Ruta Técnica", "Escalada"],
+  pageTitle: `${route.data.name} | Vías de Varios Largos | Zunbeltz`,
+  pageDescription:
+    route.data.description || `Vía de varios largos ${route.data.name}`,
+  pageTags: ["Escalada", "Varios Largos", "Multipitch", "Navarra"],
   pageUrl: `https://zunbeltz.org/navarra/largos/${route.slug}`,
 };
 ---
 
 <HtmlLayout metaInfo={meta}>
   <main>
-    <HeroSection
-      title={route.data.name}
-      description={route.data.description}
-      photo={route.data.mainPhoto}
-    />
+    <article>
+      <HeroSection
+        title={route.data.name}
+        description={route.data.description}
+        photo={route.data.mainPhoto}
+      />
 
-    <!-- Breadcrumb -->
-    <div class="container">
-      <Breadcrumb />
-    </div>
+      <div class="container">
+        <Breadcrumb />
+      </div>
 
-    <!-- Main Content -->
-    <div class="content">
       <div class="container">
         <div class="grid">
-          <!-- Left Column: Main Info -->
           <div class="main-column">
-            <!-- Características de la Ruta -->
-            <section class="section characteristics">
-              <h2 class="section-title">Características</h2>
-              <div class="characteristics-grid">
-                <div class="characteristic">
-                  <span class="characteristic-label">Dificultad</span>
-                  <span class="grade-badge">
-                    {route.data.difficulty.number}{route.data.difficulty.letter}
-                    {route.data.difficulty.modifier || ""}
-                  </span>
-                </div>
-                <div class="characteristic">
-                  <span class="characteristic-label">Desnivel +</span>
-                  <span class="characteristic-value"
-                    >{route.data.elevationGain} m</span
-                  >
-                </div>
-                {
-                  route.data.elevationLoss && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Desnivel -</span>
-                      <span class="characteristic-value">
-                        {route.data.elevationLoss} m
-                      </span>
-                    </div>
-                  )
-                }
-                <div class="characteristic">
-                  <span class="characteristic-label">Duración</span>
-                  <span class="characteristic-value">
-                    {route.data.duration.hours}h {
-                      route.data.duration.minutes
-                    }min
-                  </span>
-                </div>
-                <div class="characteristic">
-                  <span class="characteristic-label">Longitud</span>
-                  <span class="characteristic-value"
-                    >{route.data.length} km</span
-                  >
-                </div>
-                {
-                  route.data.climbingPitches && (
-                    <div class="characteristic">
-                      <span class="characteristic-label">Largos</span>
-                      <span class="characteristic-value">
-                        {route.data.climbingPitches.length}
-                      </span>
-                    </div>
-                  )
-                }
-              </div>
+            <MultiPitchProperties route={route.data} />
+
+            <section class="markdown-content">
+              <RouteContent />
             </section>
 
-            <!-- Descripción Técnica -->
-            {
-              route.data.technicalDescription && (
-                <section class="section technical-description">
-                  <h2 class="section-title">Descripción Técnica</h2>
-                  <p class="description-text">
-                    {route.data.technicalDescription}
-                  </p>
-                </section>
-              )
-            }
-
-            <!-- Markdown Content -->
-            <section class="section markdown-content">
-              <Content />
-            </section>
-
-            <!-- Largos de Escalada -->
-            {
-              route.data.climbingPitches &&
-                route.data.climbingPitches.length > 0 && (
-                  <section class="section pitches-section">
-                    <h2 class="section-title">Largos de Escalada</h2>
-                    <PitchTable pitches={route.data.climbingPitches} />
-                  </section>
-                )
-            }
-
-            <!-- Recomendaciones -->
-            {
-              route.data.seasonRecommendation && (
-                <section class="section recommendations">
-                  <h2 class="section-title">Época Recomendada</h2>
-                  <p class="recommendation-text">
-                    {route.data.seasonRecommendation}
-                  </p>
-                </section>
-              )
-            }
-
-            <!-- Advertencias -->
-            {
-              route.data.warnings && (
-                <section class="section warnings">
-                  <h2 class="section-title">⚠️ Precauciones</h2>
-                  <p class="warning-text">{route.data.warnings}</p>
-                </section>
-              )
-            }
+            <PitchesTable pitches={route.data.pitches} />
           </div>
 
-          <!-- Right Column: Sidebar -->
-          <aside class="sidebar">
-            {
-              route.data.requiredGear && route.data.requiredGear.length > 0 && (
-                <TechnicalRouteGearCard
-                  requiredGear={route.data.requiredGear}
-                />
-              )
-            }
-
-            <TechnicalRouteLocationCard
-              startPoint={route.data.startPoint}
-              endPoint={route.data.endPoint}
-              location={route.data.location}
+          <aside class="side-column">
+            <LogisticCard
+              entryPoint={route.data.startPoint}
+              exitPoint={route.data.endPoint}
             />
-
-            {
-              route.data.mountainReference && (
-                <RouteReferenceCard
-                  referenceName={route.data.mountainReference.name}
-                  referenceSlug={route.data.mountainReference.slug}
-                  description="Esta ruta técnica pertenece a"
-                />
-              )
-            }
           </aside>
         </div>
       </div>
-    </div>
+
+      <ImageGallery photos={route.data.additionalPhotos || []} />
+    </article>
   </main>
 </HtmlLayout>
 
 <style>
   .container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  .content {
-    padding: 3rem 0;
+    padding: 0 1.5rem 3rem 1.5rem;
   }
 
   .grid {
     display: grid;
-    grid-template-columns: 1fr 350px;
+    grid-template-columns: 2fr 1fr;
     gap: 3rem;
   }
 
   .main-column {
-    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
-  .sidebar {
+  .side-column {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
   }
 
-  .section {
-    margin-bottom: 2rem;
-  }
-
-  .section-title {
-    font-family: var(--font-title);
-    font-size: 1.75rem;
-    color: var(--color-content-500);
-    margin: 0 0 1.5rem 0;
-  }
-
-  /* Characteristics */
-  .characteristics-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .characteristic {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .characteristic-label {
-    font-family: var(--font-paragraph);
-    font-size: 0.875rem;
-    color: var(--color-content-300);
-    font-weight: 600;
-  }
-
-  .characteristic-value {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-content-500);
-  }
-
-  .grade-badge {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-md);
-    background: var(--color-secondary-100);
-    color: var(--color-secondary-500);
-    display: inline-block;
-    width: fit-content;
-  }
-
-  /* Technical Description */
-  .technical-description {
-    background: var(--color-surface-100);
-    border-left: 4px solid var(--color-primary-400);
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-  }
-
-  .description-text {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* Markdown Content */
   .markdown-content {
     font-family: var(--font-paragraph);
     color: var(--color-content-300);
     line-height: 1.7;
-  }
-
-  .markdown-content :global(h2) {
-    font-family: var(--font-title);
-    font-size: 1.5rem;
-    color: var(--color-content-500);
-    margin: 2rem 0 1rem;
-  }
-
-  .markdown-content :global(h3) {
-    font-family: var(--font-title);
-    font-size: 1.25rem;
-    color: var(--color-content-400);
-    margin: 1.5rem 0 0.75rem;
-  }
-
-  .markdown-content :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  .markdown-content :global(ul),
-  .markdown-content :global(ol) {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
-  }
-
-  .markdown-content :global(li) {
-    margin-bottom: 0.5rem;
-  }
-
-  .markdown-content :global(strong) {
-    color: var(--color-content-500);
-    font-weight: 600;
-  }
-
-  /* Pitches Section */
-  .pitches-section {
-    margin-top: 2rem;
-  }
-
-  /* Recommendations & Warnings */
-  .recommendations,
-  .warnings {
-    background: var(--color-surface-100);
-    border-left: 4px solid var(--color-secondary-400);
-    padding: 1.5rem;
-    border-radius: var(--radius-md);
-  }
-
-  .warnings {
-    border-left-color: #f8d7da;
-    background: #fff5f5;
-  }
-
-  .recommendation-text,
-  .warning-text {
-    font-family: var(--font-paragraph);
-    color: var(--color-content-300);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* Dark theme */
-  :global([data-theme="dark"]) .recommendations,
-  :global([data-theme="dark"]) .warnings,
-  :global([data-theme="dark"]) .technical-description {
-    background: var(--color-surface-200);
   }
 
   /* Responsive */
@@ -359,12 +110,8 @@ const meta: MetaInfo = {
       gap: 2rem;
     }
 
-    .sidebar {
+    .side-column {
       order: -1;
-    }
-
-    .characteristics-grid {
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
   }
 </style>
