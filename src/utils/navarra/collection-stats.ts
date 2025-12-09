@@ -32,7 +32,7 @@ export async function getMountainsCount(): Promise<number> {
  * @returns Número de escuelas de escalada catalogadas
  */
 export async function getClimbingSchoolsCount(): Promise<number> {
-  const climbing = await getCollection("climbing");
+  const climbing = await getCollection("climbingCrags");
   return climbing.length;
 }
 
