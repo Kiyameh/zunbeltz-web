@@ -7,74 +7,74 @@ import {
 
 /**
  * Colección de Barrancos
- * 
+ *
  * Representa barrancos como locations (lugares físicos).
  * Los descensos de barranquismo que se realizan en estos barrancos (canyoningDescents)
  * son colecciones separadas que referencian a estas locations.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Jerarquía:
  * NavarraZone → Canyon
- * 
+ *
  * Activities que referencian a Canyon:
  * - canyoningDescents
  */
 
 export const canyonSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre del barranco */
-      name: z.string(),
+    /** Nombre del barranco */
+    name: z.string(),
 
-      /** Descripción */
-      description: z.string(),
+    /** Descripción */
+    description: z.string(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Zona de Navarra a la que pertenece */
-      navarraZone: reference("navarraZones"),
+    /** Zona de Navarra a la que pertenece */
+    navarraZone: reference("navarraZones"),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Río al que pertenece el barranco */
-      river: z.string(),
+    /** Río al que pertenece el barranco */
+    river: z.string(),
 
-      /** Localidad o municipio */
-      location: z.string(),
+    /** Localidad o municipio */
+    location: z.string(),
 
-      /** Cuenca de captación en km² (características hidrológicas) */
-      catchmentArea: z.number().optional(),
+    /** Cuenca de captación en km² (características hidrológicas) */
+    catchmentArea: z.number().optional(),
 
-      /** Caudal normal en m³/s (características hidrológicas) */
-      normalFlow: z.number().optional(),
+    /** Caudal normal en m³/s (características hidrológicas) */
+    normalFlow: z.number().optional(),
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
 
-      /** Topografías del barranco */
-      topographies: z.array(topographyAssetSchema).optional(),
+    /** Topografías del barranco */
+    topographies: z.array(topographyAssetSchema).optional(),
 
-      // ========================================================================
-      // RestrictionsCard
-      // ========================================================================      
+    // ========================================================================
+    // RestrictionsCard
+    // ========================================================================
 
-      /** Restricciones y protecciones del lugar */
-      restrictions: restrictionsSchema.optional(),
-    });
+    /** Restricciones y protecciones del lugar */
+    restrictions: restrictionsSchema.optional(),
+  });
 
-export type Canyon = z.infer<ReturnType<typeof canyonSchema>>
+export type Canyon = z.infer<ReturnType<typeof canyonSchema>>;

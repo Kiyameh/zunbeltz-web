@@ -10,4 +10,4 @@ export const durationSchema = z.object({
   minutes: z.number().default(0),
 });
 
-export type Duration = z.infer<typeof durationSchema>
+export type Duration = z.infer<typeof durationSchema>;

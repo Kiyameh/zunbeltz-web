@@ -26,9 +26,7 @@ vi.mock("astro:content", () => ({
         { id: "montana-3", data: { name: "Montaña 3" } },
         { id: "montana-4", data: { name: "Montaña 4" } },
       ],
-      climbing: [
-        { id: "escuela-1", data: { name: "Escuela 1" } },
-      ],
+      climbing: [{ id: "escuela-1", data: { name: "Escuela 1" } }],
     };
 
     return mockData[collection] || [];

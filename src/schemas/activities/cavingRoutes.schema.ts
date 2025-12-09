@@ -19,68 +19,68 @@ const cavingDifficultySchema = z.object({
 
 /**
  * Colección de Rutas Espeleológicas
- * 
+ *
  * Representa rutas espeleológicas (cavingRoutes) como activities.
  * Cada ruta referencia a una cueva (location) donde se realiza.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: Cave
  * Jerarquía opcional: CaveSystem, KarstArea, NavarraZone
  */
 export const cavingRouteSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la ruta */
-      name: z.string(),
+    /** Nombre de la ruta */
+    name: z.string(),
 
-      /** Descripción */
-      description: z.string().optional(),
+    /** Descripción */
+    description: z.string().optional(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Cueva donde se realiza la ruta (OBLIGATORIO) */
-      cave: reference("caves"),
+    /** Cueva donde se realiza la ruta (OBLIGATORIO) */
+    cave: reference("caves"),
 
-      /** Sistema de cuevas (opcional, para queries rápidas) */
-      caveSystem: reference("caveSystems").optional(),
+    /** Sistema de cuevas (opcional, para queries rápidas) */
+    caveSystem: reference("caveSystems").optional(),
 
-      /** Área kárstica (opcional, para queries rápidas) */
-      karstArea: reference("karstAreas").optional(),
+    /** Área kárstica (opcional, para queries rápidas) */
+    karstArea: reference("karstAreas").optional(),
 
-      /** Zona de Navarra (opcional, para queries rápidas) */
-      navarraZone: reference("navarraZones").optional(),
+    /** Zona de Navarra (opcional, para queries rápidas) */
+    navarraZone: reference("navarraZones").optional(),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Dificultad de la ruta */
-      difficulty: cavingDifficultySchema.optional(),
+    /** Dificultad de la ruta */
+    difficulty: cavingDifficultySchema.optional(),
 
-      /** Duración estimada */
-      duration: durationSchema,
+    /** Duración estimada */
+    duration: durationSchema,
 
-      /** Desarrollo vertical de la ruta en metros */
-      verticalDevelopment: z.number().optional(),
+    /** Desarrollo vertical de la ruta en metros */
+    verticalDevelopment: z.number().optional(),
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-      /** Topografías específicas de esta ruta (además de las de la cueva) */
-      topographies: z.array(topographyAssetSchema).optional(),
+    /** Topografías específicas de esta ruta (además de las de la cueva) */
+    topographies: z.array(topographyAssetSchema).optional(),
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
-    })
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+  });
 
-export type CavingRoute = z.infer<ReturnType<typeof cavingRouteSchema>>
+export type CavingRoute = z.infer<ReturnType<typeof cavingRouteSchema>>;

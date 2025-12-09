@@ -60,7 +60,6 @@ requiredGear:
   - "Set de vía ferrata homologado"
   - "Arnés y casco"
   - "Guantes de ferrata"
-
 # ============================================================================
 # MultimediaSection
 # ============================================================================

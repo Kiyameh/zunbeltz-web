@@ -10,7 +10,7 @@ export const climbingGradeSchema = z.object({
   modifier: z.enum(["+", "-", ""]).optional(),
 });
 
-export type ClimbigGrade = z.infer<typeof climbingGradeSchema>
+export type ClimbigGrade = z.infer<typeof climbingGradeSchema>;
 /**
  * Schema para graduación de boulder
  * Sistema francés con letra y modificador opcional
@@ -21,9 +21,9 @@ export const boulderGradeSchema = z.object({
   modifier: z.enum(["+", "-", ""]).optional(),
 });
 
-export type BoulderingGrade = z.infer<typeof boulderGradeSchema>
+export type BoulderingGrade = z.infer<typeof boulderGradeSchema>;
 
-/** 
+/**
  * Schema para anclaje de escalada
  */
 export const climbAnchorSchema = z.object({
@@ -34,12 +34,12 @@ export const climbAnchorSchema = z.object({
     "Arbol",
     "Puente roca",
     "Natural",
-    "Flotante"
-    ]),
+    "Flotante",
+  ]),
   hasRing: z.boolean().default(false),
-})
+});
 
-export type ClimbingAnchor = z.infer<typeof climbAnchorSchema>
+export type ClimbingAnchor = z.infer<typeof climbAnchorSchema>;
 
 /**
  * Schema para anclaje de reunión
@@ -50,7 +50,7 @@ export const belaySchema = z.object({
   notes: z.string().optional(),
 });
 
-export type Belay = z.infer<typeof belaySchema>
+export type Belay = z.infer<typeof belaySchema>;
 
 /**
  * Schema para largo de escalada
@@ -66,7 +66,4 @@ export const climbingPitchSchema = z.object({
   belay: belaySchema.optional(),
 });
 
-export type ClimbingPitch = z.infer<typeof climbingPitchSchema>
-
-
-
+export type ClimbingPitch = z.infer<typeof climbingPitchSchema>;

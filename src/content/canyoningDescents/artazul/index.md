@@ -68,7 +68,6 @@ returnInfo:
     hours: 0
     minutes: 15
   distance: 300
-
 # ============================================================================
 # MultimediaSection
 # ============================================================================
@@ -82,6 +81,7 @@ returnInfo:
 #     caption: ""
 #     photographer: ""
 ---
+
 ## Aproximación
 
 Se recomienda realizar combinación de vehículos:

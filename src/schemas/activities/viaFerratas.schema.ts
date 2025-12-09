@@ -8,12 +8,12 @@ import {
 
 /**
  * Colección de Vías Ferratas
- * 
+ *
  * Representa vías ferratas (viaFerratas) como activities.
  * Cada vía ferrata referencia directamente a una zona de Navarra.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: NavarraZone
  */
 
@@ -35,20 +35,20 @@ export const viaFerrataSchema = (image: ImageFunction) =>
 
     /** Montaña donde se encuentra la vía (opcional) */
     mountain: reference("mountains"),
-    
+
     /** Zona de Navarra donde se encuentra (OBLIGATORIO) */
     navarraZone: reference("navarraZones"),
-    
+
     // ========================================================================
     // PropertiesSection
     // ========================================================================
-    
+
     /** Longitud total en metros */
     length: z.number(),
-    
+
     /** Desnivel total en metros */
     elevationGain: z.number(),
-    
+
     /** Duración estimada (aproximación + ferrata + descenso) */
     duration: durationSchema,
 
@@ -62,19 +62,19 @@ export const viaFerrataSchema = (image: ImageFunction) =>
     // ========================================================================
     // LogisticsCard
     // ========================================================================
-    
+
     /** Punto de inicio de la aproximación */
     startPoint: utmCoordinatesSchema,
-    
+
     /** Punto final (cima o salida) */
     endPoint: utmCoordinatesSchema,
-    
+
     /** Información de acceso */
     accessInfo: accessInfoSchema.optional(),
-    
+
     /** Información del retorno */
     returnInfo: accessInfoSchema.optional(),
-    
+
     // ========================================================================
     // RequiredGearCard
     // ========================================================================
@@ -96,4 +96,4 @@ export const viaFerrataSchema = (image: ImageFunction) =>
     topoImage: imageAssetSchema(image).optional(),
   });
 
-export type ViaFerrata = z.infer<ReturnType<typeof viaFerrataSchema>>
+export type ViaFerrata = z.infer<ReturnType<typeof viaFerrataSchema>>;

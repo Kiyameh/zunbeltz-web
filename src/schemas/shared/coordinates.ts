@@ -14,5 +14,4 @@ export const utmCoordinatesSchema = z.object({
   altitude: z.number().optional(),
 });
 
-
- export type UtmCoordinates = z.infer<typeof utmCoordinatesSchema>
+export type UtmCoordinates = z.infer<typeof utmCoordinatesSchema>;

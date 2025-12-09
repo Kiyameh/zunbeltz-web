@@ -7,81 +7,81 @@ import {
 
 /**
  * Esquema de Rutas de Senderismo
- * 
+ *
  * Representa rutas de senderismo (hikings) como activities.
  * Cada ruta referencia a una montaña (location) donde se realiza.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: Mountain
  * Jerarquía opcional: Massif, NavarraZone
  */
 export const hikingSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la ruta */
-      name: z.string(),
-      
-      /** Descripción */
-      description: z.string().optional(),
+    /** Nombre de la ruta */
+    name: z.string(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    /** Descripción */
+    description: z.string().optional(),
 
-      /** Montaña donde se realiza la ruta (OBLIGATORIO) */
-      mountain: reference("mountains"),
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Macizo al que pertenece (opcional, para queries rápidas) */
-      massif: reference("massifs").optional(),
+    /** Montaña donde se realiza la ruta (OBLIGATORIO) */
+    mountain: reference("mountains"),
 
-      /** Zona de Navarra (opcional, para queries rápidas) */
-      navarraZone: reference("navarraZones").optional(),
+    /** Macizo al que pertenece (opcional, para queries rápidas) */
+    massif: reference("massifs").optional(),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
-      
-      /** Duración estimada */
-      duration: durationSchema,
-      
-      /** Longitud de la ruta en kilómetros */
-      length: z.number(),
-      
-      /** Desnivel positivo acumulado en metros */
-      elevationGain: z.number(),
-      
-      /** Desnivel negativo acumulado en metros (opcional) */
-      elevationLoss: z.number().optional(),
-      
-      /** Dificultad de la ruta */
-      difficulty: z.enum(["Fácil", "Moderada", "Difícil", "Muy Difícil"]),
-      
-      // ========================================================================
-      // LogisticsCard
-      // ========================================================================
+    /** Zona de Navarra (opcional, para queries rápidas) */
+    navarraZone: reference("navarraZones").optional(),
 
-      /** ¿Es una ruta circular? */
-      circularRoute: z.boolean().default(false),
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Punto de inicio de la ruta */
-      startPoint: utmCoordinatesSchema,
+    /** Duración estimada */
+    duration: durationSchema,
 
-      /** Punto final de la ruta */
-      endPoint: utmCoordinatesSchema,
+    /** Longitud de la ruta en kilómetros */
+    length: z.number(),
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    /** Desnivel positivo acumulado en metros */
+    elevationGain: z.number(),
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    /** Desnivel negativo acumulado en metros (opcional) */
+    elevationLoss: z.number().optional(),
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
-    })
+    /** Dificultad de la ruta */
+    difficulty: z.enum(["Fácil", "Moderada", "Difícil", "Muy Difícil"]),
 
-export type Hiking = z.infer<ReturnType<typeof hikingSchema>>
+    // ========================================================================
+    // LogisticsCard
+    // ========================================================================
+
+    /** ¿Es una ruta circular? */
+    circularRoute: z.boolean().default(false),
+
+    /** Punto de inicio de la ruta */
+    startPoint: utmCoordinatesSchema,
+
+    /** Punto final de la ruta */
+    endPoint: utmCoordinatesSchema,
+
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
+
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
+
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+  });
+
+export type Hiking = z.infer<ReturnType<typeof hikingSchema>>;

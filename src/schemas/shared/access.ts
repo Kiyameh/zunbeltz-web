@@ -13,4 +13,4 @@ export const accessInfoSchema = z.object({
   distance: z.number().optional(),
 });
 
-export type AccessInfo = z.infer<typeof accessInfoSchema>
+export type AccessInfo = z.infer<typeof accessInfoSchema>;

@@ -9,103 +9,103 @@ import {
 
 /**
  * Colección de Cuevas
- * 
+ *
  * Representa cavidades (cuevas, simas, sumideros) como locations (lugares físicos).
  * Las rutas espeleológicas que se realizan en estas cuevas (cavingRoutes)
  * son colecciones separadas que referencian a estas locations.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Jerarquía:
  * NavarraZone → KarstArea → CaveSystem → Cave
- * 
+ *
  * Activities que referencian a Cave:
  * - cavingRoutes
  */
 export const caveSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la cavidad */
-      name: z.string(),
+    /** Nombre de la cavidad */
+    name: z.string(),
 
-      /** Descripción */
-      description: z.string(),
+    /** Descripción */
+    description: z.string(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Macizo al que pertenece (opcional) */
-      massif: z.string().optional(),
+    /** Macizo al que pertenece (opcional) */
+    massif: z.string().optional(),
 
-      /** Sistema de cuevas al que pertenece (opcional) */
-      caveSystem: reference("caveSystems").optional(),
+    /** Sistema de cuevas al que pertenece (opcional) */
+    caveSystem: reference("caveSystems").optional(),
 
-      /** Área kárstica a la que pertenece (opcional) */
-      karstArea: reference("karstAreas").optional(),
+    /** Área kárstica a la que pertenece (opcional) */
+    karstArea: reference("karstAreas").optional(),
 
-      /** Zona de Navarra a la que pertenece */
-      navarraZone: reference("navarraZones"),
+    /** Zona de Navarra a la que pertenece */
+    navarraZone: reference("navarraZones"),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Nombres alternativos */
-      alternativeNames: z.array(z.string()).optional(),
+    /** Nombres alternativos */
+    alternativeNames: z.array(z.string()).optional(),
 
-      /** Tipo morfológico de la cavidad */
-      morphology: z
-        .enum(["Cueva", "Sima", "Sumidero", "Manantial", "Mina"])
-        .optional(),
+    /** Tipo morfológico de la cavidad */
+    morphology: z
+      .enum(["Cueva", "Sima", "Sumidero", "Manantial", "Mina"])
+      .optional(),
 
-      /** Localidad o municipio */
-      location: z.string(),
-      
-      /** Código de catálogo (ej: "NA-01") */
-      catalogCode: z.string().optional(),
+    /** Localidad o municipio */
+    location: z.string(),
 
-      /** URL a la ficha en Subterra.app */
-      subterraUrl: z.string().url().optional(),
+    /** Código de catálogo (ej: "NA-01") */
+    catalogCode: z.string().optional(),
 
-      /** Desarrollo total en metros */
-      length: z.number().optional(),
-      
-      /** Profundidad/desnivel en metros */
-      depth: z.number().optional(),
+    /** URL a la ficha en Subterra.app */
+    subterraUrl: z.string().url().optional(),
 
-      // ========================================================================
-      // LogisticsCard
-      // ========================================================================
+    /** Desarrollo total en metros */
+    length: z.number().optional(),
 
-      /** Coordenadas de la entrada principal */
-      entryPoint: utmCoordinatesSchema,
+    /** Profundidad/desnivel en metros */
+    depth: z.number().optional(),
 
-      /** Información de acceso a la cueva */
-      accessInfo: accessInfoSchema.optional(),
+    // ========================================================================
+    // LogisticsCard
+    // ========================================================================
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    /** Coordenadas de la entrada principal */
+    entryPoint: utmCoordinatesSchema,
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    /** Información de acceso a la cueva */
+    accessInfo: accessInfoSchema.optional(),
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-      /** Topografías de la cavidad */
-      topographies: z.array(topographyAssetSchema).optional(),
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
 
-      // ========================================================================
-      // RestrictionsCard
-      // ========================================================================      
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
 
-      /** Restricciones y protecciones */
-      restrictions: restrictionsSchema.optional(),
-    })
+    /** Topografías de la cavidad */
+    topographies: z.array(topographyAssetSchema).optional(),
 
-export type Cave = z.infer<ReturnType<typeof caveSchema>>
+    // ========================================================================
+    // RestrictionsCard
+    // ========================================================================
+
+    /** Restricciones y protecciones */
+    restrictions: restrictionsSchema.optional(),
+  });
+
+export type Cave = z.infer<ReturnType<typeof caveSchema>>;

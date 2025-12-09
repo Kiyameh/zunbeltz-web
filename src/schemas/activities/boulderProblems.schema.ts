@@ -1,21 +1,18 @@
 import { reference, z, type ImageFunction } from "astro:content";
-import {
-  imageAssetSchema,
-  boulderGradeSchema,
-} from "../shared";
+import { imageAssetSchema, boulderGradeSchema } from "../shared";
 
 /**
  * Colección de Problemas de Boulder
- * 
+ *
  * Representa problemas de boulder (boulderProblems) como activities.
  * Cada problema referencia a un sector (location) donde se encuentra.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: ClimbingSector
  * Jerarquía opcional: ClimbingCrag, NavarraZone
  */
-export const boulderProblemSchema = ( image: ImageFunction ) =>
+export const boulderProblemSchema = (image: ImageFunction) =>
   z.object({
     // ========================================================================
     // HeroSection
@@ -58,4 +55,4 @@ export const boulderProblemSchema = ( image: ImageFunction ) =>
     additionalPhotos: z.array(imageAssetSchema(image)).optional(),
   });
 
-export type BoulderProblem = z.infer<ReturnType<typeof boulderProblemSchema>>
+export type BoulderProblem = z.infer<ReturnType<typeof boulderProblemSchema>>;

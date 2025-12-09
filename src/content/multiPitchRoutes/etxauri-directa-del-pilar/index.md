@@ -23,7 +23,7 @@ pitches:
       number: 6
       letter: "a"
     anchorCount: 11
-  
+
   - number: 2
     length: 32
     description: "Largo sostenido con regletas y movimientos técnicos"
@@ -31,7 +31,7 @@ pitches:
       number: 6
       letter: "c"
     anchorCount: 13
-  
+
   - number: 3
     length: 30
     description: "Largo crux con desplome y movimientos dinámicos"
@@ -39,7 +39,7 @@ pitches:
       number: 7
       letter: "a"
     anchorCount: 14
-  
+
   - number: 4
     length: 25
     description: "Largo final más relajado hasta la cima"

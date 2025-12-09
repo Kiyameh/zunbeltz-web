@@ -26,4 +26,4 @@ export const topographyAssetSchema = z.object({
   license: z.string().optional(),
 });
 
-export type TopographyAsset = z.infer<typeof topographyAssetSchema>
+export type TopographyAsset = z.infer<typeof topographyAssetSchema>;

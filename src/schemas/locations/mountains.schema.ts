@@ -1,4 +1,9 @@
-import { defineCollection, reference, z, type ImageFunction } from "astro:content";
+import {
+  defineCollection,
+  reference,
+  z,
+  type ImageFunction,
+} from "astro:content";
 import {
   utmCoordinatesSchema,
   imageAssetSchema,
@@ -7,70 +12,70 @@ import {
 
 /**
  * Colección de Montañas
- * 
+ *
  * Representa cumbres y picos de Navarra como locations (lugares físicos).
  * Las actividades que se realizan en estas montañas (hikings, multiPitchRoutes)
  * son colecciones separadas que referencian a estas locations.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Jerarquía:
  * NavarraZone → Massif → Mountain
- * 
+ *
  * Activities que referencian a Mountain:
  * - hikings
  * - multiPitchRoutes (opcionalmente)
  */
 export const mountainSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la montaña */
-      name: z.string(),
+    /** Nombre de la montaña */
+    name: z.string(),
 
-      /** Descripción */
-      description: z.string(),
+    /** Descripción */
+    description: z.string(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Macizo al que pertenece (opcional) */
-      massif: reference("massifs").optional(),
+    /** Macizo al que pertenece (opcional) */
+    massif: reference("massifs").optional(),
 
-      /** Zona de Navarra a la que pertenece */
-      navarraZone: reference("navarraZones"),
+    /** Zona de Navarra a la que pertenece */
+    navarraZone: reference("navarraZones"),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Altitud en metros sobre el nivel del mar */
-      altitude: z.number(),
+    /** Altitud en metros sobre el nivel del mar */
+    altitude: z.number(),
 
-      /** Coordenadas de la cumbre */
-      coordinates: utmCoordinatesSchema,
+    /** Coordenadas de la cumbre */
+    coordinates: utmCoordinatesSchema,
 
-      /** Localidad o municipio más cercano */
-      location: z.string(),
+    /** Localidad o municipio más cercano */
+    location: z.string(),
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
 
-      // ========================================================================
-      // RestrictionsCard
-      // ========================================================================      
-      /** Restricciones y protecciones */
-      restrictions: restrictionsSchema.optional(),
-    })
+    // ========================================================================
+    // RestrictionsCard
+    // ========================================================================
+    /** Restricciones y protecciones */
+    restrictions: restrictionsSchema.optional(),
+  });
 
-export type Mountain = z.infer<ReturnType<typeof mountainSchema>>
+export type Mountain = z.infer<ReturnType<typeof mountainSchema>>;

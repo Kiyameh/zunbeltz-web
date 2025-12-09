@@ -21,7 +21,7 @@ normalFlow: 0.4
 # ============================================================================
 # MultimediaSection
 # ============================================================================
-mainPhoto: 
+mainPhoto:
   url: "./leze1.jpg"
   caption: "Entrada a la grieta"
   photographer: "Andoni Abarzuza"

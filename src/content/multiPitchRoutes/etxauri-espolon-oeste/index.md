@@ -23,7 +23,7 @@ pitches:
       number: 5
       letter: "c"
     anchorCount: 10
-  
+
   - number: 2
     length: 30
     description: "Largo crux con placa técnica y pequeños agarres"
@@ -31,7 +31,7 @@ pitches:
       number: 6
       letter: "b"
     anchorCount: 12
-  
+
   - number: 3
     length: 20
     description: "Largo final más fácil hasta la cima"

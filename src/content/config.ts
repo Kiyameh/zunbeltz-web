@@ -1,11 +1,31 @@
 import { authorSchema, postSchema } from "@/schemas/blog.schema";
-import { navarraZoneSchema, massifSchema, karstAreaSchema, caveSystemSchema } from "@/schemas/locations";
-import { mountainSchema, caveSchema, canyonSchema, climbingCragSchema,climbingSectorSchema } from "@/schemas/locations";
-import { canyoningDescentSchema, cavingRouteSchema, climbingRouteSchema, boulderProblemSchema, multiPitchRouteSchema } from "@/schemas/activities";
-import { throughTripCavingSchema, trekkingSchema, viaFerrataSchema , hikingSchema} from "@/schemas/activities";
+import {
+  navarraZoneSchema,
+  massifSchema,
+  karstAreaSchema,
+  caveSystemSchema,
+} from "@/schemas/locations";
+import {
+  mountainSchema,
+  caveSchema,
+  canyonSchema,
+  climbingCragSchema,
+  climbingSectorSchema,
+} from "@/schemas/locations";
+import {
+  canyoningDescentSchema,
+  cavingRouteSchema,
+  climbingRouteSchema,
+  boulderProblemSchema,
+  multiPitchRouteSchema,
+} from "@/schemas/activities";
+import {
+  throughTripCavingSchema,
+  trekkingSchema,
+  viaFerrataSchema,
+  hikingSchema,
+} from "@/schemas/activities";
 import { defineCollection } from "astro:content";
-
-
 
 const authors = defineCollection({
   type: "data",
@@ -19,97 +39,93 @@ const posts = defineCollection({
 
 const navarraZones = defineCollection({
   type: "data",
-  schema: navarraZoneSchema
+  schema: navarraZoneSchema,
 });
 
 const massifs = defineCollection({
   type: "data",
-  schema: massifSchema
-})
+  schema: massifSchema,
+});
 
 const karstAreas = defineCollection({
-   type: "data",
-   schema: karstAreaSchema
-})
+  type: "data",
+  schema: karstAreaSchema,
+});
 
 const caveSystems = defineCollection({
   type: "data",
-  schema: caveSystemSchema
-})
+  schema: caveSystemSchema,
+});
 
 const mountains = defineCollection({
   type: "content",
-  schema: ({ image }) => mountainSchema(image)
-})
+  schema: ({ image }) => mountainSchema(image),
+});
 
 const caves = defineCollection({
   type: "content",
-  schema: ({ image }) => caveSchema(image)
-})
+  schema: ({ image }) => caveSchema(image),
+});
 
 const canyons = defineCollection({
   type: "content",
-  schema: ({ image }) => canyonSchema(image)
-})
+  schema: ({ image }) => canyonSchema(image),
+});
 
 const climbingCrags = defineCollection({
   type: "content",
-  schema: ({ image }) => climbingCragSchema(image)
-})
+  schema: ({ image }) => climbingCragSchema(image),
+});
 
 const climbingSectors = defineCollection({
   type: "content",
-  schema: ({ image }) => climbingSectorSchema(image)
-})
+  schema: ({ image }) => climbingSectorSchema(image),
+});
 
 const hikings = defineCollection({
   type: "content",
-  schema: ({ image }) => hikingSchema(image)
-})
+  schema: ({ image }) => hikingSchema(image),
+});
 
 const canyoningDescents = defineCollection({
   type: "content",
-  schema: ({ image }) => canyoningDescentSchema(image)
-})
+  schema: ({ image }) => canyoningDescentSchema(image),
+});
 
 const cavingRoutes = defineCollection({
   type: "content",
-  schema: ({ image }) => cavingRouteSchema(image)
-})
+  schema: ({ image }) => cavingRouteSchema(image),
+});
 
 const climbingRoutes = defineCollection({
   type: "content",
-  schema: ({ image }) => climbingRouteSchema(image)
-})
+  schema: ({ image }) => climbingRouteSchema(image),
+});
 
 const boulderProblems = defineCollection({
   type: "content",
-  schema: ({ image }) => boulderProblemSchema(image)
-})
+  schema: ({ image }) => boulderProblemSchema(image),
+});
 
 const multiPitchRoutes = defineCollection({
   type: "content",
-  schema: ({ image }) => multiPitchRouteSchema(image)
-})
+  schema: ({ image }) => multiPitchRouteSchema(image),
+});
 
 const throughTripCavings = defineCollection({
   type: "content",
-  schema: ({ image }) => throughTripCavingSchema(image)
-})
+  schema: ({ image }) => throughTripCavingSchema(image),
+});
 
 const trekkings = defineCollection({
   type: "content",
-  schema: ({ image }) => trekkingSchema(image)
-})
+  schema: ({ image }) => trekkingSchema(image),
+});
 
 const viaFerratas = defineCollection({
   type: "content",
-  schema: ({ image }) => viaFerrataSchema(image)
-})
-
-
-
-
+  schema: ({ image }) => viaFerrataSchema(image),
+});
 
 export const collections = {
   // Blog

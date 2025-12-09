@@ -8,82 +8,81 @@ import {
 
 /**
  * Esquema de Trekkings
- * 
+ *
  * Representa trekkings de varios días (trekkings) como activities.
  * Cada trekking referencia a un macizo (location) donde se realiza.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: Massif
  * Jerarquía opcional: NavarraZone
  */
 export const trekkingSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la ruta */
-      name: z.string(),
-      
-      /** Descripción */
-      description: z.string().optional(),
+    /** Nombre de la ruta */
+    name: z.string(),
 
-      
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    /** Descripción */
+    description: z.string().optional(),
 
-      /** Macizo donde se realiza el trekking (OBLIGATORIO) */
-      massif: reference("massifs"),
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Zona de Navarra (opcional, para queries rápidas) */
-      navarraZone: reference("navarraZones").optional(),
+    /** Macizo donde se realiza el trekking (OBLIGATORIO) */
+    massif: reference("massifs"),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    /** Zona de Navarra (opcional, para queries rápidas) */
+    navarraZone: reference("navarraZones").optional(),
 
-      /** Duración total */
-      duration: durationSchema,
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Número de etapas */
-      numberOfStages: z.number(),
+    /** Duración total */
+    duration: durationSchema,
 
-      /** Longitud total en kilómetros */
-      totalLength: z.number(),
+    /** Número de etapas */
+    numberOfStages: z.number(),
 
-      /** Desnivel positivo acumulado en metros */
-      totalElevationGain: z.number(),
+    /** Longitud total en kilómetros */
+    totalLength: z.number(),
 
-      /** Desnivel negativo acumulado en metros */
-      totalElevationLoss: z.number().optional(),
+    /** Desnivel positivo acumulado en metros */
+    totalElevationGain: z.number(),
 
-      /** Dificultad del trekking */
-      difficulty: z.enum(["Fácil", "Moderada", "Difícil", "Muy Difícil"]),
+    /** Desnivel negativo acumulado en metros */
+    totalElevationLoss: z.number().optional(),
 
-      // ========================================================================
-      // LogisticsCard
-      // ========================================================================
+    /** Dificultad del trekking */
+    difficulty: z.enum(["Fácil", "Moderada", "Difícil", "Muy Difícil"]),
 
-      /** ¿Es un trekking circular? */
-      circularRoute: z.boolean().default(false),
+    // ========================================================================
+    // LogisticsCard
+    // ========================================================================
 
-      /** Punto de inicio del trekking */
-      startPoint: utmCoordinatesSchema,
+    /** ¿Es un trekking circular? */
+    circularRoute: z.boolean().default(false),
 
-      /** Punto final del trekking */
-      endPoint: utmCoordinatesSchema,
+    /** Punto de inicio del trekking */
+    startPoint: utmCoordinatesSchema,
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    /** Punto final del trekking */
+    endPoint: utmCoordinatesSchema,
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
-    })
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
 
-export type Trekking = z.infer<ReturnType<typeof trekkingSchema>>
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+  });
+
+export type Trekking = z.infer<ReturnType<typeof trekkingSchema>>;

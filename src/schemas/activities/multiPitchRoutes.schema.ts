@@ -10,109 +10,108 @@ import {
 
 /**
  * Colección de Vías de Varios Largos
- * 
+ *
  * Representa vías de escalada de varios largos (multiPitchRoutes) como activities.
  * Cada vía puede referenciar a un sector de escalada O a una montaña.
- * 
+ *
  * Tipo: content (frontmatter + contenido Markdown)
- * 
+ *
  * Location principal: ClimbingSector OR Mountain
  * Jerarquía opcional: ClimbingCrag/Massif, NavarraZone
  */
 
 export const multiPitchRouteSchema = (image: ImageFunction) =>
   z.object({
-      // ========================================================================
-      // HeroSection
-      // ========================================================================
+    // ========================================================================
+    // HeroSection
+    // ========================================================================
 
-      /** Nombre de la vía */
-      name: z.string(),
+    /** Nombre de la vía */
+    name: z.string(),
 
-      /** Descripción */
-      description: z.string(),
+    /** Descripción */
+    description: z.string(),
 
-      // ========================================================================
-      // LocationsCard
-      // ========================================================================
+    // ========================================================================
+    // LocationsCard
+    // ========================================================================
 
-      /** Sector donde se encuentra la vía (opcional) */
-      climbingSector: reference("climbingSectors").optional(),
+    /** Sector donde se encuentra la vía (opcional) */
+    climbingSector: reference("climbingSectors").optional(),
 
-      /** Montaña donde se encuentra la vía (opcional) */
-      mountain: reference("mountains").optional(),
+    /** Montaña donde se encuentra la vía (opcional) */
+    mountain: reference("mountains").optional(),
 
-      /** Escuela de escalada (opcional, si pertenece a sector) */
-      climbingCrag: reference("climbingCrags").optional(),
+    /** Escuela de escalada (opcional, si pertenece a sector) */
+    climbingCrag: reference("climbingCrags").optional(),
 
-      /** Macizo (opcional, si pertenece a montaña) */
-      massif: reference("massifs").optional(),
+    /** Macizo (opcional, si pertenece a montaña) */
+    massif: reference("massifs").optional(),
 
-      /** Zona de Navarra (opcional, para queries rápidas) */
-      navarraZone: reference("navarraZones").optional(),
+    /** Zona de Navarra (opcional, para queries rápidas) */
+    navarraZone: reference("navarraZones").optional(),
 
-      // ========================================================================
-      // PropertiesSection
-      // ========================================================================
+    // ========================================================================
+    // PropertiesSection
+    // ========================================================================
 
-      /** Largos de escalada */
-      pitches: z.array(climbingPitchSchema),
+    /** Largos de escalada */
+    pitches: z.array(climbingPitchSchema),
 
-      /** Longitud total en metros */
-      length: z.number(),
+    /** Longitud total en metros */
+    length: z.number(),
 
-      /** Desnivel total en metros */
-      elevationGain: z.number(),
+    /** Desnivel total en metros */
+    elevationGain: z.number(),
 
-      /** Estilo de escalada */
-      style: z.enum(["Deportiva", "Clásica", "Artificial", "Mixta"]).optional(),
+    /** Estilo de escalada */
+    style: z.enum(["Deportiva", "Clásica", "Artificial", "Mixta"]).optional(),
 
-      /** Duración estimada (aproximación + escalada + descenso) */
-      duration: durationSchema,
+    /** Duración estimada (aproximación + escalada + descenso) */
+    duration: durationSchema,
 
-      // ========================================================================
-      // GradingCard
-      // ========================================================================
+    // ========================================================================
+    // GradingCard
+    // ========================================================================
 
-      /** Dificultad máxima de la vía */
-      grading: climbingGradeSchema,
+    /** Dificultad máxima de la vía */
+    grading: climbingGradeSchema,
 
-      // ========================================================================
-      // LogisticsCard
-      // ========================================================================
-      
-      /** Punto de inicio de la aproximación */
-      startPoint: utmCoordinatesSchema,
-      
-      /** Punto final (cima o salida) */
-      endPoint: utmCoordinatesSchema,
-      
-      /** Información de acceso */
-      accessInfo: accessInfoSchema.optional(),
-      
-      /** Información del retorno */
-      returnInfo: accessInfoSchema.optional(),
+    // ========================================================================
+    // LogisticsCard
+    // ========================================================================
 
+    /** Punto de inicio de la aproximación */
+    startPoint: utmCoordinatesSchema,
 
-      // ========================================================================
-      // RequiredGearCard
-      // ========================================================================
+    /** Punto final (cima o salida) */
+    endPoint: utmCoordinatesSchema,
 
-      /** Material necesario */
-      requiredGear: z.array(z.string()).optional(),
+    /** Información de acceso */
+    accessInfo: accessInfoSchema.optional(),
 
-      // ========================================================================
-      // MultimediaSection
-      // ========================================================================
+    /** Información del retorno */
+    returnInfo: accessInfoSchema.optional(),
 
-      /** Fotografía principal */
-      mainPhoto: imageAssetSchema(image).optional(),
+    // ========================================================================
+    // RequiredGearCard
+    // ========================================================================
 
-      /** Fotografías adicionales */
-      additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+    /** Material necesario */
+    requiredGear: z.array(z.string()).optional(),
 
-      /** Croquis de la vía */
-      topoImage: imageAssetSchema(image).optional(),
-    });
+    // ========================================================================
+    // MultimediaSection
+    // ========================================================================
 
-export type MultiPitchRoute = z.infer<ReturnType<typeof multiPitchRouteSchema>>
+    /** Fotografía principal */
+    mainPhoto: imageAssetSchema(image).optional(),
+
+    /** Fotografías adicionales */
+    additionalPhotos: z.array(imageAssetSchema(image)).optional(),
+
+    /** Croquis de la vía */
+    topoImage: imageAssetSchema(image).optional(),
+  });
+
+export type MultiPitchRoute = z.infer<ReturnType<typeof multiPitchRouteSchema>>;
