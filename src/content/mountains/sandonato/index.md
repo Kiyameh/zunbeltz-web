@@ -1,26 +1,41 @@
 ---
+# ============================================================================
+# HeroSection
+# ============================================================================
 name: "San Donato"
 description: "Monte emblemático de la Sakana navarra, el San Donato (1.032 m) ofrece una ascensión clásica con vistas panorámicas sobre la cuenca de Pamplona y la sierra de Aralar. Popular entre montañeros navarros por su accesibilidad y belleza."
+
+# ============================================================================
+# LocationsCard
+# ============================================================================
+massif: "sierra-urbasa"
+navarraZone: "aralar-urbasa"
+
+# ============================================================================
+# PropertiesSection
+# ============================================================================
 altitude: 1032
 coordinates:
-  zone: 30
-  hemisphere: "N"
   easting: 585234
   northing: 4748123
-  latitude: 42.9234
-  longitude: -1.9876
-  altitude: 1032
+  latitude: 1.3455
+  longitude: -2.45345
 location: "Etxarri-Aranatz, Sakana"
-massif: "Sierra de Aralar"
-hikingRoutes:
-  - sandonato-normal
-  - sandonato-brecha
-technicalRoutes:
-  - sandonato-espolon
+
+# ============================================================================
+# MultimediaSection
+# ============================================================================
+# mainPhoto:
+#   url: "./photo.jpg"
+#   caption: ""
+#   photographer: ""
+
+# ============================================================================
+# RestrictionsCard
+# ============================================================================
 restrictions:
   hasRestrictions: true
-  protectionStatus:
-    - "Parque Natural"
+  protectionStatus: ["Parque Natural"]
   additionalInfo: "Zona de nidificación de aves rapaces. Respetar las señalizaciones de cierre temporal de rutas durante la época de cría (febrero-julio)."
 ---
 
@@ -49,25 +64,7 @@ El San Donato forma parte del conjunto kárstico de Aralar. Su estructura caliza
 
 ### Fauna
 
-- Buitre leonado (colonias en roquedos)
-- Alimoche (nidificante)
-- Águila real (ocasional)
-- Corzo y jabalí en los bosques
-
-## Puntos de Interés
-
-- **Ermita de San Donato**: Construcción románica en la cumbre
-- **Mirador natural**: Vistas panorámicas excepcionales
-- **Hayedo de Etxarri**: Bosque centenario en la aproximación
-- **La Brecha**: Formación rocosa característica en la vertiente norte
-
-## Acceso
-
-**Desde Pamplona**:
-
-- Tomar la N-240 dirección Vitoria
-- Desvío en Alsasua hacia Etxarri-Aranatz
-- Seguir indicaciones al parking de San Donato
-- Coordenadas parking: 42.9123, -2.0012
-
-**Transporte público**: Autobús Pamplona-Etxarri-Aranatz (línea La Barranca)
+- Buitres leonados
+- Alimoches
+- Águilas reales
+- Rebecos en zonas altas

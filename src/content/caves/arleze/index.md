@@ -1,26 +1,55 @@
 ---
+# ============================================================================
+# HeroSection
+# ============================================================================
 name: "Cueva de Arleze"
-#alternativeNames: []
+description: "La Cueva de Arleze es una cavidad emblemática de la Sierra de Urbasa. Su proximidad a la calzada romana y facilidad la hace muy frecuentada por senderistas y montañeros"
+
+# ============================================================================
+# LocationsCard
+# ============================================================================
+massif: "sierra-urbasa"
+karstArea: "urbasa-karst"
+navarraZone: "aralar-urbasa"
+
+# ============================================================================
+# PropertiesSection
+# ============================================================================
+alternativeNames: []
 morphology: "Cueva"
-massif: "Sierra de Urbasa"
-coordinates:
-  zone: 30 
-  hemisphere: "N"
-  easting: 577743
-  northing: 4744890
-  latitude: 42.852736
-  longitude: -2.048616
-  altitude: 1027
 location: "Sierra de Urbasa"
 catalogCode: "NA-0230"
-#subterraUrl: ""
 length: 320
 depth: 163
-description: "La Cueva de Arleze es una cavidad emblemática de la Sierra de Urbasa. Su proximidad a la calzada romana y facilidad la hace muy frecuentada por senderistas y montañeros"
+
+# ============================================================================
+# LogisticsCard
+# ============================================================================
+entryPoint:
+  zone: 30
+  easting: 577743
+  northing: 4744890
+
+accessInfo:
+  description: "Acceso desde Bentaberri"
+  parking:
+    zone: 30
+    easting: 579496
+    northing: 4743105
+  time:
+    days: 0
+    hours: 1
+    minutes: 30
+  distance: 3200
+
+# ============================================================================
+# MultimediaSection
+# ============================================================================
 mainPhoto:
   url: "./arleze2.jpg"
   caption: "Vista desde el interior"
   photographer: "Andoni Abarzuza"
+
 additionalPhotos:
   - url: "./arleze1.jpg"
     caption: "Boca de entrada"
@@ -43,44 +72,21 @@ additionalPhotos:
   - url: "./arleze7.jpg"
     caption: "Boca de entrada"
     photographer: "Andoni Abarzuza"
-#topographies:
-#  - url: ""
-#    title: ""
-#    author: ""
-#    year:
-#    format: ""
-#    license: ""
-access:
-  description: "Acceso desde Bentaberri"
-  parking:
-    zone: 30
-    hemisphere: "N"
-    easting: 579496
-    northing: 4743105
-    latitude: 42.836395
-    longitude: -2.027258
-    altitude: 847
-  difficulty: "easy"
-  time:
-    hours: 1
-    minutes: 30
-  distance: 3200
-#  restrictions: ""
-#  4x4Required:
+
+# topographies:
+#   - url: ""
+#     title: ""
+#     author: ""
+#     year: 2024
+
+# ============================================================================
+# RestrictionsCard
+# ============================================================================
 restrictions:
   hasRestrictions: true
-#  isPermanentlyClosed:
-#  permanentClosureReason: ""
   protectionStatus: ["Parque Natural"]
-#  closureSeasons:
-#    - startDate: ""
-#      endDate: ""
-#      reason: ""
-#      isAnnual:
   requiresPermit: true
   permitInfo: "Actividad regulada por la normativa del Parque Natural de Urbasa-Andía"
-#  prohibitions: []
-#  additionalInfo: ""
 ---
 
 ## Descripción General

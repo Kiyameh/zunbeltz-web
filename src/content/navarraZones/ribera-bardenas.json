@@ -1,0 +1,10 @@
+{
+  "name": "Ribera & Bardenas",
+  "key": "ribera_bardenas",
+  "description": "Zona sur, semiárida y esteparia.",
+  "geographicAreas": [
+    "Parque Natural de las Bardenas Reales",
+    "La Ribera (Tudela)",
+    "Parque Natural del Moncayo (Vertiente Navarra)"
+  ]
+}

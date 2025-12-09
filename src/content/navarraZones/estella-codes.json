@@ -1,0 +1,12 @@
+{
+  "name": "Tierra Estella & Lokiz",
+  "key": "estella_codes",
+  "description": "Zona de transición climática hacia el sur. Sierras calizas de menor altitud y valles abiertos.",
+  "geographicAreas": [
+    "Sierra de Lokiz",
+    "Tierra Estella (Merindad)",
+    "Sierra de Codés",
+    "Montejurra",
+    "Valdega y La Berrueza"
+  ]
+}

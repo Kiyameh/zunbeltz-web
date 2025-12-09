@@ -1,24 +1,55 @@
 ---
+# ============================================================================
+# HeroSection
+# ============================================================================
 name: "Cueva de Akuandi"
+description: "La Cueva de Akuandi es una de las cavidades más clásicas y conocidas de la Sierra de Urbasa. Se trata de una cavidad predominantemente horizontal, con grandes galerías y volúmenes cómodos que facilitan el tránsito sin grandes dificultades técnicas."
+
+# ============================================================================
+# LocationsCard
+# ============================================================================
+massif: "sierra-urbasa"
+karstArea: "urbasa-karst"
+navarraZone: "aralar-urbasa"
+
+# ============================================================================
+# PropertiesSection
+# ============================================================================
+alternativeNames: []
 morphology: "Cueva"
-massif: "Sierra de Urbasa"
 location: "Monte comunal de las Améscoas"
-coordinates:
-  zone: 30
-  hemisphere: "N"
-  easting: 562893
-  northing: 4737611
-  latitude: 42.788467
-  longitude: -2.231068
-  altitude: 980
 catalogCode: "NA-0345"
 length: 450
 depth: 25
-description: "La Cueva de Akuandi es una de las cavidades más clásicas y conocidas de la Sierra de Urbasa. Se trata de una cavidad predominantemente horizontal, con grandes galerías y volúmenes cómodos que facilitan el tránsito sin grandes dificultades técnicas."
+
+# ============================================================================
+# LogisticsCard
+# ============================================================================
+entryPoint:
+  zone: 30
+  easting: 562893
+  northing: 4737611
+
+accessInfo:
+  description: "El acceso a la cavidad se hace por la pista que sube desde Aranaratxe, caminando alrededor de una hora"
+  parking:
+    zone: 30
+    easting: 563109
+    northing: 4736658
+  time:
+    days: 0
+    hours: 1
+    minutes: 0
+  distance: 3000
+
+# ============================================================================
+# MultimediaSection
+# ============================================================================
 mainPhoto:
   url: "./akuandi3.jpg"
   caption: "Zona característica muy formada"
   photographer: "Andoni Abarzuza"
+
 additionalPhotos:
   - url: "./akuandi1.jpg"
     caption: "Entrada de Akuandi"
@@ -38,31 +69,16 @@ additionalPhotos:
   - url: "./akuandi6.jpg"
     caption: "Lago final con nivel normal"
     photographer: "Andoni Abarzuza"
-  
-#topographies:
-#  - url: ""
-#    title: ""
-#    author: ""
-#    year:
-#    format: ""
-#    license: ""
-access:
-  description: "El acceso a la cavidad se hace por la pista que sube desde Aranaratxe, caminando alrededor de una hora"
-  parking:
-    zone: 30
-    hemisphere: "N"
-    easting: 563109
-    northing: 4736658
-    latitude:	42.779864
-    longitude: -2.228481
-    altitude: 794
-  difficulty: "easy"
-  time:
-    hours: 1
-    minutes: 0
-  distance: 3000
-#  restrictions: ""
-#  4x4Required:
+
+# topographies:
+#   - url: ""
+#     title: ""
+#     author: ""
+#     year: 2024
+
+# ============================================================================
+# RestrictionsCard
+# ============================================================================
 restrictions:
   hasRestrictions: true
   protectionStatus: ["Parque Natural"]

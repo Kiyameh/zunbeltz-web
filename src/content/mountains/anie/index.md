@@ -1,24 +1,43 @@
 ---
+# ============================================================================
+# HeroSection
+# ============================================================================
 name: "Pico Anie (Auñamendi)"
 description: "El Anie o Auñamendi es una de las cumbres más emblemáticas del Pirineo Navarro. Con sus 2.504 metros de altitud, domina el valle de Belagua y ofrece vistas espectaculares sobre los Pirineos. Es una montaña muy frecuentada tanto en verano como en invierno."
+
+# ============================================================================
+# LocationsCard
+# ============================================================================
+massif: "pirineos-occidentales"
+navarraZone: "pyrenees-irati"
+
+# ============================================================================
+# PropertiesSection
+# ============================================================================
 altitude: 2504
 coordinates:
-  zone: 30
-  hemisphere: "N"
   easting: 672345
   northing: 4752890
-  latitude: 42.9654
-  longitude: -0.7823
-  altitude: 2504
+  latitude: 1.44809
+  longitude: -2.34565
 location: "Isaba, Valle de Roncal"
-massif: "Pirineos Occidentales"
-hikingRoutes:
-  - anie-pescamou
-  - anie-travesia
+
+# ============================================================================
+# MultimediaSection
+# ============================================================================
 mainPhoto:
   url: "./hero.jpg"
   caption: "Pico Anie"
   photographer: "Andoni Abarzuza"
+
+# additionalPhotos:
+#   - url: "./photo1.jpg"
+#     caption: ""
+#     photographer: ""
+
+# ============================================================================
+# RestrictionsCard
+# ============================================================================
 restrictions:
   hasRestrictions: false
 ---

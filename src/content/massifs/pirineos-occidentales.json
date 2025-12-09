@@ -1,0 +1,9 @@
+{
+  "id": "pirineos-occidentales",
+  "name": "Pirineos Occidentales",
+  "description": "Los Pirineos Occidentales comprenden la parte más occidental de la cordillera pirenaica, incluyendo el Pirineo Navarro. Destacan cumbres emblemáticas como el Anie, la Mesa de los Tres Reyes y el Ori, con paisajes de alta montaña y extensos karsts.",
+  "navarraZone": "pyrenees-irati",
+  "averageAltitude": 2000,
+  "highestPeak": "Mesa de los Tres Reyes",
+  "highestPeakAltitude": 2428
+}

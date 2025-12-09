@@ -1,0 +1,13 @@
+{
+  "id": "urbasa-karst",
+  "name": "Área Kárstica de Urbasa",
+  "description": "El karst de Urbasa es uno de los más importantes de Navarra, con extensos campos de lapiaz, numerosas dolinas y un rico patrimonio espeleológico. Alberga cavidades emblemáticas como Akuandi y Arleze, además de importantes surgencias como el Nacedero del Urederra.",
+  "navarraZone": "aralar-urbasa",
+  "approximateArea": 21000,
+  "mainFeatures": [
+    "Extensos campos de lapiaz",
+    "Numerosas dolinas y simas",
+    "Nacedero del Urederra",
+    "Más de 400 cavidades catalogadas"
+  ]
+}

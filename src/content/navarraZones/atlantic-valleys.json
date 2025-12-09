@@ -1,0 +1,14 @@
+{
+  "name": "Valles Atlánticos",
+  "key": "atlantic_valleys",
+  "description": "Zona húmeda del norte, caracterizada por media montaña, valles profundos y verdes, y fuerte influencia oceánica.",
+  "geographicAreas": [
+    "Valle de Baztan",
+    "Comarca del Bidasoa (Cinco Villas / Bortziriak)",
+    "Malerreka",
+    "Xareta",
+    "Valle de Ultzama",
+    "Leitzaran y Norte de Aralar (Vertiente atlántica)",
+    "Macizo de Peñas de Aia (Vertiente Navarra)"
+  ]
+}

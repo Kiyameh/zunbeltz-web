@@ -1,0 +1,12 @@
+{
+  "name": "Prepirineo & Foces",
+  "key": "prepyrenees_gorges",
+  "description": "Zona caracterizada por las grandes gargantas fluviales (foces), sierras de conglomerado y transición al Pirineo.",
+  "geographicAreas": [
+    "Foz de Lumbier y Arbayún",
+    "Sierra de Leyre",
+    "Cuenca de Aoiz y Lumbier",
+    "Valles de Urraul (Alto y Bajo)",
+    "Sierra de Izco"
+  ]
+}

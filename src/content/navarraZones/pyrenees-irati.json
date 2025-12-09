@@ -1,0 +1,13 @@
+{
+  "name": "Pirineo & Irati",
+  "key": "pyrenees_irati",
+  "description": "Zona de alta montaña alpina y grandes masas forestales. Incluye el Pirineo Axial y las zonas de mayor altitud.",
+  "geographicAreas": [
+    "Valle de Roncal (Belagua, Larra)",
+    "Valle de Salazar",
+    "Selva de Irati",
+    "Valle de Aezkoa",
+    "Auñamendi (Roncesvalles, Burguete, Sorogain)",
+    "Macizo de Orhi"
+  ]
+}
