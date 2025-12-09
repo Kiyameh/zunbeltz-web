@@ -162,6 +162,11 @@ select {
   outline: 2px solid var(--color-secondary-300);
 }
 
+/* Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Pagefind search bar styling */
 
 :root {
