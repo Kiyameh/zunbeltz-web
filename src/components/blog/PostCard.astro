@@ -1,19 +1,15 @@
 ---
+import type { Post } from "@/interfaces/blog/post";
 import { Image } from "astro:assets";
-import { getEntry } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 
 interface Props {
-  post: CollectionEntry<"posts">;
+  post: Post;
 }
 
 const { post } = Astro.props;
 
-// Obtener datos del autor
-const author = await getEntry(post.data.author);
-
 // Formatear fecha
-const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
+const formattedDate = post.publishedAt?.toLocaleDateString("es-ES", {
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -23,51 +19,59 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
 <article class="post-card">
   <a href={`/blog/${post.slug}`}>
     <div class="post-card-image">
-      <Image
-        class="post-card-hero-image"
-        src={post.data.heroImage}
-        alt={post.data.title}
-        width={800}
-        height={250}
-        quality={80}
-        loading="lazy"
-      />
+      {
+        post.cover && (
+          <Image
+            class="post-card-hero-image"
+            src={post.cover.href}
+            alt={post.title}
+            width={800}
+            height={250}
+            quality={80}
+            loading="lazy"
+          />
+        )
+      }
     </div>
 
     <div class="post-card-content">
       <div class="post-card-meta">
-        <time datetime={post.data.publishDate.toISOString()}>
+        <time datetime={post.publishedAt?.toISOString()}>
           {formattedDate}
         </time>
-        <div class="post-card-categories">
-          {
-            post.data.categories.map((category) => (
-              <span class="chip secondary">{category}</span>
-            ))
-          }
-        </div>
       </div>
 
-      <h2 class="post-card-title">{post.data.title}</h2>
-      <p class="post-card-description">{post.data.description}</p>
+      <h2 class="post-card-title">{post.title}</h2>
+      <p class="post-card-description">{post.description}</p>
 
       {
-        author && (
+        post.author && (
           <div class="post-card-author">
-            <Image
-              class="post-card-author-avatar"
-              src={author.data.avatar}
-              alt={author.data.name}
-              width={32}
-              height={32}
-              quality={90}
-            />
-            <span class="post-card-author-name">{author.data.name}</span>
+            {post.author.avatar && (
+              <Image
+                class="post-card-author-avatar"
+                src={post.author.avatar.href}
+                alt={post.author.name}
+                width={32}
+                height={32}
+                quality={90}
+              />
+            )}
+            <span class="post-card-author-name">{post.author.name}</span>
           </div>
         )
       }
     </div>
   </a>
+  <div class="post-card-categories">
+    {
+      post.categories.map((category) => (
+        <a href={`/blog/categoria/${category.slug}`} class="chip secondary">
+          {category.name}
+        </a>
+      ))
+    }
+  </div>
 </article>
 
 <style>
@@ -83,6 +87,8 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
 
     box-shadow: var(--shadow-md);
     transition: box-shadow 0.2s ease;
+
+    position: relative;
   }
 
   .post-card:hover {
@@ -134,6 +140,9 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
     display: flex;
     gap: 0.5rem;
     flex-wrap: wrap;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
   }
 
   .post-card-title {

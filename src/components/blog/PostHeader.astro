@@ -1,14 +1,13 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { Post } from "@/interfaces/blog/post";
 
 interface Props {
-  post: CollectionEntry<"posts">;
+  post: Post;
 }
 
 const { post } = Astro.props;
 
-// Formatear fecha
-const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
+const formattedDate = post.publishedAt.toLocaleDateString("es-ES", {
   year: "numeric",
   month: "long",
   day: "numeric",
@@ -16,16 +15,18 @@ const formattedDate = post.data.publishDate.toLocaleDateString("es-ES", {
 ---
 
 <header class="post-header">
-  <h1 class="post-header-title title-1">{post.data.title}</h1>
-  <p class="post-header-description paragraph">{post.data.description}</p>
+  <h1 class="post-header-title title-1">{post.title}</h1>
+  <p class="post-header-description paragraph">{post.description}</p>
   <div class="post-meta">
-    <time class="post-meta-time" datetime={post.data.publishDate.toISOString()}>
+    <time class="post-meta-time" datetime={post.publishedAt.toISOString()}>
       {formattedDate}
     </time>
     <div class="post-categories">
       {
-        post.data.categories.map((category) => (
-          <span class="chip secondary">{category}</span>
+        post.categories.map((category) => (
+          <a href={`/blog/categoria/${category.slug}`} class="chip secondary">
+            {category.name}
+          </a>
         ))
       }
     </div>

@@ -1,13 +1,7 @@
 ---
-import { getAuthorsWithPosts, getAuthorPostCounts } from "@/utils/blog/authors";
+import { getAllAuthors } from "@/services/strapi/repositories/author.repo";
 
-const authors = await getAuthorsWithPosts();
-const authorPostCounts = await getAuthorPostCounts();
-
-const authorsWithCount = authors.map((author) => {
-  const count = authorPostCounts[author.id];
-  return { ...author, count };
-});
+const authors = await getAllAuthors();
 ---
 
 <aside class="authors-widget">
@@ -18,12 +12,12 @@ const authorsWithCount = authors.map((author) => {
   </header>
   <ul class="authors-list">
     {
-      authorsWithCount.map((author) => (
+      authors.map((author) => (
         <li class="author-item">
-          <a class="anchor primary" href={`/blog/autor/${author.id}`}>
-            {author.data.name}
+          <a class="anchor primary" href={`/blog/autor/${author.slug}`}>
+            {author.name}
           </a>
-          <span class="post-count">({author.count})</span>
+          <span class="post-count">({author.posts.length})</span>
         </li>
       ))
     }

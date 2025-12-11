@@ -1,107 +1,115 @@
 ---
 import { Image } from "astro:assets";
-import type { CollectionEntry } from "astro:content";
 import Instagram from "@/icons/brand-instagram.svg";
 import Facebook from "@/icons/brand-facebook.svg";
 import X from "@/icons/brand-x.svg";
 import Website from "@/icons/world-www.svg";
 import MailPlus from "@/icons/mail-plus.svg";
+import type { Author } from "@/interfaces/blog/author";
 
 interface Props {
-  author: CollectionEntry<"authors"> | null | undefined;
+  author: Author;
 }
 
 const { author } = Astro.props;
-
-if (!author) return new Response(null, { status: 404 });
 ---
 
 <div class="wrapper">
   <article class="container">
     <a
-      href={`/blog/autor/${author.id}`}
+      href={`/blog/autor/${author.slug}`}
       class="full-card-link"
-      aria-label={`Ver perfil de ${author.data.name}`}
+      aria-label={`Ver perfil de ${author.name}`}
     >
       <span class="sr-only">Ver perfil</span>
     </a>
 
     <header class="header">
       <div class="avatar">
-        <Image
-          class="avatar-image"
-          src={author.data.avatar}
-          alt={author.data.name}
-          width={80}
-          height={80}
-          quality={90}
-        />
+        {
+          author.avatar && (
+            <Image
+              class="avatar-image"
+              src={author.avatar.href}
+              alt={author.name}
+              width={80}
+              height={80}
+              quality={90}
+            />
+          )
+        }
       </div>
-      <h3 class="author-name">{author.data.name}</h3>
-      {
-        author.data.social && (
-          <div class="social-links">
-            {author.data.social.instagram && (
-              <a
-                href={author.data.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                title="Instagram"
-              >
-                <Instagram />
-              </a>
-            )}
-            {author.data.social.facebook && (
-              <a
-                href={author.data.social.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                title="Facebook"
-              >
-                <Facebook />
-              </a>
-            )}
-            {author.data.social.twitter && (
-              <a
-                href={author.data.social.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                title="Twitter"
-              >
-                <X />
-              </a>
-            )}
-            {author.data.website && (
-              <a
-                href={author.data.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                title="Website"
-              >
-                <Website />
-              </a>
-            )}
-            {author.data.email && (
-              <a
-                href={`mailto:${author.data.email}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="social-link"
-                title="Email"
-              >
-                <MailPlus />
-              </a>
-            )}
-          </div>
-        )
-      }
+      <h3 class="author-name">{author.name}</h3>
+      <div class="social-links">
+        {
+          author.instagram && (
+            <a
+              href={author.instagram}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Instagram"
+            >
+              <Instagram />
+            </a>
+          )
+        }
+        {
+          author.facebook && (
+            <a
+              href={author.facebook}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Facebook"
+            >
+              <Facebook />
+            </a>
+          )
+        }
+        {
+          author.twitter && (
+            <a
+              href={author.twitter}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Twitter"
+            >
+              <X />
+            </a>
+          )
+        }
+        {
+          author.website && (
+            <a
+              href={author.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Website"
+            >
+              <Website />
+            </a>
+          )
+        }
+        {
+          author.email && (
+            <a
+              href={`mailto:${author.email}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="social-link"
+              title="Email"
+            >
+              <MailPlus />
+            </a>
+          )
+        }
+      </div>
     </header>
     <main class="author-bio">
-      <p>{author.data.bio}</p>
+      <p>{author.bio}</p>
     </main>
   </article>
 </div>

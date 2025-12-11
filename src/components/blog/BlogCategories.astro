@@ -1,7 +1,7 @@
 ---
-import { getCategoriesWithCountArray } from "@/utils/blog/categories";
+import { getAllCategories } from "@/services/strapi/repositories/category.repo";
 
-const categories = await getCategoriesWithCountArray();
+const categories = await getAllCategories();
 ---
 
 <aside class="categories-widget">
@@ -17,7 +17,7 @@ const categories = await getCategoriesWithCountArray();
           <a class="anchor primary" href={`/blog/categoria/${category.name}`}>
             {category.name}
           </a>
-          <span class="post-count">({category.count})</span>
+          <span class="post-count">({category.posts.length})</span>
         </li>
       ))
     }

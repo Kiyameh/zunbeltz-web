@@ -1,8 +1,6 @@
 ---
-import { getCollection } from "astro:content";
-const posts = (await getCollection("posts")).sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
-);
+import { getAllPosts } from "@/services/strapi/repositories/post.repo";
+const posts = await getAllPosts();
 ---
 
 <aside class="recent-posts-widget">
@@ -13,13 +11,13 @@ const posts = (await getCollection("posts")).sort(
   </header>
   <ul class="recent-posts-list">
     {
-      posts.map((entry) => (
+      posts.map((post) => (
         <li class="recent-post-item">
           <span class="recent-post-date">
-            {entry.data.publishDate.toLocaleDateString()}
+            {post.publishedAt.toLocaleDateString()}
           </span>
-          <a class="anchor primary" href={`/blog/${entry.slug}`}>
-            {entry.data.title}
+          <a class="anchor primary" href={`/blog/${post.slug}`}>
+            {post.title}
           </a>
         </li>
       ))
