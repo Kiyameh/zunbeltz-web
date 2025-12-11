@@ -41,7 +41,6 @@ const meta: MetaInfo = {
   articlePublishedTime: post.publishedAt.toISOString(),
   articleTags: post.categories.map((c) => c.name),
 };
-console.log(post);
 ---
 
 <HtmlLayout metaInfo={meta}>

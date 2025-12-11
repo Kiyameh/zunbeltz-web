@@ -30,9 +30,9 @@ import { type BlocksContent } from "@strapi/blocks-react-renderer";
  *
  * // Uso con discriminación de tipos
  * if (content.kind === 'markdown') {
- *   console.log(content.value); // TypeScript sabe que es string
+ *   ... // TypeScript sabe que es string
  * } else {
- *   console.log(content.value); // TypeScript sabe que es BlocksContent | BlocksContent[]
+ *   ... // TypeScript sabe que es BlocksContent | BlocksContent[]
  * }
  * ```
  */

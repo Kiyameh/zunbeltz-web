@@ -1,13 +1,13 @@
 ---
-import type { AccessInfo, UtmCoordinates } from '@/schemas/shared';
-import { utmToLatLong } from '@/utils/coordinate-utils';
+import type { AccessInfo, UtmCoordinates } from "@/schemas/shared";
+import { utmToLatLong } from "@/utils/coordinate-utils";
 import { Icon } from "astro-icon/components";
 
 interface Props {
-  entryPoint?: UtmCoordinates
-  exitPoint?: UtmCoordinates
-  accessInfo?: AccessInfo
-  returnInfo?: AccessInfo
+  entryPoint?: UtmCoordinates;
+  exitPoint?: UtmCoordinates;
+  accessInfo?: AccessInfo;
+  returnInfo?: AccessInfo;
 }
 
 const { entryPoint, exitPoint, accessInfo, returnInfo } = Astro.props;
@@ -29,54 +29,64 @@ interface CoordData {
 const coordinates: CoordData[] = [];
 
 if (entryPoint) {
-  const geo = entryPoint.latitude && entryPoint.longitude 
-    ? { latitude: entryPoint.latitude, longitude: entryPoint.longitude }
-    : utmToLatLong(entryPoint);
+  const geo =
+    entryPoint.latitude && entryPoint.longitude
+      ? { latitude: entryPoint.latitude, longitude: entryPoint.longitude }
+      : utmToLatLong(entryPoint);
   coordinates.push({
     label: "Entrada",
     icon: "map-down",
     utm: entryPoint,
     lat: geo.latitude,
-    lng: geo.longitude
+    lng: geo.longitude,
   });
 }
 
 if (exitPoint) {
-  const geo = exitPoint.latitude && exitPoint.longitude 
-    ? { latitude: exitPoint.latitude, longitude: exitPoint.longitude }
-    : utmToLatLong(exitPoint);
+  const geo =
+    exitPoint.latitude && exitPoint.longitude
+      ? { latitude: exitPoint.latitude, longitude: exitPoint.longitude }
+      : utmToLatLong(exitPoint);
   coordinates.push({
     label: "Salida",
     icon: "map-up",
     utm: exitPoint,
     lat: geo.latitude,
-    lng: geo.longitude
+    lng: geo.longitude,
   });
 }
 
 if (accessInfo?.parking) {
-  const geo = accessInfo.parking.latitude && accessInfo.parking.longitude 
-    ? { latitude: accessInfo.parking.latitude, longitude: accessInfo.parking.longitude }
-    : utmToLatLong(accessInfo.parking);
+  const geo =
+    accessInfo.parking.latitude && accessInfo.parking.longitude
+      ? {
+          latitude: accessInfo.parking.latitude,
+          longitude: accessInfo.parking.longitude,
+        }
+      : utmToLatLong(accessInfo.parking);
   coordinates.push({
     label: "Parking acceso",
     icon: "parking-circle",
     utm: accessInfo.parking,
     lat: geo.latitude,
-    lng: geo.longitude
+    lng: geo.longitude,
   });
 }
 
 if (returnInfo?.parking) {
-  const geo = returnInfo.parking.latitude && returnInfo.parking.longitude 
-    ? { latitude: returnInfo.parking.latitude, longitude: returnInfo.parking.longitude }
-    : utmToLatLong(returnInfo.parking);
+  const geo =
+    returnInfo.parking.latitude && returnInfo.parking.longitude
+      ? {
+          latitude: returnInfo.parking.latitude,
+          longitude: returnInfo.parking.longitude,
+        }
+      : utmToLatLong(returnInfo.parking);
   coordinates.push({
     label: "Parking retorno",
     icon: "parking",
     utm: returnInfo.parking,
     lat: geo.latitude,
-    lng: geo.longitude
+    lng: geo.longitude,
   });
 }
 
@@ -89,10 +99,14 @@ const shouldRender = coordinates.length > 0;
     <div class="card">
       <div class="header">
         <h3 class="title">Localización</h3>
-           <p class="datum-info">ETRS89</p>
+        <p class="datum-info">ETRS89</p>
         <div class="toggle-container">
-           <button class="toggle-btn active" data-system="utm">UTM</button>
-           <button class="toggle-btn" data-system="latlong">Lat/Long</button>
+          <button class="toggle-btn active" data-system="utm">
+            UTM
+          </button>
+          <button class="toggle-btn" data-system="latlong">
+            Lat/Long
+          </button>
         </div>
       </div>
       <div class="card-content">
@@ -103,23 +117,30 @@ const shouldRender = coordinates.length > 0;
                 <div class="stat-content">
                   <span class="stat-label">{coord.label}</span>
                   <div class="coordinates-wrapper">
-                    <!-- UTM Format -->
                     <div class="utm-coords coord-block">
                       <div class="coord-values">
                         <div class="coord-line">
                           <span class="coord-axis">X ({coord.utm.zone}T):</span>
-                          <span class="coord-number">{formatNumber(coord.utm.easting)}</span>
+                          <span class="coord-number">
+                            {formatNumber(coord.utm.easting)}
+                          </span>
                         </div>
                         <div class="coord-line">
                           <span class="coord-axis">Y ({coord.utm.zone}T):</span>
-                          <span class="coord-number">{formatNumber(coord.utm.northing)}</span>
+                          <span class="coord-number">
+                            {formatNumber(coord.utm.northing)}
+                          </span>
                         </div>
                       </div>
                     </div>
-                    <!-- Lat/Long Format -->
-                    <div class="latlong-coords coord-block" style="display: none;">
+                    <div
+                      class="latlong-coords coord-block"
+                      style="display: none;"
+                    >
                       <div class="coord-values">
-                        <span class="coord-number">{coord.lat.toFixed(5)}°, {coord.lng.toFixed(5)}°</span>
+                        <span class="coord-number">
+                          {coord.lat.toFixed(5)}°, {coord.lng.toFixed(5)}°
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -178,9 +199,12 @@ const shouldRender = coordinates.length > 0;
 
   // Initialize on page load
   document.addEventListener("astro:page-load", initLocationToggle);
-  
+
   // Also initialize immediately if script loads after page
-  if (document.readyState === "complete" || document.readyState === "interactive") {
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
     initLocationToggle();
   }
 </script>
@@ -209,9 +233,9 @@ const shouldRender = coordinates.length > 0;
     margin: 0;
   }
 
-  .datum-info{
+  .datum-info {
     font-size: 0.8rem;
-    color: var(--color-content-200)
+    color: var(--color-content-200);
   }
 
   .card-content {
