@@ -1,41 +1,47 @@
 ---
-import { getCollection, getEntry } from "astro:content";
 import type { GetStaticPaths } from "astro";
 import { Image } from "astro:assets";
+import { getAllPosts } from "@/services/strapi/repositories/post.repo";
+import {
+  BlocksRenderer,
+  type BlocksContent,
+} from "@strapi/blocks-react-renderer";
+
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
-import Breadcrumb from "@/components/ui/Breadcrumb.astro";
-import RecentPosts from "@/components/blog/RecentPosts.astro";
-import PostHeader from "@/components/blog/PostHeader.astro";
-import BlogCategories from "@/components/blog/BlogCategories.astro";
-import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
+import Breadcrumb from "@/components/ui/Breadcrumb.astro";
+import PostHeader from "@/components/blog/PostHeader.astro";
+import AuthorProfile from "@/components/blog/AuthorProfile.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
 import ShareButtons from "@/components/SEO/ShareButtons";
 
 export const getStaticPaths = (async () => {
-  const posts = await getCollection("posts");
+  const posts = await getAllPosts();
   return posts.map((post) => ({
-    params: { slug: post.slug },
+    params: { post: post.slug },
     props: { post },
   }));
 }) satisfies GetStaticPaths;
 
 const { post } = Astro.props;
-const { Content } = await post.render();
-const author = await getEntry(post.data.author);
+
+if (post.content.kind === "markdown") {
+  //TODO: Renederizador de markdown
+}
 
 const meta: MetaInfo = {
-  pageTitle: `${post.data.title} | Blog Zunbeltz`,
-  pageDescription: post.data.description,
-  pageTags: post.data.categories,
-  pageAuthor: author.data.name,
-  pageImage: post.data.heroImage.src,
+  pageTitle: `${post.title} | Blog Zunbeltz`,
+  pageDescription: post.description,
+  pageTags: post.categories.map((c) => c.name),
+  pageAuthor: post.author?.name,
+  pageImage: post.cover.href,
   pageUrl: `https://zunbeltz.org/blog/${post.slug}`,
   pageType: "article",
-  articleAuthor: author.data.name,
-  articlePublishedTime: post.data.publishDate.toISOString(),
-  articleTags: post.data.categories,
+  articleAuthor: post.author?.name,
+  articlePublishedTime: post.publishedAt.toISOString(),
+  articleTags: post.categories.map((c) => c.name),
 };
+console.log(post);
 ---
 
 <HtmlLayout metaInfo={meta}>
@@ -47,16 +53,16 @@ const meta: MetaInfo = {
       <!-- ! Metadatos para la indexación en pagefind -->
       <div class="pagefind-metadata">
         <span data-pagefind-filter="Tipo">Entrada de blog</span>
-        <span data-pagefind-filter="Autor">{author.data.name}</span>
-        <span data-pagefind-meta="title">{post.data.title}</span>
-        <span data-pagefind-meta="image">{post.data.heroImage.src}</span>
-        <span data-pagefind-meta="image_alt">{post.data.title}</span>
+        <span data-pagefind-filter="Autor">{post.author?.name}</span>
+        <span data-pagefind-meta="title">{post.title}</span>
+        <span data-pagefind-meta="image">{post.cover.href}</span>
+        <span data-pagefind-meta="image_alt">{post.title}</span>
       </div>
 
       <div class="hero-image">
         <Image
-          src={post.data.heroImage}
-          alt={post.data.title}
+          src={post.cover.href}
+          alt={post.title}
           width={1200}
           height={400}
           quality={80}
@@ -66,18 +72,22 @@ const meta: MetaInfo = {
       <PostHeader post={post} data-pagefind-ignore />
 
       <div class="markdown-content">
-        <Content />
+        {
+          post.content.kind === "blocks" && (
+            <BlocksRenderer content={post.content.value as BlocksContent} />
+          )
+        }
       </div>
 
-      <AuthorProfile author={author} data-pagefind-ignore />
+      <AuthorProfile author={post.author} data-pagefind-ignore />
 
       <div class="share-section" data-pagefind-ignore>
         <h3>Compartir este artículo</h3>
         <ShareButtons
           client:load
           url={meta.pageUrl || ""}
-          title={post.data.title}
-          description={post.data.description || ""}
+          title={post.title}
+          description={post.description || ""}
         />
       </div>
     </article>

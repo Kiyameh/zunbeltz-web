@@ -3,31 +3,30 @@ import type { GetStaticPaths } from "astro";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
-import { getAllCategories, getPostsByCategory } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { getAllCategories } from "@/services/strapi/repositories/category.repo";
 
 export const getStaticPaths = (async () => {
   const categories = await getAllCategories();
 
   return await Promise.all(
-    categories.map(async (categoria) => {
-      const posts = await getPostsByCategory(categoria);
+    categories.map(async (category) => {
       return {
-        params: { categoria },
-        props: { posts, categoria },
+        params: { category: category.slug },
+        props: { category },
       };
-    }),
+    })
   );
 }) satisfies GetStaticPaths;
 
-const { posts, categoria } = Astro.props;
+const { category } = Astro.props;
 
 const meta: MetaInfo = {
-  pageTitle: `Artículos sobre ${categoria} | La falla de Zunbeltz`,
-  pageDescription: `Todo lo que necesitas saber sobre ${categoria}. Artículos destacados en Zunbeltz.`,
-  pageTags: [categoria, "Información", "Guía", "Recursos", "Zunbeltz"],
-  pageUrl: `https://zunbeltz.org/blog/categoria/${categoria}`,
+  pageTitle: `Artículos sobre ${category.name} | La falla de Zunbeltz`,
+  pageDescription: `Todo lo que necesitas saber sobre ${category.name}. Artículos destacados en Zunbeltz.`,
+  pageTags: [category.name, "Información", "Guía", "Recursos", "Zunbeltz"],
+  pageUrl: `https://zunbeltz.org/blog/categoria/${category.slug}`,
 };
 ---
 
@@ -36,19 +35,19 @@ const meta: MetaInfo = {
     <Breadcrumb class="category-breadcrumb" />
 
     <header class="category-header">
-      <h1 class="title-1">Categoría: {categoria}</h1>
+      <h1 class="title-1">Categoría: {category.name}</h1>
       <p class="category-count">
-        {posts.length}
-        {posts.length === 1 ? "post" : "posts"}
+        {category.posts.length}
+        {category.posts.length === 1 ? "post" : "posts"}
       </p>
     </header>
 
     <div class="posts-grid">
-      {posts.map((post) => <PostCard post={post} />)}
+      {category.posts.map((post) => <PostCard post={post} />)}
     </div>
 
     {
-      posts.length === 0 && (
+      category.posts.length === 0 && (
         <div class="no-posts">
           <p>No hay posts en esta categoría todavía.</p>
         </div>

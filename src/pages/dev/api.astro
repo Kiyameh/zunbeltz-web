@@ -1,0 +1,33 @@
+---
+import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import fetchFromStrapi from "@/services/strapi/core/fetchFromStrapi";
+
+const response = await fetchFromStrapi("authors/content-types");
+---
+
+<HtmlLayout>
+  <main>
+    <h1>API</h1>
+    <div>
+      <h2>Resultado:</h2>
+      <pre
+        style={{
+          backgroundColor: "#f5f5f5",
+          padding: "15px",
+          borderRadius: "4px",
+          overflow: "auto",
+          maxHeight: "600px",
+          border: "1px solid #ddd",
+        }}>
+      {JSON.stringify(response, null, 2)}
+    </pre>
+    </div>
+  </main>
+</HtmlLayout>
+
+<style>
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+</style>

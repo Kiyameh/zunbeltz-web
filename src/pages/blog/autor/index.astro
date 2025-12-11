@@ -2,19 +2,11 @@
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
-import { getAuthorsWithPosts, getAuthorPostCounts } from "@/utils/blog/authors";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { getAllAuthors } from "@/services/strapi/repositories/author.repo";
 
-const authors = await getAuthorsWithPosts();
-const postCounts = await getAuthorPostCounts();
-
-// Ordenar autores por número de posts (descendente)
-const sortedAuthors = authors.sort((a, b) => {
-  const countA = postCounts[a.id] || 0;
-  const countB = postCounts[b.id] || 0;
-  return countB - countA;
-});
+const authors = await getAllAuthors();
 
 const meta: MetaInfo = {
   pageTitle: "El equipo | La falla de Zunbeltz",
@@ -47,27 +39,19 @@ const meta: MetaInfo = {
 
     <div class="authors-grid">
       {
-        sortedAuthors.map((author) => (
+        authors.map((author) => (
           <div class="author-card">
             <AuthorProfile author={author} />
             <div class="author-stats">
               <span class="chip secondary">
-                {postCounts[author.id] || 0}{" "}
-                {postCounts[author.id] === 1 ? "post" : "posts"}
+                {author.posts.length || 0}{" "}
+                {author.posts.length === 1 ? "post" : "posts"}
               </span>
             </div>
           </div>
         ))
       }
     </div>
-
-    {
-      authors.length === 0 && (
-        <div class="no-authors">
-          <p>Aún no hay autores con posts publicados.</p>
-        </div>
-      )
-    }
   </BlogLayout>
 </HtmlLayout>
 

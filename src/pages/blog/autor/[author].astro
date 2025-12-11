@@ -1,41 +1,34 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
+import BlogLayout from "@/layouts/BlogLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import AuthorProfile from "@/components/blog/AuthorProfile.astro";
-import { getAuthorPosts } from "@/utils/blog/authors";
-import BlogLayout from "@/layouts/BlogLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { getAllAuthors } from "@/services/strapi/repositories/author.repo";
 
 export const getStaticPaths = (async () => {
-  const authors = await getCollection("authors");
+  const authors = await getAllAuthors();
 
   return await Promise.all(
     authors.map(async (author) => {
-      const posts = await getAuthorPosts(author.id);
       return {
-        params: { authorId: author.id },
-        props: { author, posts },
+        params: { author: author.slug },
+        props: { author },
       };
-    }),
+    })
   );
 }) satisfies GetStaticPaths;
 
-const { author, posts } = Astro.props;
+const { author } = Astro.props;
 
 const meta: MetaInfo = {
-  pageTitle: `Perfil de ${author.data.name} | La falla de Zunbeltz`,
-  pageDescription: `Artículos, exploraciones y aportaciones de ${author.data.name}. Conoce su trayectoria y lee sus publicaciones.`,
-  pageTags: [
-    author.data.name,
-    "Perfil",
-    "Publicaciones",
-    "Experiencia",
-    "Contacto",
-  ],
-  pageUrl: `https://zunbeltz.org/blog/autor/${author.id}`,
+  pageTitle: `Perfil de ${author.name} | La falla de Zunbeltz`,
+  pageDescription: `Artículos, exploraciones y aportaciones de ${author.name}. Conoce su trayectoria y lee sus publicaciones.`,
+  pageTags: [author.name, "Perfil", "Publicaciones", "Experiencia", "Contacto"],
+  pageUrl: `https://zunbeltz.org/blog/autor/${author.slug}`,
 };
 ---
 
@@ -45,25 +38,27 @@ const meta: MetaInfo = {
 
     <AuthorProfile author={author} />
 
-    <section class="author-posts">
-      <h2 class="title-2">Posts de {author.data.name}</h2>
-      <p class="posts-count">
-        {posts.length}
-        {posts.length === 1 ? "post publicado" : "posts publicados"}
-      </p>
+    {
+      author.posts ? (
+        <section class="author-posts">
+          <h2 class="title-2">Posts de {author.name}</h2>
+          <p class="posts-count">
+            {author.posts.length}
+            {author.posts.length === 1 ? "post publicado" : "posts publicados"}
+          </p>
 
-      <div class="posts-grid">
-        {posts.map((post) => <PostCard post={post} />)}
-      </div>
-
-      {
-        posts.length === 0 && (
-          <div class="no-posts">
-            <p>Este autor aún no ha publicado ningún post.</p>
+          <div class="posts-grid">
+            {author.posts.map((post) => (
+              <PostCard post={post} />
+            ))}
           </div>
-        )
-      }
-    </section>
+        </section>
+      ) : (
+        <div class="no-posts">
+          <p>Este autor aún no ha publicado ningún post.</p>
+        </div>
+      )
+    }
   </BlogLayout>
 </HtmlLayout>
 

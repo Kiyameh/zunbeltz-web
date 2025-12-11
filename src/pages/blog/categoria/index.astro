@@ -1,15 +1,16 @@
 ---
+import { getAllCategories } from "@/services/strapi/repositories/category.repo";
+
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import Breadcrumb from "@/components/ui/Breadcrumb.astro";
-import { getCategoriesWithCountArray } from "@/utils/blog/categories";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
 
-const categories = await getCategoriesWithCountArray();
+const categories = await getAllCategories();
 
 // Calcular tamaños relativos basados en el número de posts
-const maxCount = Math.max(...categories.map((c) => c.count));
-const minCount = Math.min(...categories.map((c) => c.count));
+const maxCount = Math.max(...categories.map((c) => c.posts.length));
+const minCount = Math.min(...categories.map((c) => c.posts.length));
 
 // Función para calcular el tamaño de la categoría (1-5)
 function getCategorySize(count: number): number {
@@ -50,7 +51,7 @@ const meta: MetaInfo = {
       <p class="categories-description">
         Explora {categories.length}
         {categories.length === 1 ? "categoría" : "categorías"} con un total de {
-          categories.reduce((sum, c) => sum + c.count, 0)
+          categories.reduce((sum, c) => sum + c.posts.length, 0)
         } posts
       </p>
     </header>
@@ -58,15 +59,15 @@ const meta: MetaInfo = {
     <div class="tag-cloud">
       {
         categories.map((category) => {
-          const size = getCategorySize(category.count);
+          const size = getCategorySize(category.posts.length);
           return (
             <a
               href={`/blog/categoria/${category.name}`}
               class={`chip secondary tag-size-${size}`}
-              title={`${category.count} ${category.count === 1 ? "post" : "posts"}`}
+              title={`${category.posts.length} ${category.posts.length === 1 ? "post" : "posts"}`}
             >
               {category.name}
-              <span class="tag-count">({category.count})</span>
+              <span class="tag-count">({category.posts.length})</span>
             </a>
           );
         })
@@ -82,7 +83,8 @@ const meta: MetaInfo = {
               <a href={`/blog/categoria/${category.name}`}>
                 <span class="list-name">{category.name}</span>
                 <span class="list-count">
-                  {category.count} {category.count === 1 ? "post" : "posts"}
+                  {category.posts.length}{" "}
+                  {category.posts.length === 1 ? "post" : "posts"}
                 </span>
               </a>
             </li>

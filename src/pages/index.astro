@@ -1,37 +1,12 @@
 ---
-import { getCollection } from "astro:content";
 import HtmlLayout from "@/layouts/HtmlLayout.astro";
 import PostCard from "@/components/blog/PostCard.astro";
 import Pagination from "@/components/ui/Pagination.astro";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 import type { MetaInfo } from "@/components/SEO/MetaInfo";
+import { getAllPosts } from "@/services/strapi/repositories/post.repo";
 
-// Configuración de paginación
-const POSTS_PER_PAGE = 8;
-
-// Obtener página actual desde query params
-const currentPage = parseInt(Astro.url.searchParams.get("page") || "1");
-
-// Obtener todos los posts no draft, ordenados por fecha
-const allPosts = await getCollection("posts", ({ data }) => {
-  return data.draft !== true;
-});
-
-// Ordenar por fecha de publicación (más reciente primero)
-const sortedPosts = allPosts.sort(
-  (a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf(),
-);
-
-// Calcular paginación
-const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
-const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
-const endIndex = startIndex + POSTS_PER_PAGE;
-const posts = sortedPosts.slice(startIndex, endIndex);
-
-// Validar página actual
-if (currentPage < 1 || currentPage > totalPages) {
-  return Astro.redirect("/");
-}
+const posts = await getAllPosts();
 
 const meta: MetaInfo = {
   pageTitle: "La Falla de Zunbeltz: Blog de Espeleología y Aventura",
@@ -53,7 +28,8 @@ const meta: MetaInfo = {
       {posts.map((post) => <PostCard post={post} />)}
     </div>
 
-    <Pagination currentPage={currentPage} totalPages={totalPages} />
+    <!-- TODO: Implementar paginación -->
+    <Pagination currentPage={1} totalPages={3} />
   </BlogLayout>
 </HtmlLayout>
 
