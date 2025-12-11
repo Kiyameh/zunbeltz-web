@@ -1,5 +1,4 @@
 import type { Category } from "@/interfaces/blog/category";
-import type { StrapiQueryParams } from "../interfaces/shared/strapi.types";
 import fetchCollection from "../core/fetchCollection";
 import type { StrapiCategory } from "../interfaces/blog/strapi-category";
 import {
@@ -9,9 +8,12 @@ import {
 
 export async function getAllCategories(): Promise<Category[]> {
   const response = await fetchCollection<StrapiCategory>("categories", {
-    populate: "posts",
+    populate: {
+      posts: {
+        populate: ["cover"],
+      },
+    },
   });
-
   return strapiCategoriesToDomain(response.data);
 }
 
@@ -24,7 +26,11 @@ export async function getCategoryBySlug(
         $eq: slug,
       },
     },
-    populate: "posts",
+    populate: {
+      posts: {
+        populate: ["cover"],
+      },
+    },
   });
 
   if (response.data.length === 0) {

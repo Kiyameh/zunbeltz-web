@@ -24,7 +24,7 @@ export function strapiAuthorToDomain(strapiAuthor: StrapiAuthor): Author {
       title: post.title,
       description: post.description,
       slug: post.slug,
-      cover: new URL(""),
+      cover: completeStrapiUrl(post.cover.url),
       content,
       author: {
         documentId: strapiAuthor.documentId,

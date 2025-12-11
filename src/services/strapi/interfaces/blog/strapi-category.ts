@@ -1,5 +1,5 @@
-import type { StrapiBaseEntity } from "../shared/strapi.types";
-import type { StrapiPostBase } from "./strapi-post";
+import type { StrapiBaseEntity, StrapiMedia } from "../shared/strapi.types";
+import type { StrapiPostBase, StrapiPostWithCover } from "./strapi-post";
 
 /**
  * Propiedades base de una categoría en Strapi (sin relaciones)
@@ -14,5 +14,5 @@ export interface StrapiCategoryBase extends StrapiBaseEntity {
  * Tipo de categoría en Strapi con los datos populados
  */
 export interface StrapiCategory extends StrapiCategoryBase {
-  posts: StrapiPostBase[];
+  posts: StrapiPostWithCover[];
 }

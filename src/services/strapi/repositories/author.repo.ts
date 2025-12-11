@@ -8,7 +8,12 @@ import {
 
 export async function getAllAuthors(): Promise<Author[]> {
   const response = await fetchCollection<StrapiAuthor>("authors", {
-    populate: ["avatar", "posts"],
+    populate: {
+      avatar: true,
+      posts: {
+        populate: ["cover"],
+      },
+    },
   });
 
   return strapiAuthorsToDomain(response.data);
@@ -23,7 +28,12 @@ export async function getAuthorBySlug(
         $eq: slug,
       },
     },
-    populate: ["avatar", "posts"],
+    populate: {
+      avatar: true,
+      posts: {
+        populate: ["cover"],
+      },
+    },
   });
 
   if (response.data.length === 0) {

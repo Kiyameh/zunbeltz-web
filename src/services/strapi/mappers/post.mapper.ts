@@ -31,6 +31,7 @@ export function strapiPostToDomain(strapiPost: StrapiPost): Post {
     instagram: strapiPost.author.instagram,
     facebook: strapiPost.author.facebook,
     twitter: strapiPost.author.twitter,
+    avatar: completeStrapiUrl(strapiPost.author.avatar.url),
     posts: [],
   };
 

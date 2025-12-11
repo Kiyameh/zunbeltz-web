@@ -2,6 +2,7 @@ import type { Category } from "@/interfaces/blog/category";
 import type { StrapiCategory } from "../interfaces/blog/strapi-category";
 import type { Post } from "@/interfaces/blog/post";
 import type { ContentVariant } from "@/interfaces/content";
+import completeStrapiUrl from "../core/completeStrapiUrl";
 
 /**
  * Transforma una categoría de Strapi al dominio
@@ -25,7 +26,7 @@ export function strapiCategoryToDomain(
       title: post.title,
       description: post.description,
       slug: post.slug,
-      cover: new URL(""),
+      cover: completeStrapiUrl(post.cover.url),
       content,
       author: {
         documentId: "",

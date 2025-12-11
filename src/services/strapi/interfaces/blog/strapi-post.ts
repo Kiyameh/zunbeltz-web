@@ -25,3 +25,10 @@ export interface StrapiPost extends StrapiBaseEntity {
   author: StrapiAuthorBase;
   categories: StrapiCategoryBase[];
 }
+
+/**
+ * Post con cover populado para usar en populaciones anidadas
+ */
+export interface StrapiPostWithCover extends StrapiPostBase {
+  cover: StrapiMedia;
+}
